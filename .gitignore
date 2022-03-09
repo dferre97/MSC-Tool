@@ -1,0 +1,3 @@
+# only commit report.tex and not other report.* files
+report.*
+!report.tex
