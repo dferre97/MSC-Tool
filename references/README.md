@@ -43,4 +43,5 @@ List the main definition/concepts in each reference.
 **[5] Laetitia PhD thesis**
 - Causality relation in literature
 - Hierarchy of FIFO, CO, RSC and synchronous executions (inspired by [4])
+- Nice MSC examples for all different kinds of executions
 - Unmatched mailbox (n-1)
