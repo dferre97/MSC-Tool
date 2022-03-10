@@ -1,0 +1,40 @@
+\begin{proof}
+
+	Let $\System$ be a system such that, for all $\msc \in \MSCs$, $\msc = \msc_1 \cdots \msc_n$ where $\msc_i$ is an exchange, $1\leq i \leq n$.
+	Moreover, for all $e \in Matched(M)$ s.t. $\lambda(e) = \send{p}{q}{\msg}$,
+	\begin{itemize}
+		\item if $\msc \in \MSCs \setminus \mbMSCs$, for all $\lin \subseteq {\le}_\msc$, 	\[\sametype{e}{\pqsAct{p}{q}}{\linrel} - \sametype{e}{\pqrAct{p}{q}}{\linrel} \le k.\]
+		\item if $\msc \in \mbMSCs$, for all $\lin \subseteq {\preceq}_\msc$,
+		\[\sametype{e}{\pqsAct{\plh}{q}}{\linrel} - \sametype{e}{\pqrAct{\plh}{q}}{\linrel} \le k.\]
+	\end{itemize}
+	\begin{itemize}
+		\item[\textbf{1.}]\textbf{Base}
+		Suppose that $\msc = \msc_1$ so $\msc$ is an exchange.
+		\begin{itemize}
+			\item Either $\msc \in \MSCs \setminus \mbMSCs$ and, as $\msc $ is $k$-\pp-bounded, $\mid \msc \mid = k_1 \leq k \times \mid \procSet \mid^2 $.
+			So $\msc$ is \wkSo{k_1}.
+			\item Or $\msc \in \mbMSCs$ and,   as $\msc$ is $k$-mailbox-bounded,
+			$\mid \msc \mid = k_2 \leq k \times \mid \procSet \mid $. 			So $\msc$ is \skSo{k_2}.
+		\end{itemize}
+		\item[\textbf{2.}]\textbf{Step}
+		Suppose now that $\msc = M' \cdot  M''$ such that $M'$ is \wkSo{k} for a $k' \in \mathbb{N}$.  Then,
+\begin{itemize}
+	\item  if $\msc \in \MSCs \setminus \mbMSCs$,	for all linearizations $\lin \subseteq  \le_\msc$, let $f \in Matched(M')$ s.t. $\lambda(f) = \send{p}{q}{\msg}$ and, for all $e \in Matched(M')$ s.t. $\lambda(e) = \sact{p}{q}{\msg}$,
+	\[\sametype{f}{\pqsAct{p}{q}}{\linrel} > \sametype{e}{\pqsAct{p}{q}}{\linrel}.\]
+	Then, we have:
+	\[\sametype{f}{\pqsAct{p}{q}}{\linrel} - \sametype{f}{\pqrAct{p}{q}}{\linrel} = 0.\]
+	As $\System$ is \ukb{k}, $\mid M'' \mid \leq k_1$, and as $M''$ is an exchange, we know that $M''$ is a \kE{k_1}.
+	\item  if $\msc \in \mbMSCs$,	for all linearizations $\lin \subseteq  \preceq_\msc$, let $f \in Matched(M')$ s.t. $\lambda(f) = \send{p}{q}{\msg}$ and, for all $e \in Matched(M')$ s.t. $\lambda(e) = \sact{p}{q}{\msg}$,
+	\[\sametype{f}{\pqsAct{\plh}{q}}{\linrel} > \sametype{e}{\pqsAct{\plh}{q}}{\linrel}.\]
+	Then, we have:
+	\[\sametype{f}{\pqsAct{\plh}{q}}{\linrel} - \sametype{f}{\pqrAct{\plh}{q}}{\linrel} = 0.\]
+	As $\System$ is \ukb{k}, $\mid M'' \mid \leq k_2$, and as $M''$ is an exchange, we know that $M''$ is a \kE{k_2}.
+\end{itemize}
+Then, $M$ is at least \wkSo{k_1} ($k_1 > k_2$).
+
+	\end{itemize}
+	Finally, as all MSCs are \wkSo{k_1}, $\System$ is \wks{k_1}.
+
+	The equivalent proposition for strong properties can be shown in the same way. As an MSC is \sS, it can be divided while maintaining the mailbox order. In a recursive way, as MSC is \ukb{k}, we have that each exchange of the MSC is bounded. Finally, each MSC is \skSo{k'} for a $k'$  depending of $k$ and the number of channels, and so the system is \uskS{k'}.
+
+\end{proof}

@@ -1,0 +1,328 @@
+% \newcommand{\benedikt}[1]{\todo[color=blue!40]{B: #1}}
+ \newcommand{\benediktin}[1]{\todo[inline,color=blue!40]{B: #1}}
+ \newcommand{\laetitia}[1]{\todo[color=green!40]{L: #1}}
+ \newcommand{\cinzia}[1]{\todo[color=purple!40]{C: #1}}
+
+%	robust
+\newcommand{\nameclass}{robust}
+%	robust
+
+\newcommand{\pplin}{\rightsquigarrow}
+\newcommand{\mblin}{\rightsquigarrow}
+\newcommand{\lin}{\rightsquigarrow}
+\newcommand{\linrel}{\rightsquigarrow}
+\newcommand{\rel}{R}
+
+\newcommand{\mbformula}{\varphi_{\mathsf{mb}}}
+\newcommand{\mbFormula}{\Phi_{\mathsf{mb}}}
+
+\newcommand{\XYformula}[1]{\mathsf{#1}}
+
+\newcommand{\pdlFormula}[1]{\Phi_{\mathsf{#1}}}
+
+\newcommand{\add}[2]{\mathop{\textsf{Add}_{#1}^{#2}}}
+\newcommand{\forget}[1]{\mathop{\textsf{Forget}_#1}}
+\newcommand{\phiksttvalid}{\ensuremath{\Phi_\mathsf{valid}^{k\text{-}\mathsf{stt}}}\xspace}
+≠
+\newcommand{\rename}[2]{\mathop{\textsf{Rename}_{#1,#2}}}
+\newcommand{\sttunion}{\oplus}
+
+\newcommand{\sem}[1]{\llbracket #1 \rrbracket}
+\newcommand{\Class}{\mathcal{C}}
+\newcommand{\Violation}{\mathcal{D}}
+\newcommand{\Sys}{\mathcal{S}}
+\newcommand{\System}{\mathcal{S}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\Aut}{\mathcal{A}}
+\newcommand{\Loc}{\mathit{Loc}}
+\newcommand{\cbm}{M}
+\newcommand{\Sync}{\mathcal{C}}
+\newcommand{\N}{\mathbb{N}}
+%\newcommand{\MSCs}{\mathsf{MSC}_{\mathsf{p2p}}}
+\newcommand{\MSCs}{\mathsf{MSC}}
+\newcommand{\ppMSCs}{\mathsf{MSC}}
+\newcommand{\comsymb}{\textup{com}}
+\newcommand{\ppsymb}{\mathsf{p2p}}
+\newcommand{\pp}{p2p\xspace}
+\newcommand{\mbsymb}{\mathsf{mb}}
+\newcommand{\cL}[1]{L_{\comsymb}(#1)}
+\newcommand{\ppL}[1]{L_{\mathsf{p2p}}(#1)}
+\newcommand{\mbL}[1]{L_{\mathsf{mb}}(#1)}
+\newcommand{\mbMSCs}{\mathsf{MSC}_{\mathsf{mb}}}
+\newcommand{\cdMSCs}{\mathsf{MSC}_{\mathsf{mb}}}
+\newcommand{\stwMSCs}[1]{\mathsf{MSC}^{#1\textup{-}\mathsf{stw}}}
+\newcommand{\bTrees}[1]{\mathsf{Trees}_{#1}}
+\newcommand{\Lang}{L}
+\newcommand{\Ch}{\mathbb{C}}
+\newcommand{\Procs}{\mathbb{P}}
+\newcommand{\Msg}{\mathbb{M}}
+
+
+\newcommand{\msg}{m}
+\newcommand{\msga}{m}
+\newcommand{\msgb}{m'}
+%\newcommand{\sact}[3]{#1!_{#3}#2}
+%\newcommand{\ract}[3]{#1?_{#3}#2}
+\newcommand{\sact}[3]{\send{#1}{#2}{#3}}
+\newcommand{\ract}[3]{\rec{#1}{#2}{#3}}
+\newcommand{\Pref}[1]{\mathit{Pref}(#1)}
+\newcommand{\ppLin}[1]{\mathit{Lin}_{\mathsf{p2p}}(#1)}
+\newcommand{\mbLin}[1]{\mathit{Lin}_{\mathsf{mb}}(#1)}
+\renewcommand{\phi}{\varphi}
+\newcommand{\msc}{M}
+\newcommand{\procrel}{\to}
+\newcommand{\mbrel}{\sqsubset}
+
+\newcommand{\Events}{\mathcal{E}}
+
+\newcommand{\tlabel}{\mathit{action}}
+\newcommand{\tmessage}{\mathit{msg}}
+\newcommand{\tsource}{\mathit{source}}
+\newcommand{\ttarget}{\mathit{target}}
+
+\newcommand{\Act}{\Sigma}
+\newcommand{\pAct}[1]{\Sigma_{#1}}
+\newcommand{\Matched}[1]{\mathit{Matched}(#1)}
+\newcommand{\Unm}[1]{\mathit{Unm}(#1)}
+\newcommand{\sametype}[3]{\#_{#2}(#3,#1)}
+%\newcommand{\pqsAct}[2]{\Sigma_{#1!#2}}
+%\newcommand{\pqrAct}[2]{\Sigma_{#1?#2}}
+\newcommand{\plh}{\hspace{0.1em}\underline{\hspace{0.5em}}\hspace{0.1em}}
+%\newcommand{\pqsAct}[2]{\Sigma_{\mathit{send}(#1,#2,\plh)}}
+%\newcommand{\pqrAct}[2]{\Sigma_{\mathit{rec}(#1,#2,\plh)}}
+%\newcommand{\psAct}[1]{\Sigma_{\mathit{send}(#1,\plh,\plh)}}
+%\newcommand{\prAct}[1]{\Sigma_{\mathit{rec}(#1,\plh,\plh)}}
+%\newcommand{\qsAct}[1]{\Sigma_{\mathit{send}(\plh,#1,\plh)}}
+%\newcommand{\qrAct}[1]{\Sigma_{\mathit{rec}(\plh,#1,\plh)}}
+%\newcommand{\msAct}[1]{\Sigma_{\mathit{send}(\plh,\plh,#1)}}
+%\newcommand{\mrAct}[1]{\Sigma_{\mathit{rec}(\plh,\plh,#1)}}
+\newcommand{\pqsAct}[2]{{\mathit{Send}(#1,#2,\plh)}}
+\newcommand{\pqrAct}[2]{{\mathit{Rec}(#1,#2,\plh)}}
+\newcommand{\psAct}[1]{{\mathit{Send}(#1,\plh,\plh)}}
+\newcommand{\prAct}[1]{{\mathit{Rec}(#1,\plh,\plh)}}
+\newcommand{\qsAct}[1]{{\mathit{Send}(\plh,#1,\plh)}}
+\newcommand{\qrAct}[1]{{\mathit{Rec}(\plh,#1,\plh)}}
+\newcommand{\msAct}[1]{{\mathit{Send}(\plh,\plh,#1)}}
+\newcommand{\mrAct}[1]{{\mathit{Rec}(\plh,\plh,#1)}}
+\newcommand{\sAct}{{\mathit{Send}(\plh,\plh,\plh)}}
+\newcommand{\rAct}{{\mathit{Rec}(\plh,\plh,\plh)}}
+
+
+\newcommand{\SendEv}[1]{\mathit{SendEv}(#1)}
+\newcommand{\RecEv}[1]{\mathit{RecEv}(#1)}
+
+
+\newcommand{\act}{\sigma}
+
+\newcommand{\STT}{\textsf{STT}\xspace}
+
+\newcommand{\Avalid}[1]{\A_\mathsf{valid}^{#1\text{-}\mathsf{stt}}}
+\newcommand{\Amsc}[1]{\A_\mathsf{msc}^{#1\text{-}\mathsf{stw}}}
+\newcommand{\Asystem}[2]{\A_{#2}^{#1\text{-}\mathsf{stw}}}
+\newcommand{\Aformula}[2]{\A_{#2}^{#1\text{-}\mathsf{stw}}}
+
+
+
+\newcommand{\com}[2]{{\color{red}#1 : #2}}
+\newcommand{\comL}[1]{{\color{purple}Laetitia : #1}}
+\newcommand{\comAmrita}[1]{{\color{blue}Amrita : #1}}
+\newcommand{\comEtienne}[1]{{\color{brown}Etienne : #1}}
+\newcommand{\alain}[1]{{\color{red} Alain : #1}}
+\newcommand{\benedikt}[1]{{\textcolor{blue}{Benedikt: #1}}}
+%
+%\newtheorem{definition}{Definition}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{example}{Example}
+%\newtheorem{proposition}{Proposition}
+
+\newcommand{\kSous}[1]{$#1$-synchronous}
+\newcommand{\kSable}[1]{$#1$-synchronizable}
+\newcommand{\kSity}[1]{$#1$-synchro\-nizability}
+\newcommand{\kE}[1]{$#1$-exchange}
+
+\newcommand{\skSous}[1]{strongly $#1$-synchronous}
+\newcommand{\skSable}[1]{strongly $#1$-synchronizable}
+\newcommand{\skSity}[1]{strong $#1$-synchro\-nizability}
+\newcommand{\skE}[1]{strong $#1$-exchange}
+
+\newcommand{\sendSet}{S}
+\newcommand{\receiveSet}{R}
+%\newcommand{\paylodSet}{\mathbb{V}}
+\newcommand{\procSet}{\mathbb{P}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\commu}{\mathrm{com}}
+\newcommand{\mailbox}{\mathrm{mbox}}
+\newcommand{\ptop}{\mathrm{p2p}}
+
+%\newcommand{\procofaction}[2]{\mathsf{proc}_{#1}(#2)}
+\newcommand{\procofaction}[2]{proc_{#1}(#2)}
+\newcommand{\rec}[3]{\mathit{rec}(#1, #2, #3)}
+\newcommand{\send}[3]{\mathit{send}(#1, #2, #3)}
+\newcommand{\ssymb}{\mathsf{s}}
+\newcommand{\rsymb}{\mathsf{r}}
+
+%\newcommand{\amessage}{\mathbf{v}}
+\newcommand{\amessage}{m}
+
+\newcommand{\matches}{\mathrel{\vdash\!\!\dashv}}
+\newcommand{\system}{\mathfrak S}
+
+\newcommand{\globalstate}[1]{\vec{#1}}
+%\newcommand{\B}{\ensuremath{\mathtt{Ch}}}
+
+\newcommand{\transitionKE}[2]{\xrightarrow{#1}_{#2}}
+\newcommand{\transitionKEm}[2]{\xRightarrow[\hspace*{0.1cm}{\scriptstyle \mathsf{cd}}^{\mailbox}\hspace*{0.1cm}]{#1,#2}}
+\newcommand{\transitionKEp}[2]{\xRightarrow[\hspace*{0.1cm}{\scriptstyle \mathsf{cd}}^{\ptop}\hspace*{0.1cm}]{#1,#2}}
+
+\newcommand{\runnable}[2]{\xRightarrow[\hspace*{0.1cm}{\scriptstyle #1}\hspace*{0.1cm}]{#2}}
+
+\newcommand{\existb}[1]{$\exists~#1$-bounded}
+
+\newcommand{\triple}{(\globalstateli,\globalstatelj,\globalstatelf) }
+\newcommand{\globalstateli}{\boldsymbol{in}}
+\newcommand{\globalstatelj}{\boldsymbol{mid}}
+\newcommand{\globalstatelf}{\boldsymbol{fin}}
+\newcommand{\AutS}{\mathtt{Send}(\globalstateli,\globalstatelj)}
+\newcommand{\AutR}{\mathtt{Rec}(\globalstatelj,\globalstatelf)}
+\newcommand{\AutSR}{\mathtt{SR}(\globalstateli, \globalstatelj, \globalstatelf)}
+\newcommand{\condemned}{\mathtt{cdm}}
+\newcommand{\LAutSR}{\mathcal{L}(\AutSR)}
+\newcommand{\LAutS}{\mathcal{L}(\AutS)}
+\newcommand{\LAutR}{\mathcal{L}(\AutR)}
+\newcommand{\decomp}{D(\globalstateli, \globalstatelj, \globalstatelf)}
+\newcommand{\decompr}{D_{\mathcal{R}}(\globalstateli, \globalstatelj, \globalstatelf)}
+\newcommand{\proj}[1]{\downharpoonright_{#1}}
+\newcommand{\encode}[1]{\llbracket #1 \rrbracket }
+\newcommand{\scgraph}[1]{\mathsf{CG^{\circledast}}(#1)}
+%\newcommand{\ecgraph}[1]{\mathsf{ECG^{\circledast}}(#1)}
+\newcommand{\cgraph}[1]{\mathsf{CG}(#1)}
+\newcommand{\ecgraph}[1]{\mathsf{ECG}(#1)}
+\newcommand{\gcgraph}[1]{\mathsf{GCG}(#1)}
+
+\newcommand{\state}{\ell}
+\newcommand{\gstate}{\pmb{\ell}}
+\newcommand{\B}{\mathbf{c}}
+\newcommand{\paylodSet}{\mathbb{M}}
+\newcommand{\actionSet}{A}
+\newcommand{\unmatched}{\mathbf{u}}
+\newcommand{\boolunmatched}{\mathbf{b}}
+\newcommand{\maxunmatched}{\mathbf{um}}
+\newcommand{\Langg}[1]{\mathcal{L}(#1)}
+\newcommand{\reachablestate}{S_\mathcal{R}}
+
+\newcommand{\deviate}[1]{\mathsf{deviate}(#1)}
+\newcommand{\stateSet}{\mathcal{S}}
+
+\newcommand{\AP}{\textsf{AP}}
+\newcommand{\Exists}{\textsf{E}}
+\newcommand{\Loop}[1]{\textsf{Loop}\langle #1 \rangle}
+\newcommand{\test}[1]{\textsf{test}(#1)}
+\newcommand{\inv}[1]{#1^{-1}}
+\newcommand{\jump}{\textsf{jump}}
+
+\mathchardef\mhyphen="2D
+\newcommand{\senddeviate}[1]{\mathsf{send\mhyphen deviate}(#1)}
+
+\makeatletter
+\newcommand*{\da@rightarrow}{\mathchar"0\hexnumber@\symAMSa 4B }
+\newcommand*{\da@leftarrow}{\mathchar"0\hexnumber@\symAMSa 4C }
+\newcommand*{\xdashrightarrow}[2][]{%
+	\mathrel{%
+		\mathpalette{\da@xarrow{#1}{#2}{}\da@rightarrow{\,}{}}{}%
+	}%
+}
+\newcommand{\xdashleftarrow}[2][]{%
+	\mathrel{%
+		\mathpalette{\da@xarrow{#1}{#2}\da@leftarrow{}{}{\,}}{}%
+	}%
+}
+\newcommand*{\da@xarrow}[7]{%
+	% #1: below
+	% #2: above
+	% #3: arrow left
+	% #4: arrow right
+	% #5: space left
+	% #6: space right
+	% #7: math style
+	\sbox0{$\ifx#7\scriptstyle\scriptscriptstyle\else\scriptstyle\fi#5#1#6\m@th$}%
+	\sbox2{$\ifx#7\scriptstyle\scriptscriptstyle\else\scriptstyle\fi#5#2#6\m@th$}%
+	\sbox4{$#7\dabar@\m@th$}%
+	\dimen@=\wd0 %
+	\ifdim\wd2 >\dimen@
+	\dimen@=\wd2 %
+	\fi
+	\count@=2 %
+	\def\da@bars{\dabar@\dabar@}%
+	\@whiledim\count@\wd4<\dimen@\do{%
+		\advance\count@\@ne
+		\expandafter\def\expandafter\da@bars\expandafter{%
+			\da@bars
+			\dabar@
+		}%
+	}%
+	\mathrel{#3}%
+	\mathrel{%
+		\mathop{\da@bars}\limits
+		\ifx\\#1\\%
+		\else
+		_{\copy0}%
+		\fi
+		\ifx\\#2\\%
+		\else
+		^{\copy2}%
+		\fi
+	}%
+	\mathrel{#4}%
+}
+\makeatother
+
+\newcommand{\revb}{\xrightarrow{\tiny\text{rev}}_k}
+
+
+\newcommand{\wS}{weakly synchro\-nizable}
+\newcommand{\sS}{strongly synchro\-nizable}
+
+
+\newcommand{\wks}[1]{weakly $#1$-synchro\-nizable}
+\newcommand{\sks}[1]{strongly $#1$-synchro\-nizable}
+\newcommand{\uwkS}[1]{\wks{#1}}
+\newcommand{\uskS}[1]{\sks{#1}}
+
+\newcommand{\ekb}[1]{existentially $#1$-bounded}
+\newcommand{\ukb}[1]{universally $#1$-bounded}
+\newcommand{\eb}{existentially bounded}
+\newcommand{\ub}{universally bounded}
+
+\newcommand{\wSo}{weakly synchro\-nous}
+\newcommand{\sSo}{strongly synchro\-nous}
+\newcommand{\wkSo}[1]{weakly $#1$-synchro\-nous}
+\newcommand{\skSo}[1]{strongly $#1$-synchro\-nous}
+
+
+\newcommand{\mscweakuniver}{\msc_{1}}
+\newcommand{\systemweakuniver}{\System_{1}}
+\newcommand{\mscW}{\msc_{2}}
+\newcommand{\systemW}{\System_{2}}
+\newcommand{\mscweakSexist}{\msc_{3}}
+\newcommand{\systemweakSexist}{\System_{3}}
+\newcommand{\mscstrongexist}{\msc_{4}}
+\newcommand{\systemstrongexist}{\System_{4}}
+\newcommand{\mscexist}{\msc_{5}}
+\newcommand{\systemexist}{\System_{5}}
+\newcommand{\mscWSexist}{\msc_{6}}
+\newcommand{\systemWSexist}{\System_{6}}
+\newcommand{\mscWS}{\msc_{7}}
+\newcommand{\systemWS}{\System_{7}}
+\newcommand{\mscuniver}{\msc_{8}}
+\newcommand{\systemuniver}{\System_{8}}
+\newcommand{\mscweak}{\msc_{9}}
+\newcommand{\systemweak}{\System_{9}}
+\newcommand{\mscWexist}{\msc_{10}}
+\newcommand{\systemWexist}{\System_{10}}
+\newcommand{\mscweakexist}{\msc_{11}}
+\newcommand{\systemweakexist}{\System_{11}}
+\newcommand{\mscstronguniver}{\msc_{12}}
+\newcommand{\systemstronguniver}{\System_{12}}
+\newcommand{\mscweakS}{\msc_{13}}
+\newcommand{\systemweakS}{\System_{13}}

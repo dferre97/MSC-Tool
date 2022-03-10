@@ -1,0 +1,52 @@
+Let $k\geq 1$, and let $\msc$ be a fixed mailbox MSC. Let $\revb$ be the binary relation among events of $\msc$ defined as follows: $r\revb s$ if
+\begin{enumerate}
+\item $r$ is a receive event of a process $p$;
+\item let $r'$ be the $k$-th receive event of process $p$ after $r$; then
+$s\lhd r'$.
+\end{enumerate}
+
+\begin{lemma}\label{lem:exists-k-mailbox-acyclicity-condition}
+$\msc$ is existential k-mailbox-bounded if and only if $\preceq_M\cup\revb$ is
+acyclic.
+\end{lemma}
+
+\begin{proof}
+Assume that $\msc$ is existential k-mailbox-bounded. Let $\linrel$ be a mailbox
+linearisation of $\msc$ such that
+for all $e \in \Matched{\msc}$,
+say with $\lambda(e) = \sact{p}{q}{\msg}$,
+\[\sametype{e}{\pqsAct{-}{q}}{\linrel} - \sametype{e}{\pqrAct{-}{q}}{\linrel}
+\leq k\,.\]
+Then $\linrel$ is also a linearisation of $(\preceq_M\cup\revb)^*$. Indeed,
+if it was not the case, there would be a pair of events $r,s$ such
+that $r\revb s$ and $s\linrel r$. But then we would have
+\[\sametype{s}{\pqsAct{-}{q}}{\linrel} - \sametype{s}{\pqrAct{-}{q}}{\linrel}
+> k\,,\]
+and the contradiction. So $\linrel$ is
+a linearisation of $(\preceq_M\cup\revb)^*$ and $\preceq_M\cup\revb$ is
+acyclic.
+
+Conversely, assume that $\preceq_M\cup\revb$, and let
+$\linrel$ be a linearisation of $(\preceq_M\cup\revb)^*$.
+In particular, $\linrel$ is a mailbox linearisation of $\msc$.
+Let us show that
+for all $s \in \Matched{\msc}$,
+say with $\lambda(s) = \sact{p}{q}{\msg}$,
+\[\sametype{s}{\pqsAct{-}{q}}{\linrel} - \sametype{s}{\pqrAct{-}{q}}{\linrel}
+\leq k\,.\]
+Let $s\in\Matched{\msc}$ be fixed, and let $r'$ be such that
+$s\lhd r'$. There are two cases:
+\begin{itemize}
+\item $\sametype{r'}{\pqrAct{-}{q}}{\procrel}\leq k$. Then
+\[\sametype{s}{\pqsAct{-}{q}}{\linrel}\leq k\,,\] because all sends before $s$
+are matched. So \[\sametype{s}{\pqsAct{-}{q}}{\linrel} - \sametype{s}{\pqrAct{-}{q}}{\linrel}
+\leq k\,,\]
+\item $\sametype{r'}{\pqrAct{-}{q}}{\procrel}\leq k$. Then there is
+$r$ on process $q$ such that $r\revb s$. So $r\linrel s$, and
+there are at most $k$ messages in the buffer of $q$ at the time of event $s$, or in other words,
+\[\sametype{e}{\pqsAct{-}{q}}{\linrel} - \sametype{e}{\pqrAct{-}{q}}{\linrel}
+\leq k\,.\]
+\end{itemize}
+So $\linrel$ is a mailbox linearisation with $k$ bounded buffers,
+and $\msc$ is existential k-mailbox-bounded.
+\end{proof}

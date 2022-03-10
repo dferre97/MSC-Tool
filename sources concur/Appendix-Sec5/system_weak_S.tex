@@ -1,0 +1,51 @@
+
+
+\begin{center}
+\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
+    every state/.style={text=black, scale =0.6}, semithick,
+      font={\fontsize{8pt}{12}\selectfont}]
+      \begin{scope}[->, shift={(7,0)}]
+          \node[state,initial,initial text={}] (q0)  {$\ell_p^0$};
+          \node[state, right of=q0] (q1)  {$\ell_p^1$};
+
+          \path (q0) edge [loop above] node [right]   {$\send{p}{q}{\msg_2}$}(q0);
+          \path (q0) edge node [above] {$\rec{s}{p}{\msg_4}$} (q1);
+
+          \node[rectangle, thick, draw] at (-0.7,0.6) {$A_p$};
+      \end{scope}
+      \begin{scope}[->, shift={(7,-1.25)}]
+  	      \node[state,initial,initial text={}] (q0)  {$\ell_q^0$};
+  				\node[state, right of=q0] (q1)  {$\ell_q^1$};
+          \node[state, right of=q1] (q2)  {$\ell_q^2$};
+
+          \path (q0) edge node [above] {$\send{q}{r}{\msg_1}$} (q1);
+          \path (q1) edge [loop above] node [right]   {$\rec{p}{q}{\msg_2}$}(q1);
+          \path (q1) edge node [above] {$\rec{s}{q}{\msg_3}$} (q2);
+
+      		\node[rectangle, thick, draw] at (-0.7,0.6) {$A_q$};
+  	  \end{scope}
+
+      \begin{scope}[->, shift={(7,-2.5)}]
+          \node[state,initial,initial text={}] (q0)  {$\ell_q^0$};
+          \node[state, right of=q0] (q1)  {$\ell_q^1$};
+
+          \path (q0) edge node [above] {$\rec{s}{r}{\msg_5}$} (q1);
+
+          \node[rectangle, thick, draw] at (-0.7,0.6) {$A_r$};
+      \end{scope}
+      \begin{scope}[->, shift={(7,-3.75)}]
+          \node[state,initial,initial text={}] (q0)  {$\ell_q^0$};
+          \node[state, right of=q0] (q1)  {$\ell_q^1$};
+          \node[state, right of=q1] (q2)  {$\ell_q^2$};
+          \node[state, right of=q2] (q3)  {$\ell_q^3$};
+
+          \path (q0) edge node [above] {$\send{s}{q}{\msg_3}$} (q1);
+          \path (q1) edge node [above] {$\send{s}{p}{\msg_4}$} (q2);
+          \path (q2) edge node [above] {$\send{s}{r}{\msg_5}$} (q3);
+
+          \node[rectangle, thick, draw] at (-0.7,0.6) {$A_s$};
+      \end{scope}
+      \end{tikzpicture}
+\captionof{figure}{System $\systemweakS$}
+\label{fig:system_weak_S}
+      \end{center}
