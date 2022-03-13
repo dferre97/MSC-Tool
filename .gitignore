@@ -2,3 +2,8 @@
 #report.*
 report/report.*
 !report/report.tex
+
+# only commit report.tex and not other report.* files
+#report.*
+"sources concur"/concur2021.*
+!"sources concur"/concur2021.tex
