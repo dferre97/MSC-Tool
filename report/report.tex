@@ -1,35 +1,15 @@
 \documentclass{article}
 
-% Language setting
-% Replace `english' with e.g. `spanish' to change the document language
-\usepackage[english]{babel}
-
-% Set page size and margins
-% Replace `letterpaper' with `a4paper' for UK/EU standard size
+% page size and margins
 \usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 
-% Useful packages
-\usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
-\usepackage{amsthm}
-\usepackage{hyperref}
-\usepackage{amssymb}
-\usepackage{xspace}
-% \setlength\parindent{0pt}
-\usepackage{biblatex}
-\addbibresource{my_biblio.bib}
-\usepackage{csquotes} % for babel-biblatex compatibility
-\usepackage{tikz}
-\usetikzlibrary{automata, positioning, arrows, petri}
-\usepackage{caption}
-\usepackage[inline]{enumitem}
-\usepackage{todonotes}
+% packages
+\usepackage{packages}
 
 % theorems
 \input{my_theorems.tex}
 
-% additional setup
+% macros
 \usepackage{my_macro}
 
 \title{Stage M2}
@@ -786,7 +766,23 @@ is every MSC in $\ppL{\System}$ weakly synchronous?
 
 \subsection{Message Sequence Charts}
 
-\davide{Add definition of causally ordered MSC}
+% \davide{Add definition of causally ordered MSC}
+
+\paragraph*{Causally ordered MSCs (no unmatched messages).}
+
+For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, we define
+an additional binary relation ${\corel}_\msc \subseteq \Events \times \Events$ that represents a constraint
+under the causal order semantics. In particular, given two events $f_1$ and $f_2$, we say that $f_1 \corel_\msc f_2$ if both the following hold:
+\begin{itemize}\itemsep=0.5ex
+	\item $\lambda(f_1) \in \qrAct{q}$,
+	$\lambda(f_2) \in \qrAct{q}$
+	\item $e_1 \lhd f_1$ and $e_2 \lhd f_2$ for some $e_1,e_2 \in \Events$, such that $e_1 \le_\msc e_2$.
+\end{itemize}
+
+We let ${\lessdot_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\corel_\msc})^\ast$.
+Note that ${\le_\msc} \subseteq {\lessdot_\msc}$.
+We call $\msc \in \ppMSCs$ a \emph{causally ordered (CO) MSC}
+if ${\lessdot_\msc}$ is a partial order. The set of causally ordered MSCs $\msc \in \ppMSCs$ is denoted by $\coMSCs$.
 
 \subsection{Model Checking}
 
