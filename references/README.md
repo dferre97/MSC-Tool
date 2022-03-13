@@ -13,7 +13,7 @@ List the main definition/concepts in each reference.
 - Relation between synchronizability and existentially/universally bounded MSCs, both for p2p and mailbox
 
 **[1] Reasoning about Distributed Systems: WYSIWYG**
-- Very well written, nicest introductory paper IMO :thumbsup:
+- Well written
 - Interleaved/word based semantics VS partial order/graph based semantics
 - Undecidability of reachability for simple architectures (some examples are shown in chapter 1 of [2])
 - Under-approximation techniques with a graphic theoretic approach to verification problems
