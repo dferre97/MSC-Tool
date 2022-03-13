@@ -44,4 +44,4 @@ List the main definition/concepts in each reference.
 - Causality relation in literature
 - Hierarchy of FIFO, CO, RSC and synchronous executions (inspired by [4])
 - Nice MSC examples for all different kinds of executions
-- Unmatched mailbox (n-1)
+- Unmatched and total order restricted mailbox (n-1)
