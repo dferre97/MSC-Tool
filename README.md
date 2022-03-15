@@ -32,6 +32,16 @@
   - Review my definitions and proofs about causally ordered MSCs
   - Discuss STW-boundness of weakly synchronous causally ordered MSCs. Investigate if the reduction from PCP to p2p weakly synchronicity can also be done with causal order.
 
+## Week 2
+- Todo:
+  - Adjust definitions and proofs of week 1
+    - Do not talk about causal order linearization
+    - Go back to the first definition that I gave of causally ordered MSC
+  - Read proof of reduction from PCP to p2p (synchronizability for weakly synchronous p2p)
+  - See if the proof can be adapted for causally ordered
+  - Take a look at the documents sent by professor Lozes and understand his notation for Lamport and causal order
+  - Rest
+
 **[0]** A Unifying Framework for Deciding Synchronizability\
 **[1]** Reasoning about Distributed Systems: WYSIWYG\
 **[2]** Non-Sequential Theory of Distributed Systems\
