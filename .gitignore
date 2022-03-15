@@ -1,7 +1,8 @@
-# only commit report.tex and not other report.* files
+# only commit report.tex and report.pdf and not other report.* files
 #report.*
 report/report.*
 !report/report.tex
+!report/report.pdf
 
 # only commit concur2021.tex and not other concur2021.* files
 #report.*

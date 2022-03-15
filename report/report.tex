@@ -280,7 +280,7 @@ traces that can be \emph{generated} by $\Sys$.
 The next lemma is obvious for the p2p semantics and follows from Lemma~\ref{lem:mb-prefix} for
 	the mailbox semantics.
 
-\begin{lemma}
+\begin{lemma}\label{lem:prefix-closed}
 For all $\comsymb \in \{\ppsymb, \mbsymb\}$, $\cL{\Sys}$ is prefix-closed:
 $\Pref{\cL{\Sys}} \subseteq \cL{\Sys}$.
 \end{lemma}
@@ -762,27 +762,191 @@ Given finite sets $\Procs$ and $\Msg$ as well as a communicating system $\System
 is every MSC in $\ppL{\System}$ weakly synchronous?
 \end{theorem}
 
+\subsection{Weakly $k$-Synchronous MSCs}\label{sec:weakly-k}
+
+This negative result for the p2p semantics motivates the study of other classes.
+In fact, our framework captures several classes introduced in the literature.
+
+\begin{definition}[$k$-exchange]\label{def:weak-synchr}
+Let $\msc = (\Events,\procrel,\lhd,\lambda)$ be an MSC
+and $k \in \N$.
+We call $\msc$ a $k$-\emph{exchange} if
+$\msc$ is an exchange and $|\SendEv{\msc}| \le k$.
+\end{definition}
+
+
+Let us now recall the definition
+from \cite{DBLP:conf/cav/BouajjaniEJQ18,DBLP:conf/fossacs/GiustoLL20}, but (equivalently)
+expressed directly in terms of MSCs rather than via \emph{executions}. It differs from the weakly synchronous MSCs in that here, we insist on constraining the number of messages sent per exchange to be at most $k$.
+
+\begin{definition}[weakly $k$-synchronous]\label{def:weaksync}
+Let $k \in \N$.
+We say that $\msc \in \MSCs$ is
+weakly $k$-synchronous if it is of the form
+$\msc = \msc_1 \cdot \ldots \cdot \msc_n$
+such that every $\msc_i$ is a $k$-exchange.
+\end{definition}
+
+\noindent \begin{minipage}[c]{10.5cm}
+\begin{example}
+MSC $\mscweakSexist$ in Fig.~\ref{fig:msc_weak_S_exist} is weakly $1$-synchronous, as it can be
+decomposed  into three \kE{1}s (the decomposition is depicted by the
+horizontal dashed lines). We remark that $\mscweakSexist \in
+\mbMSCs$. Note that there is a p2p linearization that respects the decomposition.
+On the other hand, a mailbox linearization needs to reorganize actions from different MSCs: the sending of
+$\msg_3$ needs to be done before the sending of $\msg_1$. Note that $\mscweakuniver$ in
+Fig.~\ref{fig:msc_weak_univer} is also weakly $1$-synchronous.
+\end{example}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{3cm}
+\begin{center}
+
+\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
+    every state/.style={text=black, scale =0.7}, semithick,
+    font={\fontsize{8pt}{12}\selectfont}, scale = 0.8]
+
+  %MACHINES
+  \draw (0,0) node{$p$} ;
+  \draw (1,0) node{$q$} ;
+  \draw (2,0) node{$r$} ;
+  \draw (0,-0.25) -- (0,-3.1) ;
+  \draw (1,-0.25) -- (1,-3.1);
+  \draw (2, -0.25) -- (2, -3.1) ;
+  %MESSAGES
+  \draw[>=latex,->, dashed] (0,-0.75) -- (1, -0.75) node[midway,above]{$\amessage_1$};
+
+  \draw[>=latex,->] (1, -1.75) -- (0, -1.75) node[midway, above] {$\amessage_2$};
+  %\draw (0.5,-1.7) node{$\cdots$};
+  %\draw[>=latex,->] (1, -2.25) -- (0, -2.25) node[midway, above] {$\amessage_2$};
+
+  \draw[>=latex,->] (2,-2.75) -- (1,-2.75) node[midway, above] {$\amessage_3$};
+%\end{scope}
+  \draw[dashed] (-0.5,-1.25) -- (2.5,-1.25) ;
+  \draw[dashed] (-0.5,-2.25) -- (2.5,-2.25) ;
+
+
+\end{tikzpicture}
+\captionof{figure}{MSC $\mscweakSexist$}
+\label{fig:msc_weak_S_exist}
+
+\end{center}
+\end{minipage}
+
+\medskip
+
+
+\begin{proposition}
+	\label{prop:weak-logic-bounded}
+	Let $k \in \N$. The set of weakly $k$-synchronous p2p (mailbox, respectively) MSCs
+	is effectively MSO-definable.
+\end{proposition}
+
+
+In fact, MSO-definability essentially follows from the following known theorem:
+
+\begin{theorem}[\cite{DBLP:conf/fossacs/GiustoLL20}] \label{th:scccharactweak}
+	Let $M$ be an MSC. Then, $M$ is weakly $k$-synchronous iff every SCC in its conflict graph
+	$\cgraph{\msc}$ is of size at most $k$ and no RS edge occurs on any cyclic path.
+\end{theorem}
+
+This property is similar to the graphical characterization of weakly synchronous MSCs, except  for the condition that every SCC in the conflict graph is of size at most $k$.
+Furthermore, it is easy to establish a bound on the special tree-width:
+
+\begin{proposition}
+\label{prop:kweakstw}
+	Let $k \in \N$. The set of MSCs that are weakly $k$-synchronous have special tree-width bounded by $2k+|\Procs|$.
+\end{proposition}
+
+Hence, we can conclude that the class of weakly $k$-synchronous MSCs is MSO-definable and STW-bounded.
+As a corollary, we get the following (known) decidability result, but via an alternative proof:
+
+\begin{theorem}[\cite{DBLP:conf/cav/BouajjaniEJQ18,DBLP:conf/fossacs/GiustoLL20}]\label{thm:weak-sync}
+For $\comsymb \in \{\ppsymb, \mbsymb\}$, the following problem is decidable:
+Given finite sets $\Procs$ and $\Msg$, a communicating system $\System$, and $k \in \N$,
+is every MSC in $\cL{\System}$ weakly $k$-synchronous?
+\end{theorem}
+
+\begin{proof}
+We proceed similarly to the proof of Theorem~\ref{thm:mailbox-weak-sync}.
+%
+For the given $\Procs$, $\Msg$, and $k$, we first determine,
+using Proposition~\ref{prop:weak-logic-bounded}, the MSO formula $\phi_k$ such that $L(\phi_k)$ is the set of weakly $k$-synchronous p2p/mailbox MSCs. From Proposition~\ref{prop:kweakstw}, we know that the special tree-width of all weakly $k$-synchronous MSCs is bounded by
+$2k + |\Procs|$.
+%
+By Lemma~\ref{lem:continuous}, we have
+$\cL{\System} \subseteq L(\phi_k)$ iff
+$\cL{\System} \cap \stwMSCs{(2k + |\Procs| + 2)} \subseteq L(\phi_k)$.
+The latter is an instance of the bounded model-checking problem.
+By Fact~\ref{p2p} and Theorem~\ref{th:mailbox_bounded_model_checking}, we obtain decidability.
+\end{proof}
+
+\begin{remark}
+The set of weakly $k$-synchronous MSCs is not directly expressible in LCPDL
+(the reason is that LCPDL does not have a built-in counting mechanism).
+However, its \emph{complement} is expressible in the extension of LCPDL with
+existentially quantified propositions
+(we need $k+1$ of them). The model-checking problem for
+this kind of property is still in EXPTIME and, therefore, so is the problem from
+Theorem~\ref{thm:weak-sync} when $k$ is given in unary. It is very likely that our approach can also be used to
+infer the PSPACE upper bound from \cite{DBLP:conf/cav/BouajjaniEJQ18}
+by showing bounded \emph{path width} and using finite word automata instead of tree automata.
+Finally, note that
+the problem to decide whether there exists an integer $k \in \N$ such that all MSCs in $\cL{\System}$
+are weakly $k$-synchronous
+has recently been studied in \cite{DLL2021} and requires different techniques.
+\end{remark}
+
+Observe also that we can remove the constraint of all the sends preceding all the receives in a $k$-exchange, and still have decidability. We then have the following definition.
+
+\begin{definition}[modified $k$-exchange]\label{def:mod-weak-synchr}
+	Let $\msc = (\Events,\procrel,\lhd,\lambda)$ be an MSC
+	and $k \in \N$.
+	We call $\msc$ a \emph{modified} $k$-\emph{exchange} if $|\SendEv{\msc}| \le k$.
+\end{definition}
+
+We extend this notion to consider modified weakly $k$-synchronous executions as before, and the graphical characterization of this property is that there are at most $k$ nodes in every SCC of the conflict graph. Hence, this class is also MSO-definable, and since each modified $k$-exchange has at most $2k$ events, it also has bounded special tree-width. 
+
 \section{My stuff}
+
+\davide{Extend Lemma~\ref{lem:prefix-closed} to causal order communication (prefix-closure).}
+\davide{Consider also unmatched messages in causal order communication.}
 
 \subsection{Message Sequence Charts}
 
 % \davide{Add definition of causally ordered MSC}
 
-\paragraph*{Causally ordered MSCs (no unmatched messages).}
+\begin{definition}[{Causally ordered linearization without unmatched messages}]
+Given an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ with ${\le}_\msc = ({\procrel} \cup {\lhd})^\ast$, a \emph{causally ordered} ($\cosymb$) \emph{linearization} of $\msc$ is a total order $\linrel_\cosymb \subseteq \Events \times \Events$ such that ${\le_\msc} \subseteq {\linrel_\cosymb}$ and, for any pair of send events $(x,y)$, we have that
+\[
+\begin{cases} 
+x \lhd x' \\
+y \lhd y' \\
+x \le y  
+\end{cases}
+\implies \quad  x' \linrel_\cosymb y'
+\]
+\end{definition}
 
-For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, we define
-an additional binary relation ${\corel}_\msc \subseteq \Events \times \Events$ that represents a constraint
-under the causal order semantics. In particular, given two events $f_1$ and $f_2$, we say that $f_1 \corel_\msc f_2$ if both the following hold:
-\begin{itemize}\itemsep=0.5ex
-	\item $\lambda(f_1) \in \qrAct{q}$,
-	$\lambda(f_2) \in \qrAct{q}$
-	\item $e_1 \lhd f_1$ and $e_2 \lhd f_2$ for some $e_1,e_2 \in \Events$, such that $e_1 \le_\msc e_2$.
-\end{itemize}
+\begin{definition}[{Causally ordered MSC without unmatched messages}]
+An MSC is a \emph{causally ordered MSC} iff it has at least one causally ordered linearization.
+\end{definition}
 
-We let ${\lessdot_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\corel_\msc})^\ast$.
-Note that ${\le_\msc} \subseteq {\lessdot_\msc}$.
-We call $\msc \in \ppMSCs$ a \emph{causally ordered (CO) MSC}
-if ${\lessdot_\msc}$ is a partial order. The set of causally ordered MSCs $\msc \in \ppMSCs$ is denoted by $\coMSCs$.
+
+% For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, we define
+% an additional binary relation ${\corel}_\msc \subseteq \Events \times \Events$ that represents a constraint
+% under the causal order semantics. In particular, given two events $f_1$ and $f_2$, we say that $f_1 \corel_\msc f_2$ if both the following hold:
+% \begin{itemize}\itemsep=0.5ex
+% 	\item $\lambda(f_1) \in \qrAct{q}$,
+% 	$\lambda(f_2) \in \qrAct{q}$
+% 	\item $e_1 \lhd f_1$ and $e_2 \lhd f_2$ for some $e_1,e_2 \in \Events$, such that $e_1 \le_\msc e_2$.
+% \end{itemize}
+
+% We let ${\lessdot_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\corel_\msc})^\ast$.
+% Note that ${\le_\msc} \subseteq {\lessdot_\msc}$.
+% We call $\msc \in \ppMSCs$ a \emph{causally ordered (CO) MSC}
+% if ${\lessdot_\msc}$ is a partial order. The set of causally ordered MSCs $\msc \in \ppMSCs$ is denoted by $\coMSCs$.
+
 
 \subsection{Model Checking}
 
@@ -852,9 +1016,9 @@ Same as the proof for Theorem~\ref{thm:sync}, but using Lemma~\ref{lem:continuou
 
 Corollary~\ref{cor:weak-sync-lcpdl} can  be extended to $\comsymb = \cosymb$. 
 
-\begin{corollary}\label{cor:co-weak-sync-mso}
+\begin{proposition}\label{cor:co-weak-sync-mso}
 The set of weakly synchronous \emph{causally ordered} MSCs is MSO-definable (I think it is also LCPDL-definable).
-\end{corollary}
+\end{proposition}
 \begin{proof}
 Follows from Corollary~\ref{cor:weak-sync-lcpdl} and from the fact that the set $\coMSCs$ of causal order MSCs is MSO-definable, as shown in the proof of Theorem~\ref{th:co_bounded_model_checking}.
 \end{proof}
@@ -865,6 +1029,27 @@ STW-bounded (in fact, it is included in $\stwMSCs{4|\Procs|}$).
 \end{conjecture}
 \begin{proof}\renewcommand{\qedsymbol}{INCOMPLETE}
 Work in progress...
+\end{proof}
+
+\subsubsection{Weakly \emph{k}-synchronous causally ordered MSCs} 
+
+\begin{proposition}\label{prop:co-weak-k-sync-mso}
+The set of weakly \emph{k}-synchronous causally ordered MSCs is MSO-definable.
+\end{proposition}
+\begin{proof}
+Directly follows from Proposition~\ref{prop:weak-logic-bounded} and from the fact that the set $\coMSCs$ of causal order MSCs is MSO-definable, as shown in the proof of Theorem~\ref{th:co_bounded_model_checking}.
+\end{proof}
+
+% Note that every causally ordered \emph{k}-synchronous MSC is also a  $\ppsymb$ \emph{k}-synchronous MSC. 
+Theorem~\ref{thm:sync} can be easily extended to $\comsymb = \cosymb$.
+
+\begin{theorem}\label{thm:co-weak-sync}
+For $\comsymb \in \{\ppsymb, \mbsymb,\cosymb\}$, the following problem is decidable:
+Given finite sets $\Procs$ and $\Msg$, a communicating system $\System$, and $k \in \N$,
+is every MSC in $\cL{\System}$ weakly $k$-synchronous?
+\end{theorem}
+\begin{proof}
+By Proposition~\ref{prop:co-weak-k-sync-mso} and Proposition~\ref{prop:kweakstw} we have that the class of causally ordered \emph{k}-synchronous MSCs is MSO-definable and STW-bounded. We can use Theorem~\ref{thm:sync_co} to end the proof.
 \end{proof}
 
 
