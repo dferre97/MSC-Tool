@@ -3,7 +3,7 @@
 ## Week 1
 - Read parts of [0], [1], [2], [3]
 - Understand the big picture
-- Understand the concepts of synchronizability, $\exists k$-bounded MSCs, $\forall k$-bounded MSCs
+- Understand the concepts of synchronizability, <!-- $\exists k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cexists%20k">-bounded MSCs, <!-- $\forall k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cforall%20k">-bounded MSCs
 
 ## Week 2
 - Setup a GitHub repository and a local LaTeX environment
