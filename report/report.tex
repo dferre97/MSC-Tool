@@ -4,7 +4,8 @@
 \usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 
 % packages
-\usepackage{packages}
+\usepackage{preamble}
+\addbibresource{my_biblio.bib} % do not put this in preamble or it breakes automatic suggestions for citations in vscode
 
 % theorems
 \input{my_theorems.tex}
@@ -61,7 +62,7 @@ $\sametype{e}{\pqsAct{p}{q}}{\procrel^+} = \sametype{f}{\pqrAct{p}{q}}{\procrel^
 \item[(2)] for all $f \in \Events$ such that $\lambda(f)$ is a receive action, there is $e \in \Events$ such that $e \lhd f$.
 \end{itemize}
 Finally, letting ${\le}_\msc = ({\procrel} \cup {\lhd})^\ast$,
-we require that $\le_\msc$ is a partial order.
+we require that $\le_\msc$ is a partial order. For convenience, we will simply write $\le$ when $M$ is clear from the context. 
 %We may also simply write ${\le}$ instead of $\le_{\msc}$ if
 %the MSC is clear from the context.
 
@@ -207,6 +208,14 @@ $\Pref{L} = \bigcup_{\msc \in L} \Pref{\msc}$.
 \label{lem:mb-prefix}
 Every prefix of a mailbox MSC is a mailbox MSC.
 \end{lemma}
+\begin{proof}
+Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \mbMSCs$ and $\msc_0 =
+(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$, i.e.,
+$\Events_0 \subseteq \Events$. By contradiction, suppose that $\msc_0$ is not a
+mailbox MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \preceq_{M_0} f \preceq_{M_0}
+e$ with ${\preceq_{\msc_0}} = ({\rightarrow_0} \cup {\lhd_0} \cup {\mbrel_{\msc_0}})^*$.
+As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, and ${\mbrel_{\msc_0}} \subseteq {\mbrel_{\msc}}$. Finally, ${\preceq_{\msc_0}} \subseteq {\preceq_{\msc}}$ and $\msc$ is not a mailbox MSC, which is a contradiction.
+\end{proof}
 
 Let $\msc_1 = (\Events_1,\procrel_1,\lhd_1,\lambda_1)$ and
 $\msc_2 = (\Events_2,\procrel_2,\lhd_2,\lambda_2)$ be two MSCs.
@@ -486,7 +495,7 @@ for mailbox systems as a corollary:
 % (cf.\ Appendix~\ref{app:mailbox} for the proof):
 
 \begin{theorem}
-\label{th:mailbox_bounded_model_checking}
+\label{thm:mailbox_bounded_model_checking}
 The bounded model-checking problem for $\comsymb =  \mbsymb$ is decidable.
 When the formulas $\phi$ are from LCPDL, then the problem is solvable
 in exponential time.
@@ -564,7 +573,7 @@ We have
 $\cL{\System} \subseteq \Class
  \stackrel{\textup{Lemma~\ref{lem:continuous}}}{\Longleftrightarrow} \cL{\System} \cap \stwMSCs{(k+2)} \subseteq \Class
  \Longleftrightarrow \cL{\System} \cap \stwMSCs{(k+2)} \subseteq L(\phi)$.
-The latter can be solved thanks to Fact~\ref{p2p} and Theorem~\ref{th:mailbox_bounded_model_checking}.
+The latter can be solved thanks to Fact~\ref{p2p} and Theorem~\ref{thm:mailbox_bounded_model_checking}.
 \end{proof}
 
 \subsection{Application to Concrete Classes of Synchronizability}
@@ -601,9 +610,6 @@ We say that $\msc$ is an \emph{exchange} if
 $\SendEv{\msc}$ is
 a ${\le_\msc}$-downward-closed set.
 \end{definition}
-
-
-
 
 \begin{definition}[weakly synchronous]\label{def:weaksync-new}
 We say that $\msc \in \MSCs$ is
@@ -747,7 +753,7 @@ $\mbL{\System} \cap \stwMSCs{(4|\Procs|+2)} \subseteq L(\Phi_\mathsf{wsmb})$.
 The latter is an instance of the bounded model-checking problem.
 As the length of $\Phi_\mathsf{wsmb}$ is polynomial in
 $|\Procs|$, we obtain that the original problem is decidable
-in exponential time by Theorem~\ref{mailbox}.
+in exponential time by Theorem~\ref{thm:mailbox_bounded_model_checking}.
 \end{proof}
 
 For the same reasons, the model-checking problem for ``weakly
@@ -761,13 +767,64 @@ The following problem is undecidable:
 Given finite sets $\Procs$ and $\Msg$ as well as a communicating system $\System$,
 is every MSC in $\ppL{\System}$ weakly synchronous?
 \end{theorem}
+\newcommand{\pcpSigma}{A}
+\begin{proof}
+	We show that the control state reachability problem for p2p weakly
+	synchronizable systems is not decidable. This immediately shows
+	that the model-checking problem for p2p weak synchronizable systems
+	is not decidable. \davide{Clarify why undecidability of control state reachability implies undecidability of model checking.} With some extra coding, it also shows that the
+	membership problem (decide whether a given system is p2p weakly synchronizable)
+	also is undecidable: indeed, it is enough to add a non weak
+	synchronizable behavior after the control states for which reachability is
+	undecidable: the system will be not weakly synchronizable iff the control
+	states are reached.
+	
+	We reduce from Post correspondence problem (PCP).
+	Let us recall that a PCP instance consists of $N$ pairs $(u_i,v_i)$ of
+	finite words over an alphabet $\pcpSigma$, and that PCP undecidability holds already for
+	$N=7$ and $\pcpSigma=\{0,1\}$. We let the set of messages be
+	$\{1,\dots,N\}\uplus\pcpSigma\uplus\{\sharp\}$, and we consider a system with
+	four machines: Prover1, Prover2, Verifier1, and Verifier2. We have
+	unidirectional communication channels from provers to verifiers,
+	so the system is weakly synchronous by construction.
+	
+	Informally, the system works as follows:
+	\begin{itemize}
+	\item Prover1 guesses a solution $u_{i_1}\dots u_{i_m}$ of the PCP instance,
+	and Prover2 also guesses the same solution $v_{i_1}...v_{i_m}$.
+	\item Prover1 sends $u_{i_1}\dots u_{i_n}$ to Verifier1 and sends
+	simultaneously $i_1\dots i_m$ to Verifier2
+	\item Prover2 sends $v_{i_1}\dots v_{i_m}$ to Verifier1 and sends
+	simultaneously $i_1\dots i_m$ to Verifier 2
+	\item Verifier1 checks that the two words are equal and Verifier2 checks that the sequences of indices are equal.
+	\end{itemize}
+	
+	Let us now formally define these machines.
+	We describe them with regular expressions. For $w=a_1\cdots a_n$,
+	we write $\mathit{send}^*(p,q,w)$ (resp $\mathit{rec}^*(p,q,w)$)
+	for $\send{p}{q}{a_1}\cdots \send{p}{q}{a_n}$ (resp $\rec{p}{q}{a_1}\cdots\rec{p}{q}{a_n}$). We abbreviate Prover1 as P1, Prover2 as P2, Verifier1 as V1, and Verifier2 as V2
+	
+	\begin{itemize}
+	\item Prover1 is $$\big(\sum_{i=1}^N\send{P_1}{V_1}{i}\mathit{send}^*(P_1,V_2,u_i)\big)^+\send{P_1}{V_1}{\sharp}\send{P_1}{V_2}{\sharp}$$
+	
+	\item Prover2 is $$\big(\sum_{i=1}^N\send{P_2}{V_1}{i}\mathit{send}^*(P_2,V_2,v_i)\big)^+\send{P_2}{V_1}{\sharp}\send{P_2}{V_2}{\sharp}$$
+	
+	\item Verifier1 is $$\big(\sum_{i=1}^N\rec{P_1}{V_1}{i}\rec{P_2}{V_1}{i}\big)^*\rec{P_1}{V_1}{\sharp}\rec{P_2}{V_1}{\sharp}$$
+	
+	\item Verifier2 is $$\big(\sum_{a\in\Sigma}\rec{P_1}{V_2}{a}\rec{P_2}{V_2}{a}\big)^*\rec{P_1}{V_2}{\sharp}\rec{P_2}{V_2}{\sharp}$$
+	
+	\end{itemize}
+	
+	It can be checked that all machines reach their own final
+	state if and only if the PCP instance has a solution.
+\end{proof}	
 
-\subsection{Weakly $k$-Synchronous MSCs}\label{sec:weakly-k}
+\subsection{Weakly \emph{k}-Synchronous MSCs}\label{sec:weakly-k}
 
 This negative result for the p2p semantics motivates the study of other classes.
 In fact, our framework captures several classes introduced in the literature.
 
-\begin{definition}[$k$-exchange]\label{def:weak-synchr}
+\begin{definition}[$k$-exchange]\label{def:weak-k-synchr}
 Let $\msc = (\Events,\procrel,\lhd,\lambda)$ be an MSC
 and $k \in \N$.
 We call $\msc$ a $k$-\emph{exchange} if
@@ -878,7 +935,7 @@ By Lemma~\ref{lem:continuous}, we have
 $\cL{\System} \subseteq L(\phi_k)$ iff
 $\cL{\System} \cap \stwMSCs{(2k + |\Procs| + 2)} \subseteq L(\phi_k)$.
 The latter is an instance of the bounded model-checking problem.
-By Fact~\ref{p2p} and Theorem~\ref{th:mailbox_bounded_model_checking}, we obtain decidability.
+By Fact~\ref{p2p} and Theorem~\ref{thm:mailbox_bounded_model_checking}, we obtain decidability.
 \end{proof}
 
 \begin{remark}
@@ -909,87 +966,128 @@ We extend this notion to consider modified weakly $k$-synchronous executions as 
 
 \section{My stuff}
 
-\davide{Extend Lemma~\ref{lem:prefix-closed} to causal order communication (prefix-closure).}
-\davide{Consider also unmatched messages in causal order communication.}
+\davide{Consider also unmatched messages in causal order communication (causal delivery using the terminology from Laetitia's thesis).}
 
 \subsection{Message Sequence Charts}
 
 % \davide{Add definition of causally ordered MSC}
 
-\begin{definition}[{Causally ordered linearization without unmatched messages}]
-Given an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ with ${\le}_\msc = ({\procrel} \cup {\lhd})^\ast$, a \emph{causally ordered} ($\cosymb$) \emph{linearization} of $\msc$ is a total order $\linrel_\cosymb \subseteq \Events \times \Events$ such that ${\le_\msc} \subseteq {\linrel_\cosymb}$ and, for any pair of send events $(x,y)$, we have that
-\[
-\begin{cases} 
-x \lhd x' \\
-y \lhd y' \\
-x \le y  
-\end{cases}
-\implies \quad  x' \linrel_\cosymb y'
-\]
-\end{definition}
+% \begin{definition}[{Causally ordered linearization without unmatched messages}]
+% Given an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ with ${\le}_\msc = ({\procrel} \cup {\lhd})^\ast$, a \emph{causally ordered} ($\cosymb$) \emph{linearization} of $\msc$ is a total order $\linrel_\cosymb \subseteq \Events \times \Events$ such that ${\le_\msc} \subseteq {\linrel_\cosymb}$ and, for any pair of send events $(x,y)$, we have that
+% \[
+% \begin{cases} 
+% x \lhd x' \\
+% y \lhd y' \\
+% x \le y  
+% \end{cases}
+% \implies \quad  x' \linrel_\cosymb y'
+% \]
+% \end{definition}
 
-\begin{definition}[{Causally ordered MSC without unmatched messages}]
-An MSC is a \emph{causally ordered MSC} iff it has at least one causally ordered linearization.
-\end{definition}
+% \begin{definition}[{Causally ordered MSC without unmatched messages}]
+% An MSC is a \emph{causally ordered MSC} iff it has at least one causally ordered linearization.
+% \end{definition}
 
+\paragraph*{Causally ordered MSCs}
 
-% For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, we define
-% an additional binary relation ${\corel}_\msc \subseteq \Events \times \Events$ that represents a constraint
-% under the causal order semantics. In particular, given two events $f_1$ and $f_2$, we say that $f_1 \corel_\msc f_2$ if both the following hold:
-% \begin{itemize}\itemsep=0.5ex
-% 	\item $\lambda(f_1) \in \qrAct{q}$,
-% 	$\lambda(f_2) \in \qrAct{q}$
-% 	\item $e_1 \lhd f_1$ and $e_2 \lhd f_2$ for some $e_1,e_2 \in \Events$, such that $e_1 \le_\msc e_2$.
-% \end{itemize}
+An MSC is causally ordered if all the messages sent to the same process are received in an order which is consistent with the causal ordering of the corresponding send events. More formally, for an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ we define an additional binary relation ${\corel}_\msc \subseteq \Events \times \Events$ that represents a constraint
+under the causal ordering semantics.  In particular, given two receive events $f_1$ and $f_2$, we have that $f_1 \corel_\msc f_2$ if both the following hold:
+\begin{itemize}\itemsep=0.5ex
+	\item $\lambda(f_1) \in \qrAct{q}$,
+	$\lambda(f_2) \in \qrAct{q}$
+	\item $e_1 \lhd f_1$ and $e_2 \lhd f_2$ for some $e_1,e_2 \in \Events$, such that $e_1 \le_\msc e_2$.
+\end{itemize}
 
-% We let ${\lessdot_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\corel_\msc})^\ast$.
-% Note that ${\le_\msc} \subseteq {\lessdot_\msc}$.
-% We call $\msc \in \ppMSCs$ a \emph{causally ordered (CO) MSC}
-% if ${\lessdot_\msc}$ is a partial order. The set of causally ordered MSCs $\msc \in \ppMSCs$ is denoted by $\coMSCs$.
+We let ${\lessdot_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\corel_\msc})^\ast$.
+Note that ${\le_\msc} \subseteq {\lessdot_\msc}$.
+We call $\msc \in \ppMSCs$ a \emph{causally ordered (CO) MSC}
+if ${\lessdot_\msc}$ is a partial order. The set of causally ordered MSCs $\msc \in \ppMSCs$ is denoted by $\coMSCs$.
 
+\medskip
+
+In literature, several possible implementations of causal ordering can be found. For instance, the algorithm described in \cite{DBLP:conf/wdag/SchiperES89} makes use of the logical vector clocks introduced by Fidge-Mattern \cite{Fidge88timestampsin, Mattern89virtualtime} to enforce causal ordering.
+
+\subsection{Communicating Systems}
+
+\begin{lemma}
+\label{lem:co-prefix}
+Every prefix of a causally ordered MSC is a causally ordered MSC.
+\end{lemma}
+\begin{proof}
+Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \coMSCs$ and let $\msc_0 =
+(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a	causally ordered MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \lessdot_{\msc_0}f$ and $f \lessdot_{\msc_0}e$, with ${\lessdot_{\msc_0}} = ({\rightarrow_0} \cup {\lhd_0} \cup {\corel_{\msc_0}})^*$.
+As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, and ${\corel_{\msc_0}} \subseteq {\corel_{\msc}}$. Finally, we have that ${\lessdot_{\msc_0}} \subseteq {\lessdot_{\msc}}$ and $\msc$ cannot be a causally ordered MSC, which is a contradiction.
+\end{proof}
+
+Lemma~\ref{lem:prefix-closed} can be easily extendend to $\comsymb = \cosymb$.
+
+\begin{lemma}\label{lem:co-prefix-closed}
+	For all $\comsymb \in \{\ppsymb, \mbsymb, \cosymb\}$, $\cL{\Sys}$ is prefix-closed:
+	$\Pref{\cL{\Sys}} \subseteq \cL{\Sys}$.
+\end{lemma}
+\begin{proof}
+	Follows from Lemma~\ref{lem:co-prefix}.
+\end{proof}
 
 \subsection{Model Checking}
 
-Theorem~\ref{th:mailbox_bounded_model_checking} can be restated for $\comsymb = \cosymb$, without unmatched messages (for now).
+\begin{proposition}\label{prop:co_mso}
+	The set $\coMSCs$ of causally odered MSCs is MSO-definable.
+\end{proposition}
+\begin{proof}
+	The set of causally ordered MSCs can be defined using the MSO formula
+	\[
+	\coformula =
+	\neg \exists x.\exists y. \left(
+	\bigvee_{\substack{q \in \Procs\\a,b \in \qsAct{q}}}\hspace{-1em}
+	\lambda(x) = a \;\wedge\; \lambda(y) = b
+	\;\wedge\; x \le y \;\wedge\;
+	\exists x'.\exists y'. \left(
+	\begin{array}{ll}
+		x \lhd x' & \wedge\\
+		y \lhd y' & \wedge\\
+		y' \procrel^+ x' &
+	\end{array} \right)
+	\right)
+	\]
+	The property $\coformula$ says that there cannot be two send events $x$ and $y$, with the same recipient, such that $x \le y$ and their corresponding receive events $x'$ and $y'$ happen in the opposite order, i.e. $y' \procrel^+ x'$. The set $\coMSCs$ of causally ordered MSCs is therefore MSO-definable as $\coMSCs=L(\coformula)$.
+\end{proof}
+
+Knowing that $\coMSCs$ is MSO-definable, Theorem~\ref{thm:mailbox_bounded_model_checking} can be restated for $\comsymb = \cosymb$.
 
 \begin{theorem}
-	\label{th:co_bounded_model_checking}
+	\label{thm:co_bounded_model_checking}
 	The bounded model-checking problem for $\comsymb =  \cosymb$ is decidable.
 \end{theorem}
 \begin{proof}
-The set of $\ppMSCs$ is MSO-definable with the formula $\ppformula$:
-\[ \ppformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \le y \wedge y \le x) \]
-To express the additional causal order contraints we can use the MSO formula $\psi$:
-\[
-\psi =
-\neg \exists x.\exists y. \left(
-\bigvee_{\substack{q \in \Procs\\a,b \in \qsAct{q}}}\hspace{-1em}
-\lambda(x) = a \;\wedge\; \lambda(y) = b
-\;\wedge\; x \le y \;\wedge\;
-\exists x'.\exists y'. \left(
-\begin{array}{rl}
-	x \lhd x' & \wedge\\
-	y \lhd y' & \wedge\\
-	y' \le x  &
-\end{array} \right)
-\right)
-\]
-The formula $\psi$ says that there cannot be two send events $x$ and $y$, with the same recipient, such that $x \le y$ and the reception of $y$ happens before the reception of $x$. Using $\ppformula$ and $\psi$, the set $\coMSCs$ of causal order MSCs is MSO-definable as $\coMSCs=L(\coformula)$, with $\coformula = \ppformula \,\wedge\, \psi$.
-
-\smallskip
-
-Given a system $\System$, we have that $\coL{\System} = \ppL{\System} \cap L(\coformula)$. Therefore, we can rewrite the bounded model checking problem for $\comsymb = \cosymb$ as
+By Proposition~\ref{prop:co_mso}, $\coMSCs=L(\coformula)$.Given a system $\System$, we have that $\coL{\System} = \ppL{\System} \cap L(\coformula)$. Therefore, we can rewrite the bounded model checking problem for $\comsymb = \cosymb$ as
 
 \[\begin{array}{rl}
 &\coL{\System} \cap \stwMSCs{k} \subseteq L(\phi)\\[1ex]
 \Longleftrightarrow &\ppL{\System} \cap L(\coformula) \cap \stwMSCs{k} \subseteq L(\phi)\\[1ex]
-\Longleftrightarrow &\ppL{\System} \cap \stwMSCs{k} \subseteq L(\phi) \cup L(\coformula)\\[1ex]
+\Longleftrightarrow &\ppL{\System} \cap \stwMSCs{k} \subseteq L(\phi) \cup L(\neg \coformula)\\[1ex]
 \Longleftrightarrow &\ppL{\System} \cap \stwMSCs{k} \subseteq L(\phi \vee \neg \coformula)\,.
 \end{array}\]
 The latter is decidable due to Fact~\ref{p2p}.
 \end{proof}
 
 \subsection{Synchronizability}
+
+\begin{table}
+	\centering
+	\caption{Summary of the decidability of the synchronizability problem in various classes\label{table:my_summary}}
+	\begin{adjustbox}{max width=\textwidth}
+	\begin{tabular}{ |c||c|c|c| }
+		\hline
+		& \textsc{P2P}& \textsc{Causal ordering}& \textsc{Mailbox} \\
+		\hline
+		Weakly synchronous   & Undecidable [Thm.~\ref{thm:p2p-weak-sync}] & \textcolor{red}{Undecidable} [Thm.~\ref{thm:co-weak-sync}]   & EXPTIME [Thm.~\ref{thm:mailbox-weak-sync}] \\
+		\hline
+		Weakly $k$-synchronous &  \multicolumn{3}{c|} {\textcolor{red}{Decidable} [Thm.~\ref{thm:co-weak-k-sync}]}  \\
+		\hline
+	\end{tabular}
+	\end{adjustbox}
+\end{table}
 
 Note that Lemma~\ref{lem:continuous} can be extended to $\comsymb = \cosymb$, since Lemma~\ref{lem:continuous2} does not depend on the kind of communication used by the system. 
 
@@ -1009,7 +1107,7 @@ The following problem is decidable:
 Given a communicating system $\System$, do we have $\cL{\System} \subseteq \Class$?
 \end{theorem}
 \begin{proof}
-Same as the proof for Theorem~\ref{thm:sync}, but using Lemma~\ref{lem:continuous_co} in place of Lemma~\ref{lem:continuous} and Theorem~\ref{th:co_bounded_model_checking} in place of Theorem~\ref{th:mailbox_bounded_model_checking}.
+Same as the proof for Theorem~\ref{thm:sync}, but using Lemma~\ref{lem:continuous_co} in place of Lemma~\ref{lem:continuous}, and Theorem~\ref{thm:co_bounded_model_checking} in place of Theorem~\ref{thm:mailbox_bounded_model_checking}.
 \end{proof}
 
 \subsubsection{Weakly synchronous causally ordered MSCs}
@@ -1017,18 +1115,27 @@ Same as the proof for Theorem~\ref{thm:sync}, but using Lemma~\ref{lem:continuou
 Corollary~\ref{cor:weak-sync-lcpdl} can  be extended to $\comsymb = \cosymb$. 
 
 \begin{proposition}\label{cor:co-weak-sync-mso}
-The set of weakly synchronous \emph{causally ordered} MSCs is MSO-definable (I think it is also LCPDL-definable).
+The set of weakly synchronous \emph{causally ordered} MSCs is MSO-definable.
 \end{proposition}
 \begin{proof}
-Follows from Corollary~\ref{cor:weak-sync-lcpdl} and from the fact that the set $\coMSCs$ of causal order MSCs is MSO-definable, as shown in the proof of Theorem~\ref{th:co_bounded_model_checking}.
+Both the sets of weakly synchronous MSCs and of causally ordered MSCs are MSO-definable, as shown by Corollary~\ref{cor:weak-sync-lcpdl} and Proposition~\ref{prop:co_mso}. Recall that any LCPDL-definable property is also MSO-definable. It suffices to take the conjuction of the two respective MSO formulas.
 \end{proof}
 
-\begin{conjecture}
-The set of weakly synchronous causally ordered MSCs is
-STW-bounded (in fact, it is included in $\stwMSCs{4|\Procs|}$).
-\end{conjecture}
-\begin{proof}\renewcommand{\qedsymbol}{INCOMPLETE}
-Work in progress...
+
+\begin{theorem}\label{thm:co-weak-sync}
+The following problem is undecidable:
+Given finite sets $\Procs$ and $\Msg$ as well as a communicating system $\System$,
+is every MSC in $\coL{\System}$ weakly synchronous?
+\end{theorem}
+\begin{proof}
+The proof is essentially identical to the \pp case. We do the same reduction from the Post correspondence problem. Recall from the proof of Theorem~\ref{thm:p2p-weak-sync} that we consider a system $\System$ with four machines (P1, P2, V1, V2), where we have unidirectional communication channels from provers to verifiers. In particular notice that all the possible behaviours of $\System$ are causally ordered, i.e. $\ppL{\System} \subseteq \coMSCs$; according to how we built our system $\System$, it is impossible to have a pair of causally-related send events of P1 and P2\footnote{Notice that there is no channel between P1 and P2, and we only have unidirectional communication channels from provers to verifiers.}, hence the causal ordering binary relation $\corel_\msc$ will be empty for any $\msc \in \ppL{\System}$ (i.e. causal ordering is already ensured by any possible \pp behaviour of $\System$). The rest of the proof is identical to the \pp case.
+\end{proof}
+
+\begin{proposition}
+The set of weakly synchronous causally ordered MSCs has unbounded special tree-width.
+\end{proposition}
+\begin{proof}
+Suppose that the set of weakly synchronous causally ordered MSCs is STW-bounded. By Proposition \ref{cor:co-weak-sync-mso} and Theorem~\ref{thm:sync_co}, we have that the syncronicity problem for the class of weakly synchronous causally ordered MSCs would be decidable. This is a contradiction, since Theorem~\ref{thm:co-weak-sync} states that this problem is undecidable.
 \end{proof}
 
 \subsubsection{Weakly \emph{k}-synchronous causally ordered MSCs} 
@@ -1037,19 +1144,19 @@ Work in progress...
 The set of weakly \emph{k}-synchronous causally ordered MSCs is MSO-definable.
 \end{proposition}
 \begin{proof}
-Directly follows from Proposition~\ref{prop:weak-logic-bounded} and from the fact that the set $\coMSCs$ of causal order MSCs is MSO-definable, as shown in the proof of Theorem~\ref{th:co_bounded_model_checking}.
+Both the sets of weakly \emph{k}-synchronous MSCs and of causally ordered MSCs are MSO-definable, as shown by Proposition~\ref{prop:weak-logic-bounded} and Proposition~\ref{prop:co_mso}. It suffices to take the conjuction of the two respective MSO formulas.
 \end{proof}
 
 % Note that every causally ordered \emph{k}-synchronous MSC is also a  $\ppsymb$ \emph{k}-synchronous MSC. 
 Theorem~\ref{thm:sync} can be easily extended to $\comsymb = \cosymb$.
 
-\begin{theorem}\label{thm:co-weak-sync}
+\begin{theorem}\label{thm:co-weak-k-sync}
 For $\comsymb \in \{\ppsymb, \mbsymb,\cosymb\}$, the following problem is decidable:
 Given finite sets $\Procs$ and $\Msg$, a communicating system $\System$, and $k \in \N$,
 is every MSC in $\cL{\System}$ weakly $k$-synchronous?
 \end{theorem}
 \begin{proof}
-By Proposition~\ref{prop:co-weak-k-sync-mso} and Proposition~\ref{prop:kweakstw} we have that the class of causally ordered \emph{k}-synchronous MSCs is MSO-definable and STW-bounded. We can use Theorem~\ref{thm:sync_co} to end the proof.
+By Proposition~\ref{prop:co-weak-k-sync-mso} and Proposition~\ref{prop:kweakstw} we have that the class of causally ordered \emph{k}-synchronous MSCs is MSO-definable and STW-bounded\footnote{Note that Proposition~\ref{prop:kweakstw} is independent from the type of communication.}. Theorem~\ref{thm:sync_co} ends the proof.
 \end{proof}
 
 
