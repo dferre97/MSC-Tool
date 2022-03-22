@@ -36,7 +36,7 @@
 - [x] Undecidability of synchronicity for weakly *k*-synchronous causally ordered MSCs (Post correspondence problem proof)
 - [x] Unbounded special tree-width for weakly synchronous causally ordered MSCs
 - [x] Have a clear understanding of causal order MCS, causal delivery MSC, and mailbox MSC
-- [ ] Take a look at the documents sent by professor Lozes
+- [x] Take a look at the documents sent by professor Lozes
 - [ ] Try to write semantics for causal order
 
 **[0]** A Unifying Framework for Deciding Synchronizability - Bollig, Di Giusto, Finkel, Laversa, Lozes, Suresh\

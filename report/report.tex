@@ -968,6 +968,14 @@ We extend this notion to consider modified weakly $k$-synchronous executions as 
 
 \davide{Consider also unmatched messages in causal order communication (causal delivery using the terminology from Laetitia's thesis).}
 
+\subsection{Semantics of causal ordering}
+
+\newcommand{\buffers}{\vv{\text{Buf}}}
+\newcommand{\clocks}{\vv{\text{Vec}}}
+\begin{definition}
+	Given a system $\System = (Loc_p, \delta_p, \ell^0_p)_{p\in\procSet}$ with $n$ processes, a \emph{configuration} is a tuple $(\vv{\ell},\buffers,\clocks)$, where $\vv{\ell}=(\ell_p)_{p \in \procSet}$ represents the global state of the system, $\buffers=(b_p)_{p \in \procSet}$ is a vector of buffers, with each $b_p \in \Msg^*$ representing the content of the buffer of process $p$, and $\clocks=(v_p)_{p \in \procSet}$ is a vector of Mattern-Fidge logical clocks, where each $v_p = (time_i)_{i \in \procSet}$ represents the content of the logical vector clock of process $p$.
+\end{definition}
+
 \subsection{Message Sequence Charts}
 
 % \davide{Add definition of causally ordered MSC}
@@ -1005,7 +1013,7 @@ if ${\lessdot_\msc}$ is a partial order. The set of causally ordered MSCs $\msc 
 
 \medskip
 
-In literature, several possible implementations of causal ordering can be found. For instance, the algorithm described in \cite{DBLP:conf/wdag/SchiperES89} makes use of the logical vector clocks introduced by Fidge-Mattern \cite{Fidge88timestampsin, Mattern89virtualtime} to enforce causal ordering.
+In literature, several possible implementations of causal ordering can be found. For instance, the algorithm described in \cite{DBLP:conf/wdag/SchiperES89} makes use of the logical vector clocks introduced by Mattern-Fidge \cite{Fidge88timestampsin, Mattern89virtualtime} to enforce causal ordering.
 
 \subsection{Communicating Systems}
 
