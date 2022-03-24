@@ -1284,17 +1284,17 @@ Let $\Ekpp$ and $\Ekco$ be the set of existentially $k$-\pp-bounded MSCs and the
 \subsection{Sketches}
 
 \begin{definition}[Causally ordered MSC]
-An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any $s,s' \in \Events$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \le s'$, we have either:
+An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le_\msc s'$, we have either:
 \begin{itemize}\itemsep=0.5ex
-	\item $s,s' \in \Matched{\msc}$ and $r \procrel^+ r'$, where $r,r' \in \Events$ such that $s \lhd r$ and $s' \lhd r'$.
+	\item $s,s' \in \Matched{\msc}$ and $r \procrel^+ r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
 	\item $s' \in \Unm{\msc}$.
 \end{itemize}
 \end{definition}
 
-\begin{definition}
-An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{mailbox MSC} if it has a linearization $\linrel$ such that, for any $s,s' \in \Events$, with $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \linrel s'$, we have either:
+\begin{definition}[Mailbox MSC]
+An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{mailbox MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \linrel s'$, we have either:
 \begin{itemize}\itemsep=0.5ex
-	\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, where $r,r' \in \Events$ such that $s \lhd r$ and $s' \lhd r'$.
+	\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
 	\item $s' \in \Unm{\msc}$.
 \end{itemize}
 \end{definition}
