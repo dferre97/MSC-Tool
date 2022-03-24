@@ -1236,7 +1236,7 @@ The set of weakly synchronous causally ordered MSCs has unbounded special tree-w
 Suppose that the set of weakly synchronous causally ordered MSCs is STW-bounded. By Proposition \ref{cor:co-weak-sync-mso} and Theorem~\ref{thm:sync_co}, we have that the syncronicity problem for the class of weakly synchronous causally ordered MSCs would be decidable. This is a contradiction, since Theorem~\ref{thm:co-weak-sync} states that this problem is undecidable.
 \end{proof}
 
-\subsubsection{Weakly \emph{k}-synchronous causally ordered MSCs} 
+\subsubsection{Weakly \texorpdfstring{$k$}{k}-synchronous causally ordered MSCs} 
 
 \begin{proposition}\label{prop:co-weak-k-sync-mso}
 The set of weakly \emph{k}-synchronous causally ordered MSCs is MSO-definable.
@@ -1257,7 +1257,7 @@ is every MSC in $\cL{\System}$ weakly $k$-synchronous?
 By Proposition~\ref{prop:co-weak-k-sync-mso} and Proposition~\ref{prop:kweakstw} we have that the class of causally ordered \emph{k}-synchronous MSCs is MSO-definable and STW-bounded\footnote{Note that Proposition~\ref{prop:kweakstw} is independent from the type of communication.}. Theorem~\ref{thm:sync_co} ends the proof.
 \end{proof}
 
-\subsubsection{Existentially \emph{k} causally ordered bounded MSCs} 
+\subsubsection{Existentially \texorpdfstring{$k$}{k} causally ordered bounded MSCs} 
 
 \begin{definition}
 Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and $k \in \N$.
@@ -1280,6 +1280,24 @@ For all $k \in \N$, the set of $\exists k$-$\cosymb$-bounded MSCs is MSO-definab
 \begin{proof}
 Let $\Ekpp$ and $\Ekco$ be the set of existentially $k$-\pp-bounded MSCs and the set of existentially $k$ causally ordered bounded MSCs, respectively. $\Ekpp$ was shown to be both MSO-definable (in \cite{DBLP:journals/iandc/LohreyM04}) and STW-bounded (in \cite[Proposition 5.4, page 163]{DBLP:journals/corr/abs-1904-06942}). $\Ekco$ also has to be STW-bounded, since we have $\Ekco \subseteq \Ekpp$. Note that, by definition, $\Ekco = \Ekpp\, \cap\, \coMSCs$. Since both $\Ekpp$ and $\coMSCs$ can be defined by an MSO formula, the latter according to Proposition~\ref{prop:co_mso}, $\Ekco$ is also MSO-definable\footnote{Suppose $\varphi_{\exists k\text{-}\pp\text{-}b}$ is the MSO formula for $\Ekpp$, and $\coformula$ is the MSO formula for $\coMSCs$. Then, $\Ekco$ is defined by $\varphi_{\exists k\text{-}\cosymb\text{-}b} = \varphi_{\exists k\text{-}\pp\text{-}b} \wedge \coformula$}.
 \end{proof}
+
+\subsection{Sketches}
+
+\begin{definition}[Causally ordered MSC]
+An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any $s,s' \in \Events$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \le s'$, we have either:
+\begin{itemize}\itemsep=0.5ex
+	\item $s,s' \in \Matched{\msc}$ and $r \procrel^+ r'$, where $r,r' \in \Events$ such that $s \lhd r$ and $s' \lhd r'$.
+	\item $s' \in \Unm{\msc}$.
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{mailbox MSC} if it has a linearization $\linrel$ such that, for any $s,s' \in \Events$, with $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \linrel s'$, we have either:
+\begin{itemize}\itemsep=0.5ex
+	\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, where $r,r' \in \Events$ such that $s \lhd r$ and $s' \lhd r'$.
+	\item $s' \in \Unm{\msc}$.
+\end{itemize}
+\end{definition}
 
 \printbibliography
 
