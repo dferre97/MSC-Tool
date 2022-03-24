@@ -964,17 +964,108 @@ Observe also that we can remove the constraint of all the sends preceding all th
 
 We extend this notion to consider modified weakly $k$-synchronous executions as before, and the graphical characterization of this property is that there are at most $k$ nodes in every SCC of the conflict graph. Hence, this class is also MSO-definable, and since each modified $k$-exchange has at most $2k$ events, it also has bounded special tree-width. 
 
+\subsection{Existentially $k$-Bounded MSCs}
+
+Now, we turn to existentially $k$-bounded MSCs \cite{DBLP:conf/fossacs/LohreyM02,DBLP:conf/dlt/GenestMK04,GKM07}.
+Synchronizability has been studied for the p2p case in \cite{GKM07}, so we only consider the mailbox case here.
+A linearization $\linrel$ of an MSC $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ is called
+%$k$-\emph{\pp-bounded} if, for all $e \in \Matched{\msc}$, say with $\lambda(e) = \sact{p}{q}{\msg}$,
+%\\ $\sametype{e}{\pqsAct{p}{q}}{\linrel} - \sametype{e}{\pqrAct{p}{q}}{\linrel} \le k\,,$
+$k$-\emph{mailbox-bounded} if, for all $e \in \Matched{\msc}$, say with $\lambda(e) = \sact{p}{q}{\msg}$,
+we have $\sametype{e}{\pqsAct{\plh}{q}}{\linrel} - \sametype{e}{\pqrAct{\plh}{q}}{\linrel} \le k\,.$
+
+
+\begin{definition}%\label{def:}
+Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and $k \in \N$.
+We call $\msc$
+%\item \emph{existentially $k$-\pp-bounded} if
+%it has some \pp linearization that is $k$-\pp-bounded,
+%\item
+\emph{existentially $k$-mailbox-bounded} if
+it has some mailbox linearization that is $k$-mailbox-bounded.
+\end{definition}
+
+\noindent
+\begin{minipage}[c]{10.5cm}
+  Note that every existentially $k$-mailbox-bounded MSC is a mailbox MSC.
+	\begin{example}
+MSC $\mscexist$ in Fig.~\ref{fig:msc_exist}
+is %existentially $1$-p2p-bounded and
+existentially $1$-mailbox-bounded, as witnessed by the (informally given)
+linearization
+%${\lin} \subseteq %{\le_{\msc_4}}$, ${\lin} \subseteq
+%{\preceq_{\mscexist}}$ and
+%$e_2 \lin e_1 \lin e_3 \lin e_3' \lin e_1' \lin e_1'' \lin e_2' \lin e_3'' \cdots$
+$\ssymb(q,p,\msg_2) \lin \ssymb(p,q,\msg_1) \lin \ssymb(q,r,\msg_3) \lin \rsymb(q,r, \msg_3) \lin \rsymb(p,q, \msg_1) \lin
+  \ssymb(p,q,\msg_1) \lin \rsymb(q,p, \msg_2) \lin \ssymb(q,r,\msg_3)
+  %\lin \rsymb(q,r, \msg_3) \lin \ssymb(q,p,\msg_2) \lin \rsymb(p,q, \msg_1) \lin
+\ldots $
+Note that $\mscexist$ is neither weakly nor strongly synchronous as we cannot divide it into exchanges.
+	\end{example}
+\end{minipage}
+\begin{minipage}[c]{3.5cm}
+%  \vspace*{0.2cm}
+	\input{Appendix-Sec5/msc_exist}
+\end{minipage}
+
+\medskip
+
+\begin{proposition}
+\label{prop:exists-k-p2p-bounded}
+For all $k \in \N$, the set of existentially $k$-\pp-bounded MSCs
+is MSO-definable and STW-bounded.
+\end{proposition}
+
+\begin{proof}
+The set of existentially $k$-\pp-bounded MSCs was shown to be MSO-definable
+(in fact, even FO-definable) in \cite{DBLP:journals/iandc/LohreyM04}. Note that there are minor differences
+in the definitions (in particular, the fact that we deal with unmatched messages),
+which, however, do not affect FO-definability.
+In \cite[Proposition 5.4, page 163]{DBLP:journals/corr/abs-1904-06942},\
+it was shown that their special tree-width is bounded by $k|\Procs|^2 + |\Procs|$.
+\end{proof}
+
+We obtain the following result as a corollary:
+
+\begin{theorem}\label{thm:exists-sync}
+For $\comsymb \in \{\ppsymb, \mbsymb\}$, the following problem is decidable:
+Given finite sets $\Procs$ and $\Msg$, a communicating system $\System$, and $k \in \N$,
+is every MSC in $\cL{\System}$ existentially $k$-\pp-bounded?
+\end{theorem}
+
+\begin{proof}
+Again, the proof follows exactly the same lines as that or Theorem~\ref{thm:weak-sync},
+now using Proposition~\ref{prop:exists-k-p2p-bounded}.
+\end{proof}
+
+Note that this is similar to the problem considered
+in \cite{GKM07,kuske2014communicating},
+though there is a subtle difference: in \cite{GKM07,kuske2014communicating},
+there are a notion of deadlock and distinguished final configurations.
+We define the following relation in order to characterize $k$-mailbox-bounded MSCs.
+
+\input{extra/exists-k-mailbox-lemma}
+\begin{proposition}\label{prop:exist-k-mailbox-bounded}
+	For all $k \in \N$, the set of existentially $k$-mailbox-bounded MSCs
+	is MSO-definable and STW-bounded.
+\end{proposition}
+
+\input{extra/appendix-exists-k-mailbox-bounded}
+
+This extension is also valid for the \pp definition of existentially $k$-bounded MSCs, which
+were addressed in \cite{GKM07}. Finally, our framework can also be adapted to treat universally bounded systems \cite{HENRIKSEN20051,DBLP:conf/fossacs/LohreyM02}. Those extensions and the missing proofs are available in Appendix~\ref{appendix:section4}.
+
 \section{My stuff}
 
 \davide{Consider also unmatched messages in causal order communication (causal delivery using the terminology from Laetitia's thesis).}
 
-\subsection{Semantics of causal ordering}
+% \subsection{Semantics of causal ordering}
 
-\newcommand{\buffers}{\vv{\text{Buf}}}
-\newcommand{\clocks}{\vv{\text{Vec}}}
-\begin{definition}
-	Given a system $\System = (Loc_p, \delta_p, \ell^0_p)_{p\in\procSet}$ with $n$ processes, a \emph{configuration} is a tuple $(\vv{\ell},\buffers,\clocks)$, where $\vv{\ell}=(\ell_p)_{p \in \procSet}$ represents the global state of the system, $\buffers=(b_p)_{p \in \procSet}$ is a vector of buffers, with each $b_p \in \Msg^*$ representing the content of the buffer of process $p$, and $\clocks=(v_p)_{p \in \procSet}$ is a vector of Mattern-Fidge logical clocks, where each $v_p = (time_i)_{i \in \procSet}$ represents the content of the logical vector clock of process $p$.
-\end{definition}
+% \newcommand{\buffers}{\vv{\text{Buf}}}
+% \newcommand{\clocks}{\vv{\text{Vec}}}
+% \begin{definition}
+% 	Given a system $\System = (Loc_p, \delta_p, \ell^0_p)_{p\in\procSet}$ with $n$ processes, a \emph{configuration} is a tuple $(\vv{\ell},\buffers,\clocks)$, where $\vv{\ell}=(\ell_p)_{p \in \procSet}$ represents the global state of the system, $\buffers=(b_p)_{p \in \procSet}$ is a vector of buffers, with each $b_p \in \Msg^*$ representing the content of the buffer of process $p$, and $\clocks=(v_p)_{p \in \procSet}$ is a vector of Mattern-Fidge logical clocks, where each $v_p = (time_i)_{i \in \procSet}$ represents the content of the logical vector clock of process $p$.
+% \end{definition}
 
 \subsection{Message Sequence Charts}
 
@@ -1023,8 +1114,7 @@ Every prefix of a causally ordered MSC is a causally ordered MSC.
 \end{lemma}
 \begin{proof}
 Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \coMSCs$ and let $\msc_0 =
-(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a	causally ordered MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \lessdot_{\msc_0}f$ and $f \lessdot_{\msc_0}e$, with ${\lessdot_{\msc_0}} = ({\rightarrow_0} \cup {\lhd_0} \cup {\corel_{\msc_0}})^*$.
-As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, and ${\corel_{\msc_0}} \subseteq {\corel_{\msc}}$. Finally, we have that ${\lessdot_{\msc_0}} \subseteq {\lessdot_{\msc}}$ and $\msc$ cannot be a causally ordered MSC, which is a contradiction.
+(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a	causally ordered MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \lessdot_{\msc_0}f$ and $f \lessdot_{\msc_0}e$, with ${\lessdot_{\msc_0}} = ({\rightarrow_0} \cup {\lhd_0} \cup {\corel_{\msc_0}})^*$. If that was not the case, $\msc_0$ would indeed be causally ordered. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, and ${\corel_{\msc_0}} \subseteq {\corel_{\msc}}$. Finally, we have that ${\lessdot_{\msc_0}} \subseteq {\lessdot_{\msc}}$ and $\msc$ cannot be a causally ordered MSC, which is a contradiction.
 \end{proof}
 
 Lemma~\ref{lem:prefix-closed} can be easily extendend to $\comsymb = \cosymb$.
@@ -1139,9 +1229,9 @@ is every MSC in $\coL{\System}$ weakly synchronous?
 The proof is essentially identical to the \pp case. We do the same reduction from the Post correspondence problem. Recall from the proof of Theorem~\ref{thm:p2p-weak-sync} that we consider a system $\System$ with four machines (P1, P2, V1, V2), where we have unidirectional communication channels from provers to verifiers. In particular notice that all the possible behaviours of $\System$ are causally ordered, i.e. $\ppL{\System} \subseteq \coMSCs$; according to how we built our system $\System$, it is impossible to have a pair of causally-related send events of P1 and P2\footnote{Notice that there is no channel between P1 and P2, and we only have unidirectional communication channels from provers to verifiers.}, hence the causal ordering binary relation $\corel_\msc$ will be empty for any $\msc \in \ppL{\System}$ (i.e. causal ordering is already ensured by any possible \pp behaviour of $\System$). The rest of the proof is identical to the \pp case.
 \end{proof}
 
-\begin{proposition}
+\begin{corollary}
 The set of weakly synchronous causally ordered MSCs has unbounded special tree-width.
-\end{proposition}
+\end{corollary}
 \begin{proof}
 Suppose that the set of weakly synchronous causally ordered MSCs is STW-bounded. By Proposition \ref{cor:co-weak-sync-mso} and Theorem~\ref{thm:sync_co}, we have that the syncronicity problem for the class of weakly synchronous causally ordered MSCs would be decidable. This is a contradiction, since Theorem~\ref{thm:co-weak-sync} states that this problem is undecidable.
 \end{proof}
@@ -1167,6 +1257,29 @@ is every MSC in $\cL{\System}$ weakly $k$-synchronous?
 By Proposition~\ref{prop:co-weak-k-sync-mso} and Proposition~\ref{prop:kweakstw} we have that the class of causally ordered \emph{k}-synchronous MSCs is MSO-definable and STW-bounded\footnote{Note that Proposition~\ref{prop:kweakstw} is independent from the type of communication.}. Theorem~\ref{thm:sync_co} ends the proof.
 \end{proof}
 
+\subsubsection{Existentially \emph{k} causally ordered bounded MSCs} 
+
+\begin{definition}
+Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and $k \in \N$.
+A linearization $\linrel$ of $\msc$ is called
+$k$-\emph{\pp-bounded} if, for all $e \in \Matched{\msc}$, with $\lambda(e) = \sact{p}{q}{\msg}$, we have 
+\[
+\sametype{e}{\pqsAct{p}{q}}{\linrel} - \sametype{e}{\pqrAct{p}{q}}{\linrel} \le k.
+\]
+\end{definition}
+
+\begin{definition}\label{def:ex_k_co_bounded}
+An MSC is said to be \emph{existentially $k$ causally ordered bounded} ($\exists k$-$\cosymb$-bounded) if it is causally ordered and it has a $k$-\pp-bounded linearization.
+\end{definition}
+
+Note that every existentially $k$ causally ordered bounded MSC is an existentially $k$-\pp-bounded MSCs.
+
+\begin{proposition}
+For all $k \in \N$, the set of $\exists k$-$\cosymb$-bounded MSCs is MSO-definable and STW-bounded.
+\end{proposition}
+\begin{proof}
+Let $\Ekpp$ and $\Ekco$ be the set of existentially $k$-\pp-bounded MSCs and the set of existentially $k$ causally ordered bounded MSCs, respectively. $\Ekpp$ was shown to be both MSO-definable (in \cite{DBLP:journals/iandc/LohreyM04}) and STW-bounded (in \cite[Proposition 5.4, page 163]{DBLP:journals/corr/abs-1904-06942}). $\Ekco$ also has to be STW-bounded, since we have $\Ekco \subseteq \Ekpp$. Note that, by definition, $\Ekco = \Ekpp\, \cap\, \coMSCs$. Since both $\Ekpp$ and $\coMSCs$ can be defined by an MSO formula, the latter according to Proposition~\ref{prop:co_mso}, $\Ekco$ is also MSO-definable\footnote{Suppose $\varphi_{\exists k\text{-}\pp\text{-}b}$ is the MSO formula for $\Ekpp$, and $\coformula$ is the MSO formula for $\coMSCs$. Then, $\Ekco$ is defined by $\varphi_{\exists k\text{-}\cosymb\text{-}b} = \varphi_{\exists k\text{-}\pp\text{-}b} \wedge \coformula$}.
+\end{proof}
 
 \printbibliography
 

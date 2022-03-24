@@ -1,0 +1,119 @@
+%!TEX root = icalp21.tex
+%\subsection*{Decidability of strong \kSity{k}}\label{section:decidability_with_k}
+%communication by unidirectionnal fifo channels or fifo mailbox
+%
+%definition for words or for MSCs ? \\
+
+%For strong $k$-synchronizability, we use the extended conflict graph.
+Similar to Theorem \ref{th:scccharactweak}, we now show the graphical characterization of strong synchronizability.
+
+\begin{theorem}[Graphical Characterization of strongly $k$-synchronous MSCs]\label{theorem:graphical_characterisation_strong}
+	Let $\msc \in \mbMSCs$. % be an MSC which satisfies causal delivery.
+  $\msc$ is strongly $k$-synchronous iff every strongly connected component (SCC) in the ECG is of size at most $k$ and no RS edge occurs on any cycle in the ECG.
+\end{theorem}
+
+\begin{proof}
+	($\implies$) Assume that we have an MSC $\msc$ that is strongly $k$-synchronous. Hence, we can divide $\msc = \msc_1 \ldots \msc_n$ such that each $\msc_i$ is a \kE{k}.
+  By contradiction, suppose that there is an SCC of size $k' >k$ in $\ecgraph{\msc}$. As there are at most $k$ messages in each \kE{k}, there are $v,v'$ which belong to the SCC such that $v \in M_i$ and $v' \in M_j$, $1 \leq i<j \leq n$.
+  Then, we have $v \dashrightarrow^* v' \dashrightarrow^* v$.
+
+  By induction, we prove that $v' \dashrightarrow^* v$ implies that $j \leq i$.
+  \begin{itemize}
+    \item[Base] There are two cases.
+    \begin{itemize}
+      \item Suppose that $v' \xrightarrow{XY} v$ then an action of $v'$ is done by the same process than an action of $v$ and it is done before it. Then, $j \leq i$.
+      \item Suppose that $v' \xdashrightarrow{SS} v$, built by Rule 5 (because others rules do not add any edges between vertices that are not already connected), then, $v'$ is matched and $v$ is unmatched, such that, $v \in Send(q,p,v)$ and $v' \in Send(q',p,v')$, $q,q' \in \procSet$. Then, the send of $v'$ has to be done before the send of $v$ and so $j \leq i$.
+    \end{itemize}
+    \item[Step]  By hypothesis, there is $v' \dashrightarrow^* v_1\dashrightarrow v$ such that $v_1 \in M_l$, $j \leq l \leq n$.
+    There are also two cases.
+    \begin{itemize}
+      \item Either $v_1\xrightarrow{XY} v$. Then, an action of $v_1$ is done before and by the same process than an action of $v$. Then, $l \leq i$ and so $j \leq i$.
+      \item Or $v_1\xdashrightarrow{SS} v$. Then, similarly as before, $v_1$ has to be sent before $v$ and so $l \leq i$. Therefore, $j\leq i$.
+    \end{itemize}
+  \end{itemize}
+  Finally, we have that $v' \dashrightarrow^* v$ implies that $j \leq i$ and so there is a contradiction.
+
+  Now, we show that there is no RS edge in any SCC.
+  By contradiction, suppose that we have $v \xrightarrow{RS} v' \dashrightarrow^* v$ in the extended conflict graph. Then, as proved before, $v$ and $v'$ have to be in the same $\msc_i$, $1 \leq i \leq n$. However, $v \xrightarrow{RS} v'$ implies that the reception of $v$ has to be done before the send of $v'$, but a \kE{k} can, by definition, be linearized with all the sends followed by all the receptions. So we have a contradiction.
+  %
+	% To show that every SCC is of size at most $k$ in the ECG, we show that if we have vertices $v,v'$ in the ECG such that $v  \dashrightarrow^* v'   \dashrightarrow^* v$, then the events corresponding to the sends and receives (if any) of the messages $v,v'$ are in the same \kE{k}.
+  %
+  % We know that each SCC in the conflict graph of $M$ is of size at most $k$ since every strongly-$k$-synchronous MSC is weakly-$k$-synchronous. Hence, if we only have Rules 1 to 4 in the ECG, since we are not adding any edges between vertices that are not already connected, we have SCCs of the same size in the ECG as well. The only rule that is an exception is Rule 5. Let us consider this rule. W.l.o.g, let us assume that we have vertices $v,v', v_1$ such that $v \xdashrightarrow{SS} v'   \dashrightarrow^*  v_1 \xdashrightarrow{XY} v$, such that $XY$ is not $SS$. This condition can be met, because if we have a cycle of just SS edges, we have $v \xdashrightarrow{SS} v$, which violates causal delivery.
+  %
+  % By the definition of strong synchronizability, we know that the send corresponding to $v$ is now either in the same \kE{k}, or some preceding \kE{k}, as the send corresponding to $v'$. However, if we consider the path $ v_1  \xdashrightarrow{XY}   v$, it is either RR, RS or SR. However, it cannot be an RS edge because then we have $ v_1  \xdashrightarrow{RS}   v \xdashrightarrow{SR} v$, which reduces to $v_1 \xdashrightarrow{RR} v$, which reduces to $v_1 \xdashrightarrow{SS} v$. Similarly, we cannot have $v_1 \xdashrightarrow{RR} v$. Hence, it has to be $v_1 \xdashrightarrow{SR} v$, which implies that there is a vertex in the cycle such it is sent before $v$ is received. Hence, they are in the same k-exchange. Using this argument on all pairs of vertices in the SCC, we have that all the vertices have actions in the same k-exchange. Hence, we can have SCCs of size at most $k$, and every SCC corresponds to a k-exchange. Furthermore, since the sends and receives are ordered in every $k$-exchange, we cannot have an RS edge in a cycle.
+%	\begin{enumerate}
+%		\item  there exists a linearisation $e$ of $msc$ which is an execution of $\system$ and divisible into slices of size $k$
+%		\begin{itemize}
+%			\item $e = e_1 \cdots e_m$ where for all $ i\in [1,m]$,
+%			%$e=a_1^1 \cdots a_{n_1}^1  \cdots a_{1}^m \cdots a_{n_m}^m$ where for all $i\in [1,m]$,
+%			$e_i \in \sendSet^{\leq k} \cdot \receiveSet^{\leq k}$
+%			%$a_1^i\cdots a_{n_i}^i \in \sendSet^{\leq k}\cdot \receiveSet^{\leq k}$
+%			and such that $e \in E(\system)$,
+%		\end{itemize}
+%		\item the send and the reception of a matched message is in the same \kE{k}
+%		\begin{itemize}
+%			\item  for all $j,j'$ such that $a_j\matches a_{j'}$ holds in $e$, $\exists i, a_j, a_{j'} \in e_i$.
+%		\end{itemize}
+%	\end{enumerate}
+	%There exists a linearisation $e$ of $M$ which is an execution of $\system$ and divisible into slices of size $k$.
+	%Since every strongly-$k$-synchronous MSC is also weakly-${k}$-synchronous, we know that the conflict graph has SCCs of size at most $k$ and no RS edge on any cycle in the conflict graph. Therefore, we know that there is no RS edge on any cycle in the ECG since we can only have an RS edge between two nodes in the cycle if there is already an existing RS edge in the cycle (by definition of the rules). Furthermore, we know from mailbox semantics that the k-exchanges are a valid linearization of the MSC. Hence, we do not have vertices $v_1, v_2$ that could create a new SS edge as in Rule 5. So all new edges are only between connected vertices and the vertices in the SCCs do not change from the conflict graph. Therefore, in the ECG, there can be no RS edges in a cycle, and furthermore, every cycle has at most $k$ nodes.
+
+	($\impliedby$) Conversely, assume that  every SCC in the extended conflict graph of $M$ is of size at most $k$ and no RS edge occurs on any cyclic path in the ECG. Then, we first show that every SCC in the extended conflict graph is $k$-synchronous.
+  Let $C$ be an SCC formed of a set of nodes $v_1,\cdots, v_n$, for some $1 \leq n \leq k$  such that $s_i \in \msAct{v_i}$, for all $1 \leq i \leq n$.
+  W.l.o.g., assume that the indexing of the
+	nodes in $C$ is consistent with the edges labeled by SS (note that there is no cycle formed only of edges labeled by SS), i.e., for every $1 \leq i_1 < i_2 \leq n$, $C$ doesn’t contain an edge labeled by SS from $i_2$ to $i_1$, and for every $1\leq i <j <k \leq n$, if
+  $s_i,s_k \in Send(p,\plh, \plh)$ for $p \in \procSet$ then $s_j \in Send(p,\plh, \plh)$.
+  %$proc(s_i ) = proc(s_k)$, then $proc(s_i ) = proc(s_j )$.
+  Let  $i_1,\cdots,i_m$ be the maximal subsequence of $1,\ldots ,n$ such that $r_\ell \in \mrAct{v_i}$ for every $\ell = i_j$ where $1 \leq j \leq m$.
+  We have that $C$ is the graph of the execution $e = s_{i_1} \cdots  s_{i_n} r_{i_1} \cdots r_{i_m}$.
+	The fact that all sends can be executed before the receives is a consequence of the fact that $C$ doesn’t contain edges labeled by RS.
+  Then, the order between receives is consistent with the one between sends because $C$ satisfies causal delivery. By definition, $e$ is the label of an $n$-exchange transition, and therefore, $C$ is strongly $k$-synchronous.
+
+	To complete the proof we proceed by induction on the number of strongly connected components of the extended conflict graph. The base case is for an MSC with a single SCC, which can be deduced from above. For the induction step, assume that the claim holds for every MSC whose extended conflict graph has at most $n$ strongly connected components, and let $M$ be a MSC with $n+1$ strongly connected components. Let $C$ be a strongly connected component of $M$ such that $C$ has no outgoing edges towards another strongly connected component of $M$. By the definition of the extended conflict-graph, $M= M'\cdot M''$ is the MSC corresponding to the nodes of $C$. We have shown above that $M''$ is $k$-synchronous, and by the induction hypothesis, $M'$ is also $k$-synchronous. As there is no outgoing edges from $M''$, we know that all messages in it have not to be done before a message of $M'$. Therefore, $M$ is strongly $k$-synchronous.
+\end{proof}
+
+%\subsection*{MSO definability of the Extended Conflict Graph}
+
+For the extended conflict graph, we use the following MSO formulas to express the edge relation. For instance, the extended SR edge relation includes all SR %\comEtienne{SR?}
+edges along with the set of self loops around each message that ensures that the sends are before the corresponding receives.
+
+\begin{equation*}
+\XYformula{ESR}(e_1, e_2) = \XYformula{SR}(e_1,e_2) \; \vee \; (\exists f_1.\; [e_1 \lhd f_1  \; \wedge \; (e_1 = e_2)  ])
+\end{equation*}
+
+Similarly, the extended send edge relation includes the SS edges along with the edges produced from Rule 3 and Rule 5.
+
+	\begin{align*}
+		\XYformula{ESS}(e_1, e_2) = \XYformula{SS}(e_1,e_2) \; \vee \;  \XYformula{RR}(e_1, e_2) \; \vee \; \biggl(  \exists f_1.\; [e_1 \lhd f_1 \; \wedge \; \nexists f_2. \; [e_2 \lhd f_2]] \; \\
+		 \wedge \; \bigvee_{p, p',q \in \Procs}[(\lambda(e_1) =  \pqsAct{p}{q} \; \wedge \; \lambda(e_2) =  \pqsAct{p'}{q} ) ]\biggr)
+	\end{align*}
+
+The extended RR and RS edges are the same as in the conflict graph.
+\begin{align*}
+		\XYformula{ERR}(e_1, e_2) = \XYformula{RR}(e_1, e_2) \\
+\XYformula{ERS}(e_1, e_2) = \XYformula{RS}(e_1, e_2)
+\end{align*}
+
+The transitive closure of each of these formulas is defined as follows. It essentially takes care of Rule 4. For all $X,Y,Z \in \{R, S\}$, we have:
+
+\begin{align*}
+	&\XYformula{EXY}(e_1, e_2)  \; \wedge \; \XYformula{EYZ}(e_2, e_3)  \implies \XYformula{EXZ^*}(e_1, e_3)\\
+	&\XYformula{EXZ}(e_1, e_2) \implies \XYformula{EXZ^*}(e_1, e_2)
+\end{align*}
+
+We then extend the rest of the results, as in the case of the conflict graph in the previous section.
+
+%\paragraph*{LCPDL formulas for the ECG.}
+%
+%We can express the above properties using LCPDL, as shown below. \begin{align*}
+%	\xrightarrow{ESR} & = (\xrightarrow{SR} + (\test{\neg R} \cdot \lhd \cdot \test{R} \cdot \inv{\lhd} \cdot \test{\neg R})\\
+%	\xrightarrow{ESS} & = (\xrightarrow{SS} + \xrightarrow{RR})\\
+%	\xrightarrow{ERS} & = \xrightarrow{RS}\\
+%	\xrightarrow{ESR} & = \xrightarrow{SR}\\
+%\end{align*}
+
+%\subsection*{$\Sync_k$ has bounded STW}
+
+And finally, for the condition of the bounded STW, we observe that the set of strongly $k$-synchronizable MSCs are included in the set of weakly $k$-synchronizable MSCs. Hence, the decomposition strategy as used for the weakly $k$-synchronizable MSCs can be applied to the set of strongly $k$-synchronizable MSCs.
+
+Therefore, the family $(\Sync_k)_{k \in \N}$ is MSO-definable and STW-bounded.

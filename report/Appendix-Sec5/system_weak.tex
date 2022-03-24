@@ -1,0 +1,91 @@
+
+  \begin{center}
+
+  \begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
+      every state/.style={text=black, scale =0.65}, semithick,
+        font={\fontsize{8pt}{12}\selectfont}]
+
+        \begin{scope}[-> ]
+            \node[state,initial,initial text={}] (q0)  {$\ell_p^0$};
+            \node[state, right of=q0] (q1)  {$\ell_p^1$};
+            \node[state, right of=q1] (q2) {$\ell_p^2$};
+
+            \path (q0) edge node [above] {$\send{p}{q}{\msg_2}$} (q1);
+            \path (q1) edge [loop above] node [right]   {$~\send{p}{q}{\msg_2}$}(q1);
+            \path (q1) edge node [above] {$\send{p}{s}{\msg_3}$}(q2);
+            \node[rectangle, thick, draw] at (-0.6,0.6) {$A_p$};
+        \end{scope}
+
+
+      \begin{scope}[->,  shift={(0,-1.1)}]
+          \node[state,initial,initial text={}] (q0)  {$\ell_q^0$};
+          \node[state, right of=q0] (q1)  {$\ell_q^1$};
+          \node[state, right of=q1] (q2) {$\ell_q^2$};
+
+          \path (q0) edge node [above] {$\send{q}{r}{\msg_1}$} (q1);
+          \path (q1) edge node [above] {$\rec{p}{q}{\msg_2}$}(q2);
+          \path (q2) edge [loop above] node [right]   {$~\rec{p}{q}{\msg_2}$}(q2);
+
+          \node[rectangle, thick, draw] at (-0.6,0.6) {$A_q$};
+      \end{scope}
+
+
+
+      \begin{scope}[->, shift={(0,-2.2)} ]
+          \node[state,initial,initial text={}] (q0)  {$\ell_r^0$};
+          \node[state, right of=q0] (q1)  {$\ell_r^1$};
+
+          \path (q0) edge node [above] {$\rec{s}{r}{\msg_4}$} (q1);
+
+          \node[rectangle, thick, draw] at (-0.6,0.6) {$A_r$};
+        %\node at (1, -1.5) {\textbf{(a)}};
+
+      \end{scope}
+      \begin{scope}[->, shift ={(0, -3.3)}]
+         \node[state,initial,initial text={}] (q0)  {$\ell_s^0$};
+         \node[state, right of=q0] (q1)  {$\ell_s^1$};
+         \node[state, right of=q1] (q2) {$\ell_s^2$};
+
+         \path (q0) edge node [above] {$\rec{p}{s}{\msg_3}$} (q1);
+         \path (q1) edge node [above] {$\send{s}{r}{\msg_4}$} (q2);
+
+         \node[rectangle, thick, draw] at (-0.6,0.6) {$A_s$};
+
+      \end{scope}
+      % \begin{scope}[shift = {(8.5,0)}, scale = 0.8]
+      %   \draw (1.5, -4.75) node{\textbf{(b)}};
+      %   \draw (-9.5, -4.75) node{\textbf{(a)}};
+      %
+      %   %MACHINES
+      %   \draw (0,0) node{$p$} ;
+    	% 	\draw (1,0) node{$q$} ;
+    	% 	\draw (2,0) node{$r$} ;
+      %   \draw (3,0) node{$s$} ;
+    	% 	\draw (0,-0.25) -- (0,-3.75) ;
+    	% 	\draw (1,-0.25) -- (1,-3.75);
+    	% 	\draw (2, -0.25) -- (2, -3.75) ;
+      %   \draw (3, -0.25) -- (3, -3.75) ;
+      %
+    	% 	%MESSAGES
+    	% 	\draw[>=latex,->, dashed] (1,-0.7) -- (2, -0.7) node[midway,above]{$\amessage_1$};
+      %
+    	% 	\draw[>=latex,->] (0, -1.35) -- (1, -1.35) node[midway, above] {$\amessage_2$};
+      %
+    	% 	\draw[>=latex,->] (0,-2.1) -- (1,-2.1) node[midway, above] {$\amessage_2$};
+      %
+    	% 	\draw[>=latex,->] (0,-2.75) -- (3,-2.75) node[midway,above] {$\amessage_3$};
+      %
+      %   \draw[>=latex,->] (3,-3.4) -- (2,-3.4) node[midway,above] {$\amessage_4$};
+      %
+      % %  \draw[>=latex,->] (2,-3.25) -- (3,-3.25) node[midway,above] {$\amessage_5$};
+      %
+      %   \draw (0.5, -1.55) node{$\cdots$};
+      %
+      % \end{scope}
+
+
+  \end{tikzpicture}
+  \captionof{figure}{System $\systemweak$ }
+  \label{fig:system_weak}
+
+\end{center}

@@ -1,0 +1,39 @@
+\begin{center}
+
+
+\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
+    every state/.style={text=black, scale =0.7}, semithick,
+      font={\fontsize{8pt}{12}\selectfont}]
+
+\begin{scope}[shift = {(8.5,0)}, scale = 0.8]
+
+  %MACHINES
+  \draw (0,0.3) node{$p$} ;
+  \draw (1,0.3) node{$q$} ;
+  \draw (2,0.3) node{$r$} ;
+  \draw (3,0.3) node{$s$} ;
+  \draw (0,0.05) -- (0,-4) ;
+  \draw (1,0.05) -- (1,-4);
+  \draw (2, 0.05) -- (2, -4) ;
+  \draw (3, 0.05) -- (3, -4) ;
+
+  %MESSAGES
+  \draw[>=latex,->, dashed] (1,-0.7) -- (2, -0.7) node[midway,above]{$\amessage_1$};
+
+  \draw[>=latex,->] (0, -1.35) -- (1, -1.35) node[midway, above] {$\amessage_2$};
+
+  \draw[>=latex,->] (0,-2.1) -- (1,-2.1) node[midway, above] {$\amessage_2$};
+
+  \draw[>=latex,->] (0,-2.75) -- (3,-2.75) node[midway,above] {$\amessage_3$};
+
+  \draw[>=latex,->] (3,-3.4) -- (2,-3.4) node[midway,above] {$\amessage_4$};
+
+%  \draw[>=latex,->] (2,-3.25) -- (3,-3.25) node[midway,above] {$\amessage_5$};
+
+  %\draw (0.5, -1.55) node{$\cdots$};
+
+\end{scope}
+\end{tikzpicture}
+\captionof{figure}{MSC $\mscweak$ }
+\label{fig:msc_weak}
+\end{center}

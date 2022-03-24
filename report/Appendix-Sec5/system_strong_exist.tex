@@ -1,0 +1,22 @@
+\begin{center}
+
+  \begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
+      every state/.style={text=black, scale =0.65}, semithick,
+        font={\fontsize{8pt}{12}\selectfont}]
+
+
+      \begin{scope}[->, shift={(0,0)}]
+          \node[state,initial,initial text={}] (q0)  {$\ell_p^0$};
+           \path (q0) edge [loop right] node [right]   {$~\send{p}{q}{\msg_1}$}(q0);
+          \node[rectangle, thick, draw] at (-0.6,0.6) {$A_p$};
+      \end{scope}
+
+     \begin{scope}[->, shift ={(4, 0)}]
+        \node[state,initial,initial text={}] (q0)  {$\ell_q^0$};
+        \path (q0) edge [loop right] node [right]   {$~\rec{p}{q}{\msg_1}$}(q0);
+        \node[rectangle, thick, draw] at (-0.6,0.6) {$A_q$};
+     \end{scope}
+\end{tikzpicture}
+\captionof{figure}{System $\systemstrongexist$}
+\label{fig:system_strong_exist}
+\end{center}
