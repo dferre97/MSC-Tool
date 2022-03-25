@@ -1083,24 +1083,28 @@ were addressed in \cite{GKM07}. Finally, our framework can also be adapted to tr
 % \]
 % \end{definition}
 
-% \begin{definition}[{Causally ordered MSC without unmatched messages}]
-% An MSC is a \emph{causally ordered MSC} iff it has at least one causally ordered linearization.
-% \end{definition}
+Intuitively, an MSC is causally ordered if all the messages sent to the same process are received in an order which is consistent with the causal ordering of the corresponding send events. Below the formal definition, which also considers unmnatched messages.
 
-\paragraph*{Causally ordered MSCs}
+\begin{definition}[Causally ordered MSC]
+	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le_\msc s'$, we have either:
+	\begin{itemize}\itemsep=0.5ex
+		\item $s,s' \in \Matched{\msc}$ and $r \procrel^+ r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
+		\item $s' \in \Unm{\msc}$.
+	\end{itemize}
+\end{definition}
 
-An MSC is causally ordered if all the messages sent to the same process are received in an order which is consistent with the causal ordering of the corresponding send events. More formally, for an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ we define an additional binary relation ${\corel}_\msc \subseteq \Events \times \Events$ that represents a constraint
-under the causal ordering semantics.  In particular, given two receive events $f_1$ and $f_2$, we have that $f_1 \corel_\msc f_2$ if both the following hold:
-\begin{itemize}\itemsep=0.5ex
-	\item $\lambda(f_1) \in \qrAct{q}$,
-	$\lambda(f_2) \in \qrAct{q}$
-	\item $e_1 \lhd f_1$ and $e_2 \lhd f_2$ for some $e_1,e_2 \in \Events$, such that $e_1 \le_\msc e_2$.
-\end{itemize}
+% An MSC is causally ordered if all the messages sent to the same process are received in an order which is consistent with the causal ordering of the corresponding send events. More formally, for an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ we define an additional binary relation ${\corel}_\msc \subseteq \Events \times \Events$ that represents a constraint
+% under the causal ordering semantics.  In particular, given two receive events $f_1$ and $f_2$, we have that $f_1 \corel_\msc f_2$ if both the following hold:
+% \begin{itemize}\itemsep=0.5ex
+% 	\item $\lambda(f_1) \in \qrAct{q}$,
+% 	$\lambda(f_2) \in \qrAct{q}$
+% 	\item $e_1 \lhd f_1$ and $e_2 \lhd f_2$ for some $e_1,e_2 \in \Events$, such that $e_1 \le_\msc e_2$.
+% \end{itemize}
 
-We let ${\lessdot_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\corel_\msc})^\ast$.
-Note that ${\le_\msc} \subseteq {\lessdot_\msc}$.
-We call $\msc \in \ppMSCs$ a \emph{causally ordered (CO) MSC}
-if ${\lessdot_\msc}$ is a partial order. The set of causally ordered MSCs $\msc \in \ppMSCs$ is denoted by $\coMSCs$.
+% We let ${\lessdot_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\corel_\msc})^\ast$.
+% Note that ${\le_\msc} \subseteq {\lessdot_\msc}$.
+% We call $\msc \in \ppMSCs$ a \emph{causally ordered (CO) MSC}
+% if ${\lessdot_\msc}$ is a partial order. The set of causally ordered MSCs $\msc \in \ppMSCs$ is denoted by $\coMSCs$.
 
 \medskip
 
@@ -1113,8 +1117,16 @@ In literature, several possible implementations of causal ordering can be found.
 Every prefix of a causally ordered MSC is a causally ordered MSC.
 \end{lemma}
 \begin{proof}
+% Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \coMSCs$ and let $\msc_0 =
+% (\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a	causally ordered MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \lessdot_{\msc_0}f$ and $f \lessdot_{\msc_0}e$, with ${\lessdot_{\msc_0}} = ({\rightarrow_0} \cup {\lhd_0} \cup {\corel_{\msc_0}})^*$. If that was not the case, $\msc_0$ would indeed be causally ordered. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, and ${\corel_{\msc_0}} \subseteq {\corel_{\msc}}$. Finally, we have that ${\lessdot_{\msc_0}} \subseteq {\lessdot_{\msc}}$ and $\msc$ cannot be a causally ordered MSC, which is a contradiction.
+
 Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \coMSCs$ and let $\msc_0 =
-(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a	causally ordered MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \lessdot_{\msc_0}f$ and $f \lessdot_{\msc_0}e$, with ${\lessdot_{\msc_0}} = ({\rightarrow_0} \cup {\lhd_0} \cup {\corel_{\msc_0}})^*$. If that was not the case, $\msc_0$ would indeed be causally ordered. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, and ${\corel_{\msc_0}} \subseteq {\corel_{\msc}}$. Finally, we have that ${\lessdot_{\msc_0}} \subseteq {\lessdot_{\msc}}$ and $\msc$ cannot be a causally ordered MSC, which is a contradiction.
+(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a	causally ordered MSC. Hence, there must be two distinct $s,s' \in \Events_0$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \le_{\msc_0} s'$ and either
+\begin{enumerate*}[label={(\roman*)}]
+	\item $r' \procrel^+ r$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$, or
+	\item $s \in \Unm{\msc_0}$ and $s' \in \Matched{\msc_0}$.
+\end{enumerate*}
+In both cases, $\msc$ would also not be a causally ordered $\MSCs$, since $\Events_0 \subseteq \Events$, ${\rightarrow_0} \subseteq {\rightarrow}$, and ${\lhd_0} \subseteq {\lhd}$. This is a contradiction, thus $\msc_0$ has to be causally ordered.
 \end{proof}
 
 Lemma~\ref{lem:prefix-closed} can be easily extendend to $\comsymb = \cosymb$.
@@ -1133,22 +1145,52 @@ Lemma~\ref{lem:prefix-closed} can be easily extendend to $\comsymb = \cosymb$.
 	The set $\coMSCs$ of causally odered MSCs is MSO-definable.
 \end{proposition}
 \begin{proof}
-	The set of causally ordered MSCs can be defined using the MSO formula
+	Given an MSC $\msc$, it is causally ordered if it satisfies the MSO formula
 	\[
 	\coformula =
-	\neg \exists x.\exists y. \left(
+	\neg \exists s.\exists s'. \left(
 	\bigvee_{\substack{q \in \Procs\\a,b \in \qsAct{q}}}\hspace{-1em}
-	\lambda(x) = a \;\wedge\; \lambda(y) = b
-	\;\wedge\; x \le y \;\wedge\;
-	\exists x'.\exists y'. \left(
-	\begin{array}{ll}
-		x \lhd x' & \wedge\\
-		y \lhd y' & \wedge\\
-		y' \procrel^+ x' &
-	\end{array} \right)
+	\lambda(s) = a \;\wedge\; \lambda(s') = b
+	\;\wedge\; s \le_\msc s' \;\wedge\;
+	(\psi_1 \vee \psi_2 ) 
 	\right)
 	\]
-	The property $\coformula$ says that there cannot be two send events $x$ and $y$, with the same recipient, such that $x \le y$ and their corresponding receive events $x'$ and $y'$ happen in the opposite order, i.e. $y' \procrel^+ x'$. The set $\coMSCs$ of causally ordered MSCs is therefore MSO-definable as $\coMSCs=L(\coformula)$.
+	where $\psi_1$ and $\psi_2$ are
+	\[
+	\psi_1 = \exists r.\exists r'.\left(
+	\begin{array}{ll}
+		s \lhd r & \wedge\\
+		s' \lhd r' & \wedge\\
+		r' \procrel^+ r &
+	\end{array} 
+	\right) \quad \quad
+	\psi_2 = (\neg \mathit{matched}(s) \wedge \mathit{matched}(s'))
+	\]
+	\[
+	matched(x) = \exists y. x \lhd y
+	\]
+
+	The property $\coformula$ says that there cannot be two send events $s$ and $s'$, with the same recipient, such that $s \le_\msc s'$ and either
+	\begin{enumerate*}[label={(\roman*)}]
+		\item their corresponding receive events $r$ and $r'$ happen in the opposite order, i.e. $r' \procrel^+ r$, or
+		\item $s$ is unmatched and $s'$ is matched.
+	\end{enumerate*}
+	The set $\coMSCs$ of causally ordered MSCs is therefore MSO-definable as $\coMSCs=L(\coformula)$.
+
+	% \[
+	% \coformula =
+	% \neg \exists x.\exists y. \left(
+	% \bigvee_{\substack{q \in \Procs\\a,b \in \qsAct{q}}}\hspace{-1em}
+	% \lambda(x) = a \;\wedge\; \lambda(y) = b
+	% \;\wedge\; x \le y \;\wedge\;
+	% \exists x'.\exists y'. \left(
+	% \begin{array}{ll}
+	% 	x \lhd x' & \wedge\\
+	% 	y \lhd y' & \wedge\\
+	% 	y' \procrel^+ x' &
+	% \end{array} \right)
+	% \right)
+	% \]
 \end{proof}
 
 Knowing that $\coMSCs$ is MSO-definable, Theorem~\ref{thm:mailbox_bounded_model_checking} can be restated for $\comsymb = \cosymb$.
@@ -1219,14 +1261,13 @@ The set of weakly synchronous \emph{causally ordered} MSCs is MSO-definable.
 Both the sets of weakly synchronous MSCs and of causally ordered MSCs are MSO-definable, as shown by Corollary~\ref{cor:weak-sync-lcpdl} and Proposition~\ref{prop:co_mso}. Recall that any LCPDL-definable property is also MSO-definable. It suffices to take the conjuction of the two respective MSO formulas.
 \end{proof}
 
-
 \begin{theorem}\label{thm:co-weak-sync}
 The following problem is undecidable:
 Given finite sets $\Procs$ and $\Msg$ as well as a communicating system $\System$,
 is every MSC in $\coL{\System}$ weakly synchronous?
 \end{theorem}
 \begin{proof}
-The proof is essentially identical to the \pp case. We do the same reduction from the Post correspondence problem. Recall from the proof of Theorem~\ref{thm:p2p-weak-sync} that we consider a system $\System$ with four machines (P1, P2, V1, V2), where we have unidirectional communication channels from provers to verifiers. In particular notice that all the possible behaviours of $\System$ are causally ordered, i.e. $\ppL{\System} \subseteq \coMSCs$; according to how we built our system $\System$, it is impossible to have a pair of causally-related send events of P1 and P2\footnote{Notice that there is no channel between P1 and P2, and we only have unidirectional communication channels from provers to verifiers.}, hence the causal ordering binary relation $\corel_\msc$ will be empty for any $\msc \in \ppL{\System}$ (i.e. causal ordering is already ensured by any possible \pp behaviour of $\System$). The rest of the proof is identical to the \pp case.
+The proof is essentially identical to the \pp case. We do the same reduction from the Post correspondence problem. Recall from the proof of Theorem~\ref{thm:p2p-weak-sync} that we consider a system $\System$ with four machines (P1, P2, V1, V2), where we have unidirectional communication channels from provers to verifiers. In particular notice that all the possible behaviours of $\System$ are causally ordered, i.e. $\ppL{\System} \subseteq \coMSCs$; according to how we built our system $\System$, it is impossible to have a pair of causally-related send events of P1 and P2\footnote{Notice that there is no channel between P1 and P2, and we only have unidirectional communication channels from provers to verifiers.}, which implies that causal ordering is already ensured by any possible \pp behaviour of $\System$. The rest of the proof is identical to the \pp case.
 \end{proof}
 
 \begin{corollary}
@@ -1262,17 +1303,18 @@ By Proposition~\ref{prop:co-weak-k-sync-mso} and Proposition~\ref{prop:kweakstw}
 \begin{definition}
 Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and $k \in \N$.
 A linearization $\linrel$ of $\msc$ is called
-$k$-\emph{\pp-bounded} if, for all $e \in \Matched{\msc}$, with $\lambda(e) = \sact{p}{q}{\msg}$, we have 
+$k$-\emph{bounded} if, for all $e \in \Matched{\msc}$, with $\lambda(e) = \sact{p}{q}{\msg}$, we have 
 \[
 \sametype{e}{\pqsAct{p}{q}}{\linrel} - \sametype{e}{\pqrAct{p}{q}}{\linrel} \le k.
 \]
 \end{definition}
+\noindent Recall that $\sametype{e}{\pqsAct{p}{q}}{\linrel}$ denotes the number of send events from $p$ to $q$ that occured before $e$, according to $\linrel$.
 
 \begin{definition}\label{def:ex_k_co_bounded}
-An MSC is said to be \emph{existentially $k$ causally ordered bounded} ($\exists k$-$\cosymb$-bounded) if it is causally ordered and it has a $k$-\pp-bounded linearization.
+An MSC is said to be \emph{existentially $k$ causally ordered bounded} ($\exists k$-$\cosymb$-bounded) if it is causally ordered and it has a $k$-bounded linearization.
 \end{definition}
 
-Note that every existentially $k$ causally ordered bounded MSC is an existentially $k$-\pp-bounded MSCs.
+Note that every existentially $k$ causally ordered bounded MSC is an existentially $k$-\pp-bounded MSC.
 
 \begin{proposition}
 For all $k \in \N$, the set of $\exists k$-$\cosymb$-bounded MSCs is MSO-definable and STW-bounded.
@@ -1281,7 +1323,25 @@ For all $k \in \N$, the set of $\exists k$-$\cosymb$-bounded MSCs is MSO-definab
 Let $\Ekpp$ and $\Ekco$ be the set of existentially $k$-\pp-bounded MSCs and the set of existentially $k$ causally ordered bounded MSCs, respectively. $\Ekpp$ was shown to be both MSO-definable (in \cite{DBLP:journals/iandc/LohreyM04}) and STW-bounded (in \cite[Proposition 5.4, page 163]{DBLP:journals/corr/abs-1904-06942}). $\Ekco$ also has to be STW-bounded, since we have $\Ekco \subseteq \Ekpp$. Note that, by definition, $\Ekco = \Ekpp\, \cap\, \coMSCs$. Since both $\Ekpp$ and $\coMSCs$ can be defined by an MSO formula, the latter according to Proposition~\ref{prop:co_mso}, $\Ekco$ is also MSO-definable\footnote{Suppose $\varphi_{\exists k\text{-}\pp\text{-}b}$ is the MSO formula for $\Ekpp$, and $\coformula$ is the MSO formula for $\coMSCs$. Then, $\Ekco$ is defined by $\varphi_{\exists k\text{-}\cosymb\text{-}b} = \varphi_{\exists k\text{-}\pp\text{-}b} \wedge \coformula$}.
 \end{proof}
 
-\subsection{Sketches}
+\section{Sketches}
+
+\subsection{Communication architectures and variants}
+
+A communicating system, intended as a set of finite-state machines that can exchange messages through channels, may use different \emph{communication architectures}. We will consider the following:
+\begin{itemize}
+	\item \emph{Peer-to-peer}: in the peer-to-peer (\pp) architecture, there is a channel between each pair $(P_1,P_2)$ of machines, such that $P_1$ can send messages to $P_2$. Note that, given two machines $P_1$ and $P_2$ that can exchange messages in both directions, we have two channels: one for the messages sent by $P_1$ to $P_2$, and the other for the messages sent by $P_2$ to $P_1$. When talking about \pp we suppose that channels operate in FIFO mode (i.e. as queues), but we will also explore other variants, as discussed later.
+	\item \emph{Mailbox}: in the mailbox architecture, each machine merges all of its incoming messages (from any other machine) into a unique queue. In other words, each machine $P_i$ has a single incoming FIFO channel, which is shared by the other machines that send messages to $P_i$.
+\end{itemize}
+For convenience, we will refer to a system that uses the \pp architecture simply as a \pp system (same for mailbox and other variants).
+
+\smallskip
+
+\noindent We will also consider some variants of these communication architectures:
+\begin{itemize}
+	\item \emph{Causal ordering}: a \pp system implements causal ordering if it ensures that all the messages sent to the same machine are received in an order which is consistent with the causal ordering of the send events. Channels still operate in FIFO mode, but the delivery of some messages might be delayed to enforce causal ordering.
+\end{itemize}
+
+\subsection{Definitions}
 
 \begin{definition}[Causally ordered MSC]
 An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le_\msc s'$, we have either:

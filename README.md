@@ -39,6 +39,10 @@
 - [x] Take a look at the documents sent by professor Lozes
 - [ ] Try to write semantics for causal order
 
+## Week 4
+- To ask:
+  - [ ] Why does the PCP reduction proof work for p2p? What if a message sent from a prover is unmatched and all the subsequent are blocked even if the solution is valid for PCP?
+
 **[0]** A Unifying Framework for Deciding Synchronizability - Bollig, Di Giusto, Finkel, Laversa, Lozes, Suresh\
 **[1]** Reasoning about Distributed Systems: WYSIWYG - Aiswarya, Gastin\
 **[2]** Non-Sequential Theory of Distributed Systems - Bollig, Gastin\
