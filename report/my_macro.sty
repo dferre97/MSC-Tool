@@ -1,4 +1,3 @@
-\newcommand{\davide}[1]{\todo[inline,backgroundcolor=lime!50]{D: #1}}
 \newcommand{\etienne}[1]{\todo[inline,backgroundcolor=blue!25]{B: #1}}
 \newcommand{\laetitia}[1]{\todo[inline,backgroundcolor=green!40]{L: #1}}
 \newcommand{\cinzia}[1]{\todo[inline,backgroundcolor=purple!30]{C: #1}}
@@ -39,7 +38,7 @@
 \newcommand{\N}{\mathbb{N}}
 %\newcommand{\MSCs}{\mathsf{MSC}_{\mathsf{p2p}}}
 \newcommand{\MSCs}{\mathsf{MSC}}
-\newcommand{\ppMSCs}{\mathsf{MSC}}
+%\newcommand{\ppMSCs}{\mathsf{MSC}}
 \newcommand{\comsymb}{\textup{com}}
 \newcommand{\ppsymb}{\mathsf{p2p}}
 \newcommand{\pp}{p2p\xspace}
@@ -334,3 +333,82 @@
 \newcommand{\corel}{\blacktriangleleft}
 \newcommand{\Ekpp}{\MSCs_{\exists k\text{-}\pp\text{-}b}}
 \newcommand{\Ekco}{\MSCs_{\exists k\text{-}\cosymb\text{-}b}}
+
+\newcommand{\oneone}{1\mathsf{-}1}
+\newcommand{\none}{n\mathsf{-}1}
+\newcommand{\aoneone}{a1\mathsf{-}1}
+\newcommand{\cooneone}{co1\mathsf{-}1}
+\newcommand{\asMSCs}{\mathsf{MSC}_{\mathsf{as}}}
+\newcommand{\ppMSCs}{\mathsf{MSC}_{\mathsf{p2p}}}
+
+\newcommand{\davide}[1]{\todo[inline,backgroundcolor=lime!50]{D: #1}}
+\newcommand{\davidesmall}[1]{\todo[backgroundcolor=lime!50]{D: #1}}
+\newcommand{\davidequestion}[1]{\todo[inline,backgroundcolor=red!50]{D: #1}}
+
+\newcommand\drawnestedsets[4]{
+  % initial position
+  \def\position{#1}
+  % number of sets
+  \def\nbsets{#2}
+  % list of sets
+  \def\listofnestedsets{#3}
+  % reversed list of colors
+  \def\reversedlistofcolors{#4}
+
+  % position and draw labels of sets
+  \coordinate (circle-0) at (#1);
+  \coordinate (set-0) at (#1);
+  \foreach \set [count=\c] in \listofnestedsets {
+    \pgfmathtruncatemacro{\cminusone}{\c - 1}
+    % label of current set (below previous nested set)
+    \node[below=3pt of circle-\cminusone,inner sep=0]
+    (set-\c) {\set};
+    % current set (fit current label and previous set)
+    \node[circle,inner sep=0,fit=(circle-\cminusone)(set-\c)]
+    (circle-\c) {};
+  }
+
+  % draw and fill sets in reverse order
+  \begin{scope}[on background layer]
+    \foreach \col[count=\c] in \reversedlistofcolors {
+      \pgfmathtruncatemacro{\invc}{\nbsets-\c}
+      \pgfmathtruncatemacro{\invcplusone}{\invc+1}
+      \node[circle,draw,fill=\col,inner sep=0,
+      fit=(circle-\invc)(set-\invcplusone)] {};
+    }
+  \end{scope}
+}
+
+\newcommand\drawnestedsetshorizontal[4]{
+  % initial position
+  \def\position{#1}
+  % number of sets
+  \def\nbsets{#2}
+  % list of sets
+  \def\listofnestedsets{#3}
+  % reversed list of colors
+  \def\reversedlistofcolors{#4}
+
+  % position and draw labels of sets
+  \coordinate (circle-0) at (#1);
+  \coordinate (set-0) at (#1);
+  \foreach \set [count=\c] in \listofnestedsets {
+    \pgfmathtruncatemacro{\cminusone}{\c - 1}
+    % label of current set (below previous nested set)
+    \node[right=3pt of circle-\cminusone,inner sep=0]
+    (set-\c) {\set};
+    % current set (fit current label and previous set)
+    \node[ellipse,inner sep=2,fit=(circle-\cminusone)(set-\c)]
+    (circle-\c) {};
+  }
+
+  % draw and fill sets in reverse order
+  \begin{scope}[on background layer]
+    \foreach \col[count=\c] in \reversedlistofcolors {
+      \pgfmathtruncatemacro{\invc}{\nbsets-\c}
+      \pgfmathtruncatemacro{\invcplusone}{\invc+1}
+      \node[ellipse,draw,fill=\col,inner sep=0,
+      fit=(circle-\invc)(set-\invcplusone)] {};
+    }
+  \end{scope}
+}

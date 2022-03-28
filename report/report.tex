@@ -1057,8 +1057,6 @@ were addressed in \cite{GKM07}. Finally, our framework can also be adapted to tr
 
 \section{My stuff}
 
-\davide{Consider also unmatched messages in causal order communication (causal delivery using the terminology from Laetitia's thesis).}
-
 % \subsection{Semantics of causal ordering}
 
 % \newcommand{\buffers}{\vv{\text{Buf}}}
@@ -1068,8 +1066,6 @@ were addressed in \cite{GKM07}. Finally, our framework can also be adapted to tr
 % \end{definition}
 
 \subsection{Message Sequence Charts}
-
-% \davide{Add definition of causally ordered MSC}
 
 % \begin{definition}[{Causally ordered linearization without unmatched messages}]
 % Given an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ with ${\le}_\msc = ({\procrel} \cup {\lhd})^\ast$, a \emph{causally ordered} ($\cosymb$) \emph{linearization} of $\msc$ is a total order $\linrel_\cosymb \subseteq \Events \times \Events$ such that ${\le_\msc} \subseteq {\linrel_\cosymb}$ and, for any pair of send events $(x,y)$, we have that
@@ -1085,7 +1081,7 @@ were addressed in \cite{GKM07}. Finally, our framework can also be adapted to tr
 
 Intuitively, an MSC is causally ordered if all the messages sent to the same process are received in an order which is consistent with the causal ordering of the corresponding send events. Below the formal definition, which also considers unmnatched messages.
 
-\begin{definition}[Causally ordered MSC]
+\begin{definition}[Causally ordered MSC]\label{def:co_msc}
 	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le_\msc s'$, we have either:
 	\begin{itemize}\itemsep=0.5ex
 		\item $s,s' \in \Matched{\msc}$ and $r \procrel^+ r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
@@ -1325,24 +1321,84 @@ Let $\Ekpp$ and $\Ekco$ be the set of existentially $k$-\pp-bounded MSCs and the
 
 \section{Sketches}
 
+\subsection{MSCs and partial order}
+
+\davide{Give intuition of what is an MSC and how MSCs can be used to represent graphically the behaviour of a system in terms of send/receive events. Talk about partial order on MSCs (causal relation/paths) and linearizations.}
+
+\davidequestion{Clarify difference between 'message delivery' and 'receive event'. (Actually there should not be any difference according to our interpretation)}
+
 \subsection{Communication architectures and variants}
 
 A communicating system, intended as a set of finite-state machines that can exchange messages through channels, may use different \emph{communication architectures}. We will consider the following:
 \begin{itemize}
-	\item \emph{Peer-to-peer}: in the peer-to-peer (\pp) architecture, there is a channel between each pair $(P_1,P_2)$ of machines, such that $P_1$ can send messages to $P_2$. Note that, given two machines $P_1$ and $P_2$ that can exchange messages in both directions, we have two channels: one for the messages sent by $P_1$ to $P_2$, and the other for the messages sent by $P_2$ to $P_1$. When talking about \pp we suppose that channels operate in FIFO mode (i.e. as queues), but we will also explore other variants, as discussed later.
-	\item \emph{Mailbox}: in the mailbox architecture, each machine merges all of its incoming messages (from any other machine) into a unique queue. In other words, each machine $P_i$ has a single incoming FIFO channel, which is shared by the other machines that send messages to $P_i$.
-\end{itemize}
-For convenience, we will refer to a system that uses the \pp architecture simply as a \pp system (same for mailbox and other variants).
+	\item \emph{Fully asynchronous}: a fully asychronous architecture (or simply asynchronous from now on) can be modeled as a collection of channels between each pair $(M_1,M_2)$ of machines, such that $M_1$ can send messages to $M_2$. Following this description, given two machines $M_1$ and $M_2$ that can exchange messages in both directions, we have two channels: one for the messages sent by $M_1$ to $M_2$, and the other for the messages sent by $M_2$ to $M_1$. The channels behave as \emph{bags}, which means that they do not guarantee any specific order on the delivery of messages. This architecture is equivalent to the "Fully asynchronous" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}.
+	\davidequestion{Is it true??}
+	\item \emph{FIFO $\oneone$ (\pp)}: this is a variant of the asynchronous architecture in which channels operate in FIFO mode (i.e. as queues). This means that messages between a couple of peers are delivered in their send order, whereas messages from/to different peers are delivered independently. We will use the term \emph{peer-to-peer} (\pp) as a synonym of FIFO $\oneone$. This architecture is equivalent to the "FIFO $\oneone$" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}.
+	\item \emph{Causally orderered}: this can be described as a more specific variant of the \pp architecture. In a causally orderered architecture, the communicating system ensures that messages are delivered according to the causality of their emissions. In other words, if a message $m_1$ is causally sent before a message $m_2$ (i.e. there exists a causal path from the first emission to the second one), then a peer cannot get $m_2$ before $m_1$. Channels still operate in FIFO mode, but the delivery of some messages might be delayed to enforce causal ordering. This architecture is equivalent to the "Causally ordered" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}. 
+	\item \emph{FIFO $\none$ (mailbox)}: in a mailbox architecture, each machine merges all of its incoming messages (from any source) into a unique queue. In other words, we can model it as each machine $P_i$ having a single incoming FIFO channel, which is shared by the other machines that send messages to $P_i$. A send event consists in adding the message at the end of the queue of the destination peer. This architecture is equivalent to the "FIFO $\none$" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}.
 
-\smallskip
-
-\noindent We will also consider some variants of these communication architectures:
-\begin{itemize}
-	\item \emph{Causal ordering}: a \pp system implements causal ordering if it ensures that all the messages sent to the same machine are received in an order which is consistent with the causal ordering of the send events. Channels still operate in FIFO mode, but the delivery of some messages might be delayed to enforce causal ordering.
 \end{itemize}
+For convenience, we will refer to a system that uses the \pp architecture simply as a \pp system. The same shorthand will be used for the other communication architectures. Note that, for each of these communicating architectures, there may be other equivalent ways of describing/modeling them.
 
 \subsection{Definitions}
 
+A Message Sequence Chart (MSC), such as the one in Fig.~\ref{}, provides a visual description of the behaviour of a distributed system. In this section, we start by formally defining the most generic class of Message Sequence Charts (MSCs), which we call asynchronous MSCs. More specialized classes of MSCs, such as $\pp$ MSCs, will also be discussed. Intuitively, we say that an MSC $\msc$ is asynchronous if there is an asynchronous system $\System$ that can exhibit the behaviour described by $\msc$. 
+
+\begin{definition}[Asynchronous MSC]
+An \emph{asynchronous MSC} over $\Procs$ and $\Msg$ is a tuple $\msc = (\Events,\procrel,\lhd,\lambda)$, where $\Events$ is a finite (possibly empty) set of \emph{events} and $\lambda: \Events \to \Act$ is a labeling function that associates an action to each event. For $p \in \Procs$, let $\Events_p = \{e \in \Events \mid \lambda(e) \in \pAct{p}\}$ be the set of events that are executed by $p$. We require that $\procrel$ (the \emph{process relation}) is the disjoint union $\bigcup_{p \in \Procs} \procrel_p$ of relations ${\procrel_p} \subseteq \Events_p \times \Events_p$ such that $\procrel_p$ is the direct successor relation of a total order on $\Events_p$. For an event $e \in \Events$, a set of actions $A \subseteq \Act$, and a relation $\rel \subseteq \Events \times \Events$,
+let $\sametype{e}{A}{\rel} = |\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(f) \in A\}|$. We require that ${\lhd} \subseteq \Events \times \Events$ (the \emph{message relation}) satisfies the following:
+\begin{itemize}\itemsep=0.5ex
+\item[(1)] for every pair $(e,f) \in {\lhd}$, there is a send action $\sact{p}{q}{\msg} \in \Act$ such that $\lambda(e) = \sact{p}{q}{\msg}$, $\lambda(f) = \ract{p}{q}{\msg}$.
+\item[(2)] for all $f \in \Events$ such that $\lambda(f)$ is a receive action, there is $e \in \Events$ such that $e \lhd f$.
+\end{itemize}
+Finally, letting ${\le}_\msc = ({\procrel} \cup {\lhd})^\ast$,
+we require that $\le_\msc$ is a partial order. For convenience, we simply write $\le$ when $M$ is clear from the context. We will refer to $\le$ as the \emph{causal ordering} or \emph{happens-before} relation.
+\end{definition}
+
+According to Condition (2), every receive event must have a matching send event. Note that, however, there may be unmatched send events.
+We let
+$\SendEv{\msc} = \{e \in \Events \mid \lambda(e)$ is a send
+action$\}$,
+$\RecEv{\msc} = \{e \in \Events \mid \lambda(e)$ is a receive
+action$\}$,
+$\Matched{\msc} = \{e \in \Events \mid$ there is $f \in \Events$
+such that $e \lhd f\}$, and
+$\Unm{\msc} = \{e \in \Events \mid \lambda(e)$ is a send
+action and there is no $f \in \Events$ such that $e \lhd f\}$.
+%
+We do not distinguish isomorphic MSCs and
+let $\asMSCs$ be the set of all the asynchronous MSCs over the given sets $\Procs$ and $\Msg$.
+
+% \paragraph*{Linearizations.}
+
+% Consider $\msc = (\Events,\procrel,\lhd,\lambda) \in \asMSCs$.
+% An \emph{asynchronous linearization} of $\msc$ is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\le_\msc} \subseteq {\linrel}$. Intuitively, an asynchronous linearization of $\msc$ is a possible ordering of its events.
+% \davide{Example of asynchronous linearization.}
+
+\paragraph*{Linearizations.}
+
+Consider $\msc = (\Events,\procrel,\lhd,\lambda) \in \asMSCs$.
+A \emph{linearization} of $\msc$ is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\le_\msc} \subseteq {\linrel}$. In other words, a linearization of $\msc$ is a total order that respects the happens-before relation $\le_\msc$ defined over $\msc$.
+\davide{Provide example of linearization.}
+
+\medskip
+
+Asynchronous MSCs are the widest class of MSCs that we will deal with. By introducing additional constraints, we are able to define other classes of MSCs that exclusively describe the behaviours of \pp systems, mailbox systems, and so on.
+\davide{Provide example of asynchronous MSC that is not p2p.}
+
+As in the asynchronous case, we say that $\msc$ is a \pp MSC if there is a \pp system that can produce the behaviour described by $\msc$. We give here the formal definition of \pp MSC, which also considers the possibility of having unmatched messages (i.e. messages that are sent but not received).
+\davidequestion{Why unmatched messages? What do they represent?}
+
+\begin{definition}[Peer-to-peer MSCs]
+A \emph{\pp MSC} (or simply \emph{MSC}) is an asynchronous MSC where we require that, for every pair $(e,f) \in {\lhd}$, such that $\lambda(e) = \sact{p}{q}{\msg}$, $\lambda(f) = \ract{p}{q}{\msg}$, we have $\sametype{e}{\pqsAct{p}{q}}{\procrel^+} = \sametype{f}{\pqrAct{p}{q}}{\procrel^+}$.
+\end{definition}
+
+The additional constraint satisfied by \pp MSCs ensures that channels operate in FIFO mode; when a process $q$ receives a message from a process $p$, it must have already received all the messages that were previously sent to him by $p$. Let $\ppMSCs$ denote the set of all the \pp MSCs over two given sets $\Procs$ and $\Msg$. Note that, by definition, every (\pp) MSC is an asynchronous MSC. The idea is that we are always able to find an asynchronous system that \emph{can} exhibit the behaviour described by an MSC; after all, the channels of an asynchronous system do not have to follow any specific behaviour, so they can indeed happen to operate as if they were queues. Example~\ref{} shows that the opposite direction is generally not true, an asynchronous MSC is not always an MSC. It follows that $\ppMSCs \subset \asMSCs$.
+
+\medskip
+
+We will now consider the class of MSCs for which there is a causally ordered system that can produce their behaviour.
+\davide{Provide example of an MSC that is not causally ordered}
 \begin{definition}[Causally ordered MSC]
 An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le_\msc s'$, we have either:
 \begin{itemize}\itemsep=0.5ex
@@ -1351,13 +1407,44 @@ An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, f
 \end{itemize}
 \end{definition}
 
-\begin{definition}[Mailbox MSC]
+By definition, every causally ordered MSC is a (\pp) MSC. This is not surprising, considering that a causally ordered system is essentially a \pp system with an additional constraint on the delivery of messages; indeed, we are always able to find a \pp system that \emph{can} exhibit the behaviour described by a causally ordered MSC. Let $\coMSCs$ denote the set of all the causally ordered MSCs over two given sets $\Procs$ and $\Msg$. Example~\ref{} shows that an MSC is not always a causally ordered MSC. It follows that $\coMSCs \subset \ppMSCs$.
+
+\medskip
+
+Moving on to the mailbox semantics, we say that $\msc$ is a mailbox MSC if there is a mailbox system that can exhibit the behaviour described by $\msc$. 
+\davide{Provide example of MSC which is not mailbox}
+
+\begin{definition}[Mailbox MSC]\label{def:mb_msc}
 An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{mailbox MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \linrel s'$, we have either:
 \begin{itemize}\itemsep=0.5ex
 	\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
 	\item $s' \in \Unm{\msc}$.
 \end{itemize}
 \end{definition}
+
+Such a linearization will be referred to as a \emph{mailbox linearization}. Let $\mbMSCs$ denote the set of all the mailbox MSCs over two given sets $\Procs$ and $\Msg$. By definition, every mailbox MSC is a (\pp) MSC. Conversely, Example~\ref{} shows an MSC which is not a mailbox MSC. It follows that $\mbMSCs \subset \ppMSCs$. We show here that each mailbox MSC is also a causally ordered MSC.
+
+\begin{proposition}\label{prop:mb_is_co}
+	Every mailbox MSC is a causally ordered MSC.
+\end{proposition}
+\begin{proof}
+Let $\msc$ be a mailbox MSC and $\linrel$ a mailbox linearization of it. Recall that a linearization has to respect the happens-before partial order over $\msc$, i.e. $\le_\msc \,\subseteq\, \linrel$. Consider any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$ and $s \le_\msc s'$. Since $\le_\msc \,\subseteq\, \linrel$, we have that $s \linrel s'$ and, by the definition of mailbox linearization, either
+\begin{enumerate*}[label={(\roman*)}]
+	\item $s' \in \Unm{\msc}$, or 
+	\item $s,s' \in \Matched{\msc}$, $s \lhd r$, $s' \lhd r'$ and $r \linrel r'$. 
+\end{enumerate*}
+The former clearly respects the definition of causally ordered MSC, so let us focus on the latter. Note that $r$ and $r'$ are two receive events executed by the same process, hence $r \linrel r'$ implies $r \procrel^+ r'$. It follows that $\msc$ is a causally ordered MSC.
+\end{proof}
+
+\davide{Provide example of causally ordered MSC which is not mailbox}
+From Proposition~\ref{prop:mb_is_co} and Example~\ref{} it follows that $\mbMSCs \subset \coMSCs$. The four classes of MSCs that we presented form a hierarchy, namely $\mbMSCs \subset \coMSCs \subset \ppMSCs \subset \asMSCs$, as shown by Fig.~\ref{fig:msc_hierarchy}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=8cm]{msc_hierarchy}
+	\caption{The hierarchy of MSC classes.}
+	\label{fig:msc_hierarchy}
+\end{figure}
 
 \printbibliography
 

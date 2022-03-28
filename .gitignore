@@ -10,4 +10,4 @@ sources_concur/concur2021.*
 !sources_concur/concur2021.tex
 
 # other stuff
-meetings/*.pptx
+*.pptx
