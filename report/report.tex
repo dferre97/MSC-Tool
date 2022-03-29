@@ -1215,6 +1215,8 @@ The latter is decidable due to Fact~\ref{p2p}.
 		\hline
 		Weakly $k$-synchronous &  \multicolumn{3}{c|} {\textcolor{red}{Decidable} [Thm.~\ref{thm:co-weak-k-sync}]}  \\
 		\hline
+		Existentially k-bounded & Decidable & \textcolor{red}{Decidable} & Decidable\\
+		\hline
 	\end{tabular}
 	\end{adjustbox}
 \end{table}
@@ -1310,11 +1312,18 @@ An MSC is said to be \emph{existentially $k$ causally ordered bounded} ($\exists
 
 Note that every existentially $k$ causally ordered bounded MSC is an existentially $k$-\pp-bounded MSC.
 
-\begin{proposition}
+\begin{proposition}\label{prop:ek-co-bounded-mso-stw}
 For all $k \in \N$, the set of $\exists k$-$\cosymb$-bounded MSCs is MSO-definable and STW-bounded.
 \end{proposition}
 \begin{proof}
 Let $\Ekpp$ and $\Ekco$ be the set of existentially $k$-\pp-bounded MSCs and the set of existentially $k$ causally ordered bounded MSCs, respectively. $\Ekpp$ was shown to be both MSO-definable (in \cite{DBLP:journals/iandc/LohreyM04}) and STW-bounded (in \cite[Proposition 5.4, page 163]{DBLP:journals/corr/abs-1904-06942}). $\Ekco$ also has to be STW-bounded, since we have $\Ekco \subseteq \Ekpp$. Note that, by definition, $\Ekco = \Ekpp\, \cap\, \coMSCs$. Since both $\Ekpp$ and $\coMSCs$ can be defined by an MSO formula, the latter according to Proposition~\ref{prop:co_mso}, $\Ekco$ is also MSO-definable\footnote{Suppose $\varphi_{\exists k\text{-}\pp\text{-}b}$ is the MSO formula for $\Ekpp$, and $\coformula$ is the MSO formula for $\coMSCs$. Then, $\Ekco$ is defined by $\varphi_{\exists k\text{-}\cosymb\text{-}b} = \varphi_{\exists k\text{-}\pp\text{-}b} \wedge \coformula$}.
+\end{proof}
+
+\begin{theorem}\label{thm:sync_ek_co_bounded}
+	The following problem is decidable: Given finite sets $\Procs$ and $\Msg$, a communicating system $\System$, and $k \in \N$, is every MSC in $\coL{\System}$ $\exists k$-$\cosymb$-bounded?
+\end{theorem}
+\begin{proof}
+	Directly follows from \ref{prop:ek-co-bounded-mso-stw} and \ref{thm:sync_co}.
 \end{proof}
 
 \section{Sketches}
@@ -1334,6 +1343,7 @@ A communicating system, intended as a set of finite-state machines that can exch
 	\item \emph{FIFO $\oneone$ (\pp)}: this is a variant of the asynchronous architecture in which channels operate in FIFO mode (i.e. as queues). This means that messages between a couple of peers are delivered in their send order, whereas messages from/to different peers are delivered independently. We will use the term \emph{peer-to-peer} (\pp) as a synonym of FIFO $\oneone$. This architecture is equivalent to the "FIFO $\oneone$" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}.
 	\item \emph{Causally orderered}: this can be described as a more specific variant of the \pp architecture. In a causally orderered architecture, the communicating system ensures that messages are delivered according to the causality of their emissions. In other words, if a message $m_1$ is causally sent before a message $m_2$ (i.e. there exists a causal path from the first emission to the second one), then a peer cannot receive $m_2$ before $m_1$. Channels still operate in FIFO mode, but the delivery of some messages might be delayed to enforce causal ordering. This architecture is equivalent to the "Causally ordered" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}. In literature, several implementations of causal ordering have been proposed. For instance, the algorithm described in \cite{DBLP:conf/wdag/SchiperES89} makes use of the logical vector clocks introduced by Mattern-Fidge \cite{Fidge88timestampsin, Mattern89virtualtime} to enforce causal ordering.
 	\item \emph{FIFO $\none$ (mailbox)}: in a mailbox architecture, each machine merges all of its incoming messages (from any source) into a unique queue. In other words, we can model it as each machine $P_i$ having a single incoming FIFO channel, which is shared by the other machines that can send messages to $P_i$. A send event consists in adding the message at the end of the queue of the destination peer. This architecture is equivalent to the "FIFO $\none$" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}.
+	\item \emph{FIFO $\nn$}: this architecture can be modeled as a unique shared FIFO channel. Messages are globally ordered and delivered according to the their emission order. As noted in \cite{DBLP:journals/fac/ChevrouHQ16}, this model is generally unrealistic and its implementations are inefficient.
 
 \end{itemize}
 For convenience, we will refer to a system that uses the \pp architecture simply as a \pp system. The same shorthand will be used for the other communication architectures. Note that, for each of these communicating architectures, there may be other equivalent ways of describing/modeling them.
