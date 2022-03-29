@@ -58,6 +58,6 @@
 **[4]** Synchronous, Asynchronous, and Causally Ordered Communication - Charron-Bost, Mattern, Tel\
 **[5]** Laetitia PhD thesis\
 **[6]** A Non-Blocking Lightweight Implementation of Causal Order Message Delivery - Mattern, Funfrocken\
-**[7]** A New Algorithm to Implement Causal Order - Shiper, Eggli, Sandoz
-**[8]** On the Diversity of Asynchonous Communication - Chevrou, Hurault, Quéinnec
+**[7]** A New Algorithm to Implement Causal Order - Shiper, Eggli, Sandoz\
+**[8]** On the Diversity of Asynchonous Communication - Chevrou, Hurault, Quéinnec\
 
