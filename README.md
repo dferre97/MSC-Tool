@@ -48,8 +48,16 @@
   - [x] High level overview of communication architectures (inspired by [8])
   - [x] Definition of asynchonous MSC
   - [x] Hierarchy of the considered MSC classes
+
+## Week 5
+- Todo:
+  - [x] New definition of MSO logic over asynchronous MSCs
+  - [x] Give MSO formulas for: p2p MSCs, mb MSCs, co MSCs, <!-- $\exists k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cexists%20k">-bounded p2p MSCs, <!-- $\exists k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cexists%20k">-bounded co MSCs, <!-- $\exists k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cexists%20k">-bounded mb MSCs
+  - [x] Give MSO formulas for: <!-- $\forall k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cforall%20k">-bounded p2p MSCs, <!-- $\forall k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cforall%20k">-bounded co MSCs, <!-- $\forall k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cforall%20k">-bounded mb MSCs
+  - [ ] Rewrite Fact 2 of cuncur paper to include asynchronous communication (proof is still in [2]).
+  - [ ] Prove decidability of synchronicity problem for weakly k-sinchronous, $\exists k$-bounded, and $\forall k$-bounded.
 - To ask:
-  - [ ] Why does the PCP reduction proof work for p2p? What if a message sent from a prover is unmatched and all the subsequent are blocked even if the solution is valid for PCP?
+  - [ ] Ask Laetitia an opinion on $\exists k$-bounded special treewidth proof in [2] (Lemma 5.37)... does it work for asynchronous MSCs?
 
 **[0]** A Unifying Framework for Deciding Synchronizability - Bollig, Di Giusto, Finkel, Laversa, Lozes, Suresh\
 **[1]** Reasoning about Distributed Systems: WYSIWYG - Aiswarya, Gastin\
