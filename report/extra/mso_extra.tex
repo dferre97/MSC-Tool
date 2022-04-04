@@ -1,0 +1,8 @@
+\davide{Show MSO-definability of the transitive closure of a binary relation.}
+
+\paragraph*{Acyclicity} 
+
+Given a binary relation $\to$, the acyclicity of $\to$ can be expressed with an MSO formula. Recall that, given a binary relation $\to$, it is acyclic if and only if its transitive closure $\to^*$ is antisymmetric. The MSO formula of acyclicity directly follows from this definition:
+\[
+\Phi_{acyclic} =  \neg \exists x.\exists y.(x \to^* y \;\wedge\; y \to^* x).   
+\]

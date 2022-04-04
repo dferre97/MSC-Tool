@@ -12,6 +12,7 @@
 
 % macros
 \usepackage{my_macro}
+\usepackage{laetitia_macro}
 
 \title{Stage M2}
 \author{Davide Ferre'}
@@ -1339,7 +1340,7 @@ Let $\ppEk$ and $\coEk$ be the set of existentially $k$-\pp-bounded MSCs and the
 A communicating system, intended as a set of finite-state machines that can exchange messages through channels, may use different \emph{communication architectures}. We will consider the following:
 \begin{itemize}
 	\item \emph{Fully asynchronous}: a fully asychronous architecture (or simply asynchronous from now on) can be modeled as a collection of channels between each pair $(M_1,M_2)$ of machines, such that $M_1$ can send messages to $M_2$. Following this description, given two machines $M_1$ and $M_2$ that can exchange messages in both directions, we have two channels: one for the messages sent by $M_1$ to $M_2$, and the other for the messages sent by $M_2$ to $M_1$. The channels behave as \emph{bags}, which means that they do not guarantee any specific order on the delivery of messages. This architecture is equivalent to the "Fully asynchronous" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}.
-	\davidequestion{Is it true??}
+	\davideanswer{Is it true? For the set of MSCs yes, it should be.}
 	\item \emph{FIFO $\oneone$ (\pp)}: this is a variant of the asynchronous architecture in which channels operate in FIFO mode (i.e. as queues). This means that messages between a couple of peers are delivered in their send order, whereas messages from/to different peers are delivered independently. We will use the term \emph{peer-to-peer} (\pp) as a synonym of FIFO $\oneone$. This architecture is equivalent to the "FIFO $\oneone$" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}.
 	\item \emph{Causally orderered}: this can be described as a more specific variant of the \pp architecture. In a causally orderered architecture, the communicating system ensures that messages are delivered according to the causality of their emissions. In other words, if a message $m_1$ is causally sent before a message $m_2$ (i.e. there exists a causal path from the first emission to the second one), then a peer cannot receive $m_2$ before $m_1$. Channels still operate in FIFO mode, but the delivery of some messages might be delayed to enforce causal ordering. This architecture is equivalent to the "Causally ordered" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}. In literature, several implementations of causal ordering have been proposed. For instance, the algorithm described in \cite{DBLP:conf/wdag/SchiperES89} makes use of the logical vector clocks introduced by Mattern-Fidge \cite{Fidge88timestampsin, Mattern89virtualtime} to enforce causal ordering.
 	\item \emph{FIFO $\none$ (mailbox)}: in a mailbox architecture, each machine merges all of its incoming messages (from any source) into a unique queue. In other words, we can model it as each machine $P_i$ having a single incoming FIFO channel, which is shared by the other machines that can send messages to $P_i$. A send event consists in adding the message at the end of the queue of the destination peer. This architecture is equivalent to the "FIFO $\none$" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}.
@@ -1353,7 +1354,7 @@ For convenience, we will refer to a system that uses the \pp architecture simply
 A Message Sequence Chart (MSC), such as the one in Fig.~\ref{}, provides a visual description of the behaviour of a distributed system. In this section, we start by formally defining the most generic class of Message Sequence Charts (MSCs), which we call asynchronous MSCs. More specialized classes of MSCs, such as $\pp$ MSCs, will also be discussed. Intuitively, we say that an MSC $\msc$ is asynchronous if there is an asynchronous system $\System$ that can exhibit the behaviour described by $\msc$. 
 
 \begin{definition}[Asynchronous MSC]
-An \emph{asynchronous MSC} over $\Procs$ and $\Msg$ is a tuple $\msc = (\Events,\procrel,\lhd,\lambda)$, where $\Events$ is a finite (possibly empty) set of \emph{events} and $\lambda: \Events \to \Act$ is a labeling function that associates an action to each event. For $p \in \Procs$, let $\Events_p = \{e \in \Events \mid \lambda(e) \in \pAct{p}\}$ be the set of events that are executed by $p$. We require that $\procrel$ (the \emph{process relation}) is the disjoint union $\bigcup_{p \in \Procs} \procrel_p$ of relations ${\procrel_p} \subseteq \Events_p \times \Events_p$ such that $\procrel_p$ is the direct successor relation of a total order on $\Events_p$. For an event $e \in \Events$, a set of actions $A \subseteq \Act$, and a relation $\rel \subseteq \Events \times \Events$,
+An \emph{asynchronous MSC} (or simply MSC) over $\Procs$ and $\Msg$ is a tuple $\msc = (\Events,\procrel,\lhd,\lambda)$, where $\Events$ is a finite (possibly empty) set of \emph{events} and $\lambda: \Events \to \Act$ is a labeling function that associates an action to each event. For $p \in \Procs$, let $\Events_p = \{e \in \Events \mid \lambda(e) \in \pAct{p}\}$ be the set of events that are executed by $p$. We require that $\procrel$ (the \emph{process relation}) is the disjoint union $\bigcup_{p \in \Procs} \procrel_p$ of relations ${\procrel_p} \subseteq \Events_p \times \Events_p$ such that $\procrel_p$ is the direct successor relation of a total order on $\Events_p$. For an event $e \in \Events$, a set of actions $A \subseteq \Act$, and a relation $\rel \subseteq \Events \times \Events$,
 let $\sametype{e}{A}{\rel} = |\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(f) \in A\}|$. We require that ${\lhd} \subseteq \Events \times \Events$ (the \emph{message relation}) satisfies the following:
 \begin{itemize}\itemsep=0.5ex
 \item[(1)] for every pair $(e,f) \in {\lhd}$, there is a send action $\sact{p}{q}{\msg} \in \Act$ such that $\lambda(e) = \sact{p}{q}{\msg}$, $\lambda(f) = \ract{p}{q}{\msg}$.
@@ -1395,7 +1396,7 @@ Asynchronous MSCs are the widest class of MSCs that we will deal with. By introd
 \davide{Provide example of asynchronous MSC that is not p2p.}
 
 As in the asynchronous case, we say that $\msc$ is a \pp MSC if there is a \pp system that can produce the behaviour described by $\msc$. We give here the formal definition of \pp MSC, which also considers the possibility of having unmatched messages (i.e. messages that are sent but not received).
-\davidequestion{Why unmatched messages? What do they represent?}
+\davideanswer{Why unmatched messages? What do they represent? When an automata does not have the receive action for a message that was already sent (see examples at the end of concur paper).}
 
 \begin{definition}[Peer-to-peer MSCs]
 A \emph{\pp MSC} (or simply \emph{MSC}) is an asynchronous MSC where we require that, for every pair $(e,f) \in {\lhd}$, such that $\lambda(e) = \sact{p}{q}{\msg}$, $\lambda(f) = \ract{p}{q}{\msg}$, we have $\sametype{e}{\pqsAct{p}{q}}{\procrel^+} = \sametype{f}{\pqrAct{p}{q}}{\procrel^+}$.
@@ -1573,7 +1574,7 @@ In this section, we will investigate the MSO-definability of all the variants of
 	\item $s$ is the ($i+k$)-th send event (executed by $p$).
 	\item $r$ is the $i$-th receive event (executed by $q$). Note that the $i$-th receive event matches with the $i$-th send event executed by $p$.
 \end{enumerate} 
-Note that, for any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed before $s$ is not $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization". A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.\davide{An example would be nice.} In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is existentially $k$-bounded if and only if the relation $\le_\msc \cup \relb$ is acyclic\footnote{A binary relation is acyclic if it does not contain a "cycle", which is to say its transitive closure is antisymmetric.}.\davidesmallquestion{MSO-definability of acyclicity} Since $\le_\msc$ and acyclicity are both MSO-definable (we did not show the latter), it suffices to find an MSO formula that defines the $\relb$ relation to say that the set of existentially $k$-bounded MSCs is MSO-definable. In particular, we can define $r \relb s$ as
+Note that, for any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed before $s$ is not $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization". A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.\davide{An example would be nice.} In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is existentially $k$-bounded if and only if the relation $\le_\msc \cup \relb$ is acyclic\footnote{A binary relation is acyclic if it does not contain a "cycle", which is to say its transitive closure is antisymmetric.}.\davidequestionsmall{Should I show that acyclicity is MSO-definable?} Since $\le_\msc$ and acyclicity are both MSO-definable (we did not show the latter), it suffices to find an MSO formula that defines the $\relb$ relation to say that the set of existentially $k$-bounded MSCs is MSO-definable. In particular, we can define $r \relb s$ as
 \[
 r \relb s=\exists s_1,s_2,\dots,s_k.\left(
 allSend\_p\_q
@@ -1590,26 +1591,61 @@ allSend\_p\_q=
 \bigvee_{a \in \pqsAct{p}{q}}\;
 \lambda(e) = a
 \]
-It follows that, given $k \in \N$, the set of existentially $k$-bounded MSCs is MSO-definable. Causally ordered and \pp existentially $k$-bounded MSCs are clearly MSO-definable by definition, since we already showed that \pp MSCs, causally ordered MSCs, and existentially $k$-bounded MSCs are all MSO-definable. The set of mailbox existentially $k$-bounded MSCs was already shown to be MSO-definable in \cite{DBLP:conf/concur/BolligGFLLS21}, but they use a slightly different definition of mailbox existentially $k$-bounded MSC. With their definition, a $\exists k$-mb-bounded MSC has at most $k$ messages in any incoming channel at any moment, whereas according to our definition the threshold is $k*(n-1)$, were $n$ is the number of processes. In particular, they introduce a binary relation $\revb \,\supseteq\, \relb$ and they show that an MSC $\msc$ is $\exists k$-mb-bounded iff $\preceq_\msc \cup \revb$ is acyclic. With our definition, an MSC is $\exists k$-mb-bounded iff $\preceq_\msc \cup \relb$ is acyclic. We can easily show this following the proof given in \cite{DBLP:conf/concur/BolligGFLLS21}, where we should replace $\revb$ with $\relb$. We already talked about the MSO-defininability of $\preceq_\msc$, $\relb$, and acyclicity, so the set of mailbox existentially $k$-bounded MSCs is also MSO-definable.
+It follows that, given $k \in \N$, the set of existentially $k$-bounded MSCs is MSO-definable. Causally ordered and \pp existentially $k$-bounded MSCs are clearly MSO-definable by definition, since we already showed that \pp MSCs, causally ordered MSCs, and existentially $k$-bounded MSCs are all MSO-definable. The set of mailbox existentially $k$-bounded MSCs was already shown to be MSO-definable in \cite{DBLP:conf/concur/BolligGFLLS21}, but they use a slightly different definition of mailbox existentially $k$-bounded MSC. With their definition, a $\exists k$-mb-bounded MSC has at most $k$ messages in any incoming channel at any moment, whereas according to our definition the threshold is $k(n-1)$, were $n$ is the number of processes. In particular, they introduce a binary relation $\revb \,\supseteq\, \relb$ and they show that an MSC $\msc$ is $\exists k$-mb-bounded iff $\preceq_\msc \cup \revb$ is acyclic. With our definition, an MSC is $\exists k$-mb-bounded iff $\preceq_\msc \cup \relb$ is acyclic. \davidequestionsmall{Should I rewrite the proof?}This can easily be shown by simply replacing $\revb$ with $\relb$ in the proof given in \cite{DBLP:conf/concur/BolligGFLLS21}. We already talked about the MSO-defininability of $\preceq_\msc$, $\relb$, and acyclicity, so the set of mailbox existentially $k$-bounded MSCs is also MSO-definable.
 
 \subsubsection{Special treewidth}
 
-In \cite[Lemma 5.37]{DBLP:journals/corr/abs-1904-06942} it was shown that the special treewidth of existentially $k$-bounded MSCs is bounded by $k\,|\Procs|^2$, for $k \ge 1$. Actually, STW-boundness was shown for the more general $\mathsf{CBM}$ class (Concurrent Behaviours with Matching), but the result is still valid since $\asMSCs \subset \mathsf{CBM}$. The special treewidth of both \pp-$\exists k$-bounded and $\cosymb$-$\exists k$-bounded\pp MSCs is also bounded, since every \pp or causally ordered existentially $k$-bounded MSC is existentially $k$-bounded by definition. Similarly, mb-$\exists k$-bounded MSCs have also a bounded special treewidth, since it is trivial to see that every existentially mailbox $k$-bounded MSC is existentially $k$-bounded.
+In \cite[Lemma 5.37]{DBLP:journals/corr/abs-1904-06942} it was shown that the special treewidth of existentially $k$-bounded MSCs is bounded by $k\,|\Procs|^2$, for $k \ge 1$. Actually, STW-boundness was shown for the more general $\mathsf{CBM}$ class (Concurrent Behaviours with Matching), but the result is still valid since $\asMSCs \subset \mathsf{CBM}$. \davidequestionsmall{Should I rewrite the proof more clearly?} The special treewidth of both \pp-$\exists k$-bounded and $\cosymb$-$\exists k$-bounded MSCs is also bounded, since every \pp or causally ordered existentially $k$-bounded MSC is existentially $k$-bounded by definition. Similarly, mb-$\exists k$-bounded MSCs have also a bounded special treewidth, since it is trivial to see that every existentially mailbox $k$-bounded MSC is existentially $k$-bounded.
 
 \subsection{Universally bounded MSCs}
 
 \begin{definition}[Universally bounded MSC]\label{def:uk_bounded_msc}
 	Let $\msc = (\Events, \rightarrow, \lhd, \lambda) \in \asMSCs$ and $k \in \mathbb{N}$. We call $\msc$ \emph{universally $k$-bounded} if all of its linearizations are $k$-bounded.
 \end{definition}
+Let $\asUk$ be the set of universally $k$-bounded MSCs.
 \begin{definition}
 	An MSC $\msc$ is \emph{\pp universally $k$-bounded} (\pp-$\forall k$-bounded) if it is a \pp MSC and it is also universally $k$-bounded.
 \end{definition}
+Let $\ppUk$ be the set of \pp universally $k$-bounded MSCs.
 \begin{definition}
 	An MSC $\msc$ is \emph{causally universally orderered $k$-bounded} ($\cosymb$-$\forall k$-bounded) if it is a causally ordered MSC and it is also universally $k$-bounded.
 \end{definition}
+Let $\coUk$ be the set of causally ordered universally $k$-bounded MSCs.
 \begin{definition}
 	An MSC $\msc$ is \emph{mailbox universally $k$-bounded} (mb-$\forall k$-bounded) if all of its mailbox linearizations are $k$-bounded.
 \end{definition}
+Let $\mbUk$ be the set of mailbox universally $k$-bounded MSCs.
+
+\subsubsection{Hierarchy}
+
+\davide{Investigate hierarchy of universally $k$-bounded MSCs.}
+In this section we will investigate the relations between the various classes of universally $k$-bounded MSCs that we introduced. From their definition, it is quite straightforward to see that $\coUk \subseteq \ppUk \subseteq \asUk$. The set of mailbox universally $k$-bounded MSCs, however, does not fit in this hierarchy. Recall that an MSC is mb-$\forall k$-bounded if all of its mailbox linearizations are $k$-bounded, but the definition does not say anything about non-mailbox linearizations. It can be the case that an MSC has a bound $k$ on its mailbox linearization, but another bound $k'$ on non-mailbox linearizations. Fig.~\ref{fig:mb_uk} shows an MSC $\msc$ which is mb-$\forall 1$-bounded, but not $\forall 1$-bounded. According to the mailbox semantics, a mailbox linearization of $\msc$ has to respect the order $!m_1 \mbrel_\msc\, !m_3 \mbrel_\msc\, !m_4$. Note that all mailbox linearizations are $1$-bounded, but we are able to find a non-mailbox linearization that is 2-bounded, such as $!m_1 \linrel\, !m_4 \linrel\, ?m_1 \linrel\, !m_2 \linrel\, ?m_2 \linrel\, !m_3 \linrel\, !m_4 \linrel\, ?m_3 \linrel\, ?m_4$.
+
+\begin{figure}[h]
+\begin{center}
+\begin{tikzpicture}
+	\newproc{0}{p}{-1.9};
+	\newproc{1}{q}{-1.9};
+	\newproc{2}{r}{-1.9};
+
+	\newmsgml{0}{1}{-0.5}{1}{0.5}{black};
+	\newmsgml{1}{2}{-0.7}{2}{0.5}{black};
+	\newmsgml{2}{1}{-1.2}{3}{0.5}{black};
+	\newmsgml{0}{1}{-1.4}{4}{0.5}{black};
+\end{tikzpicture}
+\caption{Example of MSC which is mailbox universally 1-bounded, but not universally 1-bounded (it is universally 2-bounded).}
+\label{fig:mb_uk}
+\end{center}
+\end{figure}
+
+For a given $k \in \N$, Fig~\ref{fig:uk_hierarchy} gives a visual representation of how the diffent variants of universally $k$-bounded MSCs are related.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=8cm]{uni_k_hierarchy.png}
+	\caption{The relation between different variants of universally $k$-bounded MSCs, given $k \in \N$.}
+	\label{fig:uk_hierarchy}
+\end{figure}
 
 \subsubsection{MSO-definability}
 
@@ -1634,6 +1670,10 @@ Using Proposition~\ref{prop:mb_ukb_alt}, we can now easily write the MSO formula
 \subsubsection{Special treewidth}
 
 All the variants of universally $k$-bounded MSCs that we presented have a bounded special treewidth. This directly follows from the STW-boundness of the existentially counterparts, since every universally $k$-bounded MSC is existentially $k$-bounded by definition.
+
+\subsubsection{MSO additional content}
+
+\input{extra/mso_extra.tex}
 
 \printbibliography
 
