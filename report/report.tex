@@ -1475,7 +1475,7 @@ as message $\msg_1$ is not received,
 but by $\mscstrongexist$ from Fig.~\ref{fig:msc_strong_exist}.
 
 Given a sentence $\phi$, i.e., a formula without free variables,
-we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous MSCs, the formula $\asformula = true$ clearly describes the set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable so that the logic can freely use formulas of the form $x \procrel^+ y$ or $x le y$ (where $\le$ is interpreted as $\le_\msc$ for the given MSC $\msc$).
+we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous MSCs, the formula $\asformula = true$ clearly describes the set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula\footnote{See Section~\ref{sec:mso_extra} for details.} with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable so that the logic can freely use formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x le y$ (where $\le$ is interpreted as $\le_\msc$ for the given MSC $\msc$).
 
 \paragraph*{Peer-to-peer MSCs}
 	The set of \pp MSCs is MSO-definable as
@@ -1496,10 +1496,10 @@ The property $\ppformula$ says that there cannot be two matched send events $s$ 
 The set $\ppMSCs$ is therefore MSO-definable as $\ppMSCs=L(\ppformula)$.
 
 \paragraph*{Causally ordered MSCs}
-
+\davidequestion{$[\ppformula \;\wedge\;]$ should be redundant.}
 Given an MSC $\msc$, it is causally ordered if it satisfies the MSO formula
 \[
-\coformula = \ppformula \;\wedge\; 
+\coformula = [\ppformula \;\wedge\;] 
 \neg \exists s.\exists s'. \left(
 \bigvee_{\substack{q \in \Procs\\a,b \in \qsAct{q}}}\hspace{-1em}
 (\lambda(s) = a \;\wedge\; \lambda(s') = b)
@@ -1671,7 +1671,7 @@ Using Proposition~\ref{prop:mb_ukb_alt}, we can now easily write the MSO formula
 
 All the variants of universally $k$-bounded MSCs that we presented have a bounded special treewidth. This directly follows from the STW-boundness of the existentially counterparts, since every universally $k$-bounded MSC is existentially $k$-bounded by definition.
 
-\subsubsection{MSO additional content}
+\subsubsection{MSO additional content}\label{sec:mso_extra}
 
 \input{extra/mso_extra.tex}
 
