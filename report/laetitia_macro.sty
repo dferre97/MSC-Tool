@@ -14,10 +14,48 @@
 \definecolor{palettebleu}{RGB}{0,196,204}
 \definecolor{tortue}{RGB}{100,107,25}
 
+% My commands %
+
+\newcommand{\newmsgnoname}[4]{
+%#1 expediteur
+%#2 destinataire
+%#3 niveau
+%#4 color
+\draw[>=latex,->,#4] (#1,#3) -- node [above,sloped] {} (#2,#3);
+}
+
+\newcommand{\newmsgdiagnoname}[5]{
+%#1 expediteur
+%#2 destinataire
+%#3 niveau
+%#4 niveau dest
+%#5 color
+\draw[>=latex,->,#5] (#1,#3) -- node [above,sloped] {} (#2,#4);
+}
+
+\newcommand{\newmsgumnoname}[4]{
+%#1 expediteur
+%#2 destinataire
+%#3 niveau
+%#4 color
+\draw[>=latex,->, dashed, #4] (#1,#3) -- node [above,sloped] {} (#2,#3);
+}
+
+\newcommand{\newevent}[5]{
+%#4 name of the event
+%#5 label positioning
+\tkzDefPoint(#2,#3){#4}
+\tkzLabelPoint[#5](#4){$#4$}
+\node [circle,fill,inner sep=1pt] at (#2,#3) {};
+}
+
+% Laetitia %
+
 \newcommand{\newproc}[3]{
 \draw(#1,0) -- (#1,#3);
 \draw (#1,0.25) node{$#2$} ;
 }
+
 
 \newcommand{\newmsgml}[6]{
 %#1 expediteur

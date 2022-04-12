@@ -56,9 +56,17 @@
   - [x] Give MSO formulas for: p2p MSCs, mb MSCs, co MSCs, <!-- $\exists k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cexists%20k">-bounded p2p MSCs, <!-- $\exists k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cexists%20k">-bounded co MSCs, <!-- $\exists k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cexists%20k">-bounded mb MSCs
   - [x] Give MSO formulas for: <!-- $\forall k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cforall%20k">-bounded p2p MSCs, <!-- $\forall k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cforall%20k">-bounded co MSCs, <!-- $\forall k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cforall%20k">-bounded mb MSCs
   - [ ] Rewrite Fact 2 of cuncur paper to include asynchronous communication (should already work).
-  - [ ] Prove decidability of synchronicity problem for weakly k-synchronous, $\exists k$-bounded, and $\forall k$-bounded.
+  - [ ] Prove decidability of synchronicity problem for weakly k-synchronous, <!-- $\exists k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cexists%20k">-bounded, and <!-- $\forall k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cforall%20k">-bounded.
 - To ask:
-  - [ ] Ask Laetitia an opinion on $\exists k$-bounded special treewidth proof in [2] (Lemma 5.37)... does it work for asynchronous MSCs? I think so!
+  - [ ] Ask Laetitia an opinion on <!-- $\exists k$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=%5Cexists%20k">-bounded special treewidth proof in [2] (Lemma 5.37)... does it work for asynchronous MSCs? I think so!
+
+## Week 6
+-  Existentially and universally k-bounded MSO-definability of the previous week was wrong, the binary relation for k-boundness does not make sense for the asynchronous case... 
+- [X] New binary relation for k-boundness that should make sense for the asynchronous case, but I think it is not MSO-definable...
+- [X] 1-n MSCs definition and MSO-definability
+- [X] Relation between 1-n and causally ordered MSCs
+- [ ] Relation between 1-n and mailbox MSCs? Unknown...
+- [ ] Should I provide a clear semantics for CFSA with bag channels (FIFO is assumed in the classic description)?
 
 **[0]** A Unifying Framework for Deciding Synchronizability - Bollig, Di Giusto, Finkel, Laversa, Lozes, Suresh\
 **[1]** Reasoning about Distributed Systems: WYSIWYG - Aiswarya, Gastin\
@@ -70,3 +78,4 @@
 **[7]** A New Algorithm to Implement Causal Order - Shiper, Eggli, Sandoz\
 **[8]** On the Diversity of Asynchonous Communication - Chevrou, Hurault, Quéinnec
 
+<!--- $[^\$]+\$ --->

@@ -1344,6 +1344,8 @@ A communicating system, intended as a set of finite-state machines that can exch
 	\item \emph{FIFO $\oneone$ (\pp)}: this is a variant of the asynchronous architecture in which channels operate in FIFO mode (i.e. as queues). This means that messages between a couple of peers are delivered in their send order, whereas messages from/to different peers are delivered independently. We will use the term \emph{peer-to-peer} (\pp) as a synonym of FIFO $\oneone$. This architecture is equivalent to the "FIFO $\oneone$" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}.
 	\item \emph{Causally orderered}: this can be described as a more specific variant of the \pp architecture. In a causally orderered architecture, the communicating system ensures that messages are delivered according to the causality of their emissions. In other words, if a message $m_1$ is causally sent before a message $m_2$ (i.e. there exists a causal path from the first emission to the second one), then a peer cannot receive $m_2$ before $m_1$. Channels still operate in FIFO mode, but the delivery of some messages might be delayed to enforce causal ordering. This architecture is equivalent to the "Causally ordered" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}. In literature, several implementations of causal ordering have been proposed. For instance, the algorithm described in \cite{DBLP:conf/wdag/SchiperES89} makes use of the logical vector clocks introduced by Mattern-Fidge \cite{Fidge88timestampsin, Mattern89virtualtime} to enforce causal ordering.
 	\item \emph{FIFO $\none$ (mailbox)}: in a mailbox architecture, each machine merges all of its incoming messages (from any source) into a unique queue. In other words, we can model it as each machine $P_i$ having a single incoming FIFO channel, which is shared by the other machines that can send messages to $P_i$. A send event consists in adding the message at the end of the queue of the destination peer. This architecture is equivalent to the "FIFO $\none$" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}.
+	\item \emph{FIFO $\onen$ (mailbox)}: in a $\onen$ architecture, the messages sent from a single machine are always delivered in their send order, independently of the recipients. Its implementation is
+	not expensive: each machine has a unique queue to store sent messages. The recipients fetch messages from this queue and acknowledge their reception. After the acknowledgement, the next message in the queue can be fetched. This architecture is equivalent to the "FIFO $\onen$" communication model in \cite{DBLP:journals/fac/ChevrouHQ16}.
 	\item \emph{FIFO $\nn$}: this architecture can be modeled as a unique shared FIFO channel. Messages are globally ordered and delivered according to the their emission order. As noted in \cite{DBLP:journals/fac/ChevrouHQ16}, this model is generally unrealistic and its implementations are inefficient.
 
 \end{itemize}
@@ -1409,14 +1411,14 @@ The additional constraint satisfied by \pp MSCs ensures that channels operate in
 We will now consider the class of MSCs for which there is a causally ordered system that can produce their behaviour. Intuitively, an MSC is causally ordered if all the messages sent to the same process are received in an order which is consistent with the causal ordering of the corresponding send events. Below the formal definition, which also considers unmatched messages.
 \davide{Provide example of an MSC that is not causally ordered}
 \begin{definition}[Causally ordered MSC]
-An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le_\msc s'$, we have either:
+A \pp MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le_\msc s'$, we have either:
 \begin{itemize}\itemsep=0.5ex
-	\item $s,s' \in \Matched{\msc}$ and $r \procrel^+ r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
+	\item $s,s' \in \Matched{\msc}$ and $r \procrel^* r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
 	\item $s' \in \Unm{\msc}$.
 \end{itemize}
 \end{definition}
 
-By definition, every causally ordered MSC is a (\pp) MSC. This is not surprising, considering that a causally ordered system is essentially a \pp system with an additional constraint on the delivery of messages; indeed, we are always able to find a \pp system that \emph{can} exhibit the behaviour described by a causally ordered MSC. Let $\coMSCs$ denote the set of all the causally ordered MSCs over two given sets $\Procs$ and $\Msg$. Example~\ref{} shows that an MSC is not always a causally ordered MSC. It follows that $\coMSCs \subset \ppMSCs$.
+By definition, every causally ordered MSC is a \pp MSC. This is not surprising, considering that a causally ordered system is essentially a \pp system with an additional constraint on the delivery of messages; indeed, we are always able to find a \pp system that \emph{can} exhibit the behaviour described by a causally ordered MSC. Let $\coMSCs$ denote the set of all the causally ordered MSCs over two given sets $\Procs$ and $\Msg$. Example~\ref{} shows that a \pp MSC is not always a causally ordered MSC. It follows that $\coMSCs \subset \ppMSCs$.
 
 \medskip
 
@@ -1424,14 +1426,15 @@ Moving on to the mailbox semantics, we say that $\msc$ is a mailbox MSC if there
 \davide{Provide example of MSC which is not mailbox}
 
 \begin{definition}[Mailbox MSC]\label{def:mb_msc}
-An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{mailbox MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \linrel s'$, we have either:
+A \pp MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{mailbox MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \linrel s'$, we have either:
 \begin{itemize}\itemsep=0.5ex
 	\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
 	\item $s' \in \Unm{\msc}$.
 \end{itemize}
 \end{definition}
 
-Such a linearization will be referred to as a \emph{mailbox linearization}. Let $\mbMSCs$ denote the set of all the mailbox MSCs over two given sets $\Procs$ and $\Msg$. By definition, every mailbox MSC is a (\pp) MSC. Conversely, Example~\ref{} shows an MSC which is not a mailbox MSC. It follows that $\mbMSCs \subset \ppMSCs$. We show here that each mailbox MSC is also a causally ordered MSC.
+Such a linearization will be referred to as a \emph{mailbox linearization}, and the symbol $\mblinrel$ will be used to denote one. Let $\mbMSCs$ denote the set of all the mailbox MSCs over two given sets $\Procs$ and $\Msg$. By definition, every mailbox MSC is a \pp MSC. Conversely, Example~\ref{} shows a \pp MSC which is not a mailbox MSC. It follows that $\mbMSCs \subset \ppMSCs$. We show here that each mailbox MSC is also a causally ordered MSC.
+\davide{Provide example of causally ordered MSC which is not mailbox (Figure 2.18 of Laetitia's thesis).}
 
 \begin{proposition}\label{prop:mb_is_co}
 	Every mailbox MSC is a causally ordered MSC.
@@ -1445,8 +1448,116 @@ Let $\msc$ be a mailbox MSC and $\linrel$ a mailbox linearization of it. Recall 
 The former clearly respects the definition of causally ordered MSC, so let us focus on the latter. Note that $r$ and $r'$ are two receive events executed by the same process, hence $r \linrel r'$ implies $r \procrel^+ r'$. It follows that $\msc$ is a causally ordered MSC.
 \end{proof}
 
-\davide{Provide example of causally ordered MSC which is not mailbox}
-From Proposition~\ref{prop:mb_is_co} and Example~\ref{} it follows that $\mbMSCs \subset \coMSCs$. The four classes of MSCs that we presented form a hierarchy, namely $\mbMSCs \subset \coMSCs \subset \ppMSCs \subset \asMSCs$, as shown by Fig.~\ref{fig:msc_hierarchy}.
+\medskip
+
+Moving on to the $\onen$ semantics, we say that $\msc$ is a $\onen$ MSC if there is a $\onen$ system that can exhibit the behaviour described by $\msc$. 
+
+\begin{definition}[$\onen$ MSC]\label{def:one_n}
+A \pp MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\onen$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{p}{\plh}$, $\lambda(s')=\pqsAct{p}{\plh}$, and $s \procrel^+ s'$ (which implies $s \linrel s'$), we have either:
+\begin{itemize}\itemsep=0.5ex
+	\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
+	\item $s' \in \Unm{\msc}$.
+\end{itemize}
+\end{definition}
+
+Such a linearization will be referred to as a \emph{$\onen$ linearization}. Note that the definition is very similar to the mailbox case, but here $s$ and $s'$ are two send events executed by the same process. Let $\onenMSCs$ denote the set of all the $\onen$ MSCs over two given sets $\Procs$ and $\Msg$. By definition, every $\onen$ MSC is a \pp MSC. Conversely, Example~\ref{} shows a \pp MSC which is not a $\onen$ MSC. It follows that $\mbMSCs \subset \ppMSCs$. We show here that each $\onen$ MSC is also a causally ordered MSC, which is not as intuitive as the mailbox case.
+
+\davide{Provide example of MSC which is not $\onen$}
+
+\begin{proposition}\label{prop:onen_is_co}
+	Every $\onen$ MSC is a causally ordered MSC.
+\end{proposition}
+\begin{proof}
+By contradiction. Suppose that $\msc$ is a $\onen$ MSC, but not a causally ordered MSC. Since $\msc$ is not causally ordered, there must be two send events $s$ and $s'$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \le_\msc s'$, and we have either:
+\begin{enumerate}\itemsep=0.5ex
+	\item $s,s' \in \Matched{\msc}$ and $r' \procrel^* r$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
+	\item  $s \in \Unm{\msc}$ and $s' \in \Matched{\msc}$.
+\end{enumerate}
+We need to show that both of these scenarios lead to a contradiction. (1) Suppose $s$ and $s'$ are executed by the same process. Since $\msc$ is a $\onen$ MSC, there must be a linearization $\linrel$ such that $r \linrel r'$, but this is clearly impossible since we have $r' \procrel^* r$. Suppose now that $s$ and $s'$ are executed by two different processes $p$ and $q$. We know by hypothesis that $s \le_\msc s'$, i.e. there is a causal path of events $P = s \sim a \sim \dots \sim s' \sim r'$ from $s$ to $r'$, where $\sim$ is either $\procrel$ or $\lhd$. Refer to the first example in Figure~\ref{fig:onen_is_co} for a visual representation ($P$ is drawn in purple). To have a causal path $P$, there must be a send event $s''$ that is executed by $p$ after $s$ and that is part of $P$, along with its receipt $r''$ (i.e. $P = s \le_\msc s'' \lhd r'' \le_\msc s' \lhd r'$). We clearly have $r'' \linrel r'$ for any linearization of $\msc$, because $r'' \le_\msc r'$ (they are both in the causal path $P$ and $r''$ happens before $r$). Since $\msc$ is a $\onen$ MSC, there has to be a linearization $\linrel$ where $r \linrel r''$, because $s$ and $s''$ are send events executed by the same process. It follows that $\msc$ should have a linearization were $r \linrel r'' \linrel r'$, but this is not possible because of the hypothesis that $r' \procrel^* r$. This is a contradiction. (2) Suppose $s$ and $s'$ are executed by the same process. It is trivial to see, by definition, that $\msc$ cannot be a $\onen$ MSC. Suppose now that $s$ and $s'$ are executed by two different processes $p$ and $q$, and consider the same send event $s''$ as before (executed by $p$). Refer to the second example in Figure~\ref{fig:onen_is_co} for a visual representation. Since $s''$ is matched, we have two events $s$ and $s''$, sent by the same process $p$, that are unmatched and matched, respectively. Clearly, $\msc$ cannot be a $\onen$ MSC.
+\end{proof}
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+		\begin{center}
+			\begin{tikzpicture}
+				\newproc{0}{p}{-2.1};
+				\newproc{1}{t}{-2.1};
+				\newproc{2}{q}{-2.1};
+			
+				% \newmsgdiagnoname{0}{1}{-0.2}{-2.5}{black};
+				\newmsgnoname{0}{1}{-0.3}{black};
+				\newmsgnoname{0}{2}{-1}{black};
+				\newmsgnoname{2}{1}{-1.7}{black};
+		
+				\newevent{black}{0}{-0.3}{s}{left};
+				\newevent{black}{0}{-1}{s''}{left};
+				\newevent{black}{2}{-1}{r''}{above right};
+				\newevent{black}{1}{-1.7}{r'}{above right};
+				\newevent{black}{2}{-1.7}{s'}{right};
+				\newevent{black}{1}{-0.3}{r}{right};
+		
+				\newflechevert{Purple}{0}{-0.3}{-1};
+				\newflechehor{Purple}{-1}{0}{2};
+				\newflechevert{Purple}{2}{-1}{-1.7};
+				\newflechehorinverse{Purple}{-1.7}{2}{1};
+				
+			\end{tikzpicture}
+		\end{center}
+	\end{subfigure}
+	% \hfill
+	\begin{subfigure}[b]{0.4\textwidth}
+		\begin{center}
+			\begin{tikzpicture}
+				\newproc{0}{p}{-2.1};
+				\newproc{1}{t}{-2.1};
+				\newproc{2}{q}{-2.1};
+			
+				% \newmsgdiagnoname{0}{1}{-0.2}{-2.5}{black};
+				\newmsgumnoname{0}{1}{-0.3}{black};
+				\newmsgnoname{0}{2}{-1}{black};
+				\newmsgnoname{2}{1}{-1.7}{black};
+		
+				\newevent{black}{0}{-0.3}{s}{left};
+				\newevent{black}{0}{-1}{s''}{left};
+				\newevent{black}{2}{-1}{r''}{above right};
+				\newevent{black}{2}{-1.7}{s'}{right};
+				\newevent{black}{1}{-1.7}{r'}{above right};
+		
+				\newflechevert{Purple}{0}{-0.3}{-1};
+				\newflechehor{Purple}{-1}{0}{2};
+				\newflechevert{Purple}{2}{-1}{-1.7};
+				\newflechehorinverse{Purple}{-1.7}{2}{1};
+				
+			\end{tikzpicture}
+			\end{center}
+	\end{subfigure}
+	   \caption{Two examples of $\onen$ MSCs.}
+	   \label{fig:onen_is_co}
+\end{figure}
+
+\davide{Provide example of causally ordered MSC which is not $\onen$ (same as mailbox! Figure 2.18 of Laetitia's thesis).}
+
+\begin{definition} [$\onen$ alternative]\label{def:one_n_alt}
+For a \pp MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, we define
+an additional binary relation that represents a constraint
+under the $\onen$ semantics, which ensures that messages sent from the same process are received in the same order. Let ${\onenrel}_\msc \subseteq \Events \times \Events$ be defined as $e_1 \onenrel_\msc e_2$ if there are two events $e_1$ and $e_2$, and $p \in \Procs$ such that either:
+\begin{itemize}\itemsep=0.5ex
+	\item $\lambda(e_1) \in \psAct{p}$, $\lambda(e_2) \in \psAct{p}$, $e_1 \in \Matched{\msc}$, and $e_2 \in \Unm{\msc}$, or
+	\item $\lambda(e_1) \in \prAct{p}$, $\lambda(e_2) \in \prAct{p}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events_p$, and $s_1 \procrel^+ s_2$.
+\end{itemize}
+
+We let ${\lessdot_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel_\msc})^\ast$.
+Note that ${\le_\msc} \subseteq {\lessdot_\msc}$.
+%
+%\begin{definition}\label{def:mailbox-msc}
+	We call $\msc \in \ppMSCs$ a \emph{$\onen$ MSC}
+	if ${\lessdot_\msc}$ is a partial order.
+\end{definition}
+
+\davidequestion{What about the relation between $\onenMSCs$ and $\mbMSCs$? Can we find an example of MSC which is $\onen$ but not mailbox? Do we have $\onenMSCs \subset \mbMSCs$?}
+
+From Proposition~\ref{prop:onen_is_co} and Example~\ref{} it follows that $\onenMSCs \subset \coMSCs$. The classes of MSCs that we presented form a hierarchy, namely $\mbMSCs \subset \coMSCs \subset \ppMSCs \subset \asMSCs$, as shown by Fig.~\ref{fig:msc_hierarchy}.
 
 \begin{figure}[h]
 	\centering
@@ -1481,46 +1592,46 @@ we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defin
 	The set of \pp MSCs is MSO-definable as
 	\[
 		\ppformula = \neg \exists s.\exists s'. \left(
-		\bigvee_{\substack{p \in \Procs, q \in \Procs\\a,b \in \pqsAct{p}{q}}}\hspace{-1em}
+		\bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
+		\bigvee_{\substack{a,b \in \pqsAct{p}{q}}}\hspace{-1em}
 		(\lambda(s) = a \;\wedge\; \lambda(s') = b) \;\wedge\; s \procrel^+ s' \;\wedge\;
-		\exists r.\exists r'.\left(
+		(\psi_1 \vee \psi_2 ) 	
+		\right)
+	\]
+	where $\psi_1$ and $\psi_2$ are
+	\[
+		\psi_1 = \exists r.\exists r'.\left(
 		\begin{array}{ll}
 			s \lhd r & \wedge\\
 			s' \lhd r' & \wedge\\
 			r' \procrel^+ r &
-		\end{array}
-		\right)
-		\right)
+		\end{array} 
+		\right) \quad \quad
+		\psi_2 = (\neg \mathit{matched}(s) \wedge \mathit{matched}(s'))
+		\]
+		\[
+		matched(x) = \exists y. x \lhd y
 	\]
-The property $\ppformula$ says that there cannot be two matched send events $s$ and $s'$, with the same sender and receiver, such that $s \procrel^+ s$ and their receipts happen in the reverse order. In other words, it ensures that channels operate in FIFO mode.
+
+The property $\ppformula$ says that there cannot be two matched send events $s$ and $s'$, with the same sender and receiver, such that either
+\begin{enumerate*}[label={(\roman*)}]
+	\item $s \procrel^+ s$ and their receipts happen in the reverse order, or
+	\item $s$ is unmatched and $s'$ is matched.
+\end{enumerate*}
+In other words, it ensures that channels operate in FIFO mode, where an unmatched messages blocks the receipt of all the subsequent messages on that channel.
 The set $\ppMSCs$ is therefore MSO-definable as $\ppMSCs=L(\ppformula)$.
 
 \paragraph*{Causally ordered MSCs}
-\davidequestion{$[\ppformula \;\wedge\;]$ should be redundant.}
 Given an MSC $\msc$, it is causally ordered if it satisfies the MSO formula
 \[
-\coformula = [\ppformula \;\wedge\;] 
-\neg \exists s.\exists s'. \left(
-\bigvee_{\substack{q \in \Procs\\a,b \in \qsAct{q}}}\hspace{-1em}
-(\lambda(s) = a \;\wedge\; \lambda(s') = b)
-\;\wedge\; s \le_\msc s' \;\wedge\;
-(\psi_1 \vee \psi_2 ) 
-\right)
+	\coformula = \neg \exists s.\exists s'. \left(
+	\bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
+	\bigvee_{\substack{a,b \in \pqsAct{p}{q}}}\hspace{-1em}
+	(\lambda(s) = a \;\wedge\; \lambda(s') = b) \;\wedge\; s \le_\msc s' \;\wedge\;
+	(\psi_1 \vee \psi_2 ) 	
+	\right)
 \]
-where $\psi_1$ and $\psi_2$ are
-\[
-\psi_1 = \exists r.\exists r'.\left(
-\begin{array}{ll}
-	s \lhd r & \wedge\\
-	s' \lhd r' & \wedge\\
-	r' \procrel^+ r &
-\end{array} 
-\right) \quad \quad
-\psi_2 = (\neg \mathit{matched}(s) \wedge \mathit{matched}(s'))
-\]
-\[
-matched(x) = \exists y. x \lhd y
-\]
+where $\psi_1$ and $\psi_2$ are the same formulas used for \pp.
 
 The property $\coformula$ says that there cannot be two send events $s$ and $s'$, with the same recipient, such that $s \le_\msc s'$ and either
 \begin{enumerate*}[label={(\roman*)}]
@@ -1531,15 +1642,41 @@ The set $\coMSCs$ of causally ordered MSCs is therefore MSO-definable as $\coMSC
 
 \paragraph*{Mailbox MSCs}
 
-Given an MSC $\msc$, it is a mailbox MSCs if it satisfies the MSO formula
+Given an MSC $\msc$, it is a mailbox MSC if it satisfies the MSO formula
 \[
-	\mbformula = \ppformula \;\wedge\; \neg \exists x.\exists y.(\neg (x = y) \wedge x \preceq y \wedge y \preceq x)
+	\mbformula = \ppformula \;\wedge\; \neg \exists x.\exists y.(\neg (x = y) \wedge x \preceq_\msc y \wedge y \preceq_\msc x)
 \]
 The set $\mbMSCs$ of mailbox MSCs is therefore MSO-definable as $\mbMSCs=L(\mbformula)$.
-\davidequestion{This does not match my definition of mailbox MSC, should I also give the alternative definition (the one in the concur paper) or rewrite everything according to my definition?}
+\davide{This does not match my definition of mailbox MSC, should I also give the alternative definition (the one in the concur paper) or rewrite everything according to my definition? Give both definitions and prove that they are equivalent}
+
+\paragraph*{$\onen$ MSCs}
+
+Given an MSC $\msc$, it is a $\onen$ MSC if it satisfies the MSO formula
+\[
+	\onenformula = \ppformula \;\wedge\; \neg \exists x.\exists y.(\neg (x = y) \wedge x \lessdot_\msc y \wedge y \lessdot_\msc x)
+\]
+Here, $x \lessdot_\msc y$ is the MSO-definable transitive closure of the union of the MSO-definable relations $\procrel$, $\lhd$, and $\onenrel_\msc$. In particular, we can define $x \onenrel_\msc y$ as 
+\[
+x \onenrel_\msc y =
+\begin{array}{rl}
+& \left(
+	\bigvee_{\substack{p \in \Procs\\a,b \in \psAct{p}}}\hspace{-1em}
+	(\lambda(x) = a \;\wedge\; \lambda(y) = b)
+	\;\wedge\; \mathit{matched}(x) \;\wedge\; \neg \mathit{matched}(y)
+\right) \;\vee\\
+& \left(
+	\bigvee_{\substack{p \in \Procs\\a,b \in \prAct{p}}}\hspace{-1em}
+	(\lambda(x) = a \;\wedge\; \lambda(y) = b)
+	\;\wedge\; 
+	\exists x'.\exists y'. (x' \lhd x \;\wedge\; y' \lhd y \;\wedge\; x' \procrel^+ y')
+\right)\\
+\end{array}
+\]
+The MSO formula for $x \onenrel_\msc y$ closely follows Definition~\ref{def:one_n_alt}. The set $\onenMSCs$ of mailbox MSCs is therefore MSO-definable as $\onenMSCs=L(\onenformula)$.
 
 \subsection{Existentially bounded MSCs}
 
+\davidequestion{Should we say for all sends, also unmatched? Shouldn't it be $<$ instead of $\le$?}
 \begin{definition}\label{def:lin_k_bounded}
 	Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and $k \in \N$.
 	A linearization $\linrel$ of $\msc$ is called
@@ -1562,28 +1699,29 @@ Let $\asEk$ be the set of existentially $k$-bounded MSCs, for a given $k \in \N$
 \end{definition}
 When moving on to mailbox MSCs, the definition of mailbox existentially $k$-bounded MSC should require that there exists a $k$-bounded linearization that is also a mailbox linearization, not just any linearization. Recall that an MSC is a mailbox MSC if it has at least one mailbox linearization, which represents a sequence of events that can be executed by a mailbox system. Following this intuition, we want one of these mailbox linearizations to be $k$-bounded, because \emph{non}-mailbox linearizations cannot be executed by a mailbox system.
 \begin{definition}
-	An MSC $\msc$ is \emph{mailbox existentially $k$-bounded} (mb-$\exists k$-bounded) if it has a $k$-bounded mailbox linearization.
+	An MSC $\msc$ is \emph{mailbox existentially $k$-bounded} (mb-$\exists k$-bounded) if it is a mailbox MSC and it has a $k$-bounded mailbox linearization.
 \end{definition}
 It should be noted that, for a $k$-bounded mailbox linearization, it is not necessarily true that at any time we have at most $k$ messages in each channel. Recall that in the mailbox communication architecture every process has a single incoming channel, but the Definition~\ref{def:lin_k_bounded} of $k$-bounded linearization considers the number of pending messages between each pair $(p,q)$ of processes. Let $n$ be the number of processes. We can say that, for a $k$-bounded mailbox linearization, we have at most $k(n-1)$ messages in each channel at any moment (because each process can have at most $k$ pending messages coming from any of the other $n-1$ processes).
 \davide{An example would be nice.}
 
 \subsubsection{MSO-definability}
 
-In this section, we will investigate the MSO-definability of all the variants of existentially $k$-bounded MSCs that we introduced. Following the approach taken in \cite{DBLP:conf/fossacs/LohreyM02}, we introduce a binary relation $\relb$ ($\linrel_b$ in their work) associated with a given bound $k$ and an MSC $\msc$. Let $k \ge 1$ and $\msc$ be a fixed MSC: we have $r \relb s$ if, for some $i \ge 1$ and some channel ($p$,$q$)\footnote{Recall that ($p$,$q$) is a channel where messages are sent by $p$ and received by $q$.}:
+In this section, we will investigate the MSO-definability of all the variants of existentially $k$-bounded MSCs that we introduced. Following the approach taken in \cite{DBLP:conf/fossacs/LohreyM02}, we introduce a binary relation $\relb$ ($\linrel_b$ in their work) associated with a given bound $k$ and an MSC $\msc$. Let $k \ge 1$ and $\msc$ be a fixed MSC: we have $r \relb s$ if, for some $i \ge 1$ and some channel ($p$,$q$)\footnote{Recall that ($p,\,q$) is a channel where messages are sent by $p$ and received by $q$.}:
 \begin{enumerate}\itemsep=0.5ex
+	\item $r$ is the $i$-th receive event (executed by $q$).
 	\item $s$ is the ($i+k$)-th send event (executed by $p$).
-	\item $r$ is the $i$-th receive event (executed by $q$). Note that the $i$-th receive event matches with the $i$-th send event executed by $p$.
 \end{enumerate} 
-Note that, for any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed before $s$ is not $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization". A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.\davide{An example would be nice.} In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is existentially $k$-bounded if and only if the relation $\le_\msc \cup \relb$ is acyclic\footnote{A binary relation is acyclic if it does not contain a "cycle", which is to say its transitive closure is antisymmetric.}.\davidequestionsmall{Should I show that acyclicity is MSO-definable?} Since $\le_\msc$ and acyclicity are both MSO-definable (we did not show the latter), it suffices to find an MSO formula that defines the $\relb$ relation to say that the set of existentially $k$-bounded MSCs is MSO-definable. In particular, we can define $r \relb s$ as
+Note that, for any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed after $s$ cannot $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization".\davidequestionsmall{Should I prove it?} A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.\davide{An example would be nice.} In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is existentially $k$-bounded if and only if the relation $\le_\msc \cup \relb$ is acyclic\footnote{A binary relation is acyclic if it does not contain a "cycle", which is to say its transitive closure is antisymmetric.}. Since $\le_\msc$ and acyclicity are both MSO-definable (we did not show the latter), it suffices to find an MSO formula that defines the $\relb$ relation to say that the set of existentially $k$-bounded MSCs is MSO-definable. In particular, we can define $r \relb s$ as
+\davidequestion{This is not valid for asynchronous, it is for \pp, but it might need some tweaking for unmatched messages}
 \[
-r \relb s=\exists s_1,s_2,\dots,s_k.\left(
+r \relb s=\exists s_1.\exists s_2.\dots.\exists s_k.\left(
 allSend\_p\_q
 \;\wedge\; s_1\procrel s_2\procrel\dots
-\procrel s_n\procrel s
-\;\wedge\; \exists r. s_1 \lhd r
+\procrel s_k\procrel s
+\;\wedge\; s_1 \lhd r
 \right)
 \]
-where $allSend\_p\_q$ checks if $s,s_1,\dots,s_k$ are all send events from and to the same process
+where $allSend\_p\_q$ checks if $s,s_1,\dots,s_k$ are all send events from and to the same process (i.e., on the same channel)
 \[
 allSend\_p\_q=
 \bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
@@ -1608,18 +1746,18 @@ Let $\asUk$ be the set of universally $k$-bounded MSCs.
 \end{definition}
 Let $\ppUk$ be the set of \pp universally $k$-bounded MSCs.
 \begin{definition}
-	An MSC $\msc$ is \emph{causally universally orderered $k$-bounded} ($\cosymb$-$\forall k$-bounded) if it is a causally ordered MSC and it is also universally $k$-bounded.
+	An MSC $\msc$ is \emph{causally orderered universally $k$-bounded} ($\cosymb$-$\forall k$-bounded) if it is a causally ordered MSC and it is also universally $k$-bounded.
 \end{definition}
 Let $\coUk$ be the set of causally ordered universally $k$-bounded MSCs.
 \begin{definition}
-	An MSC $\msc$ is \emph{mailbox universally $k$-bounded} (mb-$\forall k$-bounded) if all of its mailbox linearizations are $k$-bounded.
+	An MSC $\msc$ is \emph{mailbox universally $k$-bounded} (mb-$\forall k$-bounded) if it is a mailbox MSC and all of its mailbox linearizations are $k$-bounded.
 \end{definition}
 Let $\mbUk$ be the set of mailbox universally $k$-bounded MSCs.
 
 \subsubsection{Hierarchy}
 
 \davide{Investigate hierarchy of universally $k$-bounded MSCs.}
-In this section we will investigate the relations between the various classes of universally $k$-bounded MSCs that we introduced. From their definition, it is quite straightforward to see that $\coUk \subseteq \ppUk \subseteq \asUk$. The set of mailbox universally $k$-bounded MSCs, however, does not fit in this hierarchy. Recall that an MSC is mb-$\forall k$-bounded if all of its mailbox linearizations are $k$-bounded, but the definition does not say anything about non-mailbox linearizations. It can be the case that an MSC has a bound $k$ on its mailbox linearization, but another bound $k'$ on non-mailbox linearizations. Fig.~\ref{fig:mb_uk} shows an MSC $\msc$ which is mb-$\forall 1$-bounded, but not $\forall 1$-bounded. According to the mailbox semantics, a mailbox linearization of $\msc$ has to respect the order $!m_1 \mbrel_\msc\, !m_3 \mbrel_\msc\, !m_4$. Note that all mailbox linearizations are $1$-bounded, but we are able to find a non-mailbox linearization that is 2-bounded, such as $!m_1 \linrel\, !m_4 \linrel\, ?m_1 \linrel\, !m_2 \linrel\, ?m_2 \linrel\, !m_3 \linrel\, !m_4 \linrel\, ?m_3 \linrel\, ?m_4$.
+In this section we will investigate the relations between the various classes of universally $k$-bounded MSCs that we introduced. From their definition, it is quite straightforward to see that $\coUk \subseteq \ppUk \subseteq \asUk$. The set of mailbox universally $k$-bounded MSCs, however, does not fit in this hierarchy. Recall that an MSC is mb-$\forall k$-bounded if all of its mailbox linearizations are $k$-bounded, but the definition does not say anything about non-mailbox linearizations. It can be the case that an MSC has a bound $k$ for its mailbox linearizations, but a higher bound $k'$ for non-mailbox linearizations. Fig.~\ref{fig:mb_uk} shows an MSC $\msc$ which is mb-$\forall 1$-bounded, but $\forall 2$-bounded. According to the mailbox semantics, a mailbox linearization of $\msc$ has to respect the order $!m_1 \mbrel_\msc\, !m_3 \mbrel_\msc\, !m_4$. Note that all mailbox linearizations are $1$-bounded, but we are able to find a non-mailbox linearization that is 2-bounded, such as $!m_1 \linrel\, !m_4 \linrel\, ?m_1 \linrel\, !m_2 \linrel\, ?m_2 \linrel\, !m_3 \linrel\, !m_4 \linrel\, ?m_3 \linrel\, ?m_4$.
 
 \begin{figure}[h]
 \begin{center}
@@ -1643,15 +1781,15 @@ For a given $k \in \N$, Fig~\ref{fig:uk_hierarchy} gives a visual representation
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=8cm]{uni_k_hierarchy.png}
-	\caption{The relation between different variants of universally $k$-bounded MSCs, given $k \in \N$.}
+	\caption{The relation between different variants of universally $k$-bounded MSCs, given a $k \in \N$.}
 	\label{fig:uk_hierarchy}
 \end{figure}
 
 \subsubsection{MSO-definability}
 
-In this section, we will investigate the MSO-definability of all the variants of existentially $k$-bounded MSCs that we introduced.
+In this section, we will investigate the MSO-definability of all the variants of universally $k$-bounded MSCs that we introduced.
 
-In \cite{DBLP:conf/fossacs/LohreyM02}, it is shown that an MSC $\msc$ is universally $k$-bounded if and only if $\relb \;\subseteq\; \le_\msc$. In other words, $r \relb s \Rightarrow r \le_\msc s$ for any two events $r$ and $s$. Intuitively, it is equivalent to saying that every linearization $\linrel$ of $\msc$ respects the $\relb$ relation, since $\relb \;\subseteq\; \le_\msc \;\subseteq\; \linrel$. We already showed that $\relb$ is MSO-definable. The MSO formula that defines universally $k$-bounded  MSCs can be written as
+In \cite{DBLP:conf/fossacs/LohreyM02}, it is shown that an MSC $\msc$ is universally $k$-bounded if and only if $\relb \;\subseteq\; \le_\msc$. In other words, $r \relb s \Rightarrow r \le_\msc s$ for any two events $r$ and $s$. This is equivalent to saying that every linearization $\linrel$ of $\msc$ respects the $\relb$ relation, since $\relb \;\subseteq\; \le_\msc \;\subseteq\; \linrel$. We already showed that $\relb$ is MSO-definable. The MSO formula that defines universally $k$-bounded  MSCs can be written as
 \[ \asUkformula = \neg \exists r.\exists s.(r \relb s \wedge \neg(r \le_\msc s)) \]
 Causally ordered and \pp universally $k$-bounded MSCs are clearly MSO-definable by definition, since we already showed that \pp MSCs, causally ordered MSCs, and universally $k$-bounded MSCs are all MSO-definable. To show MSO-definability of mailbox universally $k$-bounded MSCs we first prove the following property.
 
@@ -1660,8 +1798,8 @@ Causally ordered and \pp universally $k$-bounded MSCs are clearly MSO-definable 
 \end{proposition}
 \begin{proof}
 	Consider an MSC $\msc$ and a $k \in \N$.\newline
-	($\rightarrow$) Suppose $\relb \;\subseteq\; \preceq_\msc$. For every mailbox linearization $\mblinrel$ of $\msc$ we have that $\preceq_\msc \;\subseteq\; \mblinrel$. This implies $\relb \;\subseteq\; \mblinrel$, that is to say every mailbox linearization is $k$-bounded.\newline
-	($\leftarrow$) Suppose $\msc$ is a mailbox universally $k$-bounded MSC. By definition, every mailbox linearization $\mblinrel$ of $\msc$ is $k$-bounded, i.e. $\relb \;\subseteq\; \mblinrel$, and we have $\preceq_\msc \;\subseteq\; \mblinrel$, according to the definition of mailbox linearization. Moreover, we also know that $\preceq_\msc \cup \relb$ is acyclic, since $\msc$ is existentially $k$-bounded\footnote{Every mailbox universally $k$-bounded MSC is also a mailbox existentially $k$-bounded MSC by definition.}. We now suppose, by contradiction, that $\relb \;\nsubseteq\; \preceq_\msc$. Thus, there must be at least two events $r$ and $s$ such that $r \relb s$ and $r \npreceq_\msc s$; we also have $s \npreceq_\msc r$ because of the acyclicity of $\preceq_\msc \cup \relb$. Consider a mailbox linearization $\mblinrel$  of $\msc$, such that $s \mblinrel r$. Note that such a mailbox linearization always exists, since we saw that $r$ and $s$ are incomparable w.r.t. the partial order $\preceq_\msc$\footnote{If two elements $a$ and $b$ of a set are incomparable w.r.t. a partial order $\le$, it is always possible to find a total order of the elements (that respects $\le$) where $a$ comes before $b$, or viceversa.}. This mailbox linearization does not respect $\relb$, so it is not $k$-bounded. This is a contradiction, since we assumed that $\msc$ was a mailbox universally $k$-bounded MSC.
+	($\Leftarrow$) Suppose $\relb \;\subseteq\; \preceq_\msc$. For every mailbox linearization $\mblinrel$ of $\msc$ we have that $\preceq_\msc \;\subseteq\; \mblinrel$. This implies $\relb \;\subseteq\; \mblinrel$, that is to say every mailbox linearization is $k$-bounded.\newline
+	($\Rightarrow$) Suppose $\msc$ is a mailbox universally $k$-bounded MSC. By definition, every mailbox linearization $\mblinrel$ of $\msc$ is $k$-bounded, i.e. $\relb \;\subseteq\; \mblinrel$, and we have $\preceq_\msc \;\subseteq\; \mblinrel$, according to the definition of mailbox linearization. Moreover, we also know that $\preceq_\msc \cup \relb$ is acyclic, since $\msc$ is existentially $k$-bounded\footnote{Every mailbox universally $k$-bounded MSC is also a mailbox existentially $k$-bounded MSC by definition.}. Suppose now, by contradiction, that $\relb \;\nsubseteq\; \preceq_\msc$. Thus, there must be at least two events $r$ and $s$ such that $r \relb s$ and $r \npreceq_\msc s$; we also have $s \npreceq_\msc r$ because of the acyclicity of $\preceq_\msc \cup \relb$ (we cannot have the cycle $r \relb s \preceq_\msc r$). Consider a mailbox linearization $\mblinrel$  of $\msc$, such that $s \mblinrel r$. Note that such a mailbox linearization always exists, since $r$ and $s$ are incomparable w.r.t. the partial order $\preceq_\msc$ (i.e. $s \npreceq_\msc r$)\footnote{If two elements $a$ and $b$ of a set are incomparable w.r.t. a partial order $\le$, it is always possible to find a total order of the elements (that respects $\le$) where $a$ comes before $b$, or viceversa.}. This mailbox linearization does not respect $\relb$ (because we have $s \mblinrel r$ and $r \relb s$), so it is not $k$-bounded. This is a contradiction, since we assumed that $\msc$ was a mailbox universally $k$-bounded MSC. It has to be that $\relb \subseteq \preceq_\msc$.
 \end{proof}
 
 Using Proposition~\ref{prop:mb_ukb_alt}, we can now easily write the MSO formula that defines mailbox universally $k$-bounded MSCs as
