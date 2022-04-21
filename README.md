@@ -67,6 +67,9 @@
 - [X] Relation between 1-n and causally ordered MSCs
 - [ ] Relation between 1-n and mailbox MSCs? Unknown...
 - [ ] Should I provide a clear semantics for CFSA with bag channels (FIFO is assumed in the classic description)?
+  
+## Week 7
+- p2p should be redundant in the 1-n definition
 
 **[0]** A Unifying Framework for Deciding Synchronizability - Bollig, Di Giusto, Finkel, Laversa, Lozes, Suresh\
 **[1]** Reasoning about Distributed Systems: WYSIWYG - Aiswarya, Gastin\
