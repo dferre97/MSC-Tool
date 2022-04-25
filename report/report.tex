@@ -1599,7 +1599,25 @@ We showed that cases (3) and (4) can never happen, whereas cases (5) and (6) bot
 	\end{itemize}
 \end{definition}
 
-Intuitively, with an $\nn$ MSC we are always able to shedule events in such a way that messages are received in the same order as they were sent, and unmatched messages are sent only after all matched messages are sent. By definition, every $\nn$ MSC is a $\onen$ MSC.
+Intuitively, with an $\nn$ MSC we are always able to schedule events in such a way that messages are received in the same order as they were sent, and unmatched messages are sent only after all matched messages are sent. By definition, every $\nn$ MSC is a $\onen$ MSC. We show that the opposite direction is also true, which implies that the class of $\nn$ MSCs is equivalent to the class of $onen$ MSCs. The following example gives an intuition of the formal proof, which will be given right after.
+
+\begin{proposition}
+	Every $\onen$ MSC without unmatched messages is an $\nn$ MSC.
+\end{proposition}
+\begin{proof}
+Let $\msc$ be a $\onen$ MSC without unmatched messages, and let $L$ be a $\onen$ linearization. We will show that, by reordering some of the events in $L$, we are always able to obtain a $\nn$ linearization for $\msc$. The algorithm works as follow:
+\begin{enumerate}
+	\item Find a pair $(m_1,m_2)$ of distinct messages such that their send order in $L$ is the inverse of the receive order\footnote{Note that $L$ is already a $\nn$ linearization if such a pair does not exist}. This can only happen if there is not a causal path between $s_1$ and $s_2$, i.e $s_1 \le \ge s_2$, where $s_i$ is the send event of message $m_i$. To see why, suppose w.l.o.g. that $s_1 \le s_2$. As seen in the proof of Proposition~\ref{prop:onen_mb_no_unmatched}, there must be a message $m_k$ sent by the same process that sent $s_1$, such that we have $r_1 \onenrel r_k \le r_2$, and in particular $r_1 \lessdot r_2$. Therefore, if $s_1 \le s_2$, the receive order has to match the send order in $L$ and it will never be the opposite.
+	\item Suppose, w.l.o.g. that $s_2 \linrel s_1$ and $r_1 \linrel r_2$, and we saw that $s_1 \le \ge s_2$. We would like to invert the order of $s_1$ and $s_2$ in the linearization, so that it matches the receive order. If we simply swap $s_2$ and $s_1$ in $L$, the new linearization could be invalid for $\msc$; for instance, there might be some events between $s_2$ and $s_1$ (in the linearization $L$) that need to happen before $s_1$. However, we show that it is still possible to invert the order of $s_1$ and $s_2$ without invalidating the linearization. Suppose that $s_2$ and $s_1$ are the $i$-th and the $j$-th events of $L$, respectively, where $i<j$. The idea is to move $s_2$ right before $s_1$, along with all the events on which $s_1$ depends, that are between $s_2$ and $s_1$ in $L$; we say that $s_1$ depends on an event $e$ if $e \lessdot s_1$.
+\end{enumerate}
+\end{proof}
+
+\paragraph*{Example}
+Consider the MSC $\msc$ shown in Figure~\ref{}. This is a $\onen$ MSC, so there exists a $\onen$ linearization. For instance, consider the $\onen$ linearization $!2\,!3\,!6\,!5\,!1\,?5\,?1\,?2\,!6\,!4\,?3\,?6$, where we omitted $\linrel$ between events to improve readability. We will show that, by making some changes to this linearization, we are able to obtain a $\nn$ linearization that is still valid for $\msc$. For a linearization to be $\nn$ we need to have that, for each pair of messages, the send order matches the receive order. Note that, in this example, we do not have unmatched messages. The idea is to start from the $\onen$ linearization and:
+\begin{itemize}
+	\item Find a pair $(m_1,m_2)$ of messages such that the send order is the inverse of the receive order. If such a pair does not exist, this is already a $\nn$ linearization.
+	\item 
+\end{itemize}
 
 \begin{proposition}
 	Every $\onen$ MSC is a $\nn$ MSC
@@ -1752,6 +1770,10 @@ When moving on to mailbox MSCs, the definition of mailbox existentially $k$-boun
 It should be noted that, for a $k$-bounded mailbox linearization, it is not necessarily true that at any time we have at most $k$ messages in each channel. Recall that in the mailbox communication architecture every process has a single incoming channel, but the Definition~\ref{def:lin_k_bounded} of $k$-bounded linearization considers the number of pending messages between each pair $(p,q)$ of processes. Let $n$ be the number of processes. We can say that, for a $k$-bounded mailbox linearization, we have at most $k(n-1)$ messages in each channel at any moment (because each process can have at most $k$ pending messages coming from any of the other $n-1$ processes).
 \davide{An example would be nice.}
 
+\begin{definition}
+	An MSC $\msc$ is \emph{$\onen$ existentially $k$-bounded} (1n-$\exists k$-bounded) if it is a $\onen$ MSC and it has a $k$-bounded $\onen$ linearization.
+\end{definition}
+
 \subsubsection{MSO-definability}
 
 In this section, we will investigate the MSO-definability of all the variants of existentially $k$-bounded MSCs that we introduced. Following the approach taken in \cite{DBLP:conf/fossacs/LohreyM02}, we introduce a binary relation $\relb$ ($\linrel_b$ in their work) associated with a given bound $k$ and an MSC $\msc$. Let $k \ge 1$ and $\msc$ be a fixed MSC: we have $r \relb s$ if, for some $i \ge 1$ and some channel ($p$,$q$)\footnote{Recall that ($p,\,q$) is a channel where messages are sent by $p$ and received by $q$.}:
@@ -1799,6 +1821,10 @@ Let $\ppUk$ be the set of \pp universally $k$-bounded MSCs.
 Let $\coUk$ be the set of causally ordered universally $k$-bounded MSCs.
 \begin{definition}
 	An MSC $\msc$ is \emph{mailbox universally $k$-bounded} (mb-$\forall k$-bounded) if it is a mailbox MSC and all of its mailbox linearizations are $k$-bounded.
+\end{definition}
+Let $\mbUk$ be the set of mailbox universally $k$-bounded MSCs.
+\begin{definition}
+	An MSC $\msc$ is \emph{$\onen$ universally $k$-bounded} (1n-$\forall k$-bounded) if it is a $\onen$ MSC and all of its $\onen$ linearizations are $k$-bounded.
 \end{definition}
 Let $\mbUk$ be the set of mailbox universally $k$-bounded MSCs.
 
@@ -1855,11 +1881,12 @@ Using Proposition~\ref{prop:mb_ukb_alt}, we can now easily write the MSO formula
 
 \subsubsection{Special treewidth}
 
-All the variants of universally $k$-bounded MSCs that we presented have a bounded special treewidth. This directly follows from the STW-boundness of the existentially counterparts, since every universally $k$-bounded MSC is existentially $k$-bounded by definition.
+All the variants of universally $k$-bounded MSCs that we presented have a bounded special treewidth. This directly follows from the STW-boundness of the existential counterparts, since every universally $k$-bounded MSC is existentially $k$-bounded by definition.
 
 \subsubsection{MSO additional content}\label{sec:mso_extra}
 
 \input{extra/mso_extra.tex}
+\input{extra/proofs_extra.tex}
 
 \printbibliography
 
