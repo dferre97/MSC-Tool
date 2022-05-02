@@ -1333,7 +1333,7 @@ Let $\ppEk$ and $\coEk$ be the set of existentially $k$-\pp-bounded MSCs and the
 
 \davide{Give intuition of what is an MSC and how MSCs can be used to represent graphically the behaviour of a system in terms of send/receive events. Talk about partial order on MSCs (causal relation/paths) and linearizations.}
 
-\davidequestion{Clarify difference between 'message delivery' and 'receive event'. (Actually there should not be any difference according to our interpretation)}
+\davidequestion{Clarify terminology: 'message delivery' and 'receive event'}
 
 \subsection{Communication architectures and variants}
 
@@ -1411,7 +1411,7 @@ The additional constraint satisfied by \pp MSCs ensures that channels operate in
 We will now consider the class of MSCs for which there is a causally ordered system that can produce their behaviour. Intuitively, an MSC is causally ordered if all the messages sent to the same process are received in an order which is consistent with the causal ordering of the corresponding send events. Below the formal definition, which also considers unmatched messages.
 \davide{Provide example of an MSC that is not causally ordered}
 \begin{definition}[Causally ordered MSC]
-A \pp MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le_\msc s'$, we have either:
+An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le_\msc s'$, we have either:
 \begin{itemize}\itemsep=0.5ex
 	\item $s,s' \in \Matched{\msc}$ and $r \procrel^* r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
 	\item $s' \in \Unm{\msc}$.
@@ -1426,7 +1426,7 @@ Moving on to the mailbox semantics, we say that $\msc$ is a mailbox MSC if there
 \davide{Provide example of MSC which is not mailbox}
 
 \begin{definition}[Mailbox MSC]\label{def:mb_msc}
-A \pp MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{mailbox MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \linrel s'$, we have either:
+An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{mailbox MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \linrel s'$, we have either:
 \begin{itemize}\itemsep=0.5ex
 	\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
 	\item $s' \in \Unm{\msc}$.
@@ -1464,7 +1464,7 @@ Such a linearization will be referred to as a \emph{$\onen$ linearization}. Note
 
 \davide{Provide example of MSC which is not $\onen$}
 
-\davidequestion{Show I still have this proof if we showed that every $\onen$ MSC is a mailbox MSC?}
+\davidequestion{Should I still leave this proof if we showed that every $\onen$ MSC is a mailbox MSC?}
 \begin{proposition}\label{prop:onen_is_co}
 	Every $\onen$ MSC is a causally ordered MSC.
 \end{proposition}
@@ -1599,29 +1599,21 @@ We showed that cases (3) and (4) can never happen, whereas cases (5) and (6) bot
 	\end{itemize}
 \end{definition}
 
-Intuitively, with an $\nn$ MSC we are always able to schedule events in such a way that messages are received in the same order as they were sent, and unmatched messages are sent only after all matched messages are sent. By definition, every $\nn$ MSC is a $\onen$ MSC. We show that the opposite direction is also true, which implies that the class of $\nn$ MSCs is equivalent to the class of $onen$ MSCs. The following example gives an intuition of the formal proof, which will be given right after.
+Intuitively, with an $\nn$ MSC we are always able to schedule events in such a way that messages are received in the same order as they were sent, and unmatched messages are sent only after all matched messages are sent. By definition, every $\nn$ MSC is a $\onen$ MSC. 
 
-\begin{proposition}
-	Every $\onen$ MSC without unmatched messages is an $\nn$ MSC.
-\end{proposition}
-\begin{proof}
-Let $\msc$ be a $\onen$ MSC without unmatched messages, and let $L$ be a $\onen$ linearization. We will show that, by reordering some of the events in $L$, we are always able to obtain a $\nn$ linearization for $\msc$. The algorithm works as follow:
-\begin{enumerate}
-	\item Find a pair $(m_1,m_2)$ of distinct messages such that their send order in $L$ is the inverse of the receive order\footnote{Note that $L$ is already a $\nn$ linearization if such a pair does not exist}. This can only happen if there is not a causal path between $s_1$ and $s_2$, i.e $s_1 \le \ge s_2$, where $s_i$ is the send event of message $m_i$. To see why, suppose w.l.o.g. that $s_1 \le s_2$. As seen in the proof of Proposition~\ref{prop:onen_mb_no_unmatched}, there must be a message $m_k$ sent by the same process that sent $s_1$, such that we have $r_1 \onenrel r_k \le r_2$, and in particular $r_1 \lessdot r_2$. Therefore, if $s_1 \le s_2$, the receive order has to match the send order in $L$ and it will never be the opposite.
-	\item Suppose, w.l.o.g. that $s_2 \linrel s_1$ and $r_1 \linrel r_2$, and we saw that $s_1 \le \ge s_2$. We would like to invert the order of $s_1$ and $s_2$ in the linearization, so that it matches the receive order. If we simply swap $s_2$ and $s_1$ in $L$, the new linearization could be invalid for $\msc$; for instance, there might be some events between $s_2$ and $s_1$ (in the linearization $L$) that need to happen before $s_1$. However, we show that it is still possible to invert the order of $s_1$ and $s_2$ without invalidating the linearization. Suppose that $s_2$ and $s_1$ are the $i$-th and the $j$-th events of $L$, respectively, where $i<j$. The idea is to move $s_2$ right before $s_1$, along with all the events on which $s_1$ depends, that are between $s_2$ and $s_1$ in $L$; we say that $s_1$ depends on an event $e$ if $e \lessdot s_1$.
-\end{enumerate}
-\end{proof}
+% THIS IS WRONG!
+% We show that the opposite direction is also true, which implies that the class of $\nn$ MSCs is equivalent to the class of $onen$ MSCs. The following example gives an intuition of the formal proof, which will be given right after.
 
-\paragraph*{Example}
-Consider the MSC $\msc$ shown in Figure~\ref{}. This is a $\onen$ MSC, so there exists a $\onen$ linearization. For instance, consider the $\onen$ linearization $!2\,!3\,!6\,!5\,!1\,?5\,?1\,?2\,!6\,!4\,?3\,?6$, where we omitted $\linrel$ between events to improve readability. We will show that, by making some changes to this linearization, we are able to obtain a $\nn$ linearization that is still valid for $\msc$. For a linearization to be $\nn$ we need to have that, for each pair of messages, the send order matches the receive order. Note that, in this example, we do not have unmatched messages. The idea is to start from the $\onen$ linearization and:
-\begin{itemize}
-	\item Find a pair $(m_1,m_2)$ of messages such that the send order is the inverse of the receive order. If such a pair does not exist, this is already a $\nn$ linearization.
-	\item 
-\end{itemize}
-
-\begin{proposition}
-	Every $\onen$ MSC is a $\nn$ MSC
-\end{proposition}
+% \begin{proposition}
+% 	Every $\onen$ MSC without unmatched messages is an $\nn$ MSC.
+% \end{proposition}
+% \begin{proof}
+% Let $\msc$ be a $\onen$ MSC without unmatched messages, and let $L$ be a $\onen$ linearization. We will show that, by reordering some of the events in $L$, we are always able to obtain a $\nn$ linearization for $\msc$. The algorithm works as follow:
+% \begin{enumerate}
+% 	\item Find a pair $(m_1,m_2)$ of distinct messages such that their send order in $L$ is the inverse of the receive order\footnote{Note that $L$ is already a $\nn$ linearization if such a pair does not exist}. This can only happen if there is not a causal path between $s_1$ and $s_2$, i.e $s_1 \le \ge s_2$, where $s_i$ is the send event of message $m_i$. To see why, suppose w.l.o.g. that $s_1 \le s_2$. As seen in the proof of Proposition~\ref{prop:onen_mb_no_unmatched}, there must be a message $m_k$ sent by the same process that sent $s_1$, such that we have $r_1 \onenrel r_k \le r_2$, and in particular $r_1 \lessdot r_2$. Therefore, if $s_1 \le s_2$, the receive order has to match the send order in $L$ and it will never be the opposite.
+% 	\item Suppose, w.l.o.g. that $s_2 \linrel s_1$ and $r_1 \linrel r_2$, and we saw that $s_1 \le \ge s_2$. We would like to invert the order of $s_1$ and $s_2$ in the linearization, so that it matches the receive order. If we simply swap $s_2$ and $s_1$ in $L$, the new linearization could be invalid for $\msc$; for instance, there might be some events between $s_2$ and $s_1$ (in the linearization $L$) that need to happen before $s_1$. However, we show that it is still possible to invert the order of $s_1$ and $s_2$ without invalidating the linearization. Suppose that $s_2$ and $s_1$ are the $i$-th and the $j$-th events of $L$, respectively, where $i<j$. The idea is to move $s_2$ right before $s_1$, along with all the events on which $s_1$ depends, that are between $s_2$ and $s_1$ in $L$; we say that $s_1$ depends on an event $e$ if $e \lessdot s_1$.
+% \end{enumerate}
+% \end{proof}
 
 Proposition~\ref{prop:onen_mb_no_unmatched} shows that $\onenMSCs \subset \mbMSCs$. The classes of MSCs that we presented form a hierarchy, namely $\onenMSCs \subset \mbMSCs \subset \coMSCs \subset \ppMSCs \subset \asMSCs$, as shown by Fig.~\ref{fig:msc_hierarchy}.
 
@@ -1691,8 +1683,8 @@ The set $\ppMSCs$ is therefore MSO-definable as $\ppMSCs=L(\ppformula)$.
 Given an MSC $\msc$, it is causally ordered if it satisfies the MSO formula
 \[
 	\coformula = \neg \exists s.\exists s'. \left(
-	\bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
-	\bigvee_{\substack{a,b \in \pqsAct{p}{q}}}\hspace{-1em}
+	\bigvee_{\substack{q \in \Procs}}\;
+	\bigvee_{\substack{a,b \in \pqsAct{\plh}{q}}}\hspace{-1em}
 	(\lambda(s) = a \;\wedge\; \lambda(s') = b) \;\wedge\; s \le_\msc s' \;\wedge\;
 	(\psi_1 \vee \psi_2 ) 	
 	\right)
@@ -1767,6 +1759,7 @@ When moving on to mailbox MSCs, the definition of mailbox existentially $k$-boun
 \begin{definition}
 	An MSC $\msc$ is \emph{mailbox existentially $k$-bounded} (mb-$\exists k$-bounded) if it is a mailbox MSC and it has a $k$-bounded mailbox linearization.
 \end{definition}
+\davide{This paragraph depends on how we choose to formally define the mailbox communication model... we could go for a (i) single incoming channel, or (ii) just an enforcing of the delivery of messages by the transport layer.}
 It should be noted that, for a $k$-bounded mailbox linearization, it is not necessarily true that at any time we have at most $k$ messages in each channel. Recall that in the mailbox communication architecture every process has a single incoming channel, but the Definition~\ref{def:lin_k_bounded} of $k$-bounded linearization considers the number of pending messages between each pair $(p,q)$ of processes. Let $n$ be the number of processes. We can say that, for a $k$-bounded mailbox linearization, we have at most $k(n-1)$ messages in each channel at any moment (because each process can have at most $k$ pending messages coming from any of the other $n-1$ processes).
 \davide{An example would be nice.}
 
@@ -1782,7 +1775,7 @@ In this section, we will investigate the MSO-definability of all the variants of
 	\item $s$ is the ($i+k$)-th send event (executed by $p$).
 \end{enumerate} 
 Note that, for any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed after $s$ cannot $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization".\davidequestionsmall{Should I prove it?} A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.\davide{An example would be nice.} In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is existentially $k$-bounded if and only if the relation $\le_\msc \cup \relb$ is acyclic\footnote{A binary relation is acyclic if it does not contain a "cycle", which is to say its transitive closure is antisymmetric.}. Since $\le_\msc$ and acyclicity are both MSO-definable (we did not show the latter), it suffices to find an MSO formula that defines the $\relb$ relation to say that the set of existentially $k$-bounded MSCs is MSO-definable. In particular, we can define $r \relb s$ as
-\davidequestion{This is not valid for asynchronous, it is for \pp, but it might need some tweaking for unmatched messages}
+\davidequestion{This is not valid for asynchronous, it is for \pp, but it might need some tweaking depending on if we want to count or not unmatched messages}
 \[
 r \relb s=\exists s_1.\exists s_2.\dots.\exists s_k.\left(
 allSend\_p\_q
