@@ -1056,7 +1056,7 @@ We define the following relation in order to characterize $k$-mailbox-bounded MS
 This extension is also valid for the \pp definition of existentially $k$-bounded MSCs, which
 were addressed in \cite{GKM07}. Finally, our framework can also be adapted to treat universally bounded systems \cite{HENRIKSEN20051,DBLP:conf/fossacs/LohreyM02}.
 
-\section{My stuff}
+\section{New - Preliminary results}
 
 % \subsection{Semantics of causal ordering}
 
@@ -1104,13 +1104,21 @@ were addressed in \cite{GKM07}. Finally, our framework can also be adapted to tr
 \subsection{Communicating Systems}
 
 \begin{lemma}
+	\label{lem:p2p-prefix}
+	Every prefix of a \pp MSC is a \pp MSC.
+\end{lemma}
+\begin{proof}
+Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \ppMSCs$ and let $\msc_0 =
+(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$, where $\Events_0 \subseteq \Events$, ${\rightarrow_0} \subseteq {\rightarrow}$, and ${\lhd_0} \subseteq {\lhd}$. Since $\msc$ is \pp, we have that for every pair $(e,f) \in {\lhd}$, such that $\lambda(e) = \sact{p}{q}{\msg}$ and $\lambda(f) = \ract{p}{q}{\msg}$, $\sametype{e}{\pqsAct{p}{q}}{\procrel^+} = \sametype{f}{\pqrAct{p}{q}}{\procrel^+}$. We show that, for every pair $(e,f) \in {\lhd_0}$, this property still holds. 
+Since  ${\lhd_0} \subseteq {\lhd}$, every pair $(e,f)$ that belongs to $\lhd_0$ also belongs to $\lhd$, and we know that $\sametype{e}{\pqsAct{p}{q}}{\procrel^+} = \sametype{f}{\pqrAct{p}{q}}{\procrel^+}$. 
+Because of the $\le_\msc$-downward-closeness of $\Events_0$, it is easy to see that $\sametype{e}{\pqsAct{p}{q}}{\procrel^+}=\sametype{e}{\pqsAct{p}{q}}{\procrel_0^+}$ and $\sametype{f}{\pqrAct{p}{q}}{\procrel^+}=\sametype{f}{\pqrAct{p}{q}}{\procrel_0^+}$.
+\end{proof}
+
+\begin{lemma}
 \label{lem:co-prefix}
 Every prefix of a causally ordered MSC is a causally ordered MSC.
 \end{lemma}
 \begin{proof}
-% Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \coMSCs$ and let $\msc_0 =
-% (\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a	causally ordered MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \lessdot_{\msc_0}f$ and $f \lessdot_{\msc_0}e$, with ${\lessdot_{\msc_0}} = ({\rightarrow_0} \cup {\lhd_0} \cup {\corel_{\msc_0}})^*$. If that was not the case, $\msc_0$ would indeed be causally ordered. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, and ${\corel_{\msc_0}} \subseteq {\corel_{\msc}}$. Finally, we have that ${\lessdot_{\msc_0}} \subseteq {\lessdot_{\msc}}$ and $\msc$ cannot be a causally ordered MSC, which is a contradiction.
-
 Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \coMSCs$ and let $\msc_0 =
 (\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a	causally ordered MSC. There must be two distinct $s,s' \in \Events_0$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \le_{\msc_0} s'$ and either
 \begin{enumerate*}[label={(\roman*)}]
@@ -1118,6 +1126,23 @@ Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \coMSCs$ and let $\msc_0 =
 	\item $s \in \Unm{\msc_0}$ and $s' \in \Matched{\msc_0}$.
 \end{enumerate*}
 In both cases, $\msc$ would also not be a causally ordered $\MSCs$, since $\Events_0 \subseteq \Events$, ${\rightarrow_0} \subseteq {\rightarrow}$, and ${\lhd_0} \subseteq {\lhd}$. This is a contradiction, thus $\msc_0$ has to be causally ordered.
+\end{proof}
+
+\begin{definition}[$\onen$ MSC]\label{def:one_n}
+	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\onen$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{p}{\plh}$, $\lambda(s')=\pqsAct{p}{\plh}$, and $s \procrel^+ s'$ (which implies $s \linrel s'$), we have either:
+	\begin{itemize}\itemsep=0.5ex
+		\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
+		\item $s' \in \Unm{\msc}$.
+	\end{itemize}
+\end{definition}
+
+\begin{lemma}
+	\label{lem:onen-prefix}
+	Every prefix of a $\onen$ MSC is a $\onen$ MSC.
+	\end{lemma}
+	\begin{proof}
+	Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \onenMSCs$ and let $\msc_0 =
+	(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By definition, $\msc$ must have at least one $\onen$ linearization $\linrel_\msc$. We show that if we strip out from this linearization all the events that are not in $\Events_0$, we obtain a $\onen$ linearization $\linrel_{\msc_0}$ for $\msc_0$. In this linearization, consider any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{p}{\plh}$, $\lambda(s')=\pqsAct{p}{\plh}$, and $s \linrel_{\msc_0} s'$. If both $s,s' \in \Matched{\msc_0}$, then it is also true that $s,s' \in \Matched{\msc}$, and so $r \linrel_{\msc_0} r'$.
 \end{proof}
 
 Lemma~\ref{lem:prefix-closed} can be easily extendend to $\comsymb = \cosymb$.
@@ -1404,7 +1429,7 @@ As in the asynchronous case, we say that $\msc$ is a \pp MSC if there is a \pp s
 A \emph{\pp MSC} (or simply \emph{MSC}) is an asynchronous MSC where we require that, for every pair $(e,f) \in {\lhd}$, such that $\lambda(e) = \sact{p}{q}{\msg}$, $\lambda(f) = \ract{p}{q}{\msg}$, we have $\sametype{e}{\pqsAct{p}{q}}{\procrel^+} = \sametype{f}{\pqrAct{p}{q}}{\procrel^+}$.
 \end{definition}
 
-The additional constraint satisfied by \pp MSCs ensures that channels operate in FIFO mode; when a process $q$ receives a message from a process $p$, it must have already received all the messages that were previously sent to him by $p$. Let $\ppMSCs$ denote the set of all the \pp MSCs over two given sets $\Procs$ and $\Msg$. Note that, by definition, every (\pp) MSC is an asynchronous MSC. The idea is that we are always able to find an asynchronous system that \emph{can} exhibit the behaviour described by an MSC; after all, the channels of an asynchronous system do not have to follow any specific behaviour, so they can indeed happen to operate as if they were queues. Example~\ref{} shows that the opposite direction is generally not true, an asynchronous MSC is not always an MSC. It follows that $\ppMSCs \subset \asMSCs$.
+The additional constraint satisfied by \pp MSCs ensures that channels operate in FIFO mode; when a process $q$ receives a message from a process $p$, it must have already received all the messages that were previously sent to him by $p$. Let $\ppMSCs$ denote the set of all the \pp MSCs over two given sets $\Procs$ and $\Msg$. Note that, by definition, every \pp MSC is an asynchronous MSC. The idea is that we are always able to find an asynchronous system that \emph{can} exhibit the behaviour described by a \pp MSC; after all, the channels of an asynchronous system do not have to follow any specific behaviour, so they can indeed happen to operate as if they were queues. Example~\ref{} shows that the opposite direction is generally not true, an asynchronous MSC is not always a \pp MSC. It follows that $\ppMSCs \subset \asMSCs$.
 
 \medskip
 
@@ -1599,7 +1624,72 @@ We showed that cases (3) and (4) can never happen, whereas cases (5) and (6) bot
 	\end{itemize}
 \end{definition}
 
-Intuitively, with an $\nn$ MSC we are always able to schedule events in such a way that messages are received in the same order as they were sent, and unmatched messages are sent only after all matched messages are sent. By definition, every $\nn$ MSC is a $\onen$ MSC. 
+Such a linearization will be referred to as a \emph{$\nn$ linearization}. Intuitively, with an $\nn$ MSC we are always able to schedule events in such a way that messages are received in the same order as they were sent, and unmatched messages are sent only after all matched messages are sent. By definition, every $\nn$ MSC is a $\onen$ MSC. 
+
+\begin{definition} [$\nn$ alternative]\label{def:n_n_alt}
+For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel}_\msc = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel_\msc} \,\cup\, {\onenrel_\msc})^\ast$. We define an additional binary relation $\bowtie_\msc \subseteq \Events \times \Events$, such that for two events $e_1$ and $e_2$ we have $e_1 \bowtie_\msc e_2$ if one of the following holds:
+\begin{enumerate}\itemsep=0.5ex
+	\item $e_1 \nnrel_\msc e_2$
+	\item $\lambda(e_1) \in \prAct{\plh}$, $\lambda(e_2) \in \prAct{\plh}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events$, $s_1 \nnrel_\msc s_2$ and $r_1 \slashed{\nnrel}_\msc r_2$.
+	\item $\lambda(e_1) \in \psAct{\plh}$, $\lambda(e_2) \in \psAct{\plh}$, $e_1 \lhd r_1$ and $e_2 \lhd r_2$ for some $r_1,r_2 \in \Events$, $r_1 \nnrel_\msc r_2$ and $s_1 \slashed{\nnrel}_\msc s_2$.
+\end{enumerate}
+
+Note that $\preceq_\msc \subseteq \nnrel_\msc$, $\lessdot_\msc \subseteq \nnrel_\msc$, and $\nnrel_\msc \subseteq\; \bowtie_\msc$. We call $\msc \in \asMSCs$ a \emph{$\nn$ MSC}
+if ${\bowtie_\msc}$ is a partial order.
+\end{definition}
+
+It is not trivial to see that Definition~\ref{def:n_n_alt} is equivalent to Definition~\ref{def:n_n}. To show that, we need some preliminary results and definitions. 
+
+\begin{proposition}
+	Let $\msc$ be an MSC. Given two matched send events $s_1$ and $s_2$, and their respective receive events $r_1$ and $r_2$, $r_1 \bowtie_\msc r_2 \implies s_1 \bowtie_\msc s_2$.
+\end{proposition}
+\begin{proof}
+Follows from the definition of $\bowtie_\msc$. We have $r_1 \bowtie_\msc r_2$ if either:
+\begin{itemize}\itemsep=0.5ex
+	\item $r_1 \nnrel_\msc r_2$. Two cases: either \begin{enumerate*}[label={(\roman*)}]
+		\item $s_1 \nnrel_\msc s_2$, or 
+		\item $s_1 \slashed{\nnrel}_\msc s_2$.
+	\end{enumerate*}
+	The first case clearly implies $s_1 \bowtie_\msc s_2$, for rule 1 in the definition of $\bowtie_\msc$. The second too, because of rule 3.
+	\item  $r_1 \slashed{\nnrel}_\msc r_2$, but $r_1 \bowtie_\msc r_2$. This is only possible if rule 2 in the definition of $\bowtie_\msc$ was used, which implies $s_1 \nnrel_\msc s_2$ and, for rule 1, $s_1 \bowtie_\msc s_2$.
+\end{itemize}
+\end{proof}
+
+Let the \emph{event dependency graph} (EDG) of a $\nn$ MSC be a graph that has events as nodes and an edge between two events $e_1$ and $e_2$ if either $e_1 \procrel e_2$, $e_1 \lhd e_2$, $e_1 \mbrel e_2$, $e_1 \onenrel e_2$, or $e_1 \nnrel e_2$. We now present an algorithm that, given the EDG of an $\nn$ MSC $\msc$, computes a $\nn$ linearization of $\msc$. We then show that, if $\bowtie_\msc$ is acyclic (i.e. it is a partial order), this algorithm always terminates correctly. This, \davidesmall{Missing proof.} along with the observation that the cyclicity of $\bowtie_\msc$ implies that $\msc$ is not $\nn$, effectively shows that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent.
+
+\paragraph*{Algorithm for finding a $\nn$ linearization}
+The input of this algorithm is the EDG of an MSC $\msc$, and it outputs a valid $\nn$ linearization for $\msc$, if $\msc$ is $\nn$. The algorithm works as follows:
+\begin{enumerate}
+	\item If possible, find a matched send event $s$ with in-degree 0 in the EDG. Add $s$ to the linearization and remove it from the EDG, along with its outgoing edges.
+ 	\item If step 1 was not possible, find a receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization. Remove $r$ from the EDG, along with its outgoing edges.
+  	\item If step 2 was not possible and there are no more matched send events, find an unmatched send event $s$ with in-degree 0 in the EDG. Add $s$ to the linearization and remove it from the EDG, along with its outgoing edges.
+   	\item If none of the first three steps was possible, throw an error and terminate.
+   	\item If all the events of $\msc$ were added to the linearization, return the linearization and terminate. Otherwise, go back to step 1.
+\end{enumerate} 
+
+We now need to show that 
+\begin{enumerate*}[label={(\roman*)}]
+	\item if this algorithm terminates correctly (i.e. step 4 is never executed), it returns a $\nn$ linearization, and 
+	\item if $\bowtie$ is acyclic, the algorithm always terminates correctly.
+\end{enumerate*}
+\begin{proposition}
+	If the above algorithm returns a linearization for an MSC $\msc$, it is a $\nn$ linearization.
+\end{proposition}
+\begin{proof}
+	Note that, because of how step 2 works, the order (in the linearization) in which matched messages are sent is the same as the order in which they are received. Moreover, according to step 3, unmatched send events are added to the linearization only if all the matched send events were already added.
+\end{proof}
+
+\begin{proposition}
+	Given an MSC $\msc$, the above algorithm always returns a valid $\nn$ linearization if $\bowtie_\msc$ is acyclic.
+\end{proposition}
+\begin{proof}
+By induction on the number of events added to the linearization.\newline
+(Base case) No event has been added to the linearization yet. Since $\bowtie$ is acyclic by hyphotesis, there must be an event with in-degree 0. In particular, this event has to be a send event (a receive event cannot have in-degree 0, because it depends on the respective send event). It follows that step 1 can always be applied.\newline
+(Inductive case)
+\end{proof}
+
+
+\medskip
 
 % THIS IS WRONG!
 % We show that the opposite direction is also true, which implies that the class of $\nn$ MSCs is equivalent to the class of $onen$ MSCs. The following example gives an intuition of the formal proof, which will be given right after.
@@ -1731,6 +1821,9 @@ x \onenrel_\msc y =
 \end{array}
 \]
 The MSO formula for $x \onenrel_\msc y$ closely follows Definition~\ref{def:one_n_alt}. The set $\onenMSCs$ of mailbox MSCs is therefore MSO-definable as $\onenMSCs=L(\onenformula)$.
+
+\paragraph*{$\nn$ MSCs}
+
 
 \subsection{Existentially bounded MSCs}
 
