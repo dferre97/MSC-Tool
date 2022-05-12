@@ -65,11 +65,26 @@
 - [X] New binary relation for k-boundness that should make sense for the asynchronous case, but I think it is not MSO-definable...
 - [X] 1-n MSCs definition and MSO-definability
 - [X] Relation between 1-n and causally ordered MSCs
-- [ ] Relation between 1-n and mailbox MSCs? Unknown...
+- [ ] Relation between 1-n and mailbox MSCs?
 - [ ] Should I provide a clear semantics for CFSA with bag channels (FIFO is assumed in the classic description)?
   
 ## Week 7
-- p2p should be redundant in the 1-n definition
+- 1-n:
+  - [X] Relation between 1-n, causally ordered MSCs, and mailbox MSCs
+  - [X] MSO-definability
+- n-n:
+  - [X] Definition
+  - Conjecture on relation between n-1 and n-n
+
+## Week 8
+- [X] n-n is strictly contained in 1-n, found example of MSC that is 1-n, but not n-n! (thank you Laetitia <3)
+- [X] Prepare presentation for Bolling, Finkel, Suresh
+
+## Week 9
+- Preliminary results for the decidability of synchronizability do not work with 1-n, because <!-- $L_{n-1}(S)$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=L_%7Bn-1%7D(S)"> is not prefix-closed :'(
+  - [X] Rewritten preliminary results for 1-n (informally), so that MSO-definability and SWT-boundness still imply decidability of synchronizability.
+- [X] MSO-definability of n-n
+
 
 **[0]** A Unifying Framework for Deciding Synchronizability - Bollig, Di Giusto, Finkel, Laversa, Lozes, Suresh\
 **[1]** Reasoning about Distributed Systems: WYSIWYG - Aiswarya, Gastin\

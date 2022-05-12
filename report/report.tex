@@ -1632,6 +1632,7 @@ For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel}_\msc = ({\pro
 	\item $e_1 \nnrel_\msc e_2$
 	\item $\lambda(e_1) \in \prAct{\plh}$, $\lambda(e_2) \in \prAct{\plh}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events$, $s_1 \nnrel_\msc s_2$ and $r_1 \slashed{\nnrel}_\msc r_2$.
 	\item $\lambda(e_1) \in \psAct{\plh}$, $\lambda(e_2) \in \psAct{\plh}$, $e_1 \lhd r_1$ and $e_2 \lhd r_2$ for some $r_1,r_2 \in \Events$, $r_1 \nnrel_\msc r_2$ and $s_1 \slashed{\nnrel}_\msc s_2$.
+	\item $e_1 \in \Matched{\msc}$, $e_2 \in \Unm{\msc}$, $e_1 \slashed{\nnrel}_\msc e_2$.
 \end{enumerate}
 
 Note that $\preceq_\msc \subseteq \nnrel_\msc$, $\lessdot_\msc \subseteq \nnrel_\msc$, and $\nnrel_\msc \subseteq\; \bowtie_\msc$. We call $\msc \in \asMSCs$ a \emph{$\nn$ MSC}
@@ -1655,37 +1656,50 @@ Follows from the definition of $\bowtie_\msc$. We have $r_1 \bowtie_\msc r_2$ if
 \end{itemize}
 \end{proof}
 
-Let the \emph{event dependency graph} (EDG) of a $\nn$ MSC be a graph that has events as nodes and an edge between two events $e_1$ and $e_2$ if either $e_1 \procrel e_2$, $e_1 \lhd e_2$, $e_1 \mbrel e_2$, $e_1 \onenrel e_2$, or $e_1 \nnrel e_2$. We now present an algorithm that, given the EDG of an $\nn$ MSC $\msc$, computes a $\nn$ linearization of $\msc$. We then show that, if $\bowtie_\msc$ is acyclic (i.e. it is a partial order), this algorithm always terminates correctly. This, \davidesmall{Missing proof.} along with the observation that the cyclicity of $\bowtie_\msc$ implies that $\msc$ is not $\nn$, effectively shows that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent.
+\begin{proposition}\label{prop:n_n_cycl}
+	Let $\msc$ be an MSC. If $\bowtie_\msc$ is cyclic, then $\msc$ is not $\nn$.
+\end{proposition}
+\begin{proof}
+Since a $\nn$ MSC is always both a mailbox and a $\onen$ MSC, it is clear that the cyclicity of $\nnrel_\msc$ implies that $\msc$ is not $\nn$, because it means that we are not even able to find a linearization that is both mailbox and $\onen$. Moreover, since in a $\nn$ linearization the order in which messages are sent matches the order in which they are received, and unmatched send events can be executed only after matched send events, a $\nn$ MSC always has to satisfy the constraints imposed by the $\bowtie_\msc$ relation. If $\bowtie_\msc$, then for sure there is no $\nn$ linearization for $\msc$.
+\end{proof}
+
+Let the \emph{Event Dependency Graph} (EDG) of a $\nn$ MSC $\msc$ be a graph that has events as nodes and an edge between two events $e_1$ and $e_2$ if $e_1 \bowtie_\msc e_2$. We now present an algorithm that, given the EDG of an $\nn$ MSC $\msc$, computes a $\nn$ linearization of $\msc$. We then show that, if $\bowtie_\msc$ is acyclic (i.e. it is a partial order), this algorithm always terminates correctly. This, along with Proposition~\ref{prop:n_n_cycl}, effectively shows that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent.
 
 \paragraph*{Algorithm for finding a $\nn$ linearization}
 The input of this algorithm is the EDG of an MSC $\msc$, and it outputs a valid $\nn$ linearization for $\msc$, if $\msc$ is $\nn$. The algorithm works as follows:
 \begin{enumerate}
-	\item If possible, find a matched send event $s$ with in-degree 0 in the EDG. Add $s$ to the linearization and remove it from the EDG, along with its outgoing edges.
- 	\item If step 1 was not possible, find a receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization. Remove $r$ from the EDG, along with its outgoing edges.
-  	\item If step 2 was not possible and there are no more matched send events, find an unmatched send event $s$ with in-degree 0 in the EDG. Add $s$ to the linearization and remove it from the EDG, along with its outgoing edges.
-   	\item If none of the first three steps was possible, throw an error and terminate.
+	\item If there is a matched send event $s$ with in-degree 0 in the EDG, add $s$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 2.
+	\item If there are no matched send events in the EDG and there is an unmatched send event $s$ with in-degree 0 in the EDG, add $s$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 3.
+ 	\item If there is a receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization, add $r$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 4.
+   	\item Throw an error and terminate.
    	\item If all the events of $\msc$ were added to the linearization, return the linearization and terminate. Otherwise, go back to step 1.
 \end{enumerate} 
 
 We now need to show that 
 \begin{enumerate*}[label={(\roman*)}]
 	\item if this algorithm terminates correctly (i.e. step 4 is never executed), it returns a $\nn$ linearization, and 
-	\item if $\bowtie$ is acyclic, the algorithm always terminates correctly.
+	\item if $\bowtie_\msc$ is acyclic, the algorithm always terminates correctly.
 \end{enumerate*}
 \begin{proposition}
 	If the above algorithm returns a linearization for an MSC $\msc$, it is a $\nn$ linearization.
 \end{proposition}
 \begin{proof}
-	Note that, because of how step 2 works, the order (in the linearization) in which matched messages are sent is the same as the order in which they are received. Moreover, according to step 3, unmatched send events are added to the linearization only if all the matched send events were already added.
+	Note that, because of how step 2 works, the order (in the linearization) in which matched messages are sent is the same as the order in which they are received. Moreover, according to step 3, an unmatched send events is added to the linearization only if all the matched send events were already added.
 \end{proof}
 
 \begin{proposition}
-	Given an MSC $\msc$, the above algorithm always returns a valid $\nn$ linearization if $\bowtie_\msc$ is acyclic.
+	Given an MSC $\msc$, the above algorithm always terminates correctly if $\bowtie_\msc$ is acyclic.
 \end{proposition}
 \begin{proof}
-By induction on the number of events added to the linearization.\newline
-(Base case) No event has been added to the linearization yet. Since $\bowtie$ is acyclic by hyphotesis, there must be an event with in-degree 0. In particular, this event has to be a send event (a receive event cannot have in-degree 0, because it depends on the respective send event). It follows that step 1 can always be applied.\newline
-(Inductive case)
+We want to prove that, if $\bowtie_\msc$ is acyclic, step 4 of the algorithm is never executed, i.e. it terminates correctly. Note that the acyclicity of $\bowtie_\msc$ implies that the EDG of $\msc$ is a DAG. Moreover, at every step of the algorithm we remove nodes and edges from the EDG, so it still remains a DAG. The proof goes by induction on the number of events added to the linearization.\newline
+Base case: no event has been added to the linearization yet. Since the EDG is a DAG, there must be an event with in-degree 0. In particular, this has to be a send event (a receive event depends on its respective send event, so it cannot have in-degree 0). It follows that step 1 or 3 (if there are no matched send events at all) can always be applied.\newline
+Inductive step: we want to show that we are never going to execute step 4. In particular, Step 4 is executed when none of the first three steps can be applied. This happens when there are no matched send events with in-degree 0 and one of the following holds:
+\begin{itemize}\itemsep=0.5ex
+	\item \emph{There are still matched send events in the EDG with in-degree $>0$, there are no unmatched messages with in-degree 0, and there is no receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization}. Since the EDG is a DAG, there must be at least one receive event with in-degree 0. We want to show that, between these receive events with in-degree 0, there is also the receive event $r$ of the first message whose send event was added to the linearization, so that we can apply step 3 and step 4 is not executed. Suppose, by contradiction, that $r$ has in-degree $>0$, so it depends on other events. For any maximal chain in the EDG that contains one of these events, consider the first event $e$, which clearly has in-degree 0. In particular, $e$ cannot be a send event, because we would have applied step 1 or step 2. Hence, $e$ can only be a receive event for a send event that was not the first added to the linearization (and whose respective receive still has not been added). However, this is also impossible, since $r_e \bowtie_\msc r$ implies $s_e \bowtie_\msc s$, and we could not have added $s$ to the linearization before $s_e$. Because we got to a contradiction, the hypothesis that $r$ has in-degree $>0$ must be false, and we can indeed apply step 3.
+	\item \emph{There are still matched send events in the EDG with in-degree $>0$, there is at least one unmatched message with in-degree 0, and there is no receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization}. We show that it is impossible to have an unmatched send event of in-degree 0 if there are still matched send events in the EDG. Let $s$ be one of those matched send events and let $u$ be an unmatched send. Because of rule 4 in the definition of $\bowtie_\msc$, we have that $s \bowtie_\msc u$, which implies that $u$ cannot have in-degree 0 if $s$ is still in the EDG.
+	\item \emph{There are no more matched send events in the EDG, there are no unmatched messages with in-degree 0, and there is no receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization}. Very similar to the first case. Since the EDG is a DAG, there must be at least one receive event with in-degree 0. We want to show that, between these receive events with in-degree 0, there is also the receive event $r$ of the first message whose send event was added to the linearization, so that we can apply step 3 and step 4 is not executed. Suppose, by contradiction, that $r$ has in-degree $>0$, so it depends on other events. For any maximal chain in the EDG that contains one of these events, consider the first event $e$, which clearly has in-degree 0. In particular, $e$ cannot be a send event, because by hypothesis there are no more send events with in-degree 0 in the EDG. Hence, $e$ can only be a receive event for a send event that was not the first added to the linearization (and whose respective receive still has not been added). However, this is also impossible, since $r_e \bowtie_\msc r$ implies $s_e \bowtie_\msc s$, and we could not have added $s$ to the linearization before $s_e$. Because we got to a contradiction, the hypothesis that $r$ has in-degree $>0$ must be false, and we can indeed apply step 3.
+\end{itemize}
+We showed that, if $\bowtie_\msc$ is acyclic, the algorithm always terminates correctly and computes a valid $\nn$ linearization.
 \end{proof}
 
 
