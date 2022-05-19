@@ -84,6 +84,11 @@
 - Preliminary results for the decidability of synchronizability do not work with 1-n, because <!-- $L_{n-1}(S)$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=L_%7Bn-1%7D(S)"> is not prefix-closed :'(
   - [X] Rewritten preliminary results for 1-n (informally), so that MSO-definability and SWT-boundness still imply decidability of synchronizability.
 - [X] MSO-definability of n-n
+  
+## Week 10
+- [ ] Preliminary results for the decidability of synchronizability for 1-n and n-n
+- [ ] Write MSO formulas for n-n classes
+- [ ] Look into RSC communication model
 
 
 **[0]** A Unifying Framework for Deciding Synchronizability - Bollig, Di Giusto, Finkel, Laversa, Lozes, Suresh\

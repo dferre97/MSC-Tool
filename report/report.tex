@@ -1101,6 +1101,32 @@ were addressed in \cite{GKM07}. Finally, our framework can also be adapted to tr
 % We call $\msc \in \ppMSCs$ a \emph{causally ordered (CO) MSC}
 % if ${\lessdot_\msc}$ is a partial order. The set of causally ordered MSCs $\msc \in \ppMSCs$ is denoted by $\coMSCs$.
 
+Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and consider
+$E \subseteq \Events$ such that $E$ is ${\le_\msc}$-\emph{downward-closed}, i.e,
+for all $(e,f) \in {\le_\msc}$ such that $f \in E$, we also have $e \in E$.
+Then, the MSC $(E,{\procrel} \cap (E \times E),{\lhd} \cap (E \times E),\lambda')$,
+where $\lambda'$ is the restriction of $\Events$ to $E$, is called a \emph{prefix}
+of $\msc$. In particular, the empty MSC is a prefix of $\msc$.
+We denote the set of prefixes of $\msc$ by $\Pref{\msc}$.
+This is extended to sets $L \subseteq \MSCs$ as expected, letting
+$\Pref{L} = \bigcup_{\msc \in L} \Pref{\msc}$.
+
+\smallskip
+
+Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \onenMSCs$ and consider
+$E \subseteq \Events$ such that $E$ is ${\lessdot_\msc}$-\emph{downward-closed}, i.e,
+for all $(e,f) \in {\lessdot_\msc}$ such that $f \in E$, we also have $e \in E$.
+Then, the MSC $(E,{\procrel} \cap (E \times E),{\lhd} \cap (E \times E),\lambda')$,
+where $\lambda'$ is the restriction of $\Events$ to $E$, is called a \emph{$\onen$ prefix} of $\msc$. We denote the set of $\onen$ prefixes of $\msc$ by $\Prefonen{\msc}$.
+
+\smallskip
+
+Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \nnMSCs$ and consider
+$E \subseteq \Events$ such that $E$ is ${\bowtie_\msc}$-\emph{downward-closed}, i.e,
+for all $(e,f) \in {\bowtie_\msc}$ such that $f \in E$, we also have $e \in E$.
+Then, the MSC $(E,{\procrel} \cap (E \times E),{\lhd} \cap (E \times E),\lambda')$,
+where $\lambda'$ is the restriction of $\Events$ to $E$, is called a \emph{$\nn$ prefix} of $\msc$. We denote the set of $\nn$ prefixes of $\msc$ by $\Prefnn{\msc}$.
+
 \subsection{Communicating Systems}
 
 \begin{lemma}
@@ -1128,22 +1154,29 @@ Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \coMSCs$ and let $\msc_0 =
 In both cases, $\msc$ would also not be a causally ordered $\MSCs$, since $\Events_0 \subseteq \Events$, ${\rightarrow_0} \subseteq {\rightarrow}$, and ${\lhd_0} \subseteq {\lhd}$. This is a contradiction, thus $\msc_0$ has to be causally ordered.
 \end{proof}
 
-\begin{definition}[$\onen$ MSC]\label{def:one_n}
-	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\onen$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{p}{\plh}$, $\lambda(s')=\pqsAct{p}{\plh}$, and $s \procrel^+ s'$ (which implies $s \linrel s'$), we have either:
-	\begin{itemize}\itemsep=0.5ex
-		\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
-		\item $s' \in \Unm{\msc}$.
-	\end{itemize}
-\end{definition}
-
 \begin{lemma}
 	\label{lem:onen-prefix}
-	Every prefix of a $\onen$ MSC is a $\onen$ MSC.
-	\end{lemma}
-	\begin{proof}
+	Every $\onen$ prefix of a $\onen$ MSC is a $\onen$ MSC.
+\end{lemma}
+\begin{proof}
 	Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \onenMSCs$ and let $\msc_0 =
-	(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By definition, $\msc$ must have at least one $\onen$ linearization $\linrel_\msc$. We show that if we strip out from this linearization all the events that are not in $\Events_0$, we obtain a $\onen$ linearization $\linrel_{\msc_0}$ for $\msc_0$. In this linearization, consider any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{p}{\plh}$, $\lambda(s')=\pqsAct{p}{\plh}$, and $s \linrel_{\msc_0} s'$. If both $s,s' \in \Matched{\msc_0}$, then it is also true that $s,s' \in \Matched{\msc}$, and so $r \linrel_{\msc_0} r'$.
+	(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a $\onen$ prefix of $\msc$, where $\Events_0 \subseteq \Events$. Firstly, the $\lessdot_\msc$-downward-closeness of $\Events_0$ guarantees that ${\msc_0}$ is still an MSC. We need to prove that it is a $\onen$ MSC. By contradiction, suppose that $\msc_0$ is not a $\onen$ MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \lessdot_{\msc_0} f \lessdot_{\msc_0} e$, where $\lessdot_{\msc_0} = (\procrel_0 \cup \lhd_0 \cup \onenrel_{\msc_0})^\ast$. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, ${\onenrel_{\msc_0}} \subseteq {\onenrel_\msc}$. Clearly, $\lessdot_{\msc_0} \subseteq \lessdot_\msc$, so $e \lessdot_\msc f \lessdot_\msc e$. This implies that $\msc$ is not a $\onen$ MSC, because $\lessdot_\msc$ is cyclic, which is a contradiction. Hence $\msc_0$ is a $\onen$ MSC.
 \end{proof}
+
+\noindent Note that every $\onen$ prefix is also a prefix.
+
+\begin{lemma}
+	\label{lem:nn-prefix}
+	Every $\nn$ prefix of a $\nn$ MSC is a $\nn$ MSC.
+\end{lemma}
+\begin{proof}
+	Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \nnMSCs$ and let $\msc_0 =
+	(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a $\nn$ prefix of $\msc$, where $\Events_0 \subseteq \Events$. Firstly, the $\bowtie_\msc$-downward-closeness of $\Events_0$ guarantees that ${\msc_0}$ is still an MSC. We need to prove that it is a $\nn$ MSC. By contradiction, suppose that $\msc_0$ is not a $\nn$ MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \bowtie_{\msc_0} f \bowtie_{\msc_0} e$. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, ${\nnrel_0} \subseteq {\nnrel}$. Clearly, $\bowtie_{\msc_0} \subseteq\; \bowtie_\msc$, so $e \bowtie_\msc f \bowtie_\msc e$. This implies that $\msc$ is not a $\nn$ MSC, because $\bowtie_\msc$ is cyclic, which is a contradiction. Hence $\msc_0$ is a $\nn$ MSC.
+\end{proof}
+
+\noindent Note that every $\nn$ prefix is also a prefix.
+
+\medskip
 
 Lemma~\ref{lem:prefix-closed} can be easily extendend to $\comsymb = \cosymb$.
 
@@ -1153,6 +1186,22 @@ Lemma~\ref{lem:prefix-closed} can be easily extendend to $\comsymb = \cosymb$.
 \end{lemma}
 \begin{proof}
 	Follows from Lemma~\ref{lem:co-prefix}.
+\end{proof}
+
+\begin{lemma}\label{lem:onen-prefix-closed}
+	$\onenL{\Sys}$ is $\onen$ prefix-closed:
+	$\Prefonen{\onenL{\Sys}} \subseteq \onenL{\Sys}$.
+\end{lemma}
+\begin{proof}
+	Given a system $\System$, we have that $\onenL{\System} = \ppL{\System} \cap \onenMSCs$. Note that, because of how we defined a $\onen$ prefix, we have that $\Prefonen{\onenL{\Sys}} = \Pref{\onenL{\Sys}} \cap \onenMSCs$. Moreover, $\Pref{\onenL{\Sys}} \subseteq \Pref{\ppL{\Sys}}$, and $\Pref{\onenL{\Sys}} \subseteq \ppL{\Sys}$ for Lemma~\ref{lem:prefix-closed}. Putting everything together, $\Prefonen{\onenL{\Sys}} \subseteq \ppL{\Sys} \cap \onenMSCs = \onenL{\System}$.
+\end{proof}
+
+\begin{lemma}\label{lem:nn-prefix-closed}
+	$\nnL{\Sys}$ is $\nn$ prefix-closed:
+	$\Prefnn{\nnL{\Sys}} \subseteq \nnL{\Sys}$.
+\end{lemma}
+\begin{proof}
+	Given a system $\System$, we have that $\nnL{\System} = \ppL{\System} \cap \nnMSCs$. Note that, because of how we defined a $\nn$ prefix, we have that $\Prefnn{\nnL{\Sys}} = \Pref{\nnL{\Sys}} \cap \nnMSCs$. Moreover, $\Pref{\nnL{\Sys}} \subseteq \Pref{\ppL{\Sys}}$, and $\Pref{\nnL{\Sys}} \subseteq \ppL{\Sys}$ for Lemma~\ref{lem:prefix-closed}. Putting everything together, $\Prefnn{\nnL{\Sys}} \subseteq \ppL{\Sys} \cap \nnMSCs = \nnL{\System}$.
 \end{proof}
 
 \subsection{Model Checking}
@@ -1216,13 +1265,45 @@ Knowing that $\coMSCs$ is MSO-definable, Theorem~\ref{thm:mailbox_bounded_model_
 	The bounded model-checking problem for $\comsymb =  \cosymb$ is decidable.
 \end{theorem}
 \begin{proof}
-By Proposition~\ref{prop:co_mso}, $\coMSCs=L(\coformula)$.Given a system $\System$, we have that $\coL{\System} = \ppL{\System} \cap L(\coformula)$. Therefore, we can rewrite the bounded model checking problem for $\comsymb = \cosymb$ as
+By Proposition~\ref{prop:co_mso}, $\coMSCs=L(\coformula)$. Given a system $\System$, we have that $\coL{\System} = \ppL{\System} \cap L(\coformula)$. Therefore, we can rewrite the bounded model checking problem for $\comsymb = \cosymb$ as
 
 \[\begin{array}{rl}
 &\coL{\System} \cap \stwMSCs{k} \subseteq L(\phi)\\[1ex]
 \Longleftrightarrow &\ppL{\System} \cap L(\coformula) \cap \stwMSCs{k} \subseteq L(\phi)\\[1ex]
 \Longleftrightarrow &\ppL{\System} \cap \stwMSCs{k} \subseteq L(\phi) \cup L(\neg \coformula)\\[1ex]
 \Longleftrightarrow &\ppL{\System} \cap \stwMSCs{k} \subseteq L(\phi \vee \neg \coformula)\,.
+\end{array}\]
+The latter is decidable due to Fact~\ref{p2p}.
+\end{proof}
+
+\begin{theorem}
+	\label{thm:onen_bounded_model_checking}
+	The bounded model-checking problem for $\comsymb =  \onensymb$ is decidable.
+\end{theorem}
+\begin{proof}
+By Proposition~\ref{prop:onen_mso}, $\onenMSCs=L(\onenformula)$. Given a system $\System$, we have that $\onenL{\System} = \ppL{\System} \cap L(\onenformula)$. Therefore, we can rewrite the bounded model checking problem for $\comsymb = \onensymb$ as
+
+\[\begin{array}{rl}
+&\onenL{\System} \cap \stwMSCs{k} \subseteq L(\phi)\\[1ex]
+\Longleftrightarrow &\ppL{\System} \cap L(\onenformula) \cap \stwMSCs{k} \subseteq L(\phi)\\[1ex]
+\Longleftrightarrow &\ppL{\System} \cap \stwMSCs{k} \subseteq L(\phi) \cup L(\neg \onenformula)\\[1ex]
+\Longleftrightarrow &\ppL{\System} \cap \stwMSCs{k} \subseteq L(\phi \vee \neg \onenformula)\,.
+\end{array}\]
+The latter is decidable due to Fact~\ref{p2p}.
+\end{proof}
+
+\begin{theorem}
+	\label{thm:nn_bounded_model_checking}
+	The bounded model-checking problem for $\comsymb =  \nnsymb$ is decidable.
+\end{theorem}
+\begin{proof}
+By Proposition~\ref{prop:nn_mso}, $\nnMSCs=L(\nnformula)$. Given a system $\System$, we have that $\nnL{\System} = \ppL{\System} \cap L(\nnformula)$. Therefore, we can rewrite the bounded model checking problem for $\comsymb = \nnsymb$ as
+
+\[\begin{array}{rl}
+&\nnL{\System} \cap \stwMSCs{k} \subseteq L(\phi)\\[1ex]
+\Longleftrightarrow &\ppL{\System} \cap L(\nnformula) \cap \stwMSCs{k} \subseteq L(\phi)\\[1ex]
+\Longleftrightarrow &\ppL{\System} \cap \stwMSCs{k} \subseteq L(\phi) \cup L(\neg \nnformula)\\[1ex]
+\Longleftrightarrow &\ppL{\System} \cap \stwMSCs{k} \subseteq L(\phi \vee \neg \nnformula)\,.
 \end{array}\]
 The latter is decidable due to Fact~\ref{p2p}.
 \end{proof}
@@ -1247,6 +1328,56 @@ The latter is decidable due to Fact~\ref{p2p}.
 	\end{adjustbox}
 \end{table}
 
+\begin{lemma}\label{lem:pref_stw_k+2}
+	Let $k \in \N$ and $\Class \subseteq \stwMSCs{k}$. For all
+	$M \in \MSCs \setminus \Class$, we have
+	$(\Pref{\msc} \cap \stwMSCs{(k+2)}) \setminus \Class \neq \emptyset$.
+\end{lemma}
+\begin{proof}
+	Let $k$ and $\Class$ be fixed, and let
+	$\msc\in \MSCs\setminus \Class$ be fixed. If the empty MSC is not in $\Class$, then we are done, since it is a valid prefix of $\msc$ and it is in $\stwMSCs{(k+2)} \setminus \Class$.
+	Otherwise, let $\msc'\in \Pref{\msc} \setminus \Class$ such that, for all $\le_\msc$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\le_\msc$-maximal events. Let $e$ be $\le_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
+	So Eve has a winning strategy with $k+1$ pebbles for $\msc''$.
+	Let us design a winning strategy with $k+3$ pebbles for Eve for $\msc'$, which will show the claim.
+
+	Observe that the event $e$ occurs at the end of the timeline of a process (say $p$), and it is part of at most two edges:
+	\begin{itemize}
+		\item one with the previous $p$-event (if any)
+		\item one with the corresponding send event (if $e$ is a receive event)
+	\end{itemize}
+	Let $e_1,e_2$ be the two neighbours of $e$.
+	The strategy of Eve is the following: in the first round, mark $e,e_1,e_2$,
+	then erase the edges $(e_1,e)$ and $(e_2,e)$, then split the remaining graph
+	in two parts: $\msc''$ on the one side, and the single node graph $\{e\}$ on
+	the other side. Then Eve applies its winning strategy for $\msc''$, except
+	that initially the two events $e_1,e_2$ are marked (so she may need up to $k+3$
+	pebbles).
+\end{proof}
+
+\begin{lemma}\label{lem:onen_pref_stw_k+2}
+	Let $k \in \N$ and $\Class \subseteq \stwMSCs{k}$. For all
+	$M \in \onenMSCs \setminus \Class$, we have
+	$(\Prefonen{\msc} \cap \stwMSCs{(k+2)}) \setminus \Class \neq \emptyset$.
+\end{lemma}
+\begin{proof}
+	Let $k$ and $\Class$ be fixed, and let
+	$\msc\in \onenMSCs \setminus \Class$ be fixed. If the empty MSC is not in $\Class$, then we are done, since it is a valid $\onen$ prefix of $\msc$ and it is in $\stwMSCs{(k+2)} \setminus \Class$.
+	Otherwise, let $\msc'\in \Prefonen{\msc} \setminus \Class$ such that, for all $\lessdot_\msc$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\lessdot_\msc$-maximal events. Let $e$ be $\lessdot_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
+	The proof proceeds exactly as the proof of Lemma~\ref{lem:pref_stw_k+2}. 
+\end{proof}
+
+\begin{lemma}\label{lem:nn_pref_stw_k+2}
+	Let $k \in \N$ and $\Class \subseteq \stwMSCs{k}$. For all
+	$M \in \nnMSCs \setminus \Class$, we have
+	$(\Prefnn{\msc} \cap \stwMSCs{(k+2)}) \setminus \Class \neq \emptyset$.
+\end{lemma}
+\begin{proof}
+	Let $k$ and $\Class$ be fixed, and let
+	$\msc\in \nnMSCs \setminus \Class$ be fixed. If the empty MSC is not in $\Class$, then we are done, since it is a valid $\nn$ prefix of $\msc$ and it is in $\stwMSCs{(k+2)} \setminus \Class$.
+	Otherwise, let $\msc'\in \Prefnn{\msc} \setminus \Class$ such that, for all $\bowtie_\msc$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\bowtie_\msc$-maximal events. Let $e$ be $\bowtie_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
+	The proof proceeds exactly as the proof of Lemma~\ref{lem:pref_stw_k+2}. 
+\end{proof}
+
 Note that Lemma~\ref{lem:continuous} can be extended to $\comsymb = \cosymb$, since Lemma~\ref{lem:continuous2} does not depend on the kind of communication used by the system. 
 
 \begin{lemma}\label{lem:continuous_co}
@@ -1255,6 +1386,26 @@ $k \in \N$, and $\Class \subseteq \stwMSCs{k}$.
 Then, $\cL{\System} \subseteq \Class$ iff
 $\cL{\System} \cap \stwMSCs{(k+2)} \subseteq \Class$.
 \end{lemma}
+
+\begin{lemma}\label{lem:continuous_onen}
+Let $\System$ be a communicating system,
+$k \in \N$, and $\Class \subseteq \stwMSCs{k}$.
+Then, $\onenL{\System} \subseteq \Class$ iff
+$\onenL{\System} \cap \stwMSCs{(k+2)} \subseteq \Class$.
+\end{lemma}
+\begin{proof}
+	Follows from Lemma~\ref{lem:onen-prefix-closed} and Lemma~\ref{lem:onen_pref_stw_k+2}.
+\end{proof}
+
+\begin{lemma}\label{lem:continuous_nn}
+Let $\System$ be a communicating system,
+$k \in \N$, and $\Class \subseteq \stwMSCs{k}$.
+Then, $\nnL{\System} \subseteq \Class$ iff
+$\nnL{\System} \cap \stwMSCs{(k+2)} \subseteq \Class$.
+\end{lemma}
+\begin{proof}
+	Follows from Lemma~\ref{lem:nn-prefix-closed} and Lemma~\ref{lem:nn_pref_stw_k+2}.
+\end{proof}
 
 Theorem~\ref{thm:sync} can also be extended to $\comsymb = \cosymb$.
 
@@ -1266,6 +1417,26 @@ Given a communicating system $\System$, do we have $\cL{\System} \subseteq \Clas
 \end{theorem}
 \begin{proof}
 Same as the proof for Theorem~\ref{thm:sync}, but using Lemma~\ref{lem:continuous_co} in place of Lemma~\ref{lem:continuous}, and Theorem~\ref{thm:co_bounded_model_checking} in place of Theorem~\ref{thm:mailbox_bounded_model_checking}.
+\end{proof}
+
+\begin{theorem}\label{thm:sync_onen}
+Fix finite sets $\Procs$ and $\Msg$.
+Let $\Class \subseteq \MSCs$ be an MSO-definable and STW-bounded class (over $\Procs$ and $\Msg$).
+The following problem is decidable:
+Given a communicating system $\System$, do we have $\onenL{\System} \subseteq \Class$?
+\end{theorem}
+\begin{proof}
+Same as the proof for Theorem~\ref{thm:sync}, but using Lemma~\ref{lem:continuous_onen} in place of Lemma~\ref{lem:continuous}, and Theorem~\ref{thm:onen_bounded_model_checking} in place of Theorem~\ref{thm:mailbox_bounded_model_checking}.
+\end{proof}
+
+\begin{theorem}\label{thm:sync_nn}
+	Fix finite sets $\Procs$ and $\Msg$.
+	Let $\Class \subseteq \MSCs$ be an MSO-definable and STW-bounded class (over $\Procs$ and $\Msg$).
+	The following problem is decidable:
+	Given a communicating system $\System$, do we have $\nnL{\System} \subseteq \Class$?
+	\end{theorem}
+\begin{proof}
+Same as the proof for Theorem~\ref{thm:sync}, but using Lemma~\ref{lem:continuous_nn} in place of Lemma~\ref{lem:continuous}, and Theorem~\ref{thm:nn_bounded_model_checking} in place of Theorem~\ref{thm:mailbox_bounded_model_checking}.
 \end{proof}
 
 \subsubsection{Weakly synchronous causally ordered MSCs}
@@ -1630,13 +1801,14 @@ Such a linearization will be referred to as a \emph{$\nn$ linearization}. Intuit
 For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel}_\msc = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel_\msc} \,\cup\, {\onenrel_\msc})^\ast$. We define an additional binary relation $\bowtie_\msc \subseteq \Events \times \Events$, such that for two events $e_1$ and $e_2$ we have $e_1 \bowtie_\msc e_2$ if one of the following holds:
 \begin{enumerate}\itemsep=0.5ex
 	\item $e_1 \nnrel_\msc e_2$
-	\item $\lambda(e_1) \in \prAct{\plh}$, $\lambda(e_2) \in \prAct{\plh}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events$, $s_1 \nnrel_\msc s_2$ and $r_1 \slashed{\nnrel}_\msc r_2$.
-	\item $\lambda(e_1) \in \psAct{\plh}$, $\lambda(e_2) \in \psAct{\plh}$, $e_1 \lhd r_1$ and $e_2 \lhd r_2$ for some $r_1,r_2 \in \Events$, $r_1 \nnrel_\msc r_2$ and $s_1 \slashed{\nnrel}_\msc s_2$.
+	\item $\lambda(e_1) \in \prAct{\plh}$, $\lambda(e_2) \in \prAct{\plh}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events$, $s_1 \nnrel_\msc s_2$ and $e_1 \slashed{\nnrel}_\msc e_2$.
+	\item $\lambda(e_1) \in \psAct{\plh}$, $\lambda(e_2) \in \psAct{\plh}$, $e_1 \lhd r_1$ and $e_2 \lhd r_2$ for some $r_1,r_2 \in \Events$, $r_1 \nnrel_\msc r_2$ and $e_1 \slashed{\nnrel}_\msc e_2$.
 	\item $e_1 \in \Matched{\msc}$, $e_2 \in \Unm{\msc}$, $e_1 \slashed{\nnrel}_\msc e_2$.
 \end{enumerate}
 
 Note that $\preceq_\msc \subseteq \nnrel_\msc$, $\lessdot_\msc \subseteq \nnrel_\msc$, and $\nnrel_\msc \subseteq\; \bowtie_\msc$. We call $\msc \in \asMSCs$ a \emph{$\nn$ MSC}
-if ${\bowtie_\msc}$ is a partial order.
+if ${\bowtie_\msc}$ is acyclic.
+\davidequestion{Initially I said "We call $\msc \in \asMSCs$ a \emph{$\nn$ MSC} if ${\bowtie_\msc}$ is a partial order", but I don't think it is true, since $\bowtie_\msc$ does not have to be transitive.}
 \end{definition}
 
 It is not trivial to see that Definition~\ref{def:n_n_alt} is equivalent to Definition~\ref{def:n_n}. To show that, we need some preliminary results and definitions. 
@@ -1692,7 +1864,7 @@ We now need to show that
 \end{proposition}
 \begin{proof}
 We want to prove that, if $\bowtie_\msc$ is acyclic, step 4 of the algorithm is never executed, i.e. it terminates correctly. Note that the acyclicity of $\bowtie_\msc$ implies that the EDG of $\msc$ is a DAG. Moreover, at every step of the algorithm we remove nodes and edges from the EDG, so it still remains a DAG. The proof goes by induction on the number of events added to the linearization.\newline
-Base case: no event has been added to the linearization yet. Since the EDG is a DAG, there must be an event with in-degree 0. In particular, this has to be a send event (a receive event depends on its respective send event, so it cannot have in-degree 0). It follows that step 1 or 3 (if there are no matched send events at all) can always be applied.\newline
+Base case: no event has been added to the linearization yet. Since the EDG is a DAG, there must be an event with in-degree 0. In particular, this has to be a send event (a receive event depends on its respective send event, so it cannot have in-degree 0). If it is a matched send event, step 1 is applied. If there are no matched send events, step 2 is applied on an unmatched send. We show that it is impossible to have an unmatched send event of in-degree 0 if there are still matched send events in the EDG, so either step 1 or 2 are applied in the base case. Let $s$ be one of those matched send events and let $u$ be an unmatched send. Because of rule 4 in the definition of $\bowtie_\msc$, we have that $s \bowtie_\msc u$, which implies that $u$ cannot have in-degree 0 if $s$ is still in the EDG.\newline
 Inductive step: we want to show that we are never going to execute step 4. In particular, Step 4 is executed when none of the first three steps can be applied. This happens when there are no matched send events with in-degree 0 and one of the following holds:
 \begin{itemize}\itemsep=0.5ex
 	\item \emph{There are still matched send events in the EDG with in-degree $>0$, there are no unmatched messages with in-degree 0, and there is no receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization}. Since the EDG is a DAG, there must be at least one receive event with in-degree 0. We want to show that, between these receive events with in-degree 0, there is also the receive event $r$ of the first message whose send event was added to the linearization, so that we can apply step 3 and step 4 is not executed. Suppose, by contradiction, that $r$ has in-degree $>0$, so it depends on other events. For any maximal chain in the EDG that contains one of these events, consider the first event $e$, which clearly has in-degree 0. In particular, $e$ cannot be a send event, because we would have applied step 1 or step 2. Hence, $e$ can only be a receive event for a send event that was not the first added to the linearization (and whose respective receive still has not been added). However, this is also impossible, since $r_e \bowtie_\msc r$ implies $s_e \bowtie_\msc s$, and we could not have added $s$ to the linearization before $s_e$. Because we got to a contradiction, the hypothesis that $r$ has in-degree $>0$ must be false, and we can indeed apply step 3.
@@ -1702,6 +1874,15 @@ Inductive step: we want to show that we are never going to execute step 4. In pa
 We showed that, if $\bowtie_\msc$ is acyclic, the algorithm always terminates correctly and computes a valid $\nn$ linearization.
 \end{proof}
 
+\begin{definition}[$\rsc$ MSC]\label{def:rsc}
+	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{RSC MSC} if it has no unmatched send events and there is a linearization $\linrel$ where any matched send event is immediately followed by its respective receive event.
+\end{definition}
+
+Following the characterization given in \cite[Theorem 4.4]{DBLP:journals/dc/Charron-BostMT96}, we give an alternative but equivalent definition of $\rsc$ MSC, which is based on a property of the conflict graph.
+
+\begin{definition} [$\rsc$ alternative]\label{def:rsc_alt}
+	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{RSC MSC} if and only if it has no unmatched send events and if in $CG(\msc)$ there is no cycle, of $\text{length} \ge 2$, whose edges are all SR.
+\end{definition}
 
 \medskip
 
@@ -1777,14 +1958,14 @@ we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defin
 
 The property $\ppformula$ says that there cannot be two matched send events $s$ and $s'$, with the same sender and receiver, such that either
 \begin{enumerate*}[label={(\roman*)}]
-	\item $s \procrel^+ s$ and their receipts happen in the reverse order, or
+	\item $s \procrel^+ s'$ and their receipts happen in the reverse order, or
 	\item $s$ is unmatched and $s'$ is matched.
 \end{enumerate*}
 In other words, it ensures that channels operate in FIFO mode, where an unmatched messages blocks the receipt of all the subsequent messages on that channel.
 The set $\ppMSCs$ is therefore MSO-definable as $\ppMSCs=L(\ppformula)$.
 
 \paragraph*{Causally ordered MSCs}
-Given an MSC $\msc$, it is causally ordered if it satisfies the MSO formula
+Given an MSC $\msc$, it is causally ordered if and only if it satisfies the MSO formula
 \[
 	\coformula = \neg \exists s.\exists s'. \left(
 	\bigvee_{\substack{q \in \Procs}}\;
@@ -1804,7 +1985,7 @@ The set $\coMSCs$ of causally ordered MSCs is therefore MSO-definable as $\coMSC
 
 \paragraph*{Mailbox MSCs}
 
-Given an MSC $\msc$, it is a mailbox MSC if it satisfies the MSO formula
+Given an MSC $\msc$, it is a mailbox MSC if and only if it satisfies the MSO formula
 \[
 	\mbformula = \ppformula \;\wedge\; \neg \exists x.\exists y.(\neg (x = y) \wedge x \preceq_\msc y \wedge y \preceq_\msc x)
 \]
@@ -1813,11 +1994,11 @@ The set $\mbMSCs$ of mailbox MSCs is therefore MSO-definable as $\mbMSCs=L(\mbfo
 
 \paragraph*{$\onen$ MSCs}
 
-Given an MSC $\msc$, it is a $\onen$ MSC if it satisfies the MSO formula
+Following Definition~\ref{def:one_n_alt}, an MSC $\msc$ is a $\onen$ MSC if and only if it satisfies the MSO formula
 \[
 	\onenformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \lessdot_\msc y \wedge y \lessdot_\msc x)
 \]
-Here, $x \lessdot_\msc y$ is the MSO-definable transitive closure of the union of the MSO-definable relations $\procrel$, $\lhd$, and $\onenrel_\msc$. In particular, we can define $x \onenrel_\msc y$ as 
+Recall that $\lessdot_\msc$ is the union of the MSO-definable relations $\procrel$, $\lhd$, and $\onenrel_\msc$. In particular, we can define $x \onenrel_\msc y$ as 
 \[
 x \onenrel_\msc y =
 \begin{array}{rl}
@@ -1834,10 +2015,79 @@ x \onenrel_\msc y =
 \right)\\
 \end{array}
 \]
-The MSO formula for $x \onenrel_\msc y$ closely follows Definition~\ref{def:one_n_alt}. The set $\onenMSCs$ of mailbox MSCs is therefore MSO-definable as $\onenMSCs=L(\onenformula)$.
+The MSO formula for $x \onenrel_\msc y$ closely follows Definition~\ref{def:one_n_alt}. The set $\onenMSCs$ of $\onen$ MSCs is therefore MSO-definable as $\onenMSCs=L(\onenformula)$.
 
 \paragraph*{$\nn$ MSCs}
 
+Following Definition~\ref{def:n_n_alt}, an MSC $\msc$ is a $\nn$ MSC if and only if it satisfies the MSO formula
+\[
+	\nnformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \bowtie_\msc y \wedge y \bowtie_\msc x)
+\]
+In particular, we can define $x \bowtie_\msc y$ as
+\[
+	x \bowtie_\msc y =
+	\begin{array}{rl}
+	& \left(
+		\bigvee_{\substack{a,b \in \psAct{\plh}}}
+		(\lambda(x) = a \;\wedge\; \lambda(y) = b)
+		\;\wedge\; \mathit{matched}(x) \;\wedge\; \neg \mathit{matched}(y)
+	\right) \;\vee\\
+	& (x \nnrel_\msc y) \quad \vee \quad \psi_3 \quad \vee \quad \psi_4\\
+	\end{array}
+\]
+
+\noindent where $\psi_3$ and $\psi_4$ are defined as 
+\[
+	\psi_3 =
+	\begin{array}{rl}
+		& \bigvee_{\substack{a,b \in \prAct{\plh}}}
+		  (\lambda(x) = a \;\wedge\; \lambda(y) = b)
+		  \;\wedge\; \\
+		& \exists x'.\exists y'.(x' \lhd x \;\wedge\; y' \lhd y) \;\wedge\; (x' \nnrel_\msc y') \;\wedge\; \neg(x \nnrel_\msc y)\\
+	\end{array}
+\]
+\[
+	\psi_4 =
+	\begin{array}{rl}
+		& \bigvee_{\substack{a,b \in \psAct{\plh}}}
+		  (\lambda(x) = a \;\wedge\; \lambda(y) = b)
+		  \;\wedge\; \\
+		& \exists x'.\exists y'.(x \lhd x' \;\wedge\; y \lhd y') \;\wedge\; (x' \nnrel_\msc y') \;\wedge\; \neg(x \nnrel_\msc y)\\
+	\end{array}
+\]
+
+The MSO formula for $x \nnrel_\msc y$ closely follows Definition~\ref{def:n_n_alt}. The set $\nnMSCs$ of $\nn$ MSCs is therefore MSO-definable as $\nnMSCs=L(\nnformula)$.
+
+\paragraph*{$\rsc$ MSCs}
+
+Following Definition~\ref{def:rsc_alt}, an MSC $\msc$ is a $\rsc$ MSC if and only if it satisfies the LCPDL formula
+\[
+\Phi_{\rsc} = \neg \Loop{\xrightarrow{SR} \cdot (\xrightarrow{SR})^\ast}
+\]
+Recall that every LCPDL-definable property is also MSO-definable. In particular, this is one way to write the same property using MSO:
+\[
+\Phi_{\rsc} = \neg \exists s_1.\exists s_2. s_1 \rightarrow_{SR} s_2 \;\wedge\; s_2 \rightarrow_{SR}^\ast s_1
+\]
+\noindent where $\rightarrow_{SR}$ is defined as
+\[
+s_1 \rightarrow_{SR} s_2 = 
+\bigvee_{\substack{e in \sAct}(\lambda(s_1) = e)} \;\wedge\; 
+\exists s_2.\exists r_2. (s_1 \procrel^+ r_2 \;\wedge\; s_2 \lhd r_2)
+\]
+% \davidequestion{The following formula should be wrong... I cannot use $n$ in an MSO formula}
+% \[
+% 	\rscformula = 
+% 	\begin{array}{rl}
+% 		& \forall x.\left(\bigvee_{a \in \psAct{\plh}} \lambda(x) = a \;\implies\; \mathit{matched}(x)\right) \;\wedge\; \\
+% 		& \neg \left( 
+% 			\bigvee_{k=1}^n \left(
+% 			\exists s_1 \cdots s_k. \exists r_1 \cdots r_k. 
+% 			\bigwedge_{i=1}^k (s_i \lhd r_i \;\wedge\; s_i \le_\msc r_{(i+1)\%k})
+% 		\right)
+% 		\right)\\
+% 	\end{array}
+% \]
+% where $n$ is the total number of messages. The formula checks that there are no unmatched send events and that in the conflict graph there is no cycle, of any length, whose edges are all SR.
 
 \subsection{Existentially bounded MSCs}
 
@@ -1876,34 +2126,141 @@ It should be noted that, for a $k$-bounded mailbox linearization, it is not nece
 
 \subsubsection{MSO-definability}
 
-In this section, we will investigate the MSO-definability of all the variants of existentially $k$-bounded MSCs that we introduced. Following the approach taken in \cite{DBLP:conf/fossacs/LohreyM02}, we introduce a binary relation $\relb$ ($\linrel_b$ in their work) associated with a given bound $k$ and an MSC $\msc$. Let $k \ge 1$ and $\msc$ be a fixed MSC: we have $r \relb s$ if, for some $i \ge 1$ and some channel ($p$,$q$)\footnote{Recall that ($p,\,q$) is a channel where messages are sent by $p$ and received by $q$.}:
+In this section, we will investigate the MSO-definability of all the variants of $\exists k$-bounded MSCs that we introduced, starting from the asynchronous $\exists k$-bounded MSCs. 
+
+% \begin{proposition}\label{prop:as_ex_k_b_alt}
+% 	An asynchronous MSC $\msc$ is existentially $k$-bounded if and only if both the following hold:
+% 	\begin{enumerate}
+% 		\item We cannot find $k+1$ send events $s_1, \dots, s_{k+1}$ from a process $p$ to a process $q$, such that $s_1 \procrel^+ \dots \procrel^+ s_{k+1}$, $s_{k+1}$ is matched, i.e. $s_{k+1} \lhd r_{k+1}$, and $r_{k+1}$ happens before all the receive events for the matched send events between $s_1$ and $s_k$.
+%   		\item We cannot find $k$ unmatched send events $s_1, \dots, s_{k}$ from a process $p$ to a process $q$, such that $s_1 \procrel^+ \dots \procrel^+ s_{k}$.
+% 	\end{enumerate}
+% \end{proposition}
+% \begin{proof}
+% 	\davide{Missing proof.}
+% 	Let $\msc$ be an asynchronous MSC.\newline
+% 	($\Rightarrow$) Suppose $\msc$ is $\exists k$-bounded. We prove the contrapositive, i.e. if either (1) or (2) do not hold, $\msc$ is not $\exists k$-bounded. Suppose (1) does not hold, so we are able to find a sequence $s_1, \dots, s_{k+1}$ with the described properties. $\msc$ is clearly not $\exists k$-bounded, since we must execute all the sends up to $s_{k+1}$ ($k+1$ sends in total) before being able to execute $r_{k+1}$, which happens before the other receive events. \newline
+% 	($\Leftarrow$) Suppose both (1) and (2) hold for $\msc$.
+% \end{proof}
+
+% Using Proposition~\ref{prop:as_ex_k_b_alt}, we can give an MSO formula for the asynchronous existentially $k$-bounded MSCs. 
+% \[
+% 	\psi_{asy-\exists k} = \psi_1 \vee \psi_2
+% \]
+% where $\psi_1$ and $\psi_2$ are
+% \[
+% 	\psi_1 = \nexists s_1 \dots \nexists s_{k+1}. \left(
+% 	\begin{array}{llr}
+% 		& allDistSend\_p\_q(k+1) & \quad\wedge\quad \\
+% 		& s_1 \procrel^+ \dots \procrel^+ s_k & \quad\wedge\quad \\
+% 		& \exists r_{k+1}. \left(
+% 			\begin{array}{rl}
+% 				& s_{k+1} \lhd r_{k+1} \quad\wedge\quad \\
+% 				& \bigwedge_{s \in s_1 \dots s_k}
+% 				(\exists r.s \lhd r \implies r_{k+1} \procrel^\ast r) \\
+% 			\end{array}
+% 		\right) &\\
+% 	\end{array} 
+% 	\right)
+% \]
+% \[
+% 	\psi_2 = \nexists s_1 \dots \nexists s_{k}. 
+% 		allDistSend\_p\_q(k) \;\wedge\; 
+% 		s_1 \procrel^+ \dots \procrel^+ s_k \;\wedge\; 
+% 		\bigwedge_{s \in s_1 \dots s_k} \neg \mathit{matched}(s)
+% \]
+% \[
+% allDistSend\_p\_q (t) = \left(
+% \begin{array}{rl}
+% 	& \bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
+% 	\bigwedge_{s \in {s_1, ..., s_t}}\;
+% 	\bigvee_{a \in \pqsAct{p}{q}}
+% 	\lambda(s) = a \quad\wedge\quad \\
+% 	& \bigwedge_{e,f \in \{s_1, \dots, s_t\}}
+% 	e \neq f \\
+% \end{array}
+% \right)
+% \]
+
+\medskip
+
+Following the approach taken in \cite{DBLP:conf/fossacs/LohreyM02}, we introduce a binary relation $\relb$ ($\linrel_b$ in their work) associated with a given bound $k$ and an MSC $\msc$. Let $k \ge 1$ and $\msc$ be a fixed MSC: we have $r \relb s$ if, for some $i \ge 1$ and some channel ($p$,$q$)\footnote{Recall that ($p,\,q$) is a channel where messages are sent by $p$ and received by $q$.}:
 \begin{enumerate}\itemsep=0.5ex
 	\item $r$ is the $i$-th receive event (executed by $q$).
 	\item $s$ is the ($i+k$)-th send event (executed by $p$).
 \end{enumerate} 
-Note that, for any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed after $s$ cannot $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization".\davidequestionsmall{Should I prove it?} A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.\davide{An example would be nice.} In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is existentially $k$-bounded if and only if the relation $\le_\msc \cup \relb$ is acyclic\footnote{A binary relation is acyclic if it does not contain a "cycle", which is to say its transitive closure is antisymmetric.}. Since $\le_\msc$ and acyclicity are both MSO-definable (we did not show the latter), it suffices to find an MSO formula that defines the $\relb$ relation to say that the set of existentially $k$-bounded MSCs is MSO-definable. In particular, we can define $r \relb s$ as
-\davidequestion{This is not valid for asynchronous, it is for \pp, but it might need some tweaking depending on if we want to count or not unmatched messages}
+Note that, for any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed after $s$ cannot $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization".\davidequestionsmall{Should I prove it?} A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.\davide{An example would be nice.} In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is $\exists k$-bounded if and only if the relation $\le_\msc \cup \relb$ is acyclic\footnote{A binary relation is acyclic if its transitive closure is antisymmetric.}. Since $\le_\msc$ and acyclicity are both MSO-definable, it suffices to find an MSO formula that defines the $\relb$ relation to claim the MSO-definability of $\exists k$-bounded MSCs. Unfortunately, this relation is not MSO-definable for asynchronous MSCs, because MSO logic cannot be used to "count" for an arbitrary $i$. For this reason, we introduce another similar MSO-definable binary relation $\relbAsy$, and we show that with this new relation we still have that an MSC $\msc$ is $\exists k$-bounded MSC iff $\le_\msc \cup \relbAsy$ is acyclic and another condition holds. Let $k \ge 1$ and $\msc$ be a fixed MSC: we have $r \relbAsy s$ if, for some $i \ge 1$ and some channel ($p$,$q$):
+\begin{itemize}\itemsep=0.5ex
+	\item There are $k+1$ send events $(s_1, \dots, s_k, s)$, where at least one is matched, such that $s_1 \procrel^+ \dots \procrel^+ s_k \procrel^+ s$.
+ 	\item $r$ is the first receive event among the receive events for the matched sends among $s_1, \dots, s_k, s$.
+\end{itemize} 
+
+\begin{proposition}\label{prop:asy_ek_def_alt}
+	An MSC $\msc$ is $\exists k$-bounded if and only if $\le_\msc \cup \relbAsy$ is acyclic and, for each channel ($p$,$q$), there are at most $k$ unmatched send events.
+\end{proposition}
+\begin{proof}
+	($\Rightarrow$) Suppose $\msc$ is $\exists k$-bounded, which by definition means there is at least one $\exists k$-bounded linearization $\linrel$. Firstly, notice that every MSC that has more than $k$ unmatched send events in any channel cannot be an $\exists k$-bounded MSC. We already know that $\le_\msc \subseteq \linrel$, and we will show show that also $\relbAsy \subseteq \linrel$. This implies that $\le_\msc \cup \relbAsy$ is acyclic, otherwise we would not be able to find a linearization $\linrel$ that respects both $\le_\msc$ and $\relbAsy$. Suppose, by contradiction, that $\relbAsy \nsubseteq \linrel$, i.e. there are two events $r$ and $s$ such that $r \relbAsy s$ and $s \linrel r$. By definition of $\relbAsy$, there are $k$ send events in a channel ($p$,$q$) that are executed before $s$, and whose respective receive events happens after $r$. If $s$ is executed before $r$ in the linearization, there will be $k+1$ messages in channel (i.e. $\linrel$ is not a $\exists k$-bounded linearization). We reached a contradiction, hence $\relbAsy \subseteq \linrel$ and $\le_\msc \cup \relbAsy$ is acyclic.\newline
+	($\Leftarrow$) Suppose $\le_\msc \cup \relbAsy$ is acyclic and, for each channel ($p$,$q$), there are at most $k$ unmatched send events. If $\le_\msc \cup \relbAsy$ is acyclic, we are able to find at least one linearization $\linrel$ for the partial order $(\le_\msc \cup \relbAsy)^\ast$. We want to show that this linearization is $\exists k$-bounded. By contradiction, suppose $\linrel$ is not $\exists k$-bounded, i.e. we are able to find $k+1$ send events $s_1 \procrel^+ \dots \procrel^+ s_k \procrel^+ s$ on a channel ($p$,$q$), such that $s$ is executed before any of the respective receive events takes place. There are two possible scenarios:
+	\begin{itemize}\itemsep=0.5ex
+		\item Suppose all the $k+1$ send events are unmatched. This is impossible, since we supposed that there are at most $k$ unmatched send events for any channel.
+		\item Suppose there is at least one matched send event between the $k+1$ sends. Let the first matched send event be $s_i$ and let $r$ be the receive event that is executed first among the receive events for these $k+1$ sends. By hypothesis, $s \linrel r$. However, according to the definition of $\relbAsy$, we must have $r \relbAsy s$. We reached a contradiction, since we cannot have that $s$ happens before $r$ in a linearization for the partial order $(\le_\msc \cup \relbAsy)^\ast$, if $r \relbAsy s$.
+	\end{itemize} 
+\end{proof}
+
+\noindent According to Proposition~\ref{prop:asy_ek_def_alt}, we can write the MSO formula the defines $\exists k$-bounded MSCs as
 \[
-r \relb s=\exists s_1.\exists s_2.\dots.\exists s_k.\left(
-allSend\_p\_q
+\Psi_{\exists k}=
+acyclic(\le_\msc \cup \relbAsy) \;\wedge\; 
+\neg \left( 
+	\exists s_1 \dots s_{k+1}. s_1 \procrel^+ \dots \procrel^+ s_{k+1} \;\wedge \; 
+	allSends\_p\_q \;\wedge\; allUnm
+\right)
+\]
+\[
+allSends\_p\_q = 
+\bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
+\bigwedge_{s \in {s_1, ..., s_{k+1}}}\;
+\bigvee_{a \in \pqsAct{p}{q}}
+(\lambda(s) = a)
+\]
+\[
+allUnm = \bigwedge_{s \in {s_1, ..., s_{k+1}}}(\neg \mathit{matched}(s))
+\]
+where $acyclic(\le_\msc \cup \relbAsy)$ is an MSO formula that checks the acyclicity of the $\le_\msc \cup \relbAsy$ relation, and the $\relbAsy$ relation can be defined as
+\[
+r \relbAsy s= \exists s_1 \dots s_{k+1}. \left(
+\begin{array}{rl}
+	& s_1 \procrel^+ \dots \procrel^+ s_{k+1} \;\wedge\;
+	allSends\_p\_q \;\wedge\; \\
+	& \exists r. (\bigvee_{s \in {s_1, ..., s_{k+1}}}s \lhd r) \;\wedge\;
+	\bigwedge_{e \in {s_1, ..., s_{k+1}}}(\exists f.e \lhd f \implies r \procrel^* f) \\
+\end{array}
+\right)
+\]
+
+\medskip
+
+In particular, we can define $r \relb s$ as
+\davidequestion{This might need some tweaking depending on if we want to count or not unmatched messages}
+% \[
+% r \relb s=
+% \bigvee_{i=1}^n(\exists s_1 \dots s_{i+k}.(s=s_{i+k} \wedge first\_send(s_1)
+% \wedge allSend\_p\_q(i+k)))
+% \]
+\[
+r \relb s=\exists s_1. \dots \exists s_k.\left(
+allDistSend\_p\_q(k)
 \;\wedge\; s_1\procrel s_2\procrel\dots
 \procrel s_k\procrel s
 \;\wedge\; s_1 \lhd r
 \right)
 \]
-where $allSend\_p\_q$ checks if $s,s_1,\dots,s_k$ are all send events from and to the same process (i.e., on the same channel)
-\[
-allSend\_p\_q=
-\bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
-\bigwedge_{e \in {s, s_1, ..., s_k}}\;
-\bigvee_{a \in \pqsAct{p}{q}}\;
-\lambda(e) = a
-\]
+% where $allSend\_p\_q$ checks if $s,s_1,\dots,s_k$ are all send events from and to the same process (i.e., on the same channel)
+
 It follows that, given $k \in \N$, the set of existentially $k$-bounded MSCs is MSO-definable. Causally ordered and \pp existentially $k$-bounded MSCs are clearly MSO-definable by definition, since we already showed that \pp MSCs, causally ordered MSCs, and existentially $k$-bounded MSCs are all MSO-definable. The set of mailbox existentially $k$-bounded MSCs was already shown to be MSO-definable in \cite{DBLP:conf/concur/BolligGFLLS21}, but they use a slightly different definition of mailbox existentially $k$-bounded MSC. With their definition, a $\exists k$-mb-bounded MSC has at most $k$ messages in any incoming channel at any moment, whereas according to our definition the threshold is $k(n-1)$, were $n$ is the number of processes. In particular, they introduce a binary relation $\revb \,\supseteq\, \relb$ and they show that an MSC $\msc$ is $\exists k$-mb-bounded iff $\preceq_\msc \cup \revb$ is acyclic. With our definition, an MSC is $\exists k$-mb-bounded iff $\preceq_\msc \cup \relb$ is acyclic. \davidequestionsmall{Should I rewrite the proof?}This can easily be shown by simply replacing $\revb$ with $\relb$ in the proof given in \cite{DBLP:conf/concur/BolligGFLLS21}. We already talked about the MSO-defininability of $\preceq_\msc$, $\relb$, and acyclicity, so the set of mailbox existentially $k$-bounded MSCs is also MSO-definable.
 
 \subsubsection{Special treewidth}
 
-In \cite[Lemma 5.37]{DBLP:journals/corr/abs-1904-06942} it was shown that the special treewidth of existentially $k$-bounded MSCs is bounded by $k\,|\Procs|^2$, for $k \ge 1$. Actually, STW-boundness was shown for the more general $\mathsf{CBM}$ class (Concurrent Behaviours with Matching), but the result is still valid since $\asMSCs \subset \mathsf{CBM}$. \davidequestionsmall{Should I rewrite the proof more clearly?} The special treewidth of both \pp-$\exists k$-bounded and $\cosymb$-$\exists k$-bounded MSCs is also bounded, since every \pp or causally ordered existentially $k$-bounded MSC is existentially $k$-bounded by definition. Similarly, mb-$\exists k$-bounded MSCs have also a bounded special treewidth, since it is trivial to see that every existentially mailbox $k$-bounded MSC is existentially $k$-bounded.
+In \cite[Lemma 5.37]{DBLP:journals/corr/abs-1904-06942} it was shown that the special treewidth of existentially $k$-bounded MSCs is bounded by $k\,|\Procs|^2$, for $k \ge 1$. Actually, STW-boundness was shown for the more general $\mathsf{CBM}$ class (Concurrent Behaviours with Matching), but the result is still valid since $\asMSCs \subset \mathsf{CBM}$. \davidequestionsmall{Should I rewrite the proof more clearly?} The special treewidth of both \pp-$\exists k$-bounded and $\cosymb$-$\exists k$-bounded MSCs is also bounded, since every \pp or causally ordered existentially $k$-bounded MSC is existentially $k$-bounded by definition. Similarly, mb-$\exists k$-bounded MSCs also have a bounded special treewidth, since it is trivial to see that every existentially mailbox $k$-bounded MSC is existentially $k$-bounded.
 
 \subsection{Universally bounded MSCs}
 
