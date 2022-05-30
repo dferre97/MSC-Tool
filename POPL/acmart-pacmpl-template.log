@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.3.8)  30 MAY 2022 13:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.3.8)  30 MAY 2022 13:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -853,7 +853,7 @@ Class acmart Warning: ACM reference format is mandatory
 (acmart)              \settopmatter command..
 
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 8.0pt on input line 248.
+(Font)              scaled to size 8.0pt on input line 249.
 [2.2] (./acmart-pacmpl-template.aux)
 Package rerunfilecheck Info: File `acmart-pacmpl-template.out' has not changed.
 (rerunfilecheck)             Checksum: 6E1241B951CC325FB45D75E0F16C90CB;2618.
@@ -861,13 +861,13 @@ Package rerunfilecheck Info: File `acmart-pacmpl-template.out' has not changed.
 Here is how much of TeX's memory you used:
  20713 strings out of 478276
  334915 string characters out of 5850490
- 686736 words of memory out of 5000000
+ 685848 words of memory out of 5000000
  38195 multiletter control sequences out of 15000+600000
  588639 words of font info for 215 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 84i,17n,131p,1109b,641s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 84i,17n,131p,1109b,639s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_afusau.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_mmutss.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}<c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on acmart-pacmpl-template.pdf (2 pages, 212567 bytes).
+Output written on acmart-pacmpl-template.pdf (2 pages, 212574 bytes).
 PDF statistics:
  104 PDF objects out of 1000 (max. 8388607)
  84 compressed objects within 1 object stream
