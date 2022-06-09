@@ -1,0 +1,95 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{4}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[Chevrou et~al\mbox{.}(2016)]%
+        {DBLP:journals/fac/ChevrouHQ16}
+\bibfield{author}{\bibinfo{person}{Florent Chevrou},
+  \bibinfo{person}{Aur{\'{e}}lie Hurault}, {and} \bibinfo{person}{Philippe
+  Qu{\'{e}}innec}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{On the diversity of asynchronous communication}.
+\newblock \bibinfo{journal}{\emph{Formal Aspects Comput.}}
+  \bibinfo{volume}{28}, \bibinfo{number}{5} (\bibinfo{year}{2016}),
+  \bibinfo{pages}{847--879}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1007/s00165-016-0379-x}
+\showDOI{\tempurl}
+
+
+\bibitem[Fidge(1988)]%
+        {Fidge88timestampsin}
+\bibfield{author}{\bibinfo{person}{Colin~J Fidge}.}
+  \bibinfo{year}{1988}\natexlab{}.
+\newblock \showarticletitle{Timestamps in Message-Passing Systems That Preserve
+  the Partial Ordering,”}. In \bibinfo{booktitle}{\emph{Proc. 11th Austral.
+  Comput. Sci. Conf. (ACSC '88)}}. \bibinfo{pages}{56--66}.
+\newblock
+
+
+\bibitem[Mattern(1989)]%
+        {Mattern89virtualtime}
+\bibfield{author}{\bibinfo{person}{Friedemann Mattern}.}
+  \bibinfo{year}{1989}\natexlab{}.
+\newblock \showarticletitle{Virtual time and global states of distributed
+  systems.}. In \bibinfo{booktitle}{\emph{Proc. Workshop on Parallel and
+  Distributed Algorithms,}}. \bibinfo{publisher}{North-Holland / Elsevier,},
+  \bibinfo{pages}{215--226}.
+\newblock
+
+
+\bibitem[Schiper et~al\mbox{.}(1989)]%
+        {DBLP:conf/wdag/SchiperES89}
+\bibfield{author}{\bibinfo{person}{Andr{\'{e}} Schiper}, \bibinfo{person}{Jorge
+  Eggli}, {and} \bibinfo{person}{Alain Sandoz}.}
+  \bibinfo{year}{1989}\natexlab{}.
+\newblock \showarticletitle{A New Algorithm to Implement Causal Ordering}. In
+  \bibinfo{booktitle}{\emph{Distributed Algorithms, 3rd International Workshop,
+  Nice, France, September 26-28, 1989, Proceedings}}
+  \emph{(\bibinfo{series}{Lecture Notes in Computer Science},
+  Vol.~\bibinfo{volume}{392})},
+  \bibfield{editor}{\bibinfo{person}{Jean{-}Claude Bermond} {and}
+  \bibinfo{person}{Michel Raynal}} (Eds.). \bibinfo{publisher}{Springer},
+  \bibinfo{pages}{219--232}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1007/3-540-51687-5\_45}
+\showDOI{\tempurl}
+
+
+\end{thebibliography}
