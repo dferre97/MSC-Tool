@@ -11,8 +11,11 @@ sources_concur/concur2021.*
 
 # only commit popl-paper.tex and popl-paper.pdf and not other popl-paper.* files
 POPL/popl-paper.*
+POPL/chapters/
+!POPL/chapters/*.tex
 !POPL/popl-paper.tex
 !POPL/popl-paper.pdf
+
 POPL/acmart-pacmpl-template.*
 !POPL/acmart-pacmpl-template.tex
 
