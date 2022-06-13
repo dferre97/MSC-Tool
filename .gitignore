@@ -10,7 +10,9 @@ sources_concur/concur2021.*
 !sources_concur/concur2021.tex
 
 # only commit popl.tex and popl.pdf and not other popl.* files
-POPL/
+POPL/popl-paper.*
+!POPL/popl-paper.tex
+!POPL/popl-paper.pdf
 
 
 # other stuff
