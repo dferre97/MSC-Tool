@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.3.8)  1 JUN 2022 11:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.3.8)  13 JUN 2022 10:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1029,11 +1029,11 @@ Local configuration file tkz-euclide.cfg found and used
 2022/02/25 4.051b tkz-obj-eu-triangles.tex
 ))) (c:/texlive/2021/texmf-dist/tex/latex/carlisle/slashed.sty
 Package: slashed 1997/01/16 v0.01 Feynman Slashed Character Notation (DPC)
-) (./my_macro.sty)
+) (./my_macro.sty) (./laetitia_macro.sty)
 Package hyperref Info: Option `colorlinks' set `true' on input line 65.
 Package hyperref Info: Option `pdfdisplaydoctitle' set `true' on input line 65.
 \c@theorem=\count346
- Include comment 'screenonly' Excluding comment 'printonly' Excluding comment 'anonsuppress' Excluding comment 'acks' (./popl-paper.aux)
+ Include comment 'screenonly' Excluding comment 'printonly' Excluding comment 'anonsuppress' Excluding comment 'acks' (./popl-paper.aux (./chapters/ch-3.aux) (./chapters/ch-5.aux))
 \openout1 = `popl-paper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/nxlmi/m/it on input line 65.
@@ -1294,50 +1294,275 @@ LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 7.0pt on input line 226.
  [1.1{c:/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] Excluding 'acks' comment.
+LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
+(Font)              scaled to size 8.0pt on input line 259.
+ [2.2]
+\openout2 = `chapters/ch-3.aux'.
+
+ (./chapters/ch-3.tex
+LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
+(Font)              scaled to size 7.3pt on input line 8.
+LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
+(Font)              scaled to size 5.5pt on input line 8.
+
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
+(Font)              scaled to size 9.0pt on input line 20.
+
+Class acmart Warning: A possible image without description on input line 23.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 25.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 25.
+
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 7.3pt on input line 26.
+LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
+(Font)              scaled to size 6.2pt on input line 26.
+[3.3
+
+]
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+
+Class acmart Warning: A possible image without description on input line 44.
+
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 9.0pt on input line 67.
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+
+Class acmart Warning: A possible image without description on input line 85.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 87.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 87.
+
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 10.0pt on input line 262.
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 263.
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 7.3pt on input line 264.
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 5.5pt on input line 264.
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 8.0pt on input line 267.
- [2.2]pdfTeX warning (ext4): destination with the same identifier (name{appendix.A}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.276 \section{Appendix}
-                         (./popl-paper.bbl
+(Font)              scaled to size 10.0pt on input line 88.
+[4.4]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 90.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 90.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 93.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 93.
+
+
+Underfull \vbox (badness 3260) has occurred while \output is active []
+
+ [5.5]
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+
+Class acmart Warning: A possible image without description on input line 114.
+
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
+(Font)              scaled to size 10.0pt on input line 117.
+
+LaTeX Warning: Reference `' on page 6 undefined on input line 117.
+
+<./img//msc_hierarchy.png, id=176, 718.101pt x 367.044pt>
+File: ./img//msc_hierarchy.png Graphic file (type png)
+<use ./img//msc_hierarchy.png>
+Package pdftex.def Info: ./img//msc_hierarchy.png  used on input line 121.
+(pdftex.def)             Requested size: 284.52756pt x 145.43164pt.
+
+Class acmart Warning: A possible image without description on input line 124.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) [6.6] [7.7 <./img//msc_hierarchy.png>]
+\openout2 = `chapters/ch-5.aux'.
+
+ (./chapters/ch-5.tex
+
+LaTeX Warning: Reference `' on page 8 undefined on input line 5.
+
+LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/it' will be
+(Font)              scaled to size 10.0pt on input line 11.
+LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/it' will be
+(Font)              scaled to size 7.3pt on input line 11.
+LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/it' will be
+(Font)              scaled to size 5.5pt on input line 11.
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 42.
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 44.
+
+[8.8
+
+
+
+]
+
+LaTeX Warning: Reference `' on page 9 undefined on input line 56.
+
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 58.
+
+
+LaTeX Warning: Reference `' on page 9 undefined on input line 70.
+
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 72.
+
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 5.5pt on input line 85.
+
+LaTeX Warning: Reference `' on page 9 undefined on input line 85.
+
+[9.9]
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
+(Font)              scaled to size 10.0pt on input line 88.
+
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 100.
+
+
+LaTeX Warning: Reference `' on page 10 undefined on input line 112.
+
+[10.10]
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/it' will be
+(Font)              scaled to size 9.0pt on input line 185.
+
+Class acmart Warning: A possible image without description on input line 187.
+
+LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/it' will be
+(Font)              scaled to size 8.0pt on input line 214.
+LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/it' will be
+(Font)              scaled to size 6.2pt on input line 214.
+[11.11] [12.12] [13.13] [14.14] [15.15]
+
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 348.
+
+File: ./img//msc_hierarchy.png Graphic file (type png)
+<use ./img//msc_hierarchy.png>
+Package pdftex.def Info: ./img//msc_hierarchy.png  used on input line 368.
+(pdftex.def)             Requested size: 227.62204pt x 116.34195pt.
+
+Class acmart Warning: A possible image without description on input line 371.
+
+
+LaTeX Warning: Reference `fig:msc_weak_univer' on page 16 undefined on input line 388.
+
+
+LaTeX Warning: Reference `fig:msc_strong_exist' on page 16 undefined on input line 390.
+
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
+(Font)              scaled to size 8.0pt on input line 393.
+
+LaTeX Warning: Reference `sec:mso_extra' on page 16 undefined on input line 393.
+
+[16.16] [17.17]) [18.18] (./popl-paper.bbl
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 8.0pt on input line 46.
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 6.2pt on input line 52.
-LaTeX Info: Redefining \tempurl on input line 91.
+(Font)              scaled to size 8.0pt on input line 49.
+LaTeX Info: Redefining \tempurl on input line 71.
+LaTeX Info: Redefining \tempurl on input line 86.
 ) (c:/texlive/2021/texmf-dist/tex/generic/stringenc/se-pdfdoc.def
 File: se-pdfdoc.def 2019/11/29 v1.12 stringenc: PDFDocEncoding
 ) (c:/texlive/2021/texmf-dist/tex/generic/stringenc/se-utf8.def
 File: se-utf8.def 2019/11/29 v1.12 stringenc: UTF-8
-) [3.3] (./popl-paper.aux)
+)
+
+Class acmart Warning: Some images may lack descriptions.
+
+[19.19
+
+
+] (./popl-paper.aux (./chapters/ch-3.aux) (./chapters/ch-5.aux))
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.5pt have occurred.
 
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `popl-paper.out' has not changed.
-(rerunfilecheck)             Checksum: 0B757DCD390C775A61DB81A78C6D306F;3117.
+(rerunfilecheck)             Checksum: 9D82A3DDB570DC623D3D99210B3A13BC;5317.
  ) 
 Here is how much of TeX's memory you used:
- 40131 strings out of 478276
- 787980 string characters out of 5850490
- 1119313 words of memory out of 5000000
- 56936 multiletter control sequences out of 15000+600000
- 642204 words of font info for 334 fonts, out of 8000000 for 9000
+ 40909 strings out of 478276
+ 804174 string characters out of 5850490
+ 1144302 words of memory out of 5000000
+ 57311 multiletter control sequences out of 15000+600000
+ 716040 words of font info for 527 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 99i,17n,131p,1131b,1008s stack positions out of 5000i,500n,10000p,200000b,80000s
-{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_afusau.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_mmutss.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}<c:/texlive/2021/texmf-dist/fonts/type1/public/newtx/LibertineMathMI.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/newtx/LibertineMathMI7.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb><c:/texlive/2021/texmf-dist/fonts/typ2021/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on popl-paper.pdf (3 pages, 375657 bytes).
+ 99i,17n,131p,2231b,1093s stack positions out of 5000i,500n,10000p,200000b,80000s
+{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_ncsllp.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_kijugd.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_afusau.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_mmutss.enc}{c:/texlive/2021/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}<c:/texlive/2021/texmf-dist/fonts/type1/public/newtx/LibertineMathMI.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/newtx/LibertineMathMI5.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/newtx/LibertineMathMI7.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/newtx/LibertineMathRM.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/newtx/NewTXMI.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/newtx/txexs.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/txfonts/txsya.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/txfonts/txsyb.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
+Output written on popl-paper.pdf (19 pages, 644712 bytes).
 PDF statistics:
- 137 PDF objects out of 1000 (max. 8388607)
- 106 compressed objects within 2 object streams
- 23 named destinations out of 1000 (max. 500000)
- 100381 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 471 PDF objects out of 1000 (max. 8388607)
+ 403 compressed objects within 5 object streams
+ 130 named destinations out of 1000 (max. 500000)
+ 151778 words of extra memory for PDF output out of 154059 (max. 10000000)
 

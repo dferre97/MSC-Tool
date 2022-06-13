@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{4}
+\begin{thebibliography}{3}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -37,6 +37,41 @@
 \providecommand\natexlab[1]{#1}
 \providecommand\showeprint[2][]{arXiv:#2}
 
+\bibitem[Bollig et~al\mbox{.}(2021)]%
+        {DBLP:conf/concur/BolligGFLLS21}
+\bibfield{author}{\bibinfo{person}{Benedikt Bollig}, \bibinfo{person}{Cinzia~Di
+  Giusto}, \bibinfo{person}{Alain Finkel}, \bibinfo{person}{Laetitia Laversa},
+  \bibinfo{person}{{\'{E}}tienne Lozes}, {and} \bibinfo{person}{Amrita
+  Suresh}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{A Unifying Framework for Deciding
+  Synchronizability}. In \bibinfo{booktitle}{\emph{32nd International
+  Conference on Concurrency Theory, {CONCUR} 2021, August 24-27, 2021, Virtual
+  Conference}} \emph{(\bibinfo{series}{LIPIcs}, Vol.~\bibinfo{volume}{203})},
+  \bibfield{editor}{\bibinfo{person}{Serge Haddad} {and}
+  \bibinfo{person}{Daniele Varacca}} (Eds.). \bibinfo{publisher}{Schloss
+  Dagstuhl - Leibniz-Zentrum f{\"{u}}r Informatik},
+  \bibinfo{pages}{14:1--14:18}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.4230/LIPIcs.CONCUR.2021.14}
+\showDOI{\tempurl}
+
+
+\bibitem[Charron{-}Bost et~al\mbox{.}(1996)]%
+        {DBLP:journals/dc/Charron-BostMT96}
+\bibfield{author}{\bibinfo{person}{Bernadette Charron{-}Bost},
+  \bibinfo{person}{Friedemann Mattern}, {and} \bibinfo{person}{Gerard Tel}.}
+  \bibinfo{year}{1996}\natexlab{}.
+\newblock \showarticletitle{Synchronous, Asynchronous, and Causally Ordered
+  Communication}.
+\newblock \bibinfo{journal}{\emph{Distributed Comput.}} \bibinfo{volume}{9},
+  \bibinfo{number}{4} (\bibinfo{year}{1996}), \bibinfo{pages}{173--191}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1007/s004460050018}
+\showDOI{\tempurl}
+
+
 \bibitem[Chevrou et~al\mbox{.}(2016)]%
         {DBLP:journals/fac/ChevrouHQ16}
 \bibfield{author}{\bibinfo{person}{Florent Chevrou},
@@ -49,46 +84,6 @@
 \newblock
 \urldef\tempurl%
 \url{https://doi.org/10.1007/s00165-016-0379-x}
-\showDOI{\tempurl}
-
-
-\bibitem[Fidge(1988)]%
-        {Fidge88timestampsin}
-\bibfield{author}{\bibinfo{person}{Colin~J Fidge}.}
-  \bibinfo{year}{1988}\natexlab{}.
-\newblock \showarticletitle{Timestamps in Message-Passing Systems That Preserve
-  the Partial Ordering,”}. In \bibinfo{booktitle}{\emph{Proc. 11th Austral.
-  Comput. Sci. Conf. (ACSC '88)}}. \bibinfo{pages}{56--66}.
-\newblock
-
-
-\bibitem[Mattern(1989)]%
-        {Mattern89virtualtime}
-\bibfield{author}{\bibinfo{person}{Friedemann Mattern}.}
-  \bibinfo{year}{1989}\natexlab{}.
-\newblock \showarticletitle{Virtual time and global states of distributed
-  systems.}. In \bibinfo{booktitle}{\emph{Proc. Workshop on Parallel and
-  Distributed Algorithms,}}. \bibinfo{publisher}{North-Holland / Elsevier,},
-  \bibinfo{pages}{215--226}.
-\newblock
-
-
-\bibitem[Schiper et~al\mbox{.}(1989)]%
-        {DBLP:conf/wdag/SchiperES89}
-\bibfield{author}{\bibinfo{person}{Andr{\'{e}} Schiper}, \bibinfo{person}{Jorge
-  Eggli}, {and} \bibinfo{person}{Alain Sandoz}.}
-  \bibinfo{year}{1989}\natexlab{}.
-\newblock \showarticletitle{A New Algorithm to Implement Causal Ordering}. In
-  \bibinfo{booktitle}{\emph{Distributed Algorithms, 3rd International Workshop,
-  Nice, France, September 26-28, 1989, Proceedings}}
-  \emph{(\bibinfo{series}{Lecture Notes in Computer Science},
-  Vol.~\bibinfo{volume}{392})},
-  \bibfield{editor}{\bibinfo{person}{Jean{-}Claude Bermond} {and}
-  \bibinfo{person}{Michel Raynal}} (Eds.). \bibinfo{publisher}{Springer},
-  \bibinfo{pages}{219--232}.
-\newblock
-\urldef\tempurl%
-\url{https://doi.org/10.1007/3-540-51687-5\_45}
 \showDOI{\tempurl}
 
 
