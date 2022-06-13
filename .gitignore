@@ -9,10 +9,12 @@ report/report.*
 sources_concur/concur2021.*
 !sources_concur/concur2021.tex
 
-# only commit popl.tex and popl.pdf and not other popl.* files
+# only commit popl-paper.tex and popl-paper.pdf and not other popl-paper.* files
 POPL/popl-paper.*
 !POPL/popl-paper.tex
 !POPL/popl-paper.pdf
+POPL/acmart-pacmpl-template.*
+!POPL/acmart-pacmpl-template.tex
 
 
 # other stuff
