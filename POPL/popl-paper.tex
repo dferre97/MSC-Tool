@@ -20,7 +20,7 @@
 \acmYear{2018}
 \acmMonth{1}
 \acmDOI{} % \acmDOI{10.1145/nnnnnnn.nnnnnnn}
-\startPage{1}
+\startPage{-1}
 
 %% Copyright information
 %% Supplied to authors (based on authors' rights management selection;
@@ -71,7 +71,7 @@
 \titlenote{with title note}             %% \titlenote is optional;
                                         %% can be repeated if necessary;
                                         %% contents suppressed with 'anonymous'
-\subtitle{Subtitle}                     %% \subtitle is optional
+\subtitle{Subtitles}                     %% \subtitle is optional
 \subtitlenote{with subtitle note}       %% \subtitlenote is optional;
                                         %% can be repeated if necessary;
                                         %% contents suppressed with 'anonymous'
@@ -247,8 +247,8 @@ Text of abstract \ldots.
 \end{acks}
 
 \include{chapters/ch-2.tex}
-\include{chapters/ch-3.tex}
-\include{chapters/ch-5.tex}
+\input{chapters/ch-3.tex}
+\input{chapters/ch-5.tex}
 
 % %% Appendix
 % \appendix
@@ -258,5 +258,7 @@ Text of abstract \ldots.
 
 % Bibliography
 \bibliography{bibfile}
+
+\input{reference.tex}
 
 \end{document}
