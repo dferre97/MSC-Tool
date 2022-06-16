@@ -14,11 +14,11 @@ POPL/popl-paper.*
 POPL/chapters/*
 !POPL/chapters/*.tex
 !POPL/popl-paper.tex
-!POPL/popl-paper.pdf
 
 POPL/acmart-pacmpl-template.*
 !POPL/acmart-pacmpl-template.tex
 
+POPL/backup/
 
 # other stuff
 *.pptx
