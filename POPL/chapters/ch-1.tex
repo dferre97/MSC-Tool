@@ -9,7 +9,7 @@ In this paper we try to clarify and classify those communication models. We foll
 MSCs only specify a partial order between events.
 \cinzia{Have a look at \url{https://web.archive.org/web/20060826195305/http://www.comp.nus.edu.sg/~thiagu/public_papers/surveymsc.pdf}}
 
-\cinzia{\url{https://link.springer.com/content/pdf/10.1007/978-0-387-35271-8.pdf} to mention while talking about realizability}
+\cinzia{\url{https://link.springer.com/content/pdf/10.1007/978-0-387-35271-8.pdf} to mention while talking about realizability page 81-96}
 
 Recall that a single MSC can have several possible linearizations. The work in \cite{DBLP:journals/fac/ChevrouHQ16} describes the properties that a single linearization must satisfy in order to be realizable by a system that uses a given communication model. On the other hand, we are interested in understanding if a given MSC describes a computation that can be realized by a system that uses some communication model $CM$. In other words, given a MSC we want to know if it has at least one linearization that respects the constraints imposed by $CM$. If that is the case, the MSC represents a behaviour that can be exhibited by a system that uses $CM$ as a communication model. These are two fundamentally dissimilar problems; at the end of this section we provide an example to clarify the difference. In our work, we are going to formally characterize the classes of MSCs which represent valid computations for all of these 7 asynchronous communication model. We also show how these classes form a well-defined hierarchy, which does not correspond entirely to that found in \cite{DBLP:journals/fac/ChevrouHQ16}.
 
@@ -51,4 +51,5 @@ We find of particular interest to study the relation between the classes of MSCs
 \cinzia{add fig. of results}
 
 
-\paragraph{Outline.} The paper is organized as follows. Section \ref{}
+\paragraph{Outline.} The paper is organized as follows. Next Section \ref{sec:com_models_overview} details the communication models we consider. Section \ref{sec:prelim} collects formal definitions that will be uses throughout the paper. Then Section \ref{sec:MSO} gives a formal definition of MSC realizing a given communication model and characterize the class of MSCs via MSO logic. Finally Sections \ref{sec:hierarchy} and \ref{sec:checking} show respectively how the different communication models are related and use this information to show some (un)decidability model checking results that follows from the notion of special treewidth.
+
