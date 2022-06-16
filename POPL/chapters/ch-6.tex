@@ -1,0 +1,131 @@
+% \section{(7) Hierarchy of classes of MSCs}
+
+As mentioned in Section~\ref{sec:com_models_overview}, the classes of MSCs for all the 7 communication models that we presented form a clear hierarchy, which is shown in Fig.~\ref{fig:msc_hierarchy_full}. In this section we will provide proofs to support this claim. 
+
+\medskip
+
+We saw that in the FIFO $\none$ communicating model any two messages sent to a process $q$ must be received in the same order as they are sent. In the FIFO $\oneone$ communication model we have the same constraint, but only for messages sent by a same process $p$. It is obvious that FIFO $\none$ communication is a special case of FIFO $\oneone$ communication. It follows that $\mbMSCs \subseteq \ppMSCs$, because every FIFO $\onen$ MSC is also a FIFO $\oneone$ MSC.
+
+\begin{proposition}
+    Every FIFO $\oneone$ MSC in an asynchronous MSC, i.e. $\ppMSCs \subseteq \asMSCs$.
+\end{proposition}
+\begin{proof}
+    By definition of FIFO $\oneone$ MSC.
+\end{proof}
+
+\begin{proposition}% \label{prop:mb_is_co}
+	Every mailbox MSC is a causally ordered MSC, i.e. $\mbMSCs \subseteq \coMSCs$.
+\end{proposition}
+\begin{proof}
+Let $\msc$ be a mailbox MSC and $\linrel$ a mailbox linearization of it. Recall that a linearization has to respect the happens-before partial order over $\msc$, i.e. $\le_\msc \,\subseteq\, \linrel$. Consider any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$ and $s \le_\msc s'$. Since $\le_\msc \,\subseteq\, \linrel$, we have that $s \linrel s'$ and, by the definition of mailbox linearization, either
+\begin{enumerate*}[label={(\roman*)}]
+	\item $s' \in \Unm{\msc}$, or 
+	\item $s,s' \in \Matched{\msc}$, $s \lhd r$, $s' \lhd r'$ and $r \linrel r'$. 
+\end{enumerate*}
+The former clearly respects the definition of causally ordered MSC, so let us focus on the latter. Note that $r$ and $r'$ are two receive events executed by the same process, hence $r \linrel r'$ implies $r \procrel^+ r'$. It follows that $\msc$ is a causally ordered MSC.
+\end{proof}
+
+\begin{proposition}% \label{prop:onen_is_co}
+	Every $\onen$ MSC is a causally ordered MSC, i.e. $\onenMSCs \subseteq \coMSCs$.
+\end{proposition}
+\begin{proof}
+By contradiction. Suppose that $\msc$ is a $\onen$ MSC, but not a causally ordered MSC. Since $\msc$ is not causally ordered, there must be two send events $s$ and $s'$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \le_\msc s'$, and we have either:
+\begin{enumerate}\itemsep=0.5ex
+	\item $s,s' \in \Matched{\msc}$ and $r' \procrel^* r$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
+	\item  $s \in \Unm{\msc}$ and $s' \in \Matched{\msc}$.
+\end{enumerate}
+We need to show that both of these scenarios lead to a contradiction. (1) Suppose $s$ and $s'$ are executed by the same process. Since $\msc$ is a $\onen$ MSC, there must be a linearization $\linrel$ such that $r \linrel r'$, but this is clearly impossible since we have $r' \procrel^* r$. Suppose now that $s$ and $s'$ are executed by two different processes $p$ and $q$. We know by hypothesis that $s \le_\msc s'$, i.e. there is a causal path of events $P = s \sim a \sim \dots \sim s' \sim r'$ from $s$ to $r'$, where $\sim$ is either $\procrel$ or $\lhd$. Refer to the first example in Figure~\ref{fig:onen_is_co} for a visual representation ($P$ is drawn in purple). To have a causal path $P$, there must be a send event $s''$ that is executed by $p$ after $s$ and that is part of $P$, along with its receipt $r''$ (i.e. $P = s \le_\msc s'' \lhd r'' \le_\msc s' \lhd r'$). We clearly have $r'' \linrel r'$ for any linearization of $\msc$, because $r'' \le_\msc r'$ (they are both in the causal path $P$ and $r''$ happens before $r$). Since $\msc$ is a $\onen$ MSC, there has to be a linearization $\linrel$ where $r \linrel r''$, because $s$ and $s''$ are send events executed by the same process. It follows that $\msc$ should have a linearization were $r \linrel r'' \linrel r'$, but this is not possible because of the hypothesis that $r' \procrel^* r$. This is a contradiction. (2) Suppose $s$ and $s'$ are executed by the same process. It is trivial to see, by definition, that $\msc$ cannot be a $\onen$ MSC. Suppose now that $s$ and $s'$ are executed by two different processes $p$ and $q$, and consider the same send event $s''$ as before (executed by $p$). Refer to the second example in Figure~\ref{fig:onen_is_co} for a visual representation. Since $s''$ is matched, we have two events $s$ and $s''$, sent by the same process $p$, that are unmatched and matched, respectively. Clearly, $\msc$ cannot be a $\onen$ MSC.
+\end{proof}
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+		\begin{center}
+			\begin{tikzpicture}
+				\newproc{0}{p}{-2.1};
+				\newproc{1}{t}{-2.1};
+				\newproc{2}{q}{-2.1};
+			
+				% \newmsgdiagnoname{0}{1}{-0.2}{-2.5}{black};
+				\newmsgnoname{0}{1}{-0.3}{black};
+				\newmsgnoname{0}{2}{-1}{black};
+				\newmsgnoname{2}{1}{-1.7}{black};
+		
+				\newevent{black}{0}{-0.3}{s}{left};
+				\newevent{black}{0}{-1}{s''}{left};
+				\newevent{black}{2}{-1}{r''}{above right};
+				\newevent{black}{1}{-1.7}{r'}{above right};
+				\newevent{black}{2}{-1.7}{s'}{right};
+				\newevent{black}{1}{-0.3}{r}{right};
+		
+				\newflechevert{Purple}{0}{-0.3}{-1};
+				\newflechehor{Purple}{-1}{0}{2};
+				\newflechevert{Purple}{2}{-1}{-1.7};
+				\newflechehorinverse{Purple}{-1.7}{2}{1};
+				
+			\end{tikzpicture}
+		\end{center}
+	\end{subfigure}
+	% \hfill
+	\begin{subfigure}[b]{0.4\textwidth}
+		\begin{center}
+			\begin{tikzpicture}
+				\newproc{0}{p}{-2.1};
+				\newproc{1}{t}{-2.1};
+				\newproc{2}{q}{-2.1};
+			
+				% \newmsgdiagnoname{0}{1}{-0.2}{-2.5}{black};
+				\newmsgumnoname{0}{1}{-0.3}{black};
+				\newmsgnoname{0}{2}{-1}{black};
+				\newmsgnoname{2}{1}{-1.7}{black};
+		
+				\newevent{black}{0}{-0.3}{s}{left};
+				\newevent{black}{0}{-1}{s''}{left};
+				\newevent{black}{2}{-1}{r''}{above right};
+				\newevent{black}{2}{-1.7}{s'}{right};
+				\newevent{black}{1}{-1.7}{r'}{above right};
+		
+				\newflechevert{Purple}{0}{-0.3}{-1};
+				\newflechehor{Purple}{-1}{0}{2};
+				\newflechevert{Purple}{2}{-1}{-1.7};
+				\newflechehorinverse{Purple}{-1.7}{2}{1};
+				
+			\end{tikzpicture}
+			\end{center}
+	\end{subfigure}
+	   \caption{Two examples of $\onen$ MSCs.}
+	   \label{fig:onen_is_co}
+\end{figure}
+
+\begin{proposition} \label{prop:onen_mb_no_unmatched}
+	Every $\onen$ MSC without unmatched messages is a mailbox MSC.
+\end{proposition}
+\begin{proof}
+We show that the contrapositive is true, i.e. if an MSC is not mailbox (and it does not have unmatched messages), it is also not $\onen$. Suppose $\msc$ is an asynchronous MSC, but not mailbox. There must be a cycle $\xi$ such that  $e \preceq e$, for some event $e$. Recall that ${\preceq} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$ and ${\le} = ({\procrel} \cup {\lhd})^\ast$. We can always explicitely write a cycle $e \preceq e$ only using $\mbrel$ and $\le$. For instance, there might be a cycle $e \preceq e$ because we have that $e \mbrel f \le g \mbrel h \mbrel i \le e$. Consider any two adiacent events $s_1$ and $s_2$ in the cycle $\xi$, where $\xi$ has been written using only $\mbrel$ and $\le$, and we never have two consecutive $\le$\footnote{This is always possible, since $a \le b \le c$ is written as $a \le c$.}. We have two cases:
+\begin{enumerate}
+	\item $s_1 \mbrel s_2$. We know, by definition of $\mbrel$, that $s_1$ and $s_2$ must be two send events and that $r_1 \procrel^+ r_2$, where $r_1$ and $r_2$ are the receive events that match with $s_1$ and $s_2$, respectively (we are not considering unmatched messages by hypothesis).
+	\item $s_1 \le s_2$. Since $\msc$ is asynchronous by hyphotesis, $\xi$ has to contain at least one $\mbrel$\footnote{If that was not the case, $\le$ would also be cyclic and $\msc$ would not be an asynchronous MSC.}; recall that we also wrote $\xi$ in such a way that we do not have two consecutive $\le$. It is not difficult to see that $s_1$ and $s_2$ have to be send events, since they belong to $\xi$. We have two cases:
+	\begin{enumerate}
+		\item $r_1$ is in the causal path, i.e. $s_1 \lhd r_1 \le s_2$. In particular, note that $r_1 \le r_2$.
+		\item $r_1$ is not in the causal path, hence there must be a message $m_k$ sent by the same process that sent $s_1$, such that $s_1 \procrel^+ s_k \lhd r_k \le s_2 \lhd r_2$, where $s_k$ and $r_k$ are the send and receive events associated with $m_k$, respectively. Since messages $m_1$ and $m_k$ are sent by the same process and $s_1 \procrel^+ s_k$, we should have $r_1 \onenrel r_k$, according to the $\onen$ semantics. In particular, note the we have $r_1 \onenrel r_k \le r_2$.
+	\end{enumerate}
+	In both case (a) and (b), we conclude that $r_1 \lessdot r_2$. Recall that ${\lessdot} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel_\msc})^\ast$.
+\end{enumerate}
+Notice that, for either cases, a relation between two send events $s_1$ and $s_2$ (i.e. $s_1 \mbrel s_2$ or $s_1 \le s_2$) always implies a relation between the respective receive events $r_1$ and $r_2$, according to the $\onen$ semantics. It follows that $\xi$, which is a cycle for the $\preceq$ relation, always implies a cycle for the $\lessdot$ relation\footnote{If $\lessdot$ is cyclic, $\msc$ is not a $\onen$ MSC.}, as shown by the following example. Let $\msc$ be a non-mailbox MSC, and suppose we have a cycle $s_1 \mbrel s_2 \mbrel s_3 \le s_4 \mbrel s_5 \le s_1$. $s_1 \mbrel s_2$ falls into case (1), so it implies $r_1 \procrel^+ r_2$. The same goes for $s_2 \mbrel r_3$, which implies $r_2 \procrel^+ r_3$. $s_3 \le s_4$ falls into case (2), and implies that $r_3 \lessdot r_4$. $s_4 \mbrel s_5$ falls into case (1) and it implies $r_4 \procrel^+ r_5$. $s_5 \le s_1$ falls into case (2) and implies that $r_5 \lessdot r_1$. Putting all these implications together, we have that $r_1 \procrel^+ r_2 \procrel^+ r_3 \lessdot r_4 \procrel^+ r_5 \lessdot r_1$, which is a cycle for $\lessdot$. Note that, given any cycle for $\preceq$, we are always able to apply this technique to obtain a cycle for $\lessdot$.
+\end{proof}
+
+Proposition~\ref{prop:onen_mb_no_unmatched} still holds even if we consider unmatched messages.
+
+\begin{proposition}% \label{prop:onen_mb_unmatched}
+	Every $\onen$ MSC is a mailbox MSC.
+\end{proposition}
+\begin{proof}
+Let $\msc$ be an asynchronous MSC. The proof proceeds in the same way as the one of Proposition~\ref{prop:onen_mb_no_unmatched}, but unmatched messages introduce some additional cases. Consider any two adiacent events $s_1$ and $s_2$ in a cycle $\xi$ for $\preceq$, where $\xi$ has been written using only $\mbrel$ and $\le$, and we never have two consecutive $\le$. These are some additional cases:
+\begin{enumerate}\setcounter{enumi}{2}
+	\item $u_1 \mbrel s_2$, where $u_1$ is the send event of an unmatched message. This case never happens because of how $\mbrel$ is defined.
+	\item $u_1 \le u_2$, where $u_1$ and $u_2$ are both send events of unmatched messages. Since both $u_1$ and $u_2$ are part of the cycle $\xi$, there must be an event $s_3$ such that $u_1 \le u_2 \mbrel s_3$. However, $u_2 \mbrel s_3$ falls into case (3), which can never happen.
+	\item $u_1 \le s_2$, where $u_1$ is the send event of an unmatched message and $s_2$ is the send event of a matched message. Since we have a causal path between $u_1$ and $s_2$, there has to be a message $m_k$, sent by the same process that sent $m_1$, such that $u_1 \procrel^+ s_k \lhd r_k \le s_2 \lhd r_2$\footnote{Note that we can have $m_k = m_2$}, where $s_k$ and $r_k$ are the send and receive events associated with $m_k$, respectively. Since messages $m_1$ and $m_k$ are sent by the same process and $m_1$ is unmatched, we should have $s_k \onenrel u_1$, according to the $\onen$ semantics, but $u_1 \procrel^+ s_k$. It follows that if $\xi$ contains $u_1 \le s_2$, we can immediately conclude that $\msc$ is not a $\onen$ MSC.
+	\item $s_1 \mbrel u_2$,  where $s_1$ is the send event of a matched message and $u_2$ is the send event of an unmatched message. Since both $s_1$ and $u_2$ are part of a cycle, there must be an event $s_3$ such that $s_1 \mbrel u_2 \le s_3$; we cannot have $u_2 \mbrel s_3$, because of case (3). $u_2 \le s_3$ falls into case (5), so we can conclude that $\msc$ is not a $\onen$ MSC.
+\end{enumerate}
+We showed that cases (3) and (4) can never happen, whereas cases (5) and (6) both imply that $\msc$ is not $\onen$. If we combine them with the cases described in Proposition~\ref{prop:onen_mb_no_unmatched} we have the full proof.
+\end{proof}
+
