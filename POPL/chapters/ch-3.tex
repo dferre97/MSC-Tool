@@ -1,8 +1,6 @@
-% !TEX root = popl-paper.tex
+% !TEX root = ../popl-paper.tex
 
-
-These kinds of communication models are often used interchangeably in literature and generally referred to as "asynchronous", without providing a clear definition. In this section, we will present 7 different asynchronous communication models, which were already introduced in \cite{DBLP:journals/fac/ChevrouHQ16} (even though they do not consider unmatched messages). A major difference is that in \cite{DBLP:journals/fac/ChevrouHQ16} these communication models are addressed from a linearizations standpoint, whereas we are interested in MSCs. Recall that a single MSC can have several possible linearizations. The work in \cite{DBLP:journals/fac/ChevrouHQ16} describes the properties that a single linearization must satisfy in order to be realizable by a system that uses a given communication model. On the other hand, we are interested in understanding if a given MSC describes a computation that can be realized by a system that uses some communication model $CM$. In other words, given a MSC we want to know if it has at least one linearization that respects the constraints imposed by $CM$. If that is the case, the MSC represents a behaviour that can be exhibited by a system that uses $CM$ as a communication model. These are two fundamentally dissimilar problems; at the end of this section we provide an example to clarify the difference. In our work, we are going to formally characterize the classes of MSCs which represent valid computations for all of these 7 asynchronous communication model. We also show how these classes form a well-defined hierarchy, which does not correspond entirely to that found in \cite{DBLP:journals/fac/ChevrouHQ16}.
-
+ In this section, we will present the 7 different asynchronous communication models that we consider. 
 We model a distributed system as a set of concurrent Finite-State Machines (FSMs) that exchange messages asynchronously through channels. Each FSM models a single machine/process of the system and transitions are labeled with "send" and "receive" operations, which specify the sender and the receiver of a message. In our work we consider only point-to-point communication, that is, messages that have exactly one sender and one receiver. The role of the communication model is to impose an order on the reception of messages, according to its specification. For instance, the delivery of a message could be delayed or even prevented by a communication model $CM$, so as to ensure that messages are received in an order that is valid for $CM$. The 7 communication models that we address all impose different constraints on the order in which messages can be received.
 
 \subsection{Fully asynchronous}
@@ -114,12 +112,3 @@ The $\rsc$ communication model imposes that a send event is always immediately f
 	\end{center}
 \end{figure}
 
-\subsection{Hierarchy of MSC classes}
-We find of particular interest to study the relation between the classes of MSCs for all of these communication models. For instance, the MSC shown in Fig.~\ref{fig:co_ex}a is both asynchronous and FIFO $\oneone$, in the sense that we are able to find systems using those communication models that can produce the behaviour described by the MSC. Is it always the case than a FIFO $\oneone$ MSC is also an asynchronous MSC? What about the other communication models? In Section~\ref{} we prove that the classes of MSCs for all these communication models form a very neat hierarchy, which is graphically shown in Fig.~\ref{fig:msc_hierarchy_full}.
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=10cm]{msc_hierarchy}
-	\caption{The hierarchy of MSC classes.}
-	\label{fig:msc_hierarchy_full}
-\end{figure}
