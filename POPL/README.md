@@ -4,6 +4,6 @@
 - [ ] Why chapter on communication models overview before preliminaries
 
 ## TODO (Davide)
-- [ ] MSC introduction
+- [ ] MSC introduction, causality, absolute time, linearizations
 - [ ] Refactor preliminaries
 - [ ] Rewrite macros for communication models
