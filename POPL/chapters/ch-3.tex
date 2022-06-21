@@ -2,6 +2,7 @@
 
 Next, we informally present the communication models we consider. All of them impose different constraints on the order in which messages can be received.
 For convenience, we will refer to the system implementing a given communication model with the name of the model. Implementation, or realizations of a communication model are discussed in the following section.
+In a similar way, an MSC will be referred with the name of the communication model, since it represents a computation that is valid for that model. 
 
  %In this section, we will present  7 different asynchronous communication models. 
 %We model a distributed system as a set of concurrent Finite-State Machines (FSMs) that exchange messages asynchronously through channels. 
@@ -9,9 +10,10 @@ For convenience, we will refer to the system implementing a given communication 
 %The role of the communication model is to impose an order on the reception of messages, according to its specification. For instance, the delivery of a message could be delayed or even prevented by a communication model $CM$, so as to ensure that messages are received in an order that is valid for $CM$. The 7 communication models that we address all impose different constraints on the order in which messages can be received.
 %
 \subsection{Fully asynchronous}
-In the fully asychronous communication model (or simply asynchronous) messages can be received at any time once they have been sent. In asynchronous communication, send events are non-blocking, i.e. the sender of a message does not have to wait for it to be delivered to the recipient, in order to resume normal operations.
-As mentionned in \cite{DBLP:journals/fac/ChevrouHQ16} and \cite{DBLP:journals/tcs/BasuB16}, such a communication can be represented by a bag where all messages are stored and can be picked at each moment.
-Fig.~\ref{fig:fully_asy_ex} shows a computation that can be executed by a system that uses asynchronous communication; indeed, even if $m_1$ is sent before $m_2$, $q$ does not have to receive $m_1$ first.  For convenience, we will refer to a system that uses asynchronous communication as an asynchronous system. In a similar way, an MSC such that in Fig.~\ref{fig:fully_asy_ex} will be referred to as an asynchronous MSC, since it represents a computation that is valid for an asynchronous system. The same jargon will also be used for all the other communication models. We will call $\asMSCs$ the set of all asynchronous MSCs.
+In the fully asychronous communication model (\asy) messages can be received at any time once they have been sent, and send events are non-blocking.
+%, i.e., the sender of a message does not have to wait for it to be delivered to the recipient, in order to resume normal operations.
+\asy systems can be realized (as described in \cite{DBLP:journals/fac/ChevrouHQ16} and \cite{DBLP:journals/tcs/BasuB16})  by a bag where ll messages are stored and retrieved when necessary.
+Fig.~\ref{fig:fully_asy_ex} shows a computation that can be executed by an \asy  system; indeed, even if message $m_1$ is sent before $m_2$, process $q$ does not have to receive $m_1$ first.  .  We will call $\asMSCs$ the set of all asynchronous MSCs.
 
 \begin{figure}[t]
 		\captionsetup[subfigure]{justification=centering}
@@ -26,7 +28,7 @@ Fig.~\ref{fig:fully_asy_ex} shows a computation that can be executed by a system
 			\newmsgm{0}{2}{-1.7}{-0.5}{2}{0.25}{black};
 
 			\end{tikzpicture}
-		\caption{Asynchronous.}	\label{fig:fully_asy_ex}
+		\caption{\asy.}	\label{fig:fully_asy_ex}
 		
 		\end{subfigure}
 %	
