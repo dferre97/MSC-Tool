@@ -24,6 +24,25 @@ In \cite{BolligFG21} the authors introduce a general framework based on MSO-logi
 
 \subsection{Prefixes}
 
+\begin{definition}[Prefix]
+	Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and consider
+	$E \subseteq \Events$ such that $E$ is ${\le_\msc}$-\emph{downward-closed}, i.e,
+	for all $(e,f) \in {\le_\msc}$ such that $f \in E$, we also have $e \in E$.
+	Then, the MSC $M' = (E,{\procrel} \cap (E \times E),{\lhd} \cap (E \times E),\lambda')$,
+	where $\lambda'$ is the restriction of $\Events$ to $E$, is called a \emph{prefix}
+	of $\msc$. 	
+\end{definition}
+
+If we consider a set $E$ that is ${\lessdot_\msc}$-\emph{downward-closed}, we call $M'$ a \emph{$\onen$ prefix}.
+If the set $E$ is ${\bowtie_\msc}$-\emph{downward-closed}, we call $M'$ a \emph{$\nn$ prefix}. Note that every $\onen$ prefix and $\nn$ prefix is also a prefix, since $\le_\msc \subseteq {\lessdot_\msc}$ and $\le_\msc \subseteq {\bowtie_\msc}$.
+
+Note that the empty MSC is a prefix of $\msc$.
+We denote the set of prefixes of $\msc$ by $\Pref{\msc}$, whereas $\Prefonen{\msc}$ and $\Prefnn{\msc}$ are used for the $\onen$ and the $\nn$ variants, respectively.
+This is extended to sets $L \subseteq \MSCs$ as expected, letting
+$\Pref{L} = \bigcup_{\msc \in L} \Pref{\msc}$.
+
+\begin{comment}
+
 Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and consider
 $E \subseteq \Events$ such that $E$ is ${\le_\msc}$-\emph{downward-closed}, i.e,
 for all $(e,f) \in {\le_\msc}$ such that $f \in E$, we also have $e \in E$.
@@ -50,7 +69,59 @@ for all $(e,f) \in {\bowtie_\msc}$ such that $f \in E$, we also have $e \in E$.
 Then, the MSC $(E,{\procrel} \cap (E \times E),{\lhd} \cap (E \times E),\lambda')$,
 where $\lambda'$ is the restriction of $\Events$ to $E$, is called a \emph{$\nn$ prefix} of $\msc$. We denote the set of $\nn$ prefixes of $\msc$ by $\Prefnn{\msc}$.
 
+\end{comment}
+
 \subsection{Communicating Systems}
+
+\begin{proposition}
+	\label{prop:prefixes}
+	For $\comsymb \in \{\asy, \oneone, \co, \none, \rsc\}$, every prefix of a $\comsymb$ MSC is a $\comsymb$ MSC.
+\end{proposition}
+
+Note that this proposition is not true for the $\onen$ and the $\nn$ communication models. Fig.\ref{fig:onen-prefix} shows an example of $\nn$ MSC with a prefix that is neither a $\nn$ MSC nor a $\onen$ MSC.
+
+\begin{figure}[t]
+	\captionsetup[subfigure]{justification=centering}
+% \centering
+\begin{subfigure}[t]{0.45\textwidth}\centering
+	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+		\newproc{0}{p}{-1.5};
+		\newproc{1}{q}{-1.5};
+		\newproc{2}{r}{-1.5};
+
+		\newmsgm{0}{1}{-0.5}{-0.5}{1}{0.3}{black};
+		\newmsgm{0}{2}{-1.0}{-1.0}{2}{0.7}{black};
+
+	\end{tikzpicture}
+	\caption{A $\nn$ MSC $\msc$.}
+\end{subfigure}
+% \hfill
+\begin{subfigure}[t]{0.45\textwidth}\centering
+	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+		\newproc{0}{p}{-1.5};
+		\newproc{1}{q}{-1.5};
+		\newproc{2}{r}{-1.5};
+
+		\newmsgum{0}{1}{-0.5}{1}{0.3}{black};
+		\newmsgm{0}{2}{-1.0}{-1.0}{2}{0.7}{black};
+
+	\end{tikzpicture}
+	\caption{A prefix of $\msc$.}
+\end{subfigure}
+	\caption{A $\nn$ MSC with a prefix that is neither a $\onen$ MSC nor a $\nn$ MSC.}
+	\label{fig:onen-prefix}
+\end{figure}
+
+\begin{proposition}
+	\label{prop:prefixes-onen}
+	Every $\onen$ prefix of a $\onen$ MSC is a $\onen$ MSC.
+\end{proposition}
+\begin{proposition}
+	\label{prop:prefixes-nn}
+	Every $\nn$ prefix of a $\nn$ MSC is a $\nn$ MSC.
+\end{proposition}
+
+\begin{comment}
 
 \begin{lemma}
 	\label{lem:p2p-prefix}
@@ -99,7 +170,26 @@ In both cases, $\msc$ would also not be a causally ordered $\MSCs$, since $\Even
 
 \noindent Note that every $\nn$ prefix is also a prefix.
 
-\medskip
+\end{comment}
+
+\begin{proposition}
+	For all $\comsymb \in \{\oneone, \co, \none\}$, $\cL{\Sys}$ is prefix-closed:
+	$\Pref{\cL{\Sys}} \subseteq \cL{\Sys}$.
+\end{proposition}
+\begin{proof}
+	Follows from Lemma~\ref{lem:co-prefix}.
+\end{proof}
+
+\begin{proposition}
+	$\onenL{\Sys}$ is $\onen$ prefix-closed:
+	$\Prefonen{\onenL{\Sys}} \subseteq \onenL{\Sys}$.
+\end{proposition}
+\begin{proposition}
+	$\nnL{\Sys}$ is $\nn$ prefix-closed:
+	$\Prefnn{\nnL{\Sys}} \subseteq \nnL{\Sys}$.
+\end{proposition}
+
+\begin{comment}
 
 Lemma~\ref{lem:prefix-closed} can be easily extendend to $\comsymb = \cosymb$.
 
@@ -127,59 +217,17 @@ Lemma~\ref{lem:prefix-closed} can be easily extendend to $\comsymb = \cosymb$.
 	Given a system $\System$, we have that $\nnL{\System} = \ppL{\System} \cap \nnMSCs$. Note that, because of how we defined a $\nn$ prefix, we have that $\Prefnn{\nnL{\Sys}} = \Pref{\nnL{\Sys}} \cap \nnMSCs$. Moreover, $\Pref{\nnL{\Sys}} \subseteq \Pref{\ppL{\Sys}}$, and $\Pref{\nnL{\Sys}} \subseteq \ppL{\Sys}$ for Lemma~\ref{lem:prefix-closed}. Putting everything together, $\Prefnn{\nnL{\Sys}} \subseteq \ppL{\Sys} \cap \nnMSCs = \nnL{\System}$.
 \end{proof}
 
+\end{comment}
+
+
 \subsection{Model Checking}
 
-\begin{proposition}\label{prop:co_mso}
-	The set $\coMSCs$ of causally odered MSCs is MSO-definable.
-\end{proposition}
-\begin{proof}
-	Given an MSC $\msc$, it is causally ordered if it satisfies the MSO formula
-	\[
-	\coformula =
-	\neg \exists s.\exists s'. \left(
-	\bigvee_{\substack{q \in \Procs\\a,b \in \qsAct{q}}}\hspace{-1em}
-	\lambda(s) = a \;\wedge\; \lambda(s') = b
-	\;\wedge\; s \le_\msc s' \;\wedge\;
-	(\psi_1 \vee \psi_2 ) 
-	\right)
-	\]
-	where $\psi_1$ and $\psi_2$ are
-	\[
-	\psi_1 = \exists r.\exists r'.\left(
-	\begin{array}{ll}
-		s \lhd r & \wedge\\
-		s' \lhd r' & \wedge\\
-		r' \procrel^+ r &
-	\end{array} 
-	\right) \quad \quad
-	\psi_2 = (\neg \mathit{matched}(s) \wedge \mathit{matched}(s'))
-	\]
-	\[
-	matched(x) = \exists y. x \lhd y
-	\]
+\begin{theorem}
+	\label{thm:bounded_model_checking}
+	The bounded model-checking problem for $\comsymb \in \{$$\asy, $$\oneone, $$\co, $$\none, $$\onen, $$\nn, $$\rsc\}$ is decidable.
+\end{theorem}
 
-	The property $\coformula$ says that there cannot be two send events $s$ and $s'$, with the same recipient, such that $s \le_\msc s'$ and either
-	\begin{enumerate*}[label={(\roman*)}]
-		\item their corresponding receive events $r$ and $r'$ happen in the opposite order, i.e. $r' \procrel^+ r$, or
-		\item $s$ is unmatched and $s'$ is matched.
-	\end{enumerate*}
-	The set $\coMSCs$ of causally ordered MSCs is therefore MSO-definable as $\coMSCs=L(\coformula)$.
-
-	% \[
-	% \coformula =
-	% \neg \exists x.\exists y. \left(
-	% \bigvee_{\substack{q \in \Procs\\a,b \in \qsAct{q}}}\hspace{-1em}
-	% \lambda(x) = a \;\wedge\; \lambda(y) = b
-	% \;\wedge\; x \le y \;\wedge\;
-	% \exists x'.\exists y'. \left(
-	% \begin{array}{ll}
-	% 	x \lhd x' & \wedge\\
-	% 	y \lhd y' & \wedge\\
-	% 	y' \procrel^+ x' &
-	% \end{array} \right)
-	% \right)
-	% \]
-\end{proof}
+\begin{comment}
 
 Knowing that $\coMSCs$ is MSO-definable, Theorem~\ref{thm:mailbox_bounded_model_checking} can be restated for $\comsymb = \cosymb$.
 
@@ -230,6 +278,8 @@ By Proposition~\ref{prop:nn_mso}, $\nnMSCs=L(\nnformula)$. Given a system $\Syst
 \end{array}\]
 The latter is decidable due to Fact~\ref{p2p}.
 \end{proof}
+
+\end{comment}
 
 \subsection{Synchronizability}
 
