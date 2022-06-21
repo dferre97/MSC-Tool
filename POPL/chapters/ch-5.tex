@@ -19,7 +19,7 @@ we require that $\le_\msc$ is a partial order. For convenience, we simply write 
 \davide{Show example of causal path.}
 \end{definition}
 
-According to Condition (2), every receive event must have a matching send event. Note that, however, there may be unmatched send events.
+According to Condition (2), every receive event must have a matching send event. Note that, however, there may be unmatched send events. An unmatched send event represents the scenario in which the recipient is not ready to receive a specific message.
 We let
 $\SendEv{\msc} = \{e \in \Events \mid \lambda(e)$ is a send
 action$\}$,
@@ -47,7 +47,7 @@ A \emph{linearization} of $\msc$ is a (reflexive) total order ${\linrel} \subset
 
 \medskip
 
-The class of asynchronous MSCs is the biggest and most general one out of the seven. All the others classes of MSCs will be obtained by adding some constraints to asynchronous MSCs, according to the specific communication model. As in the asynchronous case, we say that $\msc$ is a $\oneone$ MSC if there is a $\oneone$ system that can produce the behaviour shown by $\msc$. We give here the formal definition of $\oneone$ MSC, which also considers unmatched messages.
+The class of asynchronous MSCs is the biggest and most general one out of the seven. All the others classes of MSCs will be obtained by adding some constraints to asynchronous MSCs, according to the specific communication model considered. As in the asynchronous case, we say that $\msc$ is a $\oneone$ MSC if there is a $\oneone$ system that can produce the behaviour shown by $\msc$. We give here the formal definition of $\oneone$ MSC, which also considers unmatched messages.
 
 \begin{definition}[$\oneone$ MSCs]
 A $\oneone$ MSC is an asynchronous MSC where we require that, for every pair $(e,f) \in {\lhd}$, such that $\lambda(e) = \sact{p}{q}{\msg}$, $\lambda(f) = \ract{p}{q}{\msg}$, we have $\sametype{e}{\pqsAct{p}{q}}{\procrel^+} = \sametype{f}{\pqrAct{p}{q}}{\procrel^+}$.
@@ -282,8 +282,8 @@ events of an MSC, and $X$ is a second-order variable, interpreted
 as a set of events. We assume that we have an infinite supply of variables,
 and we use common abbreviations such as $\wedge$, $\Rightarrow$, $\forall$, etc.
 The satisfaction relation is defined in the standard way and self-explanatory.
-For example, the formula $\neg\exists x.(\bigvee_{a \in \sAct} \lambda(x) = a \;\wedge\; \neg \mathit{matched}(x))$
-with $\mathit{matched}(x) = \exists y.x \lhd y$
+For example, the formula $\neg\exists x.(\bigvee_{a \in \sAct} \lambda(x) = a \;\wedge\; \neg \mathit{matched}(x))$, 
+with $\mathit{matched}(x) = \exists y.x \lhd y$, 
 says that there are no unmatched send events.
 It is not satisfied by  MSC $\mscweakuniver$
 of Fig.~\ref{fig:msc_weak_univer},
@@ -291,7 +291,7 @@ as message $\msg_1$ is not received,
 but by $\mscstrongexist$ from Fig.~\ref{fig:msc_strong_exist}.
 
 Given a sentence $\phi$, i.e., a formula without free variables,
-we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous MSCs, the formula $\asformula = true$ clearly describes the set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula\footnote{See Section~\ref{sec:mso_extra} for details.} with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable so that the logic can freely use formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \le y$ (where $\le$ is interpreted as $\le_\msc$ for the given MSC $\msc$).
+we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous MSCs, the formula $\asformula = true$ describes the whole set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula\footnote{See Section~\ref{sec:mso_extra} for details.} with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable. The logic can then freely use formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \le y$ (where $\le$ is interpreted as $\le_\msc$ for the given MSC $\msc$).
 
 \paragraph*{$\oneone$ MSCs}
 	The set of $\oneone$ MSCs is MSO-definable as

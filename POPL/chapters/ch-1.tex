@@ -5,8 +5,8 @@
 In synchronous communication (also known as rendezvous communication), send and receive events are  viewed as a single entity, i.e., a receive event  happens simultaneously with its corresponding send. The  idea behind (fully) asynchronous communication, instead, is to decouple send and receive events, so that a receive event can happen indefinitely after its corresponding send. Depending on some additional constraints on those events, we can obtain new communication models that sit somewhere between synchronous and fully asynchronous communication.
 In this paper we try to clarify and classify some communication models.  We consider only point-to-point communication, that is, messages that have exactly one sender and one receiver.  We follow the classification introduced in \cite{DBLP:journals/fac/ChevrouHQ16} but we generalize the models to  consider unmatched messages (i.e., messages that have been sent, but not yet read). Another major difference is that in \cite{DBLP:journals/fac/ChevrouHQ16} the communication models are addressed from a linearizations standpoint, whereas we are interested in \emph{Message Sequence Charts} (MSCs in the following). 
 \cinzia{linearization is not clear at this point, maybe: Another major difference is that in \cite{DBLP:journals/fac/ChevrouHQ16} only single executions are considered, whereas we are interested in classes of executions represented by \emph{Message Sequence Charts} (MSCs in the following).}
-MSCs \cinzia{citation needed} are a graphical representation of the  computations of distributed systems.  Roughly speaking, a distributed system is composed by a set of sequential processes that can exchange messages. Each process exhibits a sequence of \emph{events}, which in our case will be either \emph{send} or \emph{receive} events. A send event $s$ and a receive event $r$ are said to be \emph{matching} if the message sent by $s$ is the same one that is received by $r$. A distributed computation is the concurrent execution of each process. In an MSC, such as the one in Fig.~\ref{fig:msc_ex}a, each vertical line is called a \emph{process line} and it represents the order in which events are executed by a single process, with time running from top to bottom; arrows are used to represent messages and they connect a send event with its corresponding matching receive. 
-Given a message $m_i$, we will use $!i$ and $?i$ to denote the corresponding two matching send and receive events. A single process line defines a total order over the events executed by that process, i.e., an event $e$ happens before another event $e'$ if $e$ is higher in the process line; in Fig.~\ref{fig:msc_ex}a, if we look at process $q$ we see that $?1$ happens before $?2$. However, in general MSCs only specify a partial order over events. Consider the events $!1$ and $!2$ in Fig.~\ref{fig:msc_ex}a, which are executed by two different processes; these two events are said to be \emph{concurrent}, in the sense that this MSC does not tell us which one is executed first. 
+MSCs \cinzia{citation needed} are a graphical representation of the  computations of distributed systems.  Roughly speaking, a distributed system is composed by a set of sequential processes that can exchange messages. Each process exhibits a sequence of \emph{events}, which in our case will be either \emph{send} or \emph{receive} events. A send event $s$ and a receive event $r$ are said to be \emph{matching} if the message sent by $s$ is the same one that is received by $r$. A distributed computation is the concurrent execution of each process. In an MSC, such as the one in Fig.~\ref{fig:msc_ex}, each vertical line is called a \emph{process line} and it represents the order in which events are executed by a single process, with time running from top to bottom; arrows are used to represent messages and they connect a send event with its corresponding matching receive. 
+Given a message $m_i$, we will use $!i$ and $?i$ to denote the corresponding two matching send and receive events. A single process line defines a total order over the events executed by that process, i.e., an event $e$ happens before another event $e'$ if $e$ is higher in the process line; in Fig.~\ref{fig:msc_ex}, if we look at process $q$ we see that $?1$ happens before $?2$. However, in general MSCs only specify a partial order over events. Consider the events $!1$ and $!2$ in Fig.~\ref{fig:msc_ex}, which are executed by two different processes; these two events are said to be \emph{concurrent}, in the sense that this MSC does not tell us which one is executed first. 
 Nonetheless, even though events on different processes can be concurrent, this is not always the case. For instance send events must always happen before their corresponding matching receive. Graphically, this \emph{happens before} relation between events on different processes is represented by a path that follows the direction of the arrows and runs from top to bottom. This will be referred to as a \emph{causal path}, because it estabilishes a causal relation between events (see Fig.~\ref{fig:msc_ex}b). 
 %Consider events $!1$ and $?2$ of the MSC shown in Fig.~\ref{fig:msc_ex}b. Even though they are executed by different processes, $?2$ must happen before $!1$ because $?2$ must be executed after $!2$, which happens before $?1$, which in turn happens before $!1$. 
 %The fact that $!1$ is higher on his own process line compared to $!2$ does not meaning anything with respect to the order in which they are executed. 
@@ -14,43 +14,32 @@ Since an MSC defines a partial order over the events of a distributed system, it
 %Given an MSC, it can have multiple linearizations. For the MSC in Fig.~\ref{fig:msc_ex}a, both $!1\;?1\;!2\;?2$ and $!2\;!1\;?1\;?2$ are valid linearizations, i.e. a total order over the events which is compatible with the partial order defined by the MSC. 
 Intuitively, a linearization represents the order in which events are executed by the distributed system according to \emph{absolute time}, i.e. as they are seen by an external viewer that has a global view of all the processes. 
 
-
 \begin{figure}[t]
-	\captionsetup[subfigure]{justification=centering}
-	% \centering
-	\begin{subfigure}[t]{0.4\textwidth}\centering
-		\begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
-			\newproc{0}{p}{-1.5};
-			\newproc{1}{q}{-1.5};
-			\newproc{2}{r}{-1.5};
+	\begin{center}
+		\begin{tikzpicture}
+			\newproc{0}{p}{-2.5};
+			\newproc{1}{q}{-2.5};
+			\newproc{2}{r}{-2.5};
 		
-			\newmsgm{0}{1}{-0.5}{-0.5}{1}{0.3}{black};
-			\newmsgm{2}{1}{-1.0}{-1.0}{2}{0.3}{black};
-				
-		\end{tikzpicture}
-		\caption{An example of MSC. Red arrows depict the causal path
-		}
-	\end{subfigure}
-	% \hfill
-	\begin{subfigure}[t]{0.4\textwidth}\centering
-		\begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
-			\newproc{0}{p}{-1.5};
-			\newproc{1}{q}{-1.5};
-			\newproc{2}{r}{-1.5};
-		
-			\newmsgm{0}{1}{-0.5}{-0.5}{1}{0.3}{black};
-			\newmsgm{1}{2}{-1.0}{-1.0}{2}{0.5}{black};
+			\newmsgm{0}{1}{-0.5}{-0.5}{1}{0.5}{black};
+			\newmsgm{2}{1}{-1.2}{-1.2}{2}{0.5}{black};
+			\newmsgm{1}{0}{-1.9}{-1.9}{3}{0.5}{black};
 
-			\newflechehor{Purple}{-0.5}{0}{1};
-			\newflechevert{Purple}{1}{-0.5}{-1.0};
-			\newflechehor{Purple}{-1.0}{1}{2};
+			\newflechehorinverse{Purple}{-1.2}{2}{1};
+			\newflechevert{Purple}{1}{-1.3}{-2.0};
+			\newflechehorinverse{Purple}{-1.9}{1}{0};
+
+			\newevent{black}{0}{-0.5}{!1}{left};
+			\newevent{black}{1}{-0.5}{?1}{right};
+			\newevent{black}{2}{-1.2}{!2}{right};
+			\newevent{black}{1}{-1.2}{?2}{left};
+			\newevent{black}{1}{-1.9}{!3}{below right};
+			\newevent{black}{0}{-1.9}{?3}{left};
+
 		\end{tikzpicture}
-		\caption{%Another example of MSC.
-		}
-	\end{subfigure}
-	\cinzia{Add events to the MSC}
-		\caption{Two examples of MSCs.}
-	    \label{fig:msc_ex}
+		\caption{An example of MSC. A causal path between $!2$ and $?3$ is highlighted with red arrows.}
+		\label{fig:msc_ex}
+	\end{center}
 \end{figure}
 
 \cinzia{Have a look at \url{https://web.archive.org/web/20060826195305/http://www.comp.nus.edu.sg/~thiagu/public_papers/surveymsc.pdf}}
