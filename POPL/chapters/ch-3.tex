@@ -67,7 +67,7 @@ Fig.~\ref{fig:fully_asy_ex} shows a computation that can be executed by an \asy 
 			\newflechehor{Purple}{-0.9}{0}{2};
 			\newflechevert{Purple}{2}{-0.9}{-1.5};
 		\end{tikzpicture}
-		\caption{\asy, \pp, not \co, cnot mailbox, not $\onen$, \\not $\nn$, not $\rsc$.} \label{fig:pp_ex}
+		\caption{\asy, \pp, not \co, not \mb, not $\onen$, \\not $\nn$, not $\rsc$.} \label{fig:pp_ex}
 	\end{subfigure}
 	% \hfill
 	\begin{subfigure}[t]{0.3\textwidth}\centering
@@ -81,7 +81,7 @@ Fig.~\ref{fig:fully_asy_ex} shows a computation that can be executed by an \asy 
 			\newmsgm{2}{1}{-1.5}{-1.5}{3}{0.3}{black};
 
 		\end{tikzpicture}
-		\caption{\asy, \pp, \co, mailbox, $\onen$, \\$\nn$, not $\rsc$.}	    \label{fig:co_ex}
+		\caption{\asy, \pp, \co, \mb, $\onen$, \\$\nn$, not $\rsc$.}	    \label{fig:co_ex}
 	\end{subfigure}
 		\caption{Examples of communication models.}
 
@@ -103,10 +103,10 @@ In the causally ordered (\co) communication model, messages are delivered to a p
 
 
 
-\subsection{$\none$ (mailbox)}
-In the $\none$ communicating model, any two messages sent to a process $q$ must be received in the same order as they have been sent (according to absolute time). Note that these two messages might be sent by different processes and the two send events might be concurrent (i.e., there is no causal path between them). In other words, if a process $q$ receives $m_1$ before $m_2$, then $m_1$ must have been sent before $m_2$ in absolute time. Essentially, the $\none$ coordinates all the senders of a single receiver. A high-level implementation of the mailbox communication model could consist in a single incoming FIFO channel for each process, which is shared by all the other processes. A send event would consist in pushing the message on the shared FIFO channel.
+\subsection{Mailbox}
+In the mailbox ($\mb$) communicating model, any two messages sent to a process  must be received in the same order as they have been sent (according to absolute time). Note that these two messages might be sent by different processes and the two send events might be concurrent (i.e., there is no causal path between them). In other words, if a process  receives $m_1$ before $m_2$, then $m_1$ must have been sent before $m_2$. Essentially, $\mb$ coordinates all the senders of a single receiver. A high-level implementation of the mailbox communication model could consist in a single incoming FIFO channel for each process, which is shared by all the other processes. A send event would consist in pushing the message on the shared FIFO channel.
 A low-level implementation needs a shared real-time clock \cite{cristian1999timed} or a global agreement on event order \cite{defago2004total, raynal2010communication}.
-The MSC shown in Fig.~\ref{fig:co_ex}a is not a mailbox MSC; $m_1$ and $m_3$ have the same recipient, but they are not received in the same order as they are sent. The MSC in Fig.~\ref{fig:co_ex}b is mailbox; indeed, we are able to find a linearization that respects the mailbox constraints, such as $!1\;!2\;!3\;?2\;?3\;?1$ (note that $m_2$ is both sent and received before $m_3$). Such a linearization will be referred to as a \emph{mailbox linearization}. At this stage, the difference between the class of causally ordered MSCs and the class of mailbox MSCs might not be clear. We will clarify later how all these classes of MSCs are related to each other. Let $\mbMSCs$ be the set of mailbox MSCs.
+The MSC shown in Fig.~\ref{fig:pp_ex} is not a mailbox MSC; $m_1$ and $m_3$ have the same recipient, but they are not received in the same order as they are sent. The MSC in Fig.~\ref{fig:co_ex} is mailbox; indeed, we are able to find a linearization that respects the mailbox constraints, such as $!1\;!2\;!3\;?2\;?3\;?1$ (note that $m_2$ is both sent and received before $m_3$). Such a linearization will be referred to as a \emph{mailbox linearization}. At this stage, the difference between the class of causally ordered MSCs and the class of mailbox MSCs might not be clear. We will clarify later how all these classes of MSCs are related to each other. Let $\mbMSCs$ be the set of mailbox MSCs.
 
 \subsection{$\onen$}
 The $\onen$ communicating model is the dual of $\none$, it coordinates a sender with all the receivers. Any two messages sent by a process $p$ must be received in the same order (in absolute time) as they are sent. Note that these two messages might be received by different processes and the two receive events might be concurrent (i.e. there is no causal path between them). In other words, if a process $p$ sends $m_1$ before $m_2$, then $m_1$ must be received before $m_2$ in absolute time. A high-level implementation of the $\onen$ communication model could consist in a single outgoing FIFO channel for each process $P_i$, which is shared by all the other processes. A send event would consist in pushing the message on the outgoing FIFO channel.
