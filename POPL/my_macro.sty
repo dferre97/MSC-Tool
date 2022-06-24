@@ -41,14 +41,22 @@
 %\newcommand{\ppMSCs}{\mathsf{MSC}}
 \newcommand{\comsymb}{\textup{com}}
 \newcommand{\ppsymb}{\mathsf{p2p}}
-\newcommand{\pp}{p2p\xspace}
-\newcommand{\mbsymb}{\mathsf{mb}}
+
 \newcommand{\asyL}[1]{L_{\asy}(#1)}
+
+\newcommand{\pp}{\ensuremath{\mathtt{p2p}}\xspace}
+\newcommand{\co}{\ensuremath{\mathtt{co}}\xspace}
+
+
+
+\newcommand{\mb}{\ensuremath{\mathtt{mb}}\xspace}
+\newcommand{\mbsymb}{\mb}
+
 \newcommand{\cL}[1]{L_{\comsymb}(#1)}
 \newcommand{\ppL}[1]{L_{1\mathsf{-}1}(#1)}
 \newcommand{\mbL}[1]{L_{\mathsf{mb}}(#1)}
-\newcommand{\mbMSCs}{\mathsf{MSC}_{n\mathsf{-}1}}
-\newcommand{\cdMSCs}{\mathsf{MSC}_{\mathsf{mb}}}
+\newcommand{\mbMSCs}{\mathsf{MSC}_{\mb}}
+\newcommand{\cdMSCs}{\mathsf{MSC}_{\mb}}
 \newcommand{\stwMSCs}[1]{\mathsf{MSC}^{#1\textup{-}\mathsf{stw}}}
 \newcommand{\bTrees}[1]{\mathsf{Trees}_{#1}}
 \newcommand{\Lang}{L}
@@ -332,8 +340,8 @@
 \newcommand{\mblinrel}{\overset{\text{n-1}}{\rightsquigarrow}}
 \newcommand{\onenlinrel}{\overset{\text{1-n}}{\rightsquigarrow}}
 
-\newcommand{\asMSCs}{\mathsf{MSC}_{\mathsf{asy}}}
-\newcommand{\ppMSCs}{\mathsf{MSC}_{1\mathsf{-}1}}
+\newcommand{\asMSCs}{\mathsf{MSC}_{\asy}}
+\newcommand{\ppMSCs}{\mathsf{MSC}_{\pp}}
 \newcommand{\onenMSCs}{\mathsf{MSC}_{1\mathsf{-}n}}
 \newcommand{\nnMSCs}{\mathsf{MSC}_{n\mathsf{-}n}}
 \newcommand{\rscMSCs}{\mathsf{MSC}_{\rsc}}
@@ -342,7 +350,7 @@
 \newcommand{\cosymb}{\mathsf{co}}
 \newcommand{\onensymb}{\mathsf{\onen}}
 \newcommand{\nnsymb}{\mathsf{\nn}}
-\newcommand{\coMSCs}{\mathsf{MSC}_{\mathsf{co}}}
+\newcommand{\coMSCs}{\mathsf{MSC}_{\co}}
 \newcommand{\coformula}{\varphi_{\mathsf{co}}}
 \newcommand{\onenformula}{\varphi_{\onen}}
 \newcommand{\nnformula}{\varphi_{\nn}}
@@ -367,13 +375,13 @@
 \newcommand{\ppUkformula}{\Phi_{\forall  k\text{-}\pp\text{-}b}}
 \newcommand{\mbUkformula}{\Phi_{\forall  k\text{-}mb\text{-}b}}
 
-\newcommand{\asy}{\mathsf{asy}}
-\newcommand{\oneone}{\text{FIFO } 1\mathsf{-}1}
-\newcommand{\co}{\mathsf{co}}
-\newcommand{\none}{\text{FIFO } n\mathsf{-}1}
+\newcommand{\asy}{\ensuremath{\mathtt{asy}}\xspace}
+\newcommand{\oneone}{\pp}
+
+\newcommand{\none}{\mb}
 \newcommand{\onen}{\text{FIFO } 1\mathsf{-}n}
 \newcommand{\nn}{\text{FIFO } n\mathsf{-}n}
-\newcommand{\rsc}{\mathsf{RSC}}
+\newcommand{\rsc}{\ensuremath{\mathtt{rsc}}\xspace}
 \newcommand{\aoneone}{a1\mathsf{-}1}
 \newcommand{\cooneone}{co1\mathsf{-}1}
 

@@ -1,10 +1,12 @@
-\begin{figure}[h]
+% !TEX root = ../popl-paper.tex
+
+\begin{figure}[ht]
 	\begin{center}
 	\includegraphics[width=10cm]{mso_def}
 	\end{center}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\begin{center}
 	\includegraphics[width=10cm]{stw_bound}
 	\end{center}
@@ -265,7 +267,7 @@ As for weakly synchronous MSCs, the class of weakly $k$-synchronous MSCs was alr
 
 \subsection{Weakly synchronous causally ordered MSCs}
 
-Corollary~\ref{cor:weak-sync-lcpdl} can  be extended to $\comsymb = \cosymb$. 
+Corollary~\ref{cor:weak-sync-lcpdl} can  be extended to $\comsymb = \cosymb$.
 
 \begin{proposition}\label{cor:co-weak-sync-mso}
 The set of weakly synchronous \emph{causally ordered} MSCs is MSO-definable.
@@ -299,7 +301,7 @@ The set of weakly \emph{k}-synchronous causally ordered MSCs is MSO-definable.
 Both the sets of weakly \emph{k}-synchronous MSCs and of causally ordered MSCs are MSO-definable, as shown by Proposition~\ref{prop:weak-logic-bounded} and Proposition~\ref{prop:co_mso}. It suffices to take the conjuction of the two respective MSO formulas.
 \end{proof}
 
-% Note that every causally ordered \emph{k}-synchronous MSC is also a  $\ppsymb$ \emph{k}-synchronous MSC. 
+% Note that every causally ordered \emph{k}-synchronous MSC is also a  $\ppsymb$ \emph{k}-synchronous MSC.
 Theorem~\ref{thm:sync} can be easily extended to $\comsymb = \cosymb$.
 
 \begin{theorem}\label{thm:co-weak-k-sync}
@@ -316,7 +318,7 @@ By Proposition~\ref{prop:co-weak-k-sync-mso} and Proposition~\ref{prop:kweakstw}
 \begin{definition}
 Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and $k \in \N$.
 A linearization $\linrel$ of $\msc$ is called
-$k$-\emph{bounded} if, for all $e \in \Matched{\msc}$, with $\lambda(e) = \sact{p}{q}{\msg}$, we have 
+$k$-\emph{bounded} if, for all $e \in \Matched{\msc}$, with $\lambda(e) = \sact{p}{q}{\msg}$, we have
 \[
 \sametype{e}{\pqsAct{p}{q}}{\linrel} - \sametype{e}{\pqrAct{p}{q}}{\linrel} \le k.
 \]
@@ -353,7 +355,7 @@ Let $\ppEk$ and $\coEk$ be the set of existentially $k$-\pp-bounded MSCs and the
 \begin{definition}\label{def:lin_k_bounded}
 	Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and $k \in \N$.
 	A linearization $\linrel$ of $\msc$ is called
-	$k$-\emph{bounded} if, for all $e \in \Matched{\msc}$, with $\lambda(e) = \sact{p}{q}{\msg}$, we have 
+	$k$-\emph{bounded} if, for all $e \in \Matched{\msc}$, with $\lambda(e) = \sact{p}{q}{\msg}$, we have
 	\[
 	\sametype{e}{\pqsAct{p}{q}}{\linrel} - \sametype{e}{\pqrAct{p}{q}}{\linrel} \le k.
 	\]
@@ -384,7 +386,7 @@ It should be noted that, for a $k$-bounded mailbox linearization, it is not nece
 
 \subsubsection{MSO-definability}
 
-In this section, we will investigate the MSO-definability of all the variants of $\exists k$-bounded MSCs that we introduced, starting from the asynchronous $\exists k$-bounded MSCs. 
+In this section, we will investigate the MSO-definability of all the variants of $\exists k$-bounded MSCs that we introduced, starting from the asynchronous $\exists k$-bounded MSCs.
 
 % \begin{proposition}\label{prop:as_ex_k_b_alt}
 % 	An asynchronous MSC $\msc$ is existentially $k$-bounded if and only if both the following hold:
@@ -400,7 +402,7 @@ In this section, we will investigate the MSO-definability of all the variants of
 % 	($\Leftarrow$) Suppose both (1) and (2) hold for $\msc$.
 % \end{proof}
 
-% Using Proposition~\ref{prop:as_ex_k_b_alt}, we can give an MSO formula for the asynchronous existentially $k$-bounded MSCs. 
+% Using Proposition~\ref{prop:as_ex_k_b_alt}, we can give an MSO formula for the asynchronous existentially $k$-bounded MSCs.
 % \[
 % 	\psi_{asy-\exists k} = \psi_1 \vee \psi_2
 % \]
@@ -417,13 +419,13 @@ In this section, we will investigate the MSO-definability of all the variants of
 % 				(\exists r.s \lhd r \implies r_{k+1} \procrel^\ast r) \\
 % 			\end{array}
 % 		\right) &\\
-% 	\end{array} 
+% 	\end{array}
 % 	\right)
 % \]
 % \[
-% 	\psi_2 = \nexists s_1 \dots \nexists s_{k}. 
-% 		allDistSend\_p\_q(k) \;\wedge\; 
-% 		s_1 \procrel^+ \dots \procrel^+ s_k \;\wedge\; 
+% 	\psi_2 = \nexists s_1 \dots \nexists s_{k}.
+% 		allDistSend\_p\_q(k) \;\wedge\;
+% 		s_1 \procrel^+ \dots \procrel^+ s_k \;\wedge\;
 % 		\bigwedge_{s \in s_1 \dots s_k} \neg \mathit{matched}(s)
 % \]
 % \[
@@ -445,12 +447,12 @@ Following the approach taken in \cite{DBLP:conf/fossacs/LohreyM02}, we introduce
 \begin{enumerate}\itemsep=0.5ex
 	\item $r$ is the $i$-th receive event (executed by $q$).
 	\item $s$ is the ($i+k$)-th send event (executed by $p$).
-\end{enumerate} 
+\end{enumerate}
 Note that, for any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed after $s$ cannot $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization".\davidequestionsmall{Should I prove it?} A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.\davide{An example would be nice.} In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is $\exists k$-bounded if and only if the relation $\le_\msc \cup \relb$ is acyclic\footnote{A binary relation is acyclic if its transitive closure is antisymmetric.}. Since $\le_\msc$ and acyclicity are both MSO-definable, it suffices to find an MSO formula that defines the $\relb$ relation to claim the MSO-definability of $\exists k$-bounded MSCs. Unfortunately, this relation is not MSO-definable for asynchronous MSCs, because MSO logic cannot be used to "count" for an arbitrary $i$. For this reason, we introduce another similar MSO-definable binary relation $\relbAsy$, and we show that with this new relation we still have that an MSC $\msc$ is $\exists k$-bounded MSC iff $\le_\msc \cup \relbAsy$ is acyclic and another condition holds. Let $k \ge 1$ and $\msc$ be a fixed MSC: we have $r \relbAsy s$ if, for some $i \ge 1$ and some channel ($p$,$q$):
 \begin{itemize}\itemsep=0.5ex
 	\item There are $k+1$ send events $(s_1, \dots, s_k, s)$, where at least one is matched, such that $s_1 \procrel^+ \dots \procrel^+ s_k \procrel^+ s$.
  	\item $r$ is the first receive event among the receive events for the matched sends among $s_1, \dots, s_k, s$.
-\end{itemize} 
+\end{itemize}
 
 \begin{proposition}\label{prop:asy_ek_def_alt}
 	An MSC $\msc$ is $\exists k$-bounded if and only if $\le_\msc \cup \relbAsy$ is acyclic and, for each channel ($p$,$q$), there are at most $k$ unmatched send events.
@@ -461,20 +463,20 @@ Note that, for any two events $s$ and $r$ such that $r \relb s$, every lineariza
 	\begin{itemize}\itemsep=0.5ex
 		\item Suppose all the $k+1$ send events are unmatched. This is impossible, since we supposed that there are at most $k$ unmatched send events for any channel.
 		\item Suppose there is at least one matched send event between the $k+1$ sends. Let the first matched send event be $s_i$ and let $r$ be the receive event that is executed first among the receive events for these $k+1$ sends. By hypothesis, $s \linrel r$. However, according to the definition of $\relbAsy$, we must have $r \relbAsy s$. We reached a contradiction, since we cannot have that $s$ happens before $r$ in a linearization for the partial order $(\le_\msc \cup \relbAsy)^\ast$, if $r \relbAsy s$.
-	\end{itemize} 
+	\end{itemize}
 \end{proof}
 
 \noindent According to Proposition~\ref{prop:asy_ek_def_alt}, we can write the MSO formula the defines $\exists k$-bounded MSCs as
 \[
 \Psi_{\exists k}=
-acyclic(\le_\msc \cup \relbAsy) \;\wedge\; 
-\neg \left( 
-	\exists s_1 \dots s_{k+1}. s_1 \procrel^+ \dots \procrel^+ s_{k+1} \;\wedge \; 
+acyclic(\le_\msc \cup \relbAsy) \;\wedge\;
+\neg \left(
+	\exists s_1 \dots s_{k+1}. s_1 \procrel^+ \dots \procrel^+ s_{k+1} \;\wedge \;
 	allSends\_p\_q \;\wedge\; allUnm
 \right)
 \]
 \[
-allSends\_p\_q = 
+allSends\_p\_q =
 \bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
 \bigwedge_{s \in {s_1, ..., s_{k+1}}}\;
 \bigvee_{a \in \pqsAct{p}{q}}
