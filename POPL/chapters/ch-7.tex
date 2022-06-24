@@ -33,10 +33,9 @@ Eve starts to play and does a move, which consists in the following steps:
 	and marked nodes are inherited.
 \end{enumerate}
 Once Eve does her move, it is Adam's turn. Adam simply chooses one of the two marked MSC fragments, either $(M_1, U_1)$ or $(M_2, U_2)$. Now it is again Eve's turn, and she has to do a move on the marked MSC fragment that was chosen by Adam. The game continues in alternating turns between the two players until they reach a point where all the events on the current marked MSC fragment are marked.
-For $k \in \N$, we say that the game is $k$-winning for Eve if she has a strategy that allows her, independently of Adam's moves, to end the game in a way that every marked MSC fragment visited during the game has at most $k+1$ marked events. The goal of Alice is to keep $k$ as low as possible.
+For $k \in \N$, we say that the game is $k$-winning for Eve if she has a strategy that allows her, independently of Adam's moves, to end the game in a way that every marked MSC fragment visited during the game has at most $k+1$ marked events. The goal of Eve is to keep $k$ as low as possible. Fig.~\ref{fig:stw-ex} shows an example of a 3-winning game for the MSC shown in Fig.~\ref{fig:pp_ex}.
 
 \input{img/decomposition_game}
-\davide{Example of special treewidth}
 
 \newcommand{\CS}[2]{\mathsf{CS}_{(#1,#2)}}
 \newcommand{\MSO}[2]{\mathsf{MSO}_{(#1,#2)}}
