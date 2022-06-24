@@ -83,13 +83,8 @@ We first introduce the class of weakly synchronous MSCs. This is a generalizatio
 
 Let $\msc_1 = (\Events_1,\procrel_1,\lhd_1,\lambda_1)$ and
 $\msc_2 = (\Events_2,\procrel_2,\lhd_2,\lambda_2)$ be two MSCs.
-Their \emph{concatenation} $\msc_1 \cdot \msc_2 = (\Events,\procrel,\lhd,\lambda)$ is defined if, for all $(p,q) \in \Ch$,
-$e_1 \in \Unm{\msc_1}$, and
-$e_2 \in \Events_2$ such that $\lambda(e_1) \in \pqsAct{p}{q}$
-and $\lambda(e_2) \in \pqsAct{p}{q}$,
-we have $e_2 \in \Unm{\msc_2}$.
-As expected, $\Events$ is the disjoint union of $\Events_1$ and $\Events_2$,
-${\lhd}  = {\lhd_1} \cup {\lhd_2}$, $\lambda$ is the ``union'' of $\lambda_1$
+Their \emph{concatenation} $\msc_1 \cdot \msc_2 = (\Events,\procrel,\lhd,\lambda)$ has $\Events$ as the disjoint union of $\Events_1$ and $\Events_2$,
+${\lhd}  = {\lhd_1} \cup {\lhd_2}$, $\lambda$ as the ``union'' of $\lambda_1$
 and $\lambda_2$, and ${\procrel} = {\procrel_1} \cup {\procrel_2} \cup R$.
 Here, $R$ contains, for all $p \in \Procs$ such that $(\Events_1)_p$ and
 $(\Events_2)_p$ are non-empty, the pair $(e_1,e_2)$ where $e_1$ is the
@@ -264,6 +259,182 @@ As for weakly synchronous MSCs, the class of weakly $k$-synchronous MSCs was alr
 \end{proof}
 
 \davide{End of edited section}
+
+
+\subsection{Existentially bounded MSCs}
+
+We move now to existentially $k$-bounded MSCs, which have been studied extensively in literature \cite{DBLP:conf/fossacs/LohreyM02,DBLP:conf/dlt/GenestMK04,GKM07,BolligFG21}. These  kind of MSCs represent the behaviour of systems that can be realized with bounded channels, i.e. channels where at most $k$ messages can transit at any moment in time. For our definition of $k$-bounded MSCs, we suppose that there is a channel for any pair $(p,q)$ of processes such that $p$ sends messages to $q$ (there is a different channel for messages sent by $q$ to $p$). Intuitively, we say that an MSC is existentially $k$-bounded if it has linearization where, at any moment in time, there are no more than $k$ messages in any channel. Such a linearization will be referred to as a $k$-bounded linearization. We give formal definitions below.
+
+\begin{definition}\label{def:lin_k_bounded}
+	Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and $k \in \N$.
+	A linearization $\linrel$ of $\msc$ is called
+	$k$-\emph{bounded} if, for all $e \in \SendEv{\msc}$, with $\lambda(e) = \sact{p}{q}{\msg}$, we have
+	\[
+	\sametype{e}{\pqsAct{p}{q}}{\linrel} - \sametype{e}{\pqrAct{p}{q}}{\linrel} \le k
+	\]
+\end{definition}
+\noindent where $\sametype{e}{A}{\rel} = |\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(f) \in A\}|$.
+For instance, $\sametype{e}{\pqsAct{p}{q}}{\linrel}$ denotes the number of send events from $p$ to $q$ that occured before $e$ according to $\linrel$\footnote{Note that, since $\linrel$ in reflexive, $e$ itself is counted in $\sametype{e}{\pqsAct{p}{q}}{\linrel}$}.
+
+\begin{definition}[Existentially bounded MSC]\label{def:ek_bounded_msc}
+	Let $\msc = (\Events, \rightarrow, \lhd, \lambda) \in \asMSCs$ and $k \in \mathbb{N}$. We call $\msc$ \emph{existentially $k$-bounded} ($\exists k$-bounded) if it has a $k$-bounded linearization.
+\end{definition}
+Let $\asEk$ be the set of existentially $k$-bounded MSCs, for a given $k \in \N$.
+\begin{definition}
+	An MSC $\msc$ is \emph{\pp existentially $k$-bounded} (\pp-$\exists k$-bounded) if it is a \pp MSC and it is also existentially $k$-bounded.
+\end{definition}
+\begin{definition}
+	An MSC $\msc$ is \emph{causally orderered existentially $k$-bounded} ($\cosymb$-$\exists k$-bounded) if it is a causally ordered MSC and it is also existentially $k$-bounded.
+\end{definition}
+When moving on to mailbox MSCs, the definition of mailbox existentially $k$-bounded MSC should require that there exists a $k$-bounded linearization that is also a mailbox linearization, not just any linearization. Recall that an MSC is a mailbox MSC if it has at least one mailbox linearization, which represents a sequence of events that can be executed by a mailbox system. Following this intuition, we want one of these mailbox linearizations to be $k$-bounded, because \emph{non}-mailbox linearizations cannot be executed by a mailbox system.
+\begin{definition}
+	An MSC $\msc$ is \emph{mailbox existentially $k$-bounded} (mb-$\exists k$-bounded) if it is a mailbox MSC and it has a $k$-bounded mailbox linearization.
+\end{definition}
+\davide{This paragraph depends on how we choose to formally define the mailbox communication model... we could go for a (i) single incoming channel, or (ii) just an enforcing of the delivery of messages by the transport layer.}
+It should be noted that, for a $k$-bounded mailbox linearization, it is not necessarily true that at any time we have at most $k$ messages in each channel. Recall that in the mailbox communication architecture every process has a single incoming channel, but the Definition~\ref{def:lin_k_bounded} of $k$-bounded linearization considers the number of pending messages between each pair $(p,q)$ of processes. Let $n$ be the number of processes. We can say that, for a $k$-bounded mailbox linearization, we have at most $k(n-1)$ messages in each channel at any moment (because each process can have at most $k$ pending messages coming from any of the other $n-1$ processes).
+\davide{An example would be nice.}
+
+\begin{definition}
+	An MSC $\msc$ is \emph{$\onen$ existentially $k$-bounded} (1n-$\exists k$-bounded) if it is a $\onen$ MSC and it has a $k$-bounded $\onen$ linearization.
+\end{definition}
+
+\subsubsection{MSO-definability}
+
+In this section, we will investigate the MSO-definability of all the variants of $\exists k$-bounded MSCs that we introduced, starting from the asynchronous $\exists k$-bounded MSCs.
+
+% \begin{proposition}\label{prop:as_ex_k_b_alt}
+% 	An asynchronous MSC $\msc$ is existentially $k$-bounded if and only if both the following hold:
+% 	\begin{enumerate}
+% 		\item We cannot find $k+1$ send events $s_1, \dots, s_{k+1}$ from a process $p$ to a process $q$, such that $s_1 \procrel^+ \dots \procrel^+ s_{k+1}$, $s_{k+1}$ is matched, i.e. $s_{k+1} \lhd r_{k+1}$, and $r_{k+1}$ happens before all the receive events for the matched send events between $s_1$ and $s_k$.
+%   		\item We cannot find $k$ unmatched send events $s_1, \dots, s_{k}$ from a process $p$ to a process $q$, such that $s_1 \procrel^+ \dots \procrel^+ s_{k}$.
+% 	\end{enumerate}
+% \end{proposition}
+% \begin{proof}
+% 	\davide{Missing proof.}
+% 	Let $\msc$ be an asynchronous MSC.\newline
+% 	($\Rightarrow$) Suppose $\msc$ is $\exists k$-bounded. We prove the contrapositive, i.e. if either (1) or (2) do not hold, $\msc$ is not $\exists k$-bounded. Suppose (1) does not hold, so we are able to find a sequence $s_1, \dots, s_{k+1}$ with the described properties. $\msc$ is clearly not $\exists k$-bounded, since we must execute all the sends up to $s_{k+1}$ ($k+1$ sends in total) before being able to execute $r_{k+1}$, which happens before the other receive events. \newline
+% 	($\Leftarrow$) Suppose both (1) and (2) hold for $\msc$.
+% \end{proof}
+
+% Using Proposition~\ref{prop:as_ex_k_b_alt}, we can give an MSO formula for the asynchronous existentially $k$-bounded MSCs.
+% \[
+% 	\psi_{asy-\exists k} = \psi_1 \vee \psi_2
+% \]
+% where $\psi_1$ and $\psi_2$ are
+% \[
+% 	\psi_1 = \nexists s_1 \dots \nexists s_{k+1}. \left(
+% 	\begin{array}{llr}
+% 		& allDistSend\_p\_q(k+1) & \quad\wedge\quad \\
+% 		& s_1 \procrel^+ \dots \procrel^+ s_k & \quad\wedge\quad \\
+% 		& \exists r_{k+1}. \left(
+% 			\begin{array}{rl}
+% 				& s_{k+1} \lhd r_{k+1} \quad\wedge\quad \\
+% 				& \bigwedge_{s \in s_1 \dots s_k}
+% 				(\exists r.s \lhd r \implies r_{k+1} \procrel^\ast r) \\
+% 			\end{array}
+% 		\right) &\\
+% 	\end{array}
+% 	\right)
+% \]
+% \[
+% 	\psi_2 = \nexists s_1 \dots \nexists s_{k}.
+% 		allDistSend\_p\_q(k) \;\wedge\;
+% 		s_1 \procrel^+ \dots \procrel^+ s_k \;\wedge\;
+% 		\bigwedge_{s \in s_1 \dots s_k} \neg \mathit{matched}(s)
+% \]
+% \[
+% allDistSend\_p\_q (t) = \left(
+% \begin{array}{rl}
+% 	& \bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
+% 	\bigwedge_{s \in {s_1, ..., s_t}}\;
+% 	\bigvee_{a \in \pqsAct{p}{q}}
+% 	\lambda(s) = a \quad\wedge\quad \\
+% 	& \bigwedge_{e,f \in \{s_1, \dots, s_t\}}
+% 	e \neq f \\
+% \end{array}
+% \right)
+% \]
+
+\medskip
+
+Following the approach taken in \cite{DBLP:conf/fossacs/LohreyM02}, we introduce a binary relation $\relb$ ($\linrel_b$ in their work) associated with a given bound $k$ and an MSC $\msc$. Let $k \ge 1$ and $\msc$ be a fixed MSC: we have $r \relb s$ if, for some $i \ge 1$ and some channel ($p$,$q$)\footnote{Recall that ($p,\,q$) is a channel where messages are sent by $p$ and received by $q$.}:
+\begin{enumerate}\itemsep=0.5ex
+	\item $r$ is the $i$-th receive event (executed by $q$).
+	\item $s$ is the ($i+k$)-th send event (executed by $p$).
+\end{enumerate}
+Note that, for any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed after $s$ cannot $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization".\davidequestionsmall{Should I prove it?} A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.\davide{An example would be nice.} In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is $\exists k$-bounded if and only if the relation $\le_\msc \cup \relb$ is acyclic\footnote{A binary relation is acyclic if its transitive closure is antisymmetric.}. Since $\le_\msc$ and acyclicity are both MSO-definable, it suffices to find an MSO formula that defines the $\relb$ relation to claim the MSO-definability of $\exists k$-bounded MSCs. Unfortunately, this relation is not MSO-definable for asynchronous MSCs, because MSO logic cannot be used to "count" for an arbitrary $i$. For this reason, we introduce another similar MSO-definable binary relation $\relbAsy$, and we show that with this new relation we still have that an MSC $\msc$ is $\exists k$-bounded MSC iff $\le_\msc \cup \relbAsy$ is acyclic and another condition holds. Let $k \ge 1$ and $\msc$ be a fixed MSC: we have $r \relbAsy s$ if, for some $i \ge 1$ and some channel ($p$,$q$):
+\begin{itemize}\itemsep=0.5ex
+	\item There are $k+1$ send events $(s_1, \dots, s_k, s)$, where at least one is matched, such that $s_1 \procrel^+ \dots \procrel^+ s_k \procrel^+ s$.
+ 	\item $r$ is the first receive event among the receive events for the matched sends among $s_1, \dots, s_k, s$.
+\end{itemize}
+
+\begin{proposition}\label{prop:asy_ek_def_alt}
+	An MSC $\msc$ is $\exists k$-bounded if and only if $\le_\msc \cup \relbAsy$ is acyclic and, for each channel ($p$,$q$), there are at most $k$ unmatched send events.
+\end{proposition}
+\begin{proof}
+	($\Rightarrow$) Suppose $\msc$ is $\exists k$-bounded, which by definition means there is at least one $\exists k$-bounded linearization $\linrel$. Firstly, notice that every MSC that has more than $k$ unmatched send events in any channel cannot be an $\exists k$-bounded MSC. We already know that $\le_\msc \subseteq \linrel$, and we will show show that also $\relbAsy \subseteq \linrel$. This implies that $\le_\msc \cup \relbAsy$ is acyclic, otherwise we would not be able to find a linearization $\linrel$ that respects both $\le_\msc$ and $\relbAsy$. Suppose, by contradiction, that $\relbAsy \nsubseteq \linrel$, i.e. there are two events $r$ and $s$ such that $r \relbAsy s$ and $s \linrel r$. By definition of $\relbAsy$, there are $k$ send events in a channel ($p$,$q$) that are executed before $s$, and whose respective receive events happens after $r$. If $s$ is executed before $r$ in the linearization, there will be $k+1$ messages in channel (i.e. $\linrel$ is not a $\exists k$-bounded linearization). We reached a contradiction, hence $\relbAsy \subseteq \linrel$ and $\le_\msc \cup \relbAsy$ is acyclic.\newline
+	($\Leftarrow$) Suppose $\le_\msc \cup \relbAsy$ is acyclic and, for each channel ($p$,$q$), there are at most $k$ unmatched send events. If $\le_\msc \cup \relbAsy$ is acyclic, we are able to find at least one linearization $\linrel$ for the partial order $(\le_\msc \cup \relbAsy)^\ast$. We want to show that this linearization is $\exists k$-bounded. By contradiction, suppose $\linrel$ is not $\exists k$-bounded, i.e. we are able to find $k+1$ send events $s_1 \procrel^+ \dots \procrel^+ s_k \procrel^+ s$ on a channel ($p$,$q$), such that $s$ is executed before any of the respective receive events takes place. There are two possible scenarios:
+	\begin{itemize}\itemsep=0.5ex
+		\item Suppose all the $k+1$ send events are unmatched. This is impossible, since we supposed that there are at most $k$ unmatched send events for any channel.
+		\item Suppose there is at least one matched send event between the $k+1$ sends. Let the first matched send event be $s_i$ and let $r$ be the receive event that is executed first among the receive events for these $k+1$ sends. By hypothesis, $s \linrel r$. However, according to the definition of $\relbAsy$, we must have $r \relbAsy s$. We reached a contradiction, since we cannot have that $s$ happens before $r$ in a linearization for the partial order $(\le_\msc \cup \relbAsy)^\ast$, if $r \relbAsy s$.
+	\end{itemize}
+\end{proof}
+
+\noindent According to Proposition~\ref{prop:asy_ek_def_alt}, we can write the MSO formula the defines $\exists k$-bounded MSCs as
+\[
+\Psi_{\exists k}=
+acyclic(\le_\msc \cup \relbAsy) \;\wedge\;
+\neg \left(
+	\exists s_1 \dots s_{k+1}. s_1 \procrel^+ \dots \procrel^+ s_{k+1} \;\wedge \;
+	allSends\_p\_q \;\wedge\; allUnm
+\right)
+\]
+\[
+allSends\_p\_q =
+\bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
+\bigwedge_{s \in {s_1, ..., s_{k+1}}}\;
+\bigvee_{a \in \pqsAct{p}{q}}
+(\lambda(s) = a)
+\]
+\[
+allUnm = \bigwedge_{s \in {s_1, ..., s_{k+1}}}(\neg \mathit{matched}(s))
+\]
+where $acyclic(\le_\msc \cup \relbAsy)$ is an MSO formula that checks the acyclicity of the $\le_\msc \cup \relbAsy$ relation, and the $\relbAsy$ relation can be defined as
+\[
+r \relbAsy s= \exists s_1 \dots s_{k+1}. \left(
+\begin{array}{rl}
+	& s_1 \procrel^+ \dots \procrel^+ s_{k+1} \;\wedge\;
+	allSends\_p\_q \;\wedge\; \\
+	& \exists r. (\bigvee_{s \in {s_1, ..., s_{k+1}}}s \lhd r) \;\wedge\;
+	\bigwedge_{e \in {s_1, ..., s_{k+1}}}(\exists f.e \lhd f \implies r \procrel^* f) \\
+\end{array}
+\right)
+\]
+
+\medskip
+
+In particular, we can define $r \relb s$ as
+\davidequestion{This might need some tweaking depending on if we want to count or not unmatched messages}
+% \[
+% r \relb s=
+% \bigvee_{i=1}^n(\exists s_1 \dots s_{i+k}.(s=s_{i+k} \wedge first\_send(s_1)
+% \wedge allSend\_p\_q(i+k)))
+% \]
+\[
+r \relb s=\exists s_1. \dots \exists s_k.\left(
+allDistSend\_p\_q(k)
+\;\wedge\; s_1\procrel s_2\procrel\dots
+\procrel s_k\procrel s
+\;\wedge\; s_1 \lhd r
+\right)
+\]
+% where $allSend\_p\_q$ checks if $s,s_1,\dots,s_k$ are all send events from and to the same process (i.e., on the same channel)
+
+It follows that, given $k \in \N$, the set of existentially $k$-bounded MSCs is MSO-definable. Causally ordered and \pp existentially $k$-bounded MSCs are clearly MSO-definable by definition, since we already showed that \pp MSCs, causally ordered MSCs, and existentially $k$-bounded MSCs are all MSO-definable. The set of mailbox existentially $k$-bounded MSCs was already shown to be MSO-definable in \cite{DBLP:conf/concur/BolligGFLLS21}, but they use a slightly different definition of mailbox existentially $k$-bounded MSC. With their definition, a $\exists k$-mb-bounded MSC has at most $k$ messages in any incoming channel at any moment, whereas according to our definition the threshold is $k(n-1)$, were $n$ is the number of processes. In particular, they introduce a binary relation $\revb \,\supseteq\, \relb$ and they show that an MSC $\msc$ is $\exists k$-mb-bounded iff $\preceq_\msc \cup \revb$ is acyclic. With our definition, an MSC is $\exists k$-mb-bounded iff $\preceq_\msc \cup \relb$ is acyclic. \davidequestionsmall{Should I rewrite the proof?}This can easily be shown by simply replacing $\revb$ with $\relb$ in the proof given in \cite{DBLP:conf/concur/BolligGFLLS21}. We already talked about the MSO-defininability of $\preceq_\msc$, $\relb$, and acyclicity, so the set of mailbox existentially $k$-bounded MSCs is also MSO-definable.
+
+\subsubsection{Special treewidth}
+
+In \cite[Lemma 5.37]{DBLP:journals/corr/abs-1904-06942} it was shown that the special treewidth of existentially $k$-bounded MSCs is bounded by $k\,|\Procs|^2$, for $k \ge 1$. Actually, STW-boundness was shown for the more general $\mathsf{CBM}$ class (Concurrent Behaviours with Matching), but the result is still valid since $\asMSCs \subset \mathsf{CBM}$. \davidequestionsmall{Should I rewrite the proof more clearly?} The special treewidth of both \pp-$\exists k$-bounded and $\cosymb$-$\exists k$-bounded MSCs is also bounded, since every \pp or causally ordered existentially $k$-bounded MSC is existentially $k$-bounded by definition. Similarly, mb-$\exists k$-bounded MSCs also have a bounded special treewidth, since it is trivial to see that every existentially mailbox $k$-bounded MSC is existentially $k$-bounded.
 
 \subsection{Weakly synchronous causally ordered MSCs}
 
