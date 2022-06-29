@@ -1,0 +1,17 @@
+\cinzia{ADD how to express transitive closure}
+
+\paragraph*{Transitive Closure}
+Given a binary relation $\to$, we can express its reflexive transitive closure $\to^*$ in MSO as
+\[
+x \to^* y = \forall X.(x \in X \wedge forward\_closed(X)) \implies y \in X
+\]
+\[
+forward\_closed(X) = \forall z.\forall t.(z \in X \wedge z \to t) \implies t \in X
+\]
+
+\paragraph*{Acyclicity} 
+
+Given a binary relation $\to$, the acyclicity of $\to$ can be expressed using an MSO formula. Recall that, given a binary relation $\to$, it is acyclic if and only if its transitive closure $\to^+$ is antisymmetric. The MSO formula of acyclicity directly follows from this definition:
+\[
+\Phi_{acyclic} =  \neg \exists x.\exists y.(x \to^+ y \;\wedge\; y \to^+ x).   
+\]
