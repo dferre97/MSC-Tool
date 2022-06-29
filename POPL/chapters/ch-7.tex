@@ -27,8 +27,15 @@ Eve starts to play and does a move, which consists in the following steps:
 	and marked nodes are inherited.
 \end{enumerate}
 Once Eve does her move, it is Adam's turn. Adam simply chooses one of the two marked MSC fragments, either $(M_1, U_1)$ or $(M_2, U_2)$. Now it is again Eve's turn, and she has to do a move on the marked MSC fragment that was chosen by Adam. The game continues in alternating turns between the two players until they reach a point where all the events on the current marked MSC fragment are marked.
-For $k \in \N$, we say that the game is $k$-winning for Eve if she has a strategy that allows her, independently of Adam's moves, to end the game in a way that every marked MSC fragment visited during the game has at most $k+1$ marked events. The goal of Eve is to keep $k$ as low as possible. Fig.~\ref{fig:stw-ex} shows an example of a 3-winning game for the MSC shown in Fig.~\ref{fig:pp_ex}.
+For $k \in \N$, we say that the game is $k$-winning for Eve if she has a strategy that allows her, independently of Adam's moves, to end the game in a way that every marked MSC fragment visited during the game has at most $k+1$ marked events. The goal of Eve is to keep $k$ as low as possible.Fig.~\ref{fig:stw-ex} shows an example of a 3-winning game for the MSC shown in Fig.~\ref{fig:pp_ex}.
 
+\begin{example}
+	Let $M$ the MSC of the Fig.~\ref{fig:pp_ex}. On this example, we show that $M$ has a special tree width of, at most, 3. It can be interpreted as a graph as we can see on the left of Fig.~\ref{fig:stw-ex}.  We use 4 colors to distinguish marked events. On the first step, Eve marks 4 events. Some edges can be removed (dotted edges): between the red event and the green one, and between the yellow one and the blue one. The graph is so splitted into 2 sub-graphs, Adam has to choose amoung them.
+	In the first case, Adam chooses the sub-graph with the red and yellow events. Eve can mark the third event, and so, each edge can be removed and Eve wins.
+	In the second case, Adam chooses the sub-graph with the blue and green events. Eve can mark the two bottom nodes and 3 edges can be removed.
+	Adam has no choice, there is only one sub-graph with several nodes, in which Eve can again marks all the events. So Eve wins also in this case.
+	Finally, Eve wins in each case marking 4 events at each step, so this graph has a special tree width of 3.
+\end{example}
 \input{img/decomposition_game}
 
 \newcommand{\CS}[2]{\mathsf{CS}_{(#1,#2)}}
