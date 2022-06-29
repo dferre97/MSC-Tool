@@ -1,0 +1,86 @@
+\davide{The following proposition could be removed, since we don't need it to prove the hierarchy (we already show later that $\onenMSCs \subseteq \mbMSCs$).}
+\begin{proposition} \label{prop:onen_is_co}
+	Every $\onen$ MSC is a causally ordered MSC, i.e. $\onenMSCs \subseteq \coMSCs$.
+\end{proposition}
+\begin{proof}
+By contradiction. Suppose that $\msc$ is a $\onen$ MSC, but not a causally ordered MSC. Since $\msc$ is not causally ordered, there must be two send events $s$ and $s'$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \le_\msc s'$, and we have either:
+\begin{enumerate}\itemsep=0.5ex
+	\item $s,s' \in \Matched{\msc}$ and $r' \procrel^* r$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
+	\item  $s \in \Unm{\msc}$ and $s' \in \Matched{\msc}$.
+\end{enumerate}
+We need to show that both of these scenarios lead to a contradiction. (1) Suppose $s$ and $s'$ are executed by the same process. Since $\msc$ is a $\onen$ MSC, there must be a linearization $\linrel$ such that $r \linrel r'$, but this is clearly impossible since we have $r' \procrel^* r$. Suppose now that $s$ and $s'$ are executed by two different processes $p$ and $q$. We know by hypothesis that $s \le_\msc s'$, i.e. there is a causal path of events $P = s \sim a \sim \dots \sim s' \sim r'$ from $s$ to $r'$, where $\sim$ is either $\procrel$ or $\lhd$. Refer to the first example in Figure~\ref{fig:onen_is_co} for a visual representation ($P$ is drawn in purple). To have a causal path $P$, there must be a send event $s''$ that is executed by $p$ after $s$ and that is part of $P$, along with its receipt $r''$ (i.e. $P = s \le_\msc s'' \lhd r'' \le_\msc s' \lhd r'$). We clearly have $r'' \linrel r'$ for any linearization of $\msc$, because $r'' \le_\msc r'$ (they are both in the causal path $P$ and $r''$ happens before $r$). Since $\msc$ is a $\onen$ MSC, there has to be a linearization $\linrel$ where $r \linrel r''$, because $s$ and $s''$ are send events executed by the same process. It follows that $\msc$ should have a linearization were $r \linrel r'' \linrel r'$, but this is not possible because of the hypothesis that $r' \procrel^* r$. This is a contradiction. (2) Suppose $s$ and $s'$ are executed by the same process. It is trivial to see, by definition, that $\msc$ cannot be a $\onen$ MSC. Suppose now that $s$ and $s'$ are executed by two different processes $p$ and $q$, and consider the same send event $s''$ as before (executed by $p$). Refer to the second example in Figure~\ref{fig:onen_is_co} for a visual representation. Since $s''$ is matched, we have two events $s$ and $s''$, sent by the same process $p$, that are unmatched and matched, respectively. Clearly, $\msc$ cannot be a $\onen$ MSC.
+\end{proof}
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+		\begin{center}
+			\begin{tikzpicture}
+				\newproc{0}{p}{-2.1};
+				\newproc{1}{t}{-2.1};
+				\newproc{2}{q}{-2.1};
+			
+				% \newmsgdiagnoname{0}{1}{-0.2}{-2.5}{black};
+				\newmsgnoname{0}{1}{-0.3}{black};
+				\newmsgnoname{0}{2}{-1}{black};
+				\newmsgnoname{2}{1}{-1.7}{black};
+		
+				\newevent{black}{0}{-0.3}{s}{left};
+				\newevent{black}{0}{-1}{s''}{left};
+				\newevent{black}{2}{-1}{r''}{above right};
+				\newevent{black}{1}{-1.7}{r'}{above right};
+				\newevent{black}{2}{-1.7}{s'}{right};
+				\newevent{black}{1}{-0.3}{r}{right};
+		
+				\newflechevert{Purple}{0}{-0.3}{-1};
+				\newflechehor{Purple}{-1}{0}{2};
+				\newflechevert{Purple}{2}{-1}{-1.7};
+				\newflechehorinverse{Purple}{-1.7}{2}{1};
+				
+			\end{tikzpicture}
+		\end{center}
+	\end{subfigure}
+	% \hfill
+	\begin{subfigure}[b]{0.4\textwidth}
+		\begin{center}
+			\begin{tikzpicture}
+				\newproc{0}{p}{-2.1};
+				\newproc{1}{t}{-2.1};
+				\newproc{2}{q}{-2.1};
+			
+				% \newmsgdiagnoname{0}{1}{-0.2}{-2.5}{black};
+				\newmsgumnoname{0}{1}{-0.3}{black};
+				\newmsgnoname{0}{2}{-1}{black};
+				\newmsgnoname{2}{1}{-1.7}{black};
+		
+				\newevent{black}{0}{-0.3}{s}{left};
+				\newevent{black}{0}{-1}{s''}{left};
+				\newevent{black}{2}{-1}{r''}{above right};
+				\newevent{black}{2}{-1.7}{s'}{right};
+				\newevent{black}{1}{-1.7}{r'}{above right};
+		
+				\newflechevert{Purple}{0}{-0.3}{-1};
+				\newflechehor{Purple}{-1}{0}{2};
+				\newflechevert{Purple}{2}{-1}{-1.7};
+				\newflechehorinverse{Purple}{-1.7}{2}{1};
+				
+			\end{tikzpicture}
+			\end{center}
+	\end{subfigure}
+	   \caption{Two examples of $\onen$ MSCs.}
+	   \label{fig:onen_is_co}
+\end{figure}
+
+\mbonennounmatched*
+\begin{proof}
+	We show that the contrapositive is true, i.e. if an MSC is not $\onen$ (and it does not have unmatched messages), it is also not mailbox. Suppose $\msc$ is an asynchronous MSC, but not $\onen$. There must be a cycle $\xi$ such that  $e \lessdot e$, for some event $e$. Recall that ${\lessdot} = ({\procrel} \,\cup\, {\onenrel} \,\cup\, {\mbrel})^\ast$ and ${\le} = ({\procrel} \cup {\onenrel})^\ast$. We can always explicitely write a cycle $e \lessdot e$ only using $\onenrel$ and $\le$. For instance, there might be a cycle $e \lessdot e$ because we have that $e \onenrel f \le g \onenrel h \onenrel i \le e$. Consider any two adiacent events $r_1$ and $r_2$ in the cycle $\xi$, where $\xi$ has been written using only $\onenrel$ and $\le$, and we never have two consecutive $\le$. We have two cases:
+	\begin{enumerate}
+		\item $r_1 \onenrel r_2$. By definition of $\onenrel$, $r_1$ and $r_2$ must be two receive events, since we are not considering unmatched send events, and $s_1 \procrel^+ s_2$, where $s_1$ and $s_2$ are the send events that match with $r_1$ and $r_2$, respectively.
+		\item $r_1 \le r_2$. Since $\msc$ is asynchronous by hyphotesis, $\xi$ has to contain at least one $\onenrel$; recall that we also wrote $\xi$ in such a way that we do not have two consecutive $\le$. It is not difficult to see that $r_1$ and $r_2$ have to be receive events, since they belong to $\xi$. Let $s_1$ and $s_2$ be the two send events such that $s_1 \lhd r_1$ and $s_2 \lhd r_2$. We have two cases:
+		\begin{enumerate}
+			\item $s_2$ is in the causal path between $r_1$ and $r_2$, i.e. $s_1 \lhd r_1 \le s_2 \lhd r_2$. In particular, note that $s_1 \le s_2$.
+			\item $s_2$ is not in the causal path between $r_1$ and $r_2$, hence there must be a message $m_k$ received by the same process that executes $r_2$, such that $r_1 \le s_k \lhd r_k \procrel^+ r_2$, where $r_k$ is the send event of $m_k$. Since messages $m_k$ and $m_2$ are received by the same process and $r_k \procrel^+ r_2$, we should have $s_k \mbrel s_2$, according to the mailbox semantics. In particular, note the we have $s_1 \le s_k \mbrel s_2$.
+		\end{enumerate}
+		In both case (a) and (b), we conclude that $s_1 \preceq s_2$. Recall that ${\preceq} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel_\msc})^\ast$.
+	\end{enumerate}
+	Notice that, for either cases, a relation between two receive events $r_1$ and $r_2$ implies a relation between the respective send events $s_1$ and $s_2$, according to the mailbox semantics. It follows that $\xi$, which is a cycle for the $\lessdot$ relation, always implies a cycle for the $\preceq$ relation.
+	\end{proof}

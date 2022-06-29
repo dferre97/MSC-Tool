@@ -4,7 +4,7 @@ As mentioned in Section~\ref{sec:com_models_overview}, the classes of MSCs for a
 
 \medskip
 
-First of all, note that every $\oneone$ MSC in an asynchronous MSC by definition. Moreover, Fig.~\ref{fig:fully_asy_ex} shows an example of MSC that is asynchronous but not $\oneone$, hence we have $\ppMSCs \subset \asMSCs$. We saw that in the $\none$ communicating model any two messages sent to a process $q$ must be received in the same order as they are sent. In the $\oneone$ communication model we have the same constraint, but only for messages sent by a same process $p$. It is clear to see that $\none$ communication is a special case of $\oneone$ communication, and so every $\onen$ MSC is also a $\oneone$ MSC. Besides, Fig.~\ref{fig:co_ex}a shows a $\oneone$ MSC which is not a $\none$ MSC. In particular, note that $!1 \le !3$, but $!3 \mbrel !1$ since $?3 \procrel ?1$; $\preceq_\msc$ is then cyclic, i.e. not a partial order, and the MSC is not $\none$. It follows that $\mbMSCs \subset \ppMSCs$. A very similar reasoning can be made for the $\onen$ communication model, hence $\onenMSCs \subset \ppMSCs$. We now show that each $\none$ MSC is a causally ordered MSC.
+First of all, note that every $\oneone$ MSC in an asynchronous MSC by definition. Moreover, Fig.~\ref{fig:fully_asy_ex} shows an example of MSC that is asynchronous but not $\oneone$, hence we have $\ppMSCs \subset \asMSCs$. We saw that in the $\none$ communicating model any two messages sent to a process $q$ must be received in the same order as they are sent. In the $\oneone$ communication model we have the same constraint, but only for messages sent by a same process $p$. It is easy to see that $\none$ communication is a special case of $\oneone$ communication, and so every $\onen$ MSC is also a $\oneone$ MSC. Besides, Fig.~\ref{fig:co_ex} shows a $\oneone$ MSC which is not a $\none$ MSC. In particular, note that $!1 \le !3$, but $!3 \mbrel !1$ since $?3 \procrel ?1$; $\preceq$ is then cyclic, i.e. not a partial order, and the MSC is not $\none$. It follows that $\mbMSCs \subset \ppMSCs$. A very similar reasoning can be made for the $\onen$ communication model, hence $\onenMSCs \subset \ppMSCs$. We now show that each $\none$ MSC is a causally ordered MSC.
 
 \begin{proposition} \label{prop:mb_is_co}
 	Every $\none$ MSC is a causally ordered MSC.
@@ -39,77 +39,6 @@ Fig.~\ref{fig:co_not_none} shows an example of causally ordered MSC that is not 
 	\end{center}
 \end{figure}
 
-\begin{proposition} \label{prop:onen_is_co}
-	Every $\onen$ MSC is a causally ordered MSC, i.e. $\onenMSCs \subseteq \coMSCs$.
-\end{proposition}
-\begin{proof}
-By contradiction. Suppose that $\msc$ is a $\onen$ MSC, but not a causally ordered MSC. Since $\msc$ is not causally ordered, there must be two send events $s$ and $s'$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \le_\msc s'$, and we have either:
-\begin{enumerate}\itemsep=0.5ex
-	\item $s,s' \in \Matched{\msc}$ and $r' \procrel^* r$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
-	\item  $s \in \Unm{\msc}$ and $s' \in \Matched{\msc}$.
-\end{enumerate}
-We need to show that both of these scenarios lead to a contradiction. (1) Suppose $s$ and $s'$ are executed by the same process. Since $\msc$ is a $\onen$ MSC, there must be a linearization $\linrel$ such that $r \linrel r'$, but this is clearly impossible since we have $r' \procrel^* r$. Suppose now that $s$ and $s'$ are executed by two different processes $p$ and $q$. We know by hypothesis that $s \le_\msc s'$, i.e. there is a causal path of events $P = s \sim a \sim \dots \sim s' \sim r'$ from $s$ to $r'$, where $\sim$ is either $\procrel$ or $\lhd$. Refer to the first example in Figure~\ref{fig:onen_is_co} for a visual representation ($P$ is drawn in purple). To have a causal path $P$, there must be a send event $s''$ that is executed by $p$ after $s$ and that is part of $P$, along with its receipt $r''$ (i.e. $P = s \le_\msc s'' \lhd r'' \le_\msc s' \lhd r'$). We clearly have $r'' \linrel r'$ for any linearization of $\msc$, because $r'' \le_\msc r'$ (they are both in the causal path $P$ and $r''$ happens before $r$). Since $\msc$ is a $\onen$ MSC, there has to be a linearization $\linrel$ where $r \linrel r''$, because $s$ and $s''$ are send events executed by the same process. It follows that $\msc$ should have a linearization were $r \linrel r'' \linrel r'$, but this is not possible because of the hypothesis that $r' \procrel^* r$. This is a contradiction. (2) Suppose $s$ and $s'$ are executed by the same process. It is trivial to see, by definition, that $\msc$ cannot be a $\onen$ MSC. Suppose now that $s$ and $s'$ are executed by two different processes $p$ and $q$, and consider the same send event $s''$ as before (executed by $p$). Refer to the second example in Figure~\ref{fig:onen_is_co} for a visual representation. Since $s''$ is matched, we have two events $s$ and $s''$, sent by the same process $p$, that are unmatched and matched, respectively. Clearly, $\msc$ cannot be a $\onen$ MSC.
-\end{proof}
-\begin{figure}[h]
-	\centering
-	\begin{subfigure}[b]{0.4\textwidth}
-		\begin{center}
-			\begin{tikzpicture}
-				\newproc{0}{p}{-2.1};
-				\newproc{1}{t}{-2.1};
-				\newproc{2}{q}{-2.1};
-			
-				% \newmsgdiagnoname{0}{1}{-0.2}{-2.5}{black};
-				\newmsgnoname{0}{1}{-0.3}{black};
-				\newmsgnoname{0}{2}{-1}{black};
-				\newmsgnoname{2}{1}{-1.7}{black};
-		
-				\newevent{black}{0}{-0.3}{s}{left};
-				\newevent{black}{0}{-1}{s''}{left};
-				\newevent{black}{2}{-1}{r''}{above right};
-				\newevent{black}{1}{-1.7}{r'}{above right};
-				\newevent{black}{2}{-1.7}{s'}{right};
-				\newevent{black}{1}{-0.3}{r}{right};
-		
-				\newflechevert{Purple}{0}{-0.3}{-1};
-				\newflechehor{Purple}{-1}{0}{2};
-				\newflechevert{Purple}{2}{-1}{-1.7};
-				\newflechehorinverse{Purple}{-1.7}{2}{1};
-				
-			\end{tikzpicture}
-		\end{center}
-	\end{subfigure}
-	% \hfill
-	\begin{subfigure}[b]{0.4\textwidth}
-		\begin{center}
-			\begin{tikzpicture}
-				\newproc{0}{p}{-2.1};
-				\newproc{1}{t}{-2.1};
-				\newproc{2}{q}{-2.1};
-			
-				% \newmsgdiagnoname{0}{1}{-0.2}{-2.5}{black};
-				\newmsgumnoname{0}{1}{-0.3}{black};
-				\newmsgnoname{0}{2}{-1}{black};
-				\newmsgnoname{2}{1}{-1.7}{black};
-		
-				\newevent{black}{0}{-0.3}{s}{left};
-				\newevent{black}{0}{-1}{s''}{left};
-				\newevent{black}{2}{-1}{r''}{above right};
-				\newevent{black}{2}{-1.7}{s'}{right};
-				\newevent{black}{1}{-1.7}{r'}{above right};
-		
-				\newflechevert{Purple}{0}{-0.3}{-1};
-				\newflechehor{Purple}{-1}{0}{2};
-				\newflechevert{Purple}{2}{-1}{-1.7};
-				\newflechehorinverse{Purple}{-1.7}{2}{1};
-				
-			\end{tikzpicture}
-			\end{center}
-	\end{subfigure}
-	   \caption{Two examples of $\onen$ MSCs.}
-	   \label{fig:onen_is_co}
-\end{figure}
-
 The relation between $\onen$ and $\none$ MSCs is not as straghtforward as those seen so far. For convenience, we will start by only considering MSCs without unmatched messages. 
 
 \begin{proposition} \label{prop:onen_mb_no_unmatched}
@@ -129,12 +58,17 @@ We show that the contrapositive is true, i.e. if an MSC is not mailbox (and it d
 Notice that, for either cases, a relation between two send events $s_1$ and $s_2$ (i.e. $s_1 \mbrel s_2$ or $s_1 \le s_2$) always implies a relation between the respective receive events $r_1$ and $r_2$, according to the $\onen$ semantics. It follows that $\xi$, which is a cycle for the $\preceq$ relation, always implies a cycle for the $\lessdot$ relation\footnote{If $\lessdot$ is cyclic, $\msc$ is not a $\onen$ MSC.}, as shown by the following example. Let $\msc$ be a non-mailbox MSC, and suppose we have a cycle $s_1 \mbrel s_2 \mbrel s_3 \le s_4 \mbrel s_5 \le s_1$. $s_1 \mbrel s_2$ falls into case (1), so it implies $r_1 \procrel^+ r_2$. The same goes for $s_2 \mbrel r_3$, which implies $r_2 \procrel^+ r_3$. $s_3 \le s_4$ falls into case (2), and implies that $r_3 \lessdot r_4$. $s_4 \mbrel s_5$ falls into case (1) and it implies $r_4 \procrel^+ r_5$. $s_5 \le s_1$ falls into case (2) and implies that $r_5 \lessdot r_1$. Putting all these implications together, we have that $r_1 \procrel^+ r_2 \procrel^+ r_3 \lessdot r_4 \procrel^+ r_5 \lessdot r_1$, which is a cycle for $\lessdot$. Note that, given any cycle for $\preceq$, we are always able to apply this technique to obtain a cycle for $\lessdot$.
 \end{proof}
 
-\davide{Show also that every $\none$ MSC without unmatched messages is a $\onen$ MSC.}
+The opposite direction is also true and the proof, which can be found in the appendix, uses the same technique to prove that a cycle for $\lessdot$ always implies a cycle for $\preceq$.
 
-Proposition~\ref{prop:onen_mb_no_unmatched} still holds even if we consider unmatched messages.
+\begin{restatable}{proposition}{mbonennounmatched} 
+\label{prop:mb_onen_no_unmatched}
+	Every $\none$ MSC without unmatched messages is a $\onen$ MSC.
+\end{restatable}
+
+Interestingly enough, Prop.\ref{prop:onen_mb_no_unmatched} and \ref{prop:mb_onen_no_unmatched} show that the classes of $\none$ and $\onen$ MSCs are effectively equivalent if we do not allow unmatched messages. As we will prove, this will change when we add unmatched messages into the mix. However, Proposition~\ref{prop:onen_mb_no_unmatched} still holds.
 
 \begin{proposition} \label{prop:onen_mb_unmatched}
-	Every $\onen$ MSC is a $\none$ MSC, i.e. $\onenMSCs \subset \mbMSCs$.
+	Every $\onen$ MSC is a $\none$ MSC, i.e. $\onenMSCs \subseteq \mbMSCs$.
 \end{proposition}
 \begin{proof}
 Let $\msc$ be an asynchronous MSC. The proof proceeds in the same way as the one of Proposition~\ref{prop:onen_mb_no_unmatched}, but unmatched messages introduce some additional cases. Consider any two adiacent events $s_1$ and $s_2$ in a cycle $\xi$ for $\preceq$, where $\xi$ has been written using only $\mbrel$ and $\le$, and we never have two consecutive $\le$. These are some additional cases:
@@ -147,7 +81,27 @@ Let $\msc$ be an asynchronous MSC. The proof proceeds in the same way as the one
 We showed that cases (3) and (4) can never happen, whereas cases (5) and (6) both imply that $\msc$ is not $\onen$. If we combine them with the cases described in Proposition~\ref{prop:onen_mb_no_unmatched} we have the full proof.
 \end{proof}
 
-In the $\nn$ communication model, any two messages must be received in the same order as they are sent. It is then easy to observe that each $\nn$ MSC is a $\onen$ MSC, because each $\nn$ linearization is also a $\onen$ linearization. Moreover, Fig.~\ref{fig:onen_nn_rsc_ex}a shows an example of MSC that is $\onen$ but not $\nn$, hence we have that $\nnMSCs \subset \onenMSCs$; in particular, note that for messages $m_1$ and $m_4$ we have $!1 \le !4$ and $?4 \procrel ?1$, so there cannot be a $\nn$ linearization, but it is possible to find a $\onen$ linearization such as $!1\;!2\;?2\;!3\;?3\;!4\;?4\;?1$. In the synchronous communication model, every send event is immediately followed by its corresponding receive event. Synchronous communication is then clearly a special case of $\nn$ communication, and every $\rsc$ MSC is a $\nn$ MSC because a $\rsc$ linearization is always also a $\nn$ linearization. Besides, Fig.~\ref{fig:onen_nn_rsc_ex}b shows an example of MSC that is $\nn$ but not $\rsc$, as a consequence we get $\rscMSCs \subset \nnMSCs$.
+The MSC in Fig.~\ref{fig:mb_no_onen} shows a simple example of an MSC with unmatched messages that is $\none$ but not $\onen$. This, along with Prop.~\ref{prop:onen_mb_unmatched}, effectively shows that $\onenMSCs \subset \mbMSCs$.
+
+\begin{figure}[h]
+	\begin{center}
+		\begin{tikzpicture}
+			\newproc{0}{p}{-1.5};
+			\newproc{1}{q}{-1.5};
+			\newproc{2}{r}{-1.5};
+			
+			\newmsgum{0}{1}{-0.5}{1}{0.3}{black};
+			\newmsgm{0}{2}{-1.2}{-1.2}{2}{0.3}{black};
+			
+		\end{tikzpicture}
+		\caption{An example of $\none$ MSC which is not a $\onen$ MSC.}
+		\label{fig:mb_no_onen}
+	\end{center}
+\end{figure}
+
+\medskip 
+
+In the $\nn$ communication model, any two messages must be received in the same order as they are sent. It is then easy to observe that each $\nn$ MSC is a $\onen$ MSC, because each $\nn$ linearization is also a $\onen$ linearization. Moreover, Fig.~\ref{fig:onen_nn_rsc_ex}a shows an example of MSC that is $\onen$ but not $\nn$, hence we have that $\nnMSCs \subset \onenMSCs$; in particular, note that for messages $m_1$ and $m_4$ we have $!1 \le !4$ and $?4 \procrel ?1$, so there cannot be a $\nn$ linearization, but it is possible to find a $\onen$ linearization such as $!1\;!2\;?2\;!3\;?3\;!4\;?4\;?1$. In the synchronous communication model, every send event is immediately followed by its corresponding receive event. Synchronous communication is then clearly a special case of $\nn$ communication, and every $\rsc$ MSC is a $\nn$ MSC because a $\rsc$ linearization is always also a $\nn$ linearization. Besides, Fig.~\ref{fig:onen_nn_rsc_ex}b shows an example of MSC that is $\nn$ but not $\rsc$, as a consequence we get hence $\rscMSCs \subset \nnMSCs$.
 
 \begin{figure}[h]
 	\captionsetup[subfigure]{justification=centering}

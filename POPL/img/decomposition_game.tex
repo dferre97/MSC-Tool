@@ -19,14 +19,14 @@
 				\draw[black, fill = black] (1,-2) circle (.05);
 				\draw[black, fill = black] (2,-2) circle (.05);
 
-				\draw[=>latex, ->] (0,-.1) to (0, -.4);
-				\draw[=>latex, ->] (.1,0) to (.9, -1.5);
-				\draw[=>latex, ->] (.1,-.5) to (1.9, -.5);
-				\draw[=>latex, ->] (2,-.6) to (2, -.9);
-				\draw[=>latex, ->] (1.9,-1) to (1.1, -1);
-				\draw[=>latex, ->] (1,-1.1) to (1, -1.4);
-				\draw[=>latex, ->] (1,-1.6) to (1, -1.9);
-				\draw[=>latex, ->] (2,-1.1) to (2, -1.9);
+				\draw[>=latex, ->] (0,-.1) to (0, -.4);
+				\draw[>=latex, dotted, ->] (.1,0) to (.9, -1.5);
+				\draw[>=latex, ->] (.1,-.5) to (1.9, -.5);
+				\draw[>=latex, dotted, ->] (2,-.6) to (2, -.9);
+				\draw[>=latex, ->] (1.9,-1) to (1.1, -1);
+				\draw[>=latex, ->] (1,-1.1) to (1, -1.4);
+				\draw[>=latex, ->] (1,-1.6) to (1, -1.9);
+				\draw[>=latex, ->] (2,-1.1) to (2, -1.9);
 				\draw[>=latex, ->] (1.9,-2) to (1.1, -2);
 
 				\draw[->] (2.5,-1) to[bend left = 20] (3,-.3);
@@ -45,8 +45,8 @@
 				\draw[black, fill = black] (0,-.5) circle (.05);
 				\draw[black, fill = black] (2,-.5) circle (.05);
 
-				\draw[=>latex, ->] (0,-.1) to (0, -.4);
-				\draw[=>latex, ->] (.1,-.5) to (1.9, -.5);
+				\draw[>=latex, ->] (0,-.1) to (0, -.4);
+				\draw[>=latex, ->] (.1,-.5) to (1.9, -.5);
 			\end{scope}
 			\begin{scope}[shift = {(5.9,0)}]
 				\draw[gray,fill = gray, rounded corners, opacity=0.2] (.7,-.7) rectangle (2.3,-2.3);
@@ -60,11 +60,11 @@
 				\draw[black, fill = black] (1,-1.5) circle (.05);
 				\draw[black, fill = black] (1,-2) circle (.05);
 				\draw[black, fill = black] (2,-2) circle (.05);
-				\draw[=>latex, ->] (1.9,-1) to (1.1, -1);
-				\draw[=>latex, ->] (1,-1.1) to (1, -1.4);
-				\draw[=>latex, ->] (1,-1.6) to (1, -1.9);
-				\draw[=>latex, ->] (2,-1.1) to (2, -1.9);
-				\draw[=>latex, ->] (1.9,-2) to (1.1, -2);
+				\draw[>=latex, ->] (1.9,-1) to (1.1, -1);
+				\draw[>=latex, ->] (1,-1.1) to (1, -1.4);
+				\draw[>=latex, dashed, ->] (1,-1.6) to (1, -1.9);
+				\draw[>=latex, dashed, ->] (2,-1.1) to (2, -1.9);
+				\draw[>=latex, dashed, ->] (1.9,-2) to (1.1, -2);
 			\end{scope}
 
 			\begin{scope}[shift = {(8.4,0)}]
@@ -78,12 +78,12 @@
 				\draw[black, fill = black] (2,-1) circle (.05);
 				\draw[black, fill = black] (1,-1.5) circle (.05);
 
-				\draw[=>latex, ->] (1.9,-1) to (1.1, -1);
-				\draw[=>latex, ->] (1,-1.1) to (1, -1.4);
+				\draw[>=latex, ->] (1.9,-1) to (1.1, -1);
+				\draw[>=latex, ->] (1,-1.1) to (1, -1.4);
 				\end{scope}
 
 		\end{tikzpicture}
 	\end{center}
-  \caption{Decomposition game for the MSC of Fig.\ref{fig:pp_ex}.}
-  \label{fig:decomposition}
+  \caption{Decomposition game for the MSC of Fig.~\ref{fig:pp_ex}. This is a 3-winning game for Eve.}
+  \label{fig:stw-ex}
 \end{figure}
