@@ -1,0 +1,212 @@
+In order to prove Theorem \ref{thm:sync}, we first need to introduce some concepts and give preliminary proofs. 
+
+\begin{definition}[Prefix]
+	Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and consider
+	$E \subseteq \Events$ such that $E$ is ${\le_\msc}$-\emph{downward-closed}, i.e,
+	for all $(e,f) \in {\le_\msc}$ such that $f \in E$, we also have $e \in E$.
+	Then, the MSC $M' = (E,{\procrel} \cap (E \times E),{\lhd} \cap (E \times E),\lambda')$,
+	where $\lambda'$ is the restriction of $\Events$ to $E$, is called a \emph{prefix}
+	of $\msc$. 	
+\end{definition}
+
+If we consider a set $E$ that is ${\lessdot_\msc}$-\emph{downward-closed}, we call $M'$ a \emph{$\onen$ prefix}.
+If the set $E$ is ${\bowtie_\msc}$-\emph{downward-closed}, we call $M'$ a \emph{$\nn$ prefix}. Note that every $\onen$ or $\nn$ prefix is also a prefix, since $\le_\msc \subseteq {\lessdot_\msc}$ and $\le_\msc \subseteq {\bowtie_\msc}$.
+
+Note that the empty MSC is a prefix of $\msc$.
+We denote the set of prefixes of $\msc$ by $\Pref{\msc}$, whereas $\Prefonen{\msc}$ and $\Prefnn{\msc}$ are used for the $\onen$ and the $\nn$ variants, respectively.
+This is extended to sets $L \subseteq \MSCs$ as expected, letting
+$\Pref{L} = \bigcup_{\msc \in L} \Pref{\msc}$.
+
+\begin{proposition}
+	\label{prop:prefixes}
+	For $\comsymb \in \{\asy, \oneone, \co, \none\}$, every prefix of a $\comsymb$ MSC is a $\comsymb$ MSC.
+\end{proposition}
+\begin{proof}
+    For $\comsymb = \asy$ it is true by definition. For $\comsymb = \{\oneone, \none\}$ it was already shown to be true in \cite{BolligFG21}, so we just consider $\comsymb = \co$. Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \coMSCs$ and let $\msc_0 =
+    (\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a	causally ordered MSC. There must be two distinct $s,s' \in \Events_0$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \le_{\msc_0} s'$ and either
+    \begin{enumerate*}[label={(\roman*)}]
+        \item $r' \procrel^+ r$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$, or
+        \item $s \in \Unm{\msc_0}$ and $s' \in \Matched{\msc_0}$.
+    \end{enumerate*}
+    In both cases, $\msc$ would also not be a causally ordered $\MSCs$, since $\Events_0 \subseteq \Events$, ${\rightarrow_0} \subseteq {\rightarrow}$, and ${\lhd_0} \subseteq {\lhd}$. This is a contradiction, thus $\msc_0$ has to be causally ordered.
+\end{proof}
+
+Note that this proposition is not true for the $\onen$ and the $\nn$ communication models. Fig.\ref{fig:onen-prefix} shows an example of $\nn$ MSC with a prefix that is neither a $\nn$ MSC nor a $\onen$ MSC.
+
+\begin{figure}[t]
+	\captionsetup[subfigure]{justification=centering}
+% \centering
+\begin{subfigure}[t]{0.45\textwidth}\centering
+	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+		\newproc{0}{p}{-1.5};
+		\newproc{1}{q}{-1.5};
+		\newproc{2}{r}{-1.5};
+
+		\newmsgm{0}{1}{-0.5}{-0.5}{1}{0.3}{black};
+		\newmsgm{0}{2}{-1.0}{-1.0}{2}{0.7}{black};
+
+	\end{tikzpicture}
+	\caption{A $\nn$ MSC $\msc$.}
+\end{subfigure}
+% \hfill
+\begin{subfigure}[t]{0.45\textwidth}\centering
+	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+		\newproc{0}{p}{-1.5};
+		\newproc{1}{q}{-1.5};
+		\newproc{2}{r}{-1.5};
+
+		\newmsgum{0}{1}{-0.5}{1}{0.3}{black};
+		\newmsgm{0}{2}{-1.0}{-1.0}{2}{0.7}{black};
+
+	\end{tikzpicture}
+	\caption{A prefix of $\msc$.}
+\end{subfigure}
+	\caption{A $\nn$ MSC with a prefix that is neither $\onen$ nor $\nn$.}
+	\label{fig:onen-prefix}
+\end{figure}
+
+\begin{proposition}
+	\label{prop:prefixes-onen}
+	Every $\onen$ prefix of a $\onen$ MSC is a $\onen$ MSC.
+\end{proposition}
+\begin{proof}
+    Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \onenMSCs$ and let $\msc_0 =
+    (\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a $\onen$ prefix of $\msc$, where $\Events_0 \subseteq \Events$. Firstly, the $\lessdot_\msc$-downward-closeness of $\Events_0$ guarantees that ${\msc_0}$ is still an MSC. We need to prove that it is a $\onen$ MSC. By contradiction, suppose that $\msc_0$ is not a $\onen$ MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \lessdot_{\msc_0} f \lessdot_{\msc_0} e$, where $\lessdot_{\msc_0} = (\procrel_0 \cup \lhd_0 \cup \onenrel_{\msc_0})^\ast$. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, ${\onenrel_{\msc_0}} \subseteq {\onenrel_\msc}$. Clearly, $\lessdot_{\msc_0} \subseteq \lessdot_\msc$, so $e \lessdot_\msc f \lessdot_\msc e$. This implies that $\msc$ is not a $\onen$ MSC, because $\lessdot_\msc$ is cyclic, which is a contradiction. Hence $\msc_0$ is a $\onen$ MSC.
+\end{proof}
+
+\begin{proposition}
+	\label{prop:prefixes-nn}
+	Every $\nn$ prefix of a $\nn$ MSC is a $\nn$ MSC.
+\end{proposition}
+\begin{proof}
+	Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \nnMSCs$ and let $\msc_0 =
+	(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a $\nn$ prefix of $\msc$, where $\Events_0 \subseteq \Events$. Firstly, the $\bowtie_\msc$-downward-closeness of $\Events_0$ guarantees that ${\msc_0}$ is still an MSC. We need to prove that it is a $\nn$ MSC. By contradiction, suppose that $\msc_0$ is not a $\nn$ MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \bowtie_{\msc_0} f \bowtie_{\msc_0} e$. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, ${\nnrel_0} \subseteq {\nnrel}$. Clearly, $\bowtie_{\msc_0} \subseteq\; \bowtie_\msc$, so $e \bowtie_\msc f \bowtie_\msc e$. This implies that $\msc$ is not a $\nn$ MSC, because $\bowtie_\msc$ is cyclic, which is a contradiction. Hence $\msc_0$ is a $\nn$ MSC.
+\end{proof}
+
+The next lemma is about the prefix closure of a communicating system and it follows from Proposition \ref{prop:prefixes}.
+
+\begin{proposition}\label{lem:co-prefix-closed}
+	For all $\comsymb \in \{\asy, \ppsymb, \mbsymb, \cosymb\}$, $\cL{\Sys}$ is prefix-closed:
+	$\Pref{\cL{\Sys}} \subseteq \cL{\Sys}$.
+\end{proposition}
+
+Similar results also hold for the $\onen$ and $\nn$ communication models.
+
+\begin{proposition}\label{lem:onen-prefix-closed}
+	$\onenL{\Sys}$ is $\onen$ prefix-closed:
+	$\Prefonen{\onenL{\Sys}} \subseteq \onenL{\Sys}$.
+\end{proposition}
+\begin{proof}
+	Given a system $\System$, we have that $\onenL{\System} = \ppL{\System} \cap \onenMSCs$. Note that, because of how we defined a $\onen$ prefix, we have that $\Prefonen{\onenL{\Sys}} = \Pref{\onenL{\Sys}} \cap \onenMSCs$. Moreover, $\Pref{\onenL{\Sys}} \subseteq \Pref{\ppL{\Sys}}$, and $\Pref{\onenL{\Sys}} \subseteq \ppL{\Sys}$ for Proposition~\ref{lem:prefix-closed}. Putting everything together, $\Prefonen{\onenL{\Sys}} \subseteq \ppL{\Sys} \cap \onenMSCs = \onenL{\System}$.
+\end{proof}
+
+\begin{proposition}\label{lem:nn-prefix-closed}
+	$\nnL{\Sys}$ is $\nn$ prefix-closed:
+	$\Prefnn{\nnL{\Sys}} \subseteq \nnL{\Sys}$.
+\end{proposition}
+\begin{proof}
+	Given a system $\System$, we have that $\nnL{\System} = \ppL{\System} \cap \nnMSCs$. Note that, because of how we defined a $\nn$ prefix, we have that $\Prefnn{\nnL{\Sys}} = \Pref{\nnL{\Sys}} \cap \nnMSCs$. Moreover, $\Pref{\nnL{\Sys}} \subseteq \Pref{\ppL{\Sys}}$, and $\Pref{\nnL{\Sys}} \subseteq \ppL{\Sys}$ for Proposition~\ref{lem:prefix-closed}. Putting everything together, $\Prefnn{\nnL{\Sys}} \subseteq \ppL{\Sys} \cap \nnMSCs = \nnL{\System}$.
+\end{proof}
+
+In general, even simple verification problems, such
+as control-state reachability, are undecidable for
+communicating systems \cite{DBLP:journals/jacm/BrandZ83}.
+However, they are decidable when we restrict to behaviors of
+bounded special tree-width, which motivates the following
+definition of a generic \emph{bounded model-checking} problem for $\{\asy, \oneone, \co, \none, \onen, \nn \}$ :\\
+%
+{\bf Input:} Two finite sets $\Procs$ and $\Msg$, a communicating system $\System$, an MSO sentence $\phi$, and $k \in \N$.\\
+%
+{\bf Question:} Do we have $\cL{\Sys} \cap \stwMSCs{k} \subseteq L(\phi)$?
+
+\begin{theorem}
+	\label{thm:bounded_model_checking}
+	The bounded model-checking problem for $\comsymb \in \{$$\asy, $ $\oneone, $ $\co, $ $\none, $ $\onen, $ $\nn\}$ is decidable.
+\end{theorem}
+\davidequestion{Proof missing for $\asy$, Courcelle's theorem?}
+\begin{proof}
+    For $\comsymb = \{\oneone, \none\}$ refer to \cite{BolligFG21}. 
+    Consider $\comsymb = \co$. As shown in Section~\ref{sec:MSO}, $\coMSCs=L(\coformula)$. Given a system $\System$, we then have that $\coL{\System} = \ppL{\System} \cap L(\coformula)$. We can rewrite the bounded model-checking problem for $\comsymb = \cosymb$ as
+    \[\begin{array}{rl}
+    &\coL{\System} \cap \stwMSCs{k} \subseteq L(\phi)\\[1ex]
+    \Longleftrightarrow &\ppL{\System} \cap L(\coformula) \cap \stwMSCs{k} \subseteq L(\phi)\\[1ex]
+    \Longleftrightarrow &\ppL{\System} \cap \stwMSCs{k} \subseteq L(\phi) \cup L(\neg \coformula)\\[1ex]
+    \Longleftrightarrow &\ppL{\System} \cap \stwMSCs{k} \subseteq L(\phi \vee \neg \coformula)\,.
+    \end{array}\]
+
+    The latter is an instance of the bounded model-checking problem for the $\oneone$ communication model, which was already shown to be decidable. The technique used to prove the decidability for the causally ordered communication can also be used for $\comsymb = \{\onen, \nn\}$.
+\end{proof}
+
+In this last section we prove a series of statements to conclude that, when we have a STW-bounded class $\Class$, the synchronizability problem can be reduced to bounded model-checking, which we showed to be decidable in Theorem~\ref{thm:bounded_model_checking}.
+
+\begin{proposition}\label{prop:pref_stw_k+2}
+	Let $k \in \N$ and $\Class \subseteq \stwMSCs{k}$. For all
+	$M \in \MSCs \setminus \Class$, we have
+	$(\Pref{\msc} \cap \stwMSCs{(k+2)}) \setminus \Class \neq \emptyset$.
+\end{proposition}
+\begin{proof}
+    Already proved in \cite{BolligFG21}, but we provide more details for a clearer understanding.
+    Let $k$ and $\Class$ be fixed, and let
+    $\msc\in \MSCs\setminus \Class$ be fixed. If the empty MSC is not in $\Class$, then we are done, since it is a valid prefix of $\msc$ and it is in $\stwMSCs{(k+2)} \setminus \Class$.
+    Otherwise, let $\msc'\in \Pref{\msc} \setminus \Class$ such that, for all $\le_\msc$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\le_\msc$-maximal events. Let $e$ be $\le_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
+    So Eve has a winning strategy with $k+1$ colours for $\msc''$.
+    Let us design a winning strategy with $k+3$ colours for Eve for $\msc'$, which will show the claim.
+
+    Observe that the event $e$ occurs at the end of the timeline of a process (say $p$), and it is part of at most two edges:
+    \begin{itemize}
+        \item one with the previous $p$-event (if any)
+        \item one with the corresponding send event (if $e$ is a receive event)
+    \end{itemize}
+    Let $e_1,e_2$ be the two neighbours of $e$.
+    The strategy of Eve is the following: in the first round, mark $e,e_1,e_2$,
+    then erase the edges $(e_1,e)$ and $(e_2,e)$, then split the remaining graph
+    in two parts: $\msc''$ on the one side, and the single node graph $\{e\}$ on
+    the other side. Then Eve applies its winning strategy for $\msc''$, except
+    that initially the two events $e_1,e_2$ are marked (so she may need up to $k+3$
+    colours).
+\end{proof}
+
+We have similar results also for the $\onen$ and $\nn$ communication models.
+
+\begin{proposition}\label{prop:onen_pref_stw_k+2}
+	Let $k \in \N$ and $\Class \subseteq \stwMSCs{k}$. For all
+	$M \in \onenMSCs \setminus \Class$, we have
+	$(\Prefonen{\msc} \cap \stwMSCs{(k+2)}) \setminus \Class \neq \emptyset$.
+\end{proposition}
+\begin{proof}
+	Let $k$ and $\Class$ be fixed, and let
+	$\msc\in \onenMSCs \setminus \Class$ be fixed. If the empty MSC is not in $\Class$, then we are done, since it is a valid $\onen$ prefix of $\msc$ and it is in $\stwMSCs{(k+2)} \setminus \Class$.
+	Otherwise, let $\msc'\in \Prefonen{\msc} \setminus \Class$ such that, for all $\lessdot_\msc$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\lessdot_\msc$-maximal events. Let $e$ be $\lessdot_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
+	The proof proceeds exactly as the proof of Proposition~\ref{prop:pref_stw_k+2}. 
+\end{proof}
+
+\begin{proposition}\label{prop:nn_pref_stw_k+2}
+	Let $k \in \N$ and $\Class \subseteq \stwMSCs{k}$. For all
+	$M \in \nnMSCs \setminus \Class$, we have
+	$(\Prefnn{\msc} \cap \stwMSCs{(k+2)}) \setminus \Class \neq \emptyset$.
+\end{proposition}
+\begin{proof}
+	Let $k$ and $\Class$ be fixed, and let
+	$\msc\in \nnMSCs \setminus \Class$ be fixed. If the empty MSC is not in $\Class$, then we are done, since it is a valid $\nn$ prefix of $\msc$ and it is in $\stwMSCs{(k+2)} \setminus \Class$.
+	Otherwise, let $\msc'\in \Prefnn{\msc} \setminus \Class$ such that, for all $\bowtie_\msc$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\bowtie_\msc$-maximal events. Let $e$ be $\bowtie_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
+	The proof proceeds exactly as the proof of Proposition~\ref{prop:pref_stw_k+2}. 
+\end{proof}
+
+The following proposition is the last ingredient that we need to prove Theorem~\ref{thm:sync}.
+
+\begin{proposition}\label{prop:continuous}
+	Let $\System$ be a communicating system, $\comsymb \in \{$$\asy, $ $\oneone, $ $\co, $ $\none, $ $\onen, $ $\nn, $ $\rsc\}$,
+	$k \in \N$, and $\Class \subseteq \stwMSCs{k}$.
+	Then, $\cL{\System} \subseteq \Class$ iff
+	$\cL{\System} \cap \stwMSCs{(k+2)} \subseteq \Class$.
+\end{proposition}
+\begin{proof}
+For $\comsymb \in \{$$\asy, $ $\oneone, $ $\co, $ $\none\}$, it follows from Proposition~\ref{prop:pref_stw_k+2}. For $\comsymb \in \{\onen, \nn\}$, it follows from Proposition~\ref{prop:onen_pref_stw_k+2} and Proposition~\ref{prop:nn_pref_stw_k+2}, respectively.
+\end{proof}
+
+\thmsync*
+\begin{proof}
+    According to Proposition~\ref{prop:continuous}, we have $\cL{\System} \subseteq \Class$ iff
+	$\cL{\System} \cap \stwMSCs{(k+2)} \subseteq \Class$. The latter is decidable according to Theorem~\ref{thm:bounded_model_checking}.
+\end{proof}
+
