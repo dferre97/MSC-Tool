@@ -91,7 +91,7 @@ The MSC in Fig.~\ref{fig:mb_no_onen} shows a simple example of an MSC with unmat
 			\newproc{2}{r}{-1.5};
 			
 			\newmsgum{0}{1}{-0.5}{1}{0.3}{black};
-			\newmsgm{0}{2}{-1.2}{-1.2}{2}{0.3}{black};
+			\newmsgm{0}{2}{-1.1}{-1.1}{2}{0.15}{black};
 			
 		\end{tikzpicture}
 		\caption{An example of $\none$ MSC which is not a $\onen$ MSC.}
@@ -101,7 +101,7 @@ The MSC in Fig.~\ref{fig:mb_no_onen} shows a simple example of an MSC with unmat
 
 \medskip 
 
-In the $\nn$ communication model, any two messages must be received in the same order as they are sent. It is then easy to observe that each $\nn$ MSC is a $\onen$ MSC, because each $\nn$ linearization is also a $\onen$ linearization. Moreover, Fig.~\ref{fig:onen_nn_rsc_ex}a shows an example of MSC that is $\onen$ but not $\nn$, hence we have that $\nnMSCs \subset \onenMSCs$; in particular, note that for messages $m_1$ and $m_4$ we have $!1 \le !4$ and $?4 \procrel ?1$, so there cannot be a $\nn$ linearization, but it is possible to find a $\onen$ linearization such as $!1\;!2\;?2\;!3\;?3\;!4\;?4\;?1$. In the synchronous communication model, every send event is immediately followed by its corresponding receive event. Synchronous communication is then clearly a special case of $\nn$ communication, and every $\rsc$ MSC is a $\nn$ MSC because a $\rsc$ linearization is always also a $\nn$ linearization. Besides, Fig.~\ref{fig:onen_nn_rsc_ex}b shows an example of MSC that is $\nn$ but not $\rsc$, as a consequence we get hence $\rscMSCs \subset \nnMSCs$.
+In the $\nn$ communication model, any two messages must be received in the same order as they are sent. It is then easy to observe that each $\nn$ MSC is a $\onen$ MSC, because each $\nn$ linearization is also a $\onen$ linearization. Moreover, Fig.~\ref{fig:onen_nn_rsc_ex}a shows an example of MSC that is $\onen$ but not $\nn$, hence we have that $\nnMSCs \subset \onenMSCs$; in particular, note that for messages $m_1$ and $m_4$ we have $!1 \le !4$ and $?4 \procrel ?1$, so there cannot be a $\nn$ linearization, but it is possible to find a $\onen$ linearization such as $!1\;!2\;?2\;!3\;?3\;!4\;?4\;?1$. In the synchronous communication model, every send event is immediately followed by its corresponding receive event. Synchronous communication is then clearly a special case of $\nn$ communication, and every $\rsc$ MSC is a $\nn$ MSC because a $\rsc$ linearization is always also a $\nn$ linearization. Besides, Fig.~\ref{fig:onen_nn_rsc_ex}b shows an example of MSC that is $\nn$ but not $\rsc$, therefore $\rscMSCs \subset \nnMSCs$.
 
 \begin{figure}[h]
 	\captionsetup[subfigure]{justification=centering}
