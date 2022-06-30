@@ -193,9 +193,9 @@ Immediately from previous definition one can derive the corresponding  MSO formu
 
 
 \paragraph{\bf \onen MSCs}
-Moving on to $\onen$ communication, we say that $\msc$ is a $\onen$ MSC if there is a $\onen$ system that can exhibit the behaviour described by $\msc$. 
-
-\begin{definition}[$\onen$ MSC]\label{def:one_n}
+ $\onen$ communication is the dual of \mb communication, with the difference that here $s$ and $s'$ are two send events executed by the same process, and not addressed to the same process. In a $\onen$ MSC we cannot have two messages $m_1$ and $m_2$, sent by the same process, such that $m_1$ is unmatched and $m_2$ is matched; indeed, according to the $\onen$ communication model, $m_1$ must be received before $m_2$.
+Formally:
+\begin{definition}[$\onen$-MSC]\label{def:one_n}
 An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\onen$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{p}{\plh}$, $\lambda(s')=\pqsAct{p}{\plh}$, and $s \procrel^+ s'$ (which implies $s \linrel s'$), we have either:
 \begin{itemize}\itemsep=0.5ex
 	\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
@@ -203,9 +203,54 @@ An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\onen$ MSC} if it ha
 \end{itemize}
 \end{definition}
 
-Such a linearization will be referred to as a \emph{$\onen$ linearization}, and we will sometimes use the symbol $\onenlinrel$ to denote one. Note that the definition is very similar to the $\none$ case, but here $s$ and $s'$ are two send events executed by the same process, and not addressed to the same process. In a $\onen$ MSC we cannot have two messages $m_1$ and $m_2$, sent by the same process, such that $m_1$ is unmatched and $m_2$ is matched; indeed, according to the $\onen$ communication model, $m_1$ must be received before $m_2$.
+Such a linearization will be referred to as a \emph{$\onen$ linearization}. 
 
-\davide{Provide example of $\onen$ and non-$\onen$ MSCs.}
+Similarly as before, we give an alternative definition (equivalence is shown in Appendix \ref{apx:MSO}). We define
+	an additional binary relation that represents a constraint
+	under the $\onen$ semantics, which ensures that messages sent from the same process are received in the same order. 
+
+\begin{definition} [$\onen$ alternative]\label{def:one_n_alt}
+	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\onenrel}_\msc \subseteq \Events \times \Events$ be defined as $e_1 \onenrel_\msc e_2$ if there are two events $e_1$ and $e_2$, and $p \in \Procs$ such that either:
+	\begin{itemize}\itemsep=0.5ex
+		\item $\lambda(e_1) \in \psAct{p}$, $\lambda(e_2) \in \psAct{p}$, $e_1 \in \Matched{\msc}$, and $e_2 \in \Unm{\msc}$, or
+		\item $\lambda(e_1) \in \prAct{p}$, $\lambda(e_2) \in \prAct{p}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events_p$, and $s_1 \procrel^+ s_2$.
+	\end{itemize}
+	
+	We let ${\lessdot_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel_\msc})^\ast$.
+		%\begin{definition}\label{def:mailbox-msc}
+	$\msc$ is a \emph{$\onen$-MSC}
+	if ${\lessdot_\msc}$ is a partial order. 
+\end{definition}
+
+The ${\onenrel}_\msc$ relation ensures that messages sent by a process are sent and received in an order that is suitable for the $\onen$ communication. As before, since ${\lessdot_\msc}$ is a partial order, then it is possible to find a linearization $\linrel$, such that $\linrel \subseteq \lessdot_\msc$. It is not difficult to see that such a linearization is exactly what we called a $\onen$ linearization in Definition~\ref{def:one_n}. 
+
+Directly from  Definition~\ref{def:one_n_alt}, we obtain the MSO formula:
+\[
+	\onenformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \lessdot_\msc y \wedge y \lessdot_\msc x)
+\]
+Recall that $\lessdot_\msc$ is the union of the MSO-definable relations $\procrel$, $\lhd$, and $\onenrel_\msc$. In particular, we can define $x \onenrel_\msc y$ as 
+\[
+x \onenrel_\msc y =
+\begin{array}{rl}
+& \left(
+	\bigvee_{\substack{p \in \Procs\\a,b \in \psAct{p}}}\hspace{-1em}
+	(\lambda(x) = a \;\wedge\; \lambda(y) = b)
+	\;\wedge\; \mathit{matched}(x) \;\wedge\; \neg \mathit{matched}(y)
+\right) \;\vee\\
+& \left(
+	\bigvee_{\substack{p \in \Procs\\a,b \in \prAct{p}}}\hspace{-1em}
+	(\lambda(x) = a \;\wedge\; \lambda(y) = b)
+	\;\wedge\; 
+	\exists x'.\exists y'. (x' \lhd x \;\wedge\; y' \lhd y \;\wedge\; x' \procrel^+ y')
+\right)\\
+\end{array}
+\]
+%The MSO formula for $x \onenrel_\msc y$ closely follows Definition~\ref{def:one_n_alt}. The set $\onenMSCs$ of $\onen$ MSCs is therefore MSO-definable as $\onenMSCs=L(\onenformula)$.
+
+Finally it is worth noting that ${\le_\msc} \subseteq {\lessdot_\msc}$.
+\cinzia{maybe move to next section}
+
+\paragraph{\bf \nn MSCs}
 
 \begin{definition}[$\nn$ MSC]\label{def:n_n}
 	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\nn$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $s \linrel s'$, we have either:
@@ -217,11 +262,26 @@ Such a linearization will be referred to as a \emph{$\onen$ linearization}, and 
 
 Such a linearization will be referred to as a \emph{$\nn$ linearization}. Intuitively, with an $\nn$ MSC we are always able to schedule events in such a way that messages are received in the same order as they were sent, and unmatched messages are sent only after all matched messages are sent. By definition, every $\nn$ MSC is a $\onen$ MSC. 
 
+
+\paragraph{\bf Realizable with Synchronous Communication}
 \begin{definition}[$\rsc$ MSC]\label{def:rsc}
 	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{RSC MSC} if it has no unmatched send events and there is a linearization $\linrel$ where any matched send event is immediately followed by its respective receive event.
 \end{definition}
 
 Such a linearization will be referred to as a \emph{$\rsc$ linearization}.
+
+Following Definition~\ref{def:rsc_alt}, an MSC $\msc$ is a $\rsc$ MSC if and only if it satisfies the MSO formula
+\[
+\Phi_{\rsc} = \neg \exists s_1.\exists s_2. s_1 \varpropto s_2 \;\wedge\; s_2 \varpropto^\ast s_1
+\]
+\noindent where $\varpropto$ is defined as
+\[
+s_1 \varpropto s_2 = 
+\bigvee_{\substack{e \in \sAct}}(\lambda(s_1) = e) \;\wedge\;
+s_1 \neq s_2 \;\wedge\; 
+\exists r_2. (s_1 < r_2 \;\wedge\; s_2 \lhd r_2)
+\]
+
 
 % THIS IS WRONG!
 % We show that the opposite direction is also true, which implies that the class of $\nn$ MSCs is equivalent to the class of $onen$ MSCs. The following example gives an intuition of the formal proof, which will be given right after.
@@ -242,24 +302,7 @@ Such a linearization will be referred to as a \emph{$\rsc$ linearization}.
 
 
 
-\begin{definition} [$\onen$ alternative]\label{def:one_n_alt}
-	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, we define
-	an additional binary relation that represents a constraint
-	under the $\onen$ semantics, which ensures that messages sent from the same process are received in the same order. Let ${\onenrel}_\msc \subseteq \Events \times \Events$ be defined as $e_1 \onenrel_\msc e_2$ if there are two events $e_1$ and $e_2$, and $p \in \Procs$ such that either:
-	\begin{itemize}\itemsep=0.5ex
-		\item $\lambda(e_1) \in \psAct{p}$, $\lambda(e_2) \in \psAct{p}$, $e_1 \in \Matched{\msc}$, and $e_2 \in \Unm{\msc}$, or
-		\item $\lambda(e_1) \in \prAct{p}$, $\lambda(e_2) \in \prAct{p}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events_p$, and $s_1 \procrel^+ s_2$.
-	\end{itemize}
-	
-	We let ${\lessdot_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel_\msc})^\ast$.
-	Note that ${\le_\msc} \subseteq {\lessdot_\msc}$.
-	%
-	%\begin{definition}\label{def:mailbox-msc}
-	We call $\msc \in \asMSCs$ a \emph{$\onen$ MSC}
-	if ${\lessdot_\msc}$ is a partial order. The ${\onenrel}_\msc$ relation ensures that messages sent by a process are sent and received in an order that is suitable for the $\onen$ communication. Note that if ${\lessdot_\msc}$ is a partial order, it is possible to find a linearization $\linrel$, such that $\linrel \subseteq \lessdot_\msc$. It is not difficult to see that such a linearization is exactly what we called a $\onen$ linearization in Definition~\ref{def:one_n}. The two definition of $\onen$ MSC that we gave are equivalent.
-\end{definition}
 
-\davide{Proof of equivalence of 2 definitions?}
 
 \begin{definition} [$\nn$ alternative]\label{def:n_n_alt}
 	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel}_\msc = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel_\msc} \,\cup\, {\onenrel_\msc})^\ast$. We define an additional binary relation $\bowtie_\msc \subseteq \Events \times \Events$, such that for two events $e_1$ and $e_2$ we have $e_1 \bowtie_\msc e_2$ if one of the following holds:
@@ -370,28 +413,6 @@ Following the characterization given in \cite[Theorem 4.4]{DBLP:journals/dc/Char
 
 \paragraph*{$\onen$ MSCs}
 
-Following Definition~\ref{def:one_n_alt}, an MSC $\msc$ is a $\onen$ MSC if and only if it satisfies the MSO formula
-\[
-	\onenformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \lessdot_\msc y \wedge y \lessdot_\msc x)
-\]
-Recall that $\lessdot_\msc$ is the union of the MSO-definable relations $\procrel$, $\lhd$, and $\onenrel_\msc$. In particular, we can define $x \onenrel_\msc y$ as 
-\[
-x \onenrel_\msc y =
-\begin{array}{rl}
-& \left(
-	\bigvee_{\substack{p \in \Procs\\a,b \in \psAct{p}}}\hspace{-1em}
-	(\lambda(x) = a \;\wedge\; \lambda(y) = b)
-	\;\wedge\; \mathit{matched}(x) \;\wedge\; \neg \mathit{matched}(y)
-\right) \;\vee\\
-& \left(
-	\bigvee_{\substack{p \in \Procs\\a,b \in \prAct{p}}}\hspace{-1em}
-	(\lambda(x) = a \;\wedge\; \lambda(y) = b)
-	\;\wedge\; 
-	\exists x'.\exists y'. (x' \lhd x \;\wedge\; y' \lhd y \;\wedge\; x' \procrel^+ y')
-\right)\\
-\end{array}
-\]
-The MSO formula for $x \onenrel_\msc y$ closely follows Definition~\ref{def:one_n_alt}. The set $\onenMSCs$ of $\onen$ MSCs is therefore MSO-definable as $\onenMSCs=L(\onenformula)$.
 
 \paragraph*{$\nn$ MSCs}
 
@@ -436,17 +457,6 @@ The MSO formula for $x \nnrel_\msc y$ closely follows Definition~\ref{def:n_n_al
 
 \paragraph*{$\rsc$ MSCs}
 
-Following Definition~\ref{def:rsc_alt}, an MSC $\msc$ is a $\rsc$ MSC if and only if it satisfies the MSO formula
-\[
-\Phi_{\rsc} = \neg \exists s_1.\exists s_2. s_1 \varpropto s_2 \;\wedge\; s_2 \varpropto^\ast s_1
-\]
-\noindent where $\varpropto$ is defined as
-\[
-s_1 \varpropto s_2 = 
-\bigvee_{\substack{e \in \sAct}}(\lambda(s_1) = e) \;\wedge\;
-s_1 \neq s_2 \;\wedge\; 
-\exists r_2. (s_1 < r_2 \;\wedge\; s_2 \lhd r_2)
-\]
 % \davidequestion{The following formula should be wrong... I cannot use $n$ in an MSO formula}
 % \[
 % 	\rscformula = 
