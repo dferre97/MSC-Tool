@@ -1,0 +1,26 @@
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\begin{figure}[ht]
+		\begin{tabular}{|c || c | c | c|  c| c| }
+			\hline
+			 &  & Weakly  & Weakly  & $\exists$k & $\forall$k  \\
+			 & & sync & k-sync & bounded & bounded \\
+			\hline \hline
+			$\asy$ & \ding{55} & \xmark & \cmark & \cmark & \cmark \\
+			\hline
+			$\oneone$ & \xmark~[1] & \xmark~[1] & \cmark~[1] & \cmark~[1] & \cmark~[1] \\
+			\hline
+			$\co$ & \xmark & \xmark & \cmark & \cmark & \cmark \\
+			\hline
+			$\none$& \xmark~[1] & \cmark~[1] & \cmark~[1] & \cmark~[1] & \cmark~[1] \\
+			\hline
+			$\onen$ & \xmark~[1] & \cmark & \cmark & \cmark & \cmark \\
+			\hline
+			$\nn$ & \xmark~[1] & \cmark & \cmark & \cmark & \cmark \\
+			\hline
+			$\rsc$ & \cmark~[1] & \cmark & \cmark & \cmark & \cmark \\
+			\hline
+		\end{tabular}
+		\caption{Table summarising the bounded tree width results for each communication model, whole or restricted by a class of synchronizability. Reference [1] refers to \cite{BolligFG21}. }
+		\label{}
+\end{figure}
