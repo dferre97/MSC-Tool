@@ -1,3 +1,14 @@
+\begin{proposition} \label{prop:co_is_pp}
+	Every $\co$ MSC is a $\oneone$ MSC.
+\end{proposition}
+\begin{proof}
+	According to Definition~\ref{def:co_msc}, and MSC is $\co$ if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le_\msc s'$, we have either
+	\begin{enumerate*}[label={(\roman*)}]
+		\item $s,s' \in \Matched{\msc}$ and $r \procrel^* r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$, or
+		\item $s' \in \Unm{\msc}$.
+	\end{enumerate*}
+	The conditions imposed by the Definition~\ref{def:pp_msc} of $\oneone$ are clearly satified by any causally ordered MSC; in particular, note that $s \procrel^+ s'$ implies $s \le_\msc s'$.
+\end{proof}
 
 \mbonennounmatched*
 \begin{proof}
@@ -13,3 +24,18 @@
 	\end{enumerate}
 	Notice that, for either cases, a relation between two receive events $r_1$ and $r_2$ implies a relation between the respective send events $s_1$ and $s_2$, according to the mailbox semantics. It follows that $\xi$, which is a cycle for the $\lessdot$ relation, always implies a cycle for the $\preceq$ relation.
 	\end{proof}
+
+	\begin{proposition} \label{prop:nn_is_onen}
+		Every $\nn$ MSC is a $\onen$ MSC.
+	\end{proposition}
+	\begin{proof}
+		Consider Definition~\ref{def:n_n} and Definition~\ref{def:one_n}. They are identical, except for the fact that in the $\nn$ case we consider any two send events, and not just those that are sent by a same process. This is enough to show that each $\nn$ linearization is also a $\onen$ linearization and, therefore, each $\nn$ MSC is a $\onen$ MSC.
+	\end{proof}
+	
+	\begin{proposition} \label{prop:rsc_is_nn}
+		Every $\rsc$ MSC is a $\nn$ MSC.
+	\end{proposition}
+	\begin{proof}
+		Consider Definition~\ref{def:rsc} and Definition~\ref{def:n_n}. Let us pick an $\rsc$ linearization $\linrel$. If every send event is immediately followed by its matching receive event, and we do not have unmatched messages, then $\linrel$ is also a $\nn$ linearization; note that, for any two send events $s$ and $s'$ such that $s \linrel s'$, we also have $r \linrel r'$, where $s \lhd r$ and $s' \lhd r'$. It follows that each $\rsc$ MSC is a $\nn$ MSC.
+	\end{proof}
+	
