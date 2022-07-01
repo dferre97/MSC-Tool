@@ -1,10 +1,12 @@
 % \section{(7) Hierarchy of classes of MSCs}
 
-As mentioned in Section~\ref{sec:com_models_overview}, the classes of MSCs for all the 7 communication models that we presented form a clear hierarchy, which is shown in Fig.~\ref{fig:msc_hierarchy_full}. In this section we will provide proofs to support this claim. 
+As mentioned in Section~\ref{sec:com_models_overview}, the classes of MSCs for all the 7 communication models that we presented form a clear hierarchy, which is shown in Fig.~\ref{fig:msc_hierarchy_full}. In this section we will provide proofs to support this claim. For the simplest cases, we just give intuitive explanations; please refer to Appendix~\ref{apx:hierarchy} for the formal proofs.
 
 \medskip
 
-First of all, note that every $\oneone$ MSC in an asynchronous MSC by definition. Moreover, Fig.~\ref{fig:fully_asy_ex} shows an example of MSC that is asynchronous but not $\oneone$, hence we have $\ppMSCs \subset \asMSCs$. We saw that in the $\none$ communicating model any two messages sent to a process $q$ must be received in the same order as they are sent. In the $\oneone$ communication model we have the same constraint, but only for messages sent by a same process $p$. It is easy to see that $\none$ communication is a special case of $\oneone$ communication, and so every $\onen$ MSC is also a $\oneone$ MSC. Besides, Fig.~\ref{fig:co_ex} shows a $\oneone$ MSC which is not a $\none$ MSC. In particular, note that $!1 \le !3$, but $!3 \mbrel !1$ since $?3 \procrel ?1$; $\preceq$ is then cyclic, i.e. not a partial order, and the MSC is not $\none$. It follows that $\mbMSCs \subset \ppMSCs$. A very similar reasoning can be made for the $\onen$ communication model, hence $\onenMSCs \subset \ppMSCs$. We now show that each $\none$ MSC is a causally ordered MSC.
+First of all, note that every $\oneone$ MSC in an asynchronous MSC by definition. Moreover, Fig.~\ref{fig:fully_asy_ex} shows an example of MSC that is asynchronous but not $\oneone$, hence we have $\ppMSCs \subset \asMSCs$. 
+In the causally ordered communication model, any two messages addressed to the same process are received in an order that matches the causal order in which they are sent. In particular, it is easy to see that each causally ordered MSC is also a $\oneone$ MSC, since for any two messages sent by a process $p$ to another process $q$, the two send events are causally ordered. The MSC shown in Fig.~\ref{fig:pp_ex} is $\oneone$, but not $\co$, hence we can conclude that $\coMSCs \subset \ppMSCs$.
+We now show that each $\none$ MSC is a causally ordered MSC.
 
 \begin{proposition} \label{prop:mb_is_co}
 	Every $\none$ MSC is a causally ordered MSC.
@@ -18,7 +20,7 @@ Let $\msc$ be a $\none$ MSC and $\linrel$ a $\none$ linearization of it. Recall 
 The former clearly respects the definition of causally ordered MSC, so let us focus on the latter. Note that $r$ and $r'$ are two receive events executed by the same process, hence $r \linrel r'$ implies $r \procrel^+ r'$. It follows that $\msc$ is a causally ordered MSC.
 \end{proof}
 
-Fig.~\ref{fig:co_not_none} shows an example of causally ordered MSC that is not $\none$. It is causally ordered because we cannot even find two messages, addressed to the same process, such that the corresponding send events are causally related; on the contrary, the MSC is not $\none$ because we have $!4 \mbrel !1$ and $!2 \mbrel !3$, which lead to a cyclic dependency, e.g. $!1 \procrel !2 \mbrel !3 \procrel !4 \mbrel !1$.
+Fig.~\ref{fig:co_not_none} shows an example of causally ordered MSC that is not $\none$. It is causally ordered because we cannot even find two messages, addressed to the same process, such that the corresponding send events are causally related; on the contrary, the MSC is not $\none$ because we have $!4 \mbrel !1$ and $!2 \mbrel !3$, which lead to a cyclic dependency, e.g. $!1 \procrel !2 \mbrel !3 \procrel !4 \mbrel !1$. This example and Proposition~\ref{prop:mb_is_co} prove that $\mbMSCs \subset \coMSCs$.
 
 \begin{figure}[h]
 	\begin{center}
@@ -65,7 +67,7 @@ The opposite direction is also true and the proof, which can be found in the App
 	Every $\none$ MSC without unmatched messages is a $\onen$ MSC.
 \end{restatable}
 
-Interestingly enough, Prop.\ref{prop:onen_mb_no_unmatched} and \ref{prop:mb_onen_no_unmatched} show that the classes of $\none$ and $\onen$ MSCs are effectively equivalent if we do not allow unmatched messages. As we will prove, this will change when we add unmatched messages into the mix. However, Proposition~\ref{prop:onen_mb_no_unmatched} still holds.
+Interestingly enough, Proposition~\ref{prop:onen_mb_no_unmatched} and \ref{prop:mb_onen_no_unmatched} show that the classes of $\none$ and $\onen$ MSCs are effectively equivalent if we do not allow unmatched messages. As we will prove, this will change when we add unmatched messages into the mix. However, Proposition~\ref{prop:onen_mb_no_unmatched} still holds.
 
 \begin{proposition} \label{prop:onen_mb_unmatched}
 	Every $\onen$ MSC is a $\none$ MSC, i.e. $\onenMSCs \subseteq \mbMSCs$.
@@ -81,7 +83,7 @@ Let $\msc$ be an asynchronous MSC. The proof proceeds in the same way as the one
 We showed that cases (3) and (4) can never happen, whereas cases (5) and (6) both imply that $\msc$ is not $\onen$. If we combine them with the cases described in Proposition~\ref{prop:onen_mb_no_unmatched} we have the full proof.
 \end{proof}
 
-The MSC in Fig.~\ref{fig:mb_no_onen} shows a simple example of an MSC with unmatched messages that is $\none$ but not $\onen$. This, along with Prop.~\ref{prop:onen_mb_unmatched}, effectively shows that $\onenMSCs \subset \mbMSCs$.
+The MSC in Fig.~\ref{fig:mb_no_onen} shows a simple example of an MSC with unmatched messages that is $\none$ but not $\onen$. This, along with Proposition~\ref{prop:onen_mb_unmatched}, effectively shows that $\onenMSCs \subset \mbMSCs$.
 
 \begin{figure}[h]
 	\begin{center}
