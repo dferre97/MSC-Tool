@@ -1,6 +1,7 @@
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
-\begin{figure}[ht]
+\begin{figure}[t]
+	\resizebox{7cm}{!}{
 		\begin{tabular}{|c || c | c | c|  c| c| }
 			\hline
 			\emph{Bounded} &  & Weakly  & Weakly  & $\exists$k & $\forall$k  \\
@@ -21,6 +22,7 @@
 			$\rsc$ & \cmark~[1] & \cmark & \cmark & \cmark & \cmark \\
 			\hline
 		\end{tabular}
+	}
 		\caption{Table summarising the bounded special treewidth results for each communication model, whole or restricted by a class of synchronizability. The symbol \xmark\;stands for unbounded STW, \cmark\;for bounded STW. Reference [1] refers to \cite{BolligFG21}.}
 		\label{fig:stw-bound}
 \end{figure}
