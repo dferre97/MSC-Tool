@@ -1,0 +1,12 @@
+There is a wide variety of message-passing communication models ranging from synchronous "rendez-vous" 
+communications to fully asynchronous, out-of-order communications. For large-scale distributed systems, the
+communication model is determined by the transport layer of the network, and a few classes of 
+orders of message delivery (FIFO, causally ordered) have been identified in the early days of 
+distributed computing. For local-scale message-passing applications, 
+e.g running on a single machine, the communication model may be determined by the actual implementation of 
+message buffers and how FIFO queues are used. Whereas the large-scale communication
+models, like causal ordering, are defined by logical axioms, the local-scale models are often defined by an operation
+semantics. In this work, we connect these two approaches, and we present a unified hierarchy of communication
+models encompassing both large-scale and local-scale models based on their non-sequential behaviours.
+As a conundrum, we show that almost all communication models we consider can be axiomatised in the monadic second order logic,
+and may therefore benefit from several bounded verification techniques based on bounded tree-width.
