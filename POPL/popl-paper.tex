@@ -53,6 +53,9 @@
 \usepackage{subcaption} %% For complex figures with subfigures/subcaptions
                         %% http://ctan.org/pkg/subcaption
 
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
 
 %% MY STUFF
 \usepackage{preamble}
@@ -63,6 +66,7 @@
 % % macros
 \usepackage{my_macro}
 \usepackage{laetitia_macro}
+\usepackage{etienne_macros}
 
 \begin{document}
 
@@ -239,9 +243,7 @@ Text of abstract \ldots.
 
 \section{Asynchronous communication models operational semantics}\label{sec:impl}
 
-\begin{itemize}
-  \item TODO...
-\end{itemize}
+\input{chapters/ch-4.tex}
 
 \section{Asynchronous communication models as classes of MSCs, MSO-definability}\label{sec:MSO}
 %\begin{itemize}

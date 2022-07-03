@@ -1,0 +1,16 @@
+\begin{tikzpicture}[inclusion/.style={right hook->, thick}]
+    \node (RSC)    at (-1.7,0) {\begin{tabular}{c}synchronous \\ (RSC)\end{tabular}};
+    \node (FIFOnn) at (1,0)  {\begin{tabular}{c}FIFO \\ n-n\end{tabular}}; 
+    \node (FIFO1n) at (3.2,1.5)  {\begin{tabular}{c}FIFO 1-n\end{tabular}};
+    \node (mb)     at (3.2,-1.5) {\begin{tabular}{c}FIFO n-1\\ (mailbox)\end{tabular}};
+    \node (co)     at (5.8,0)  {\begin{tabular}{c}causally\\ ordered\end{tabular}};
+    \node (p2p)    at (8,0) {\begin{tabular}{c}FIFO 1-1\\ (p2p)\end{tabular}};
+    \node (async)  at (10.4,0) {\begin{tabular}{c}asyn-\\ chronous\end{tabular}};
+    \draw[inclusion] (RSC) to (FIFOnn);
+    \draw[inclusion] (FIFOnn.north east) to (FIFO1n.west);
+    \draw[inclusion] (FIFOnn.south east) to (mb.west);
+    \draw[inclusion] (FIFO1n.east) to (co.north west);
+    \draw[inclusion] (mb.east) to (co.south west);
+    \draw[inclusion] (co) to (p2p);
+    \draw[inclusion] (p2p) to (async);
+\end{tikzpicture}

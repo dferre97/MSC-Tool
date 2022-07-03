@@ -5,19 +5,9 @@ In Section~\ref{sec:com_models_overview} we gave a high-level description of 7 c
 We start by  recalling the formal definition of asynchronous MSC and MSO logic.
 
 \paragraph{\bf Preliminaries.}
-Asynchronous MSCs (simply MSC in the following) represent valid computations for asynchronous systems. This is the most general definition of MSC, and it will serve as a basis on which the other communication models will build on,  adding some additional constraints. We assume a finite set of processes $\Procs$ and a finite set of messages $\Msg$. A send action is of the form $\sact{p}{q}{\msg}$.
-It is executed by $p$ and sends message $\msg$ to $q$.
-The corresponding receive action, executed by $q$, is
-$\ract{p}{q}{\msg}$.
-%
-$\pqsAct{p}{q} = \{\sact{p}{q}{\msg} \mid \msg \in \Msg\}$ and
-$\pqrAct{p}{q} = \{\ract{p}{q}{\msg} \mid \msg \in \Msg\}$.
-For $p \in \Procs$, we set
-$\psAct{p} = \{\sact{p}{q}{\msg} \mid q \in \Procs \setminus \{p\}$ and $\msg \in \Msg\}$, etc.
-Moreover, $\pAct{p} = \psAct{p} \cup \qrAct{p}$ will denote the set of all actions that are
-executed by $p$.
-Finally, $\Act = \bigcup_{p \in \Procs} \pAct{p}$
-is the set of all the actions.
+Asynchronous MSCs (simply MSC in the following) represent valid computations for asynchronous systems. 
+This is the most general definition of MSC, and it will serve as a basis on which the other communication models 
+will build on,  adding some additional constraints. 
 
 
 \begin{definition}[Asynchronous MSC]
