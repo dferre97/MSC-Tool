@@ -301,18 +301,18 @@ It is not trivial to see that Definition~\ref{def:n_n_alt} and Definition~\ref{d
 
 Following Definition~\ref{def:n_n_alt}, an MSC $\msc$ is a $\nn$ MSC if and only if it satisfies the MSO formula
 \[
-	\nnformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \bowtie_\msc y \wedge y \bowtie_\msc x)
+	\nnformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \bowtie y \wedge y \bowtie x)
 \]
-In particular, we can define $x \bowtie_\msc y$ as
+In particular, we can define $x \bowtie y$ as
 \[
-	x \bowtie_\msc y =
+	x \bowtie y =
 	\begin{array}{rl}
 	& \left(
 		\bigvee_{\substack{a,b \in \psAct{\plh}}}
 		(\lambda(x) = a \;\wedge\; \lambda(y) = b)
 		\;\wedge\; \mathit{matched}(x) \;\wedge\; \neg \mathit{matched}(y)
 	\right) \;\vee\\
-	& (x \nnrel_\msc y) \quad \vee \quad \psi_3 \quad \vee \quad \psi_4\\
+	& (x \nnrel y) \quad \vee \quad \psi_3 \quad \vee \quad \psi_4\\
 	\end{array}
 \]
 
@@ -323,7 +323,7 @@ In particular, we can define $x \bowtie_\msc y$ as
 		& \bigvee_{\substack{a,b \in \prAct{\plh}}}
 		  (\lambda(x) = a \;\wedge\; \lambda(y) = b)
 		  \;\wedge\; \\
-		& \exists x'.\exists y'.(x' \lhd x \;\wedge\; y' \lhd y) \;\wedge\; (x' \nnrel_\msc y') \;\wedge\; \neg(x \nnrel_\msc y)\\
+		& \exists x'.\exists y'.(x' \lhd x \;\wedge\; y' \lhd y) \;\wedge\; (x' \nnrel y') \;\wedge\; \neg(x \nnrel y)\\
 	\end{array}
 \]
 \[
@@ -332,11 +332,11 @@ In particular, we can define $x \bowtie_\msc y$ as
 		& \bigvee_{\substack{a,b \in \psAct{\plh}}}
 		  (\lambda(x) = a \;\wedge\; \lambda(y) = b)
 		  \;\wedge\; \\
-		& \exists x'.\exists y'.(x \lhd x' \;\wedge\; y \lhd y') \;\wedge\; (x' \nnrel_\msc y') \;\wedge\; \neg(x \nnrel_\msc y)\\
+		& \exists x'.\exists y'.(x \lhd x' \;\wedge\; y \lhd y') \;\wedge\; (x' \nnrel y') \;\wedge\; \neg(x \nnrel y)\\
 	\end{array}
 \]
 
-The MSO formula for $x \nnrel_\msc y$ closely follows Definition~\ref{def:n_n_alt}. The set $\nnMSCs$ of $\nn$ MSCs is therefore MSO-definable as $\nnMSCs=L(\nnformula)$.
+The MSO formula for $x \nnrel y$ closely follows Definition~\ref{def:n_n_alt}. The set $\nnMSCs$ of $\nn$ MSCs is therefore MSO-definable as $\nnMSCs=L(\nnformula)$.
 
 
 
