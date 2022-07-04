@@ -53,6 +53,9 @@
 \usepackage{subcaption} %% For complex figures with subfigures/subcaptions
                         %% http://ctan.org/pkg/subcaption
 
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
 
 %% MY STUFF
 \usepackage{preamble}
@@ -63,11 +66,13 @@
 % % macros
 \usepackage{my_macro}
 \usepackage{laetitia_macro}
+\usepackage{etienne_macros}
 
 \begin{document}
 
 %% Title information
-\title{Demystifying asynchronous communication and its variants}         %% [Short Title] is optional;
+\title{A non-sequential hierarchy of message-passing models}
+        %% [Short Title] is optional;
                                         %% when present, will be used in
                                         %% header instead of Full Title.
 %\titlenote{with title note}             %% \titlenote is optional;
@@ -165,7 +170,7 @@
 %% Note: \begin{abstract}...\end{abstract} environment must come
 %% before \maketitle command
 \begin{abstract}
-Text of abstract \ldots.
+\input{abstract.tex}
 \end{abstract}
 
 
@@ -208,7 +213,6 @@ Text of abstract \ldots.
   \item Synchronous and asynchronous communication
   \item The problem of synchronizability
 \end{itemize}
-
 \input{chapters/ch-1.tex}
 
 \section{Asynchronous communication models overview}
@@ -239,9 +243,7 @@ Text of abstract \ldots.
 
 \section{Asynchronous communication models operational semantics}\label{sec:impl}
 
-\begin{itemize}
-  \item TODO...
-\end{itemize}
+\input{chapters/ch-4.tex}
 
 \section{Asynchronous communication models as classes of MSCs, MSO-definability}\label{sec:MSO}
 %\begin{itemize}
@@ -264,11 +266,6 @@ Text of abstract \ldots.
 \input{chapters/ch-6.tex}
 
 \section{An application: special treewidth and decidability of the synchronizability problem} \label{sec:checking}
-\begin{itemize}
-  \item The synchronizability problem
-  \item Special treewidth and how the results regarding the hierarchy are useful for detecting STW-boundness of certain classes
-  \item MSO-decidability and STW-boundness tables
-\end{itemize}
 
 \input{chapters/ch-7.tex}
 
