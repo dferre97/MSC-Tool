@@ -1,88 +1,41 @@
 % !TEX root = ../popl-paper.tex
 
-In this section, we provide formal definitions of the asynchronous communication models we just presented 
-informally based on an operational semantics and a notion of queuing network.
+In this section, we provide alternative definitions of some of the asynchronous communication models we saw before
+based on an operational semantics and a notion of queuing network. We establish the equivalence
+of the two alternative definitions for each concerned model. We also recall the notion of
+execution and Chevrou~\emph{et al} sequential hierarchy of communication models seen as set of
+executions.
 
-\paragraph{\bf Preliminaries}
-For a finite set $S$, $\cardinalof{S}$ denotes the cardinal of $S$; $S^*$ denotes the set of finite words over $S$,
-$w_1\cdot w_2$ denotes the concatenation of two words, $|w|$ denotes the length of $w$, and $\epsilon$ denotes the empty word. We assume some familiarity with non-deterministic
-finite state automata,
-and we write $\languageof{\A}$ for the language accepted
-by the automaton $\A$. 
-\etienne{Do we really need to talk about automata at that point?}
-
-% For two sets $S$ and $I$,
-% we write $\vect{b}$ (in bold) for an element of $S^I$,
-% and $b_i$ for the $i$-th component of $\vect{b}$, so that
-% $\vect{b}=(b_i)_{i\in I}$.
-
-\paragraph{\bf Processes, messages, and actions}
-We assume a finite set of \emph{processes} $\Procs=\{p,q,\ldots\}$ and a finite set of messages $\Msg=\{\msg,\ldots\}$. 
-Each process may either (asynchronously) send a message to another one, or wait until it receives a message.
-We therefore consider two kinds of actions. A \emph{send action} is of the form $\sact{p}{q}{\msg}$;
-it is executed by process $p$ and sends message $\msg$ to process $q$.
-The corresponding \emph{receive action} executed by $q$ is $\ract{p}{q}{\msg}$.
-%
-We write $\pqsAct{p}{q}$ to denote the set $\{\sact{p}{q}{\msg} \mid \msg \in \Msg\}$, and
-$\pqrAct{p}{q}$ for the set $\{\ract{p}{q}{\msg} \mid \msg \in \Msg\}$.
-Similarly, for $p \in \Procs$, we set
-$\psAct{p} = \{\sact{p}{q}{\msg} \mid q \in \Procs 
-% Etienne: shall we forbid processes to send messages to themselves?
-%\setminus \{p\}
-\}$ and $\msg \in \Msg\}$, etc.
-Moreover, $\pAct{p} = \psAct{p} \cup \qrAct{p}$ denotes the set of all actions that are
-executed by $p$.
-Finally, $\Act = \bigcup_{p \in \Procs} \pAct{p}$
-is the set of all the actions.
-
-% A \emph{FIFO automaton} is basically a finite state machine equipped with 
-% FIFO queues where transitions are labelled with either queuing or dequeuing actions. More precisely:
-% \begin{definition}[FIFO automaton]
-%   A \emph{FIFO automaton} is a tuple\footnote{
-% Note that FIFO automata do not have accepting states, therefore they are
-% not a special case of non-deterministic finite state automata, and
-% there is not such a thing as \textquote{the language of a FIFO automaton}.
-% }  
-%   $\A=(L,\paylodSet,I,\actionSet,\delta,l_0)$
-%   where
-% (1) $L$ is a finite set of \emph{control states},
-% (2) $\paylodSet$ is a finite set of \emph{messages},
-% (3) $I$ is a finite set of \emph{buffer identifiers},
-% (4) $\actionSet\subseteq I\times\{!,?\}\times\paylodSet$ is a finite set of \emph{actions},
-% (5) $\delta\subseteq L\times \actionSet \times L$ is the \emph{transition relation}, and
-% (6) $l_0\in L$ is the \emph{initial control state}.
-% The \emph{size} $|\A|$ of $\A$ is $|L|+|\delta|$.
-% \end{definition}
 
 \paragraph{\bf Queuing networks}
-We consider networks of processes formed by a bunch of FIFO queues that store the messages in transit. 
-Formally, a \emph{queuing network} is a tuple $\anetwork=(\setofqueuidentifiers,\queuidofprocs)$ such that 
+We consider networks of processes formed by a bunch of FIFO queues that store the messages in transit.
+Formally, a \emph{queuing network} is a tuple $\anetwork=(\setofqueuidentifiers,\queuidofprocs)$ such that
 $\setofqueuidentifiers$ is a finite set of queue identifiers, and
-$\queuidofprocs:\procSet\times\procSet\to \setofqueuidentifiers$ assigns a queue to each 
-pair of processes. 
-A queuing network $(\setofqueuidentifiers,\queuidofprocs)$ is $\pp$ if 
+$\queuidofprocs:\procSet\times\procSet\to \setofqueuidentifiers$ assigns a queue to each
+pair of processes.
+A queuing network $(\setofqueuidentifiers,\queuidofprocs)$ is $\pp$ if
 $\setofqueuidentifiers=\procSet\times\procSet$ and $\queuidofprocs$ is the identity.
-The queuing network $(\setofqueuidentifiers,\queuidofprocs)$ is $\mb$ if 
+The queuing network $(\setofqueuidentifiers,\queuidofprocs)$ is $\mb$ if
 $\setofqueuidentifiers=\procSet$ and $\queuidofprocs(p,q)=q$; it is called $\onen$ if
 $\setofqueuidentifiers=\procSet$ and $\queuidofprocs(p,q)=p$. Finally, it is called
 $\nn$ if $\setofqueuidentifiers=\{0\}$ and $\queuidofprocs(p,q)=0$ for all $p,q\in\procSet$.
 
 \paragraph{\bf Configurations, executions, and operational semantics}
-A \emph{configuration} of the queuing network $(\setofqueuidentifiers,\queuidofprocs)$ is 
+A \emph{configuration} of the queuing network $(\setofqueuidentifiers,\queuidofprocs)$ is
 a tuple $\aconf=(w_{\aqueueid})_{\aqueueid\in\setofqueuidentifiers}\in (\paylodSet^*)^{\setofqueuidentifiers}$,
 where for each queue identifier $\aqueueid$, the queue content $w_{\aqueueid}$ is a finite sequence of messages.
-The \emph{initial configuration} $\initconf$ is the one in which all queues are empty, i.e. 
+The \emph{initial configuration} $\initconf$ is the one in which all queues are empty, i.e.
 $w_{\aqueueid}=\epsilon$ for all $\aqueueid\in\setofqueuidentifiers$.
 A \emph{step} is a tuple $(\aconf,a,\aconf')$ (often written $\aconf\actionstep{a}\aconf'$)
 where $\aconf=(w_{\aqueueid})_{\aqueueid\in\setofqueuidentifiers}$,
-$\aconf'=(w_{\aqueueid}')_{\aqueueid\in\setofqueuidentifiers}$, 
+$\aconf'=(w_{\aqueueid}')_{\aqueueid\in\setofqueuidentifiers}$,
 $a$ is an action, and the following holds:
 \begin{itemize}
   \item if $a=\sact{p}{q}{\msg}$, then $b'_{\aqueueid}=b_{\aqueueid}\cdot \msg$
-  and $b_j'=b_j$ for all $j\in \setofqueuidentifiers\setminus\{\aqueueid\}$, 
+  and $b_j'=b_j$ for all $j\in \setofqueuidentifiers\setminus\{\aqueueid\}$,
   where $\aqueueid=\queuidofprocs(p,q)$.
   \item if $a=\ract{p}{q}{\msg}$, then $b_{\aqueueid}=\msg\cdot b'_{\aqueueid}$
-  and $b_j'=b_j$ for all $j\in \setofqueuidentifiers\setminus\{\aqueueid\}$, 
+  and $b_j'=b_j$ for all $j\in \setofqueuidentifiers\setminus\{\aqueueid\}$,
   where $\aqueueid=\queuidofprocs(p,q)$.
 \end{itemize}
 An \emph{execution} of the queuing network $(\setofqueuidentifiers,\queuidofprocs)$
@@ -91,34 +44,45 @@ $\initconf\actionstep{a_1}\actionstep{a_2}\ldots\actionstep{a_n}\aconf$ for some
 The execution is $\pp$ (resp. $\mb$, $\onen$, $\nn$) if its queuing network is.
 
 \begin{example}
-The execution 
+The execution
 $$
 \sact{p}{q}{m_1}\cdot\sact{q}{r}{m_2}\cdot\ract{q}{r}{m_2}\cdot\ract{p}{q}{m_1}
 $$
-is $\pp$, $\mb$, and $\onen$, but it is not $\nn$ (because $m_2$ is received before $m_1$). 
+is $\pp$, $\mb$, and $\onen$, but it is not $\nn$ (because $m_2$ is received before $m_1$).
 \end{example}
 
 \begin{example}
-    The execution 
+    The execution
     $$
     \sact{p}{q}{m_1}\cdot\sact{r}{q}{m_2}\cdot\ract{r}{q}{m_2}
     $$
     is $\pp$ and $\onen$, but it is neither $\mb$ nor $\nn$ (because $m_2$ "overtakes" $m_1$). Note that in the
-    final configuration $m_1$ is still in the queue ($m_1$ is "unmatched"). 
+    final configuration $m_1$ is still in the queue ($m_1$ is "unmatched").
 \end{example}
-    
+
 
 Consider a network $\anetwork$ with two queue identifiers $\aqueueid_1$ and $\aqueueid_2$,
-and let $\anetwork'$ be the network obtained by merging the two queues $\aqueueid_1$ and $\aqueueid_2$ in a 
-same queue. Then $\anetwork'$ imposes more constraints than $\anetwork$ on the sequence of actions it admits, 
+and let $\anetwork'$ be the network obtained by merging the two queues $\aqueueid_1$ and $\aqueueid_2$ in a
+same queue. Then $\anetwork'$ imposes more constraints than $\anetwork$ on the sequence of actions it admits,
 and any $\anetwork'$-execution also is an $\anetwork$-execution. From this observation, it follows that
-the communication models we considered define the hierarchy of executions depicted in 
-Fig.~\ref{fig:hierarchy-of-executions}; note that we did not cover the operational semantics of RSC,
-causally ordered and fully asynchronous executions, and we refer to~\cite{DBLP:journals/fac/ChevrouHQ16}
-for more details about how these other communication models fit in this hierarchy.
+the communication models we considered define the hierarchy of executions depicted in
+Fig.~\ref{fig:hierarchy-of-executions}. We refer
+to~\cite{DBLP:journals/fac/ChevrouHQ16}
+for clarifying how the asynchronous, $\rsc$, and $\co$ communication models may
+also be defined as sets of executions and fit in this hierarchy; we also refer
+to~\cite{DBLP:journals/fac/ChevrouHQ16} for examples illustrating
+the strictness of this hierarchy.
 
 \begin{figure}
     \input{img/execution-hierarchy.tex}
     \caption{\label{fig:hierarchy-of-executions} The hierarchy of communication models based on their sets of
     executions (taken from~\cite{DBLP:journals/fac/ChevrouHQ16})}
 \end{figure}
+
+To conclude this brief discussion on queuing networks and executions, we clarify in what sense the operational semantics we introduced in this section are sound and complete with respect to the axiomatic definitions of the communication models we gave in Section~\ref{sec:MSC}. Remember that a linearization $\linrel$ of a MSC
+defines a total order on its events, and therefore an execution.
+
+\begin{theorem}
+A MSC $\msc$ is $\pp$ (resp. $\mb$, $\onen$, $\nn$) if and only if there exists
+a linearisation $\linrel$ of $\msc$ that induces a $\pp$ execution (resp. a $\mb$, $\onen$, $\nn$ execution).
+\end{theorem}

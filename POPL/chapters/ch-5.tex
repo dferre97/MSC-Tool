@@ -1,13 +1,13 @@
 % !TEX root = ../popl-paper.tex
 
 
-In Section~\ref{sec:com_models_overview} we gave a high-level description of 7 communication models. Here, we formally define those classes and  show that they are all MSO-definable, i.e. there is a Monadic Second Order Logic formula that defines each of them. 
+In Section~\ref{sec:com_models_overview} we gave a high-level description of 7 communication models. Here, we formally define those classes and  show that they are all MSO-definable, i.e. there is a Monadic Second Order Logic formula that defines each of them.
 We start by  recalling the formal definition of asynchronous MSC and MSO logic.
 
 \paragraph{\bf Preliminaries.}
-Asynchronous MSCs (simply MSC in the following) represent valid computations for asynchronous systems. 
-This is the most general definition of MSC, and it will serve as a basis on which the other communication models 
-will build on,  adding some additional constraints. 
+Asynchronous MSCs (simply MSC in the following) represent valid computations for asynchronous systems.
+This is the most general definition of MSC, and it will serve as a basis on which the other communication models
+will build on,  adding some additional constraints.
 
 
 \begin{definition}[Asynchronous MSC]
@@ -16,10 +16,10 @@ An \emph{asynchronous MSC}  over $\Procs$ and $\Msg$ is a tuple $\msc = (\Events
 \item[(1)] for every pair $(e,f) \in {\lhd}$, there is a send action $\sact{p}{q}{\msg} \in \Act$ such that $\lambda(e) = \sact{p}{q}{\msg}$, $\lambda(f) = \ract{p}{q}{\msg}$.
 \item[(2)] for all $f \in \Events$ such that $\lambda(f)$ is a receive action, there is exactly one $e \in \Events$ such that $e \lhd f$.
 \end{itemize}
-Finally, letting ${\le} = ({\procrel} \cup {\lhd})^\ast$,
-we require that $\le$ is a partial order. We will refer to $\le$ as the \emph{happens-before} relation\footnote{In the literature, the relation is also referred to as the \emph{causal ordering} relation}. If, for two events $e$ and $f$, we have that $e \le f$, we   say that there is a \emph{causal path} between $e$ and $f$.
+Finally, letting ${\happensbefore} = ({\procrel} \cup {\lhd})^\ast$,
+we require that $\happensbefore$ is a partial order. We will refer to $\happensbefore$ as the \emph{happens-before} relation\footnote{In the literature, the relation is also referred to as the \emph{causal ordering} relation}. If, for two events $e$ and $f$, we have that $e \happensbefore f$, we   say that there is a \emph{causal path} between $e$ and $f$.
 For an event $e \in \Events$, a set of actions $A \subseteq \Act$, and a relation $\rel \subseteq \Events \times \Events$,
-let $\sametype{e}{A}{\rel} = |\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(f) \in A\}|$.
+let $\sametype{e}{A}{\rel} = \cardinalof{\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(f) \in A\}}$.
 \end{definition}
 
 According to Condition (2), every receive event must have a matching send event. Note that, however, there may be unmatched send events. An unmatched send event represents the scenario in which the recipient is not ready to receive a specific message.
@@ -33,8 +33,11 @@ such that $e \lhd f\}$, and
 $\Unm{\msc} = \{e \in \Events \mid \lambda(e)$ is a send
 action and there is no $f \in \Events$ such that $e \lhd f\}$.
 %
+
+\etienne{Add an example of a MSC with unmatched sends and illustrate the definition}
+
 We do not distinguish isomorphic MSCs and
-let $\asMSCs$ be the set of all the asynchronous MSCs over the given sets $\Procs$ and $\Msg$. 
+let $\asMSCs$ be the set of all the asynchronous MSCs over the given sets $\Procs$ and $\Msg$.
 %
 % \paragraph*{Linearizations.}
 %
@@ -42,7 +45,8 @@ let $\asMSCs$ be the set of all the asynchronous MSCs over the given sets $\Proc
 % An \emph{asynchronous linearization} of $\msc$ is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\le} \subseteq {\linrel}$. Intuitively, an asynchronous linearization of $\msc$ is a possible ordering of its events.
 % \davide{Example of asynchronous linearization.}
 %
-A \emph{linearization} of $\msc$ is a total order on the events that respects the happens-before relation $\le$ defined over $\msc$, more formally is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\le} \subseteq {\linrel}$. 
+A \emph{linearization} of $\msc$ is a total order $\linrel \subseteq \Events \times \Events$
+on the events that extends the happens-before relation $\happensbefore$ defined over $\msc$, ie. $\happensbefore \subseteq \linrel$.
 
 Next we briefly recall the notion of MSO logic over MSCs.
 
@@ -53,20 +57,20 @@ $
 $,
 where $a \in \Act$, $x$ and $y$ are first-order variables (taken from an infinite set of variables), interpreted as
 events of an MSC, and $X$ is a second-order variable, interpreted
-as a set of events. 
+as a set of events.
 \end{definition}
 
 We use common abbreviations such as $\wedge$, $\Rightarrow$, $\forall$, etc. The satisfaction relation is defined in the standard way and self-explanatory.
-For instance, the formula $\neg\exists x.(\bigvee_{a \in \sAct} \lambda(x) = a \;\wedge\; \neg \mathit{matched}(x))$, 
-with $\mathit{matched}(x) = \exists y.x \lhd y$, 
+For instance, the formula $\neg\exists x.(\bigvee_{a \in \sAct} \lambda(x) = a \;\wedge\; \neg \mathit{matched}(x))$,
+with $\mathit{matched}(x) = \exists y.x \lhd y$,
 says that there are no unmatched send events. All MSCs of Figure \ref{fig:exmscs} satisfy the formula. Given a sentence $\phi$, i.e., a formula without free variables,
-we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous MSCs, the formula $\asformula = true$ describes the whole set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable (more details are given in Appendix~\ref{apx:MSO}). The logic can then freely use formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \le y$.
+we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous MSCs, the formula $\asformula = true$ describes the whole set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable (more details are given in Appendix~\ref{apx:MSO}). The logic can then freely use formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \happensbefore y$.
 
-As mentioned above, the class of asynchronous MSCs is the biggest and most general one out of the seven. All the others classes of MSCs will be obtained by adding some constraints. We consider the possibility of having unmatched messages. Recall that, given a communication model $\comsymb$, a $\comsymb$-MSC implies that there is a $\comsymb$-systems that can produce the behaviour shown by $M$.
+As mentioned above, the class of asynchronous MSCs is the biggest and most general one out of the seven. All the others classes of MSCs will be obtained by adding some constraints. We consider the possibility of having unmatched messages. Recall that, given a communication model $\comsymb$, a $\comsymb$-MSC implies that there is a $\comsymb$-systems that can produce the behaviour shown by $M$. \etienne{Rephrase previous sentence when things are stabilised}.
 
 
 \paragraph{\bf Peer-to-peer MSCs}
-The additional constraint satisfied by $\oneone$-MSCs ensures that messages sent from  process $p$ to  $q$ are always received in the same order as they are sent, i.e., $q$ observes a FIFO policy with respect to the messages recieved by $p$.  Hence, for each pair $(p,q)$ of processes, we cannot have an unmatched message $m_1$ (sent by $p$) followed by a matched message $m_2$ (sent by $p$).  By definition, every $\oneone$-MSC is an asynchronous MSC. Indeed, it is always possible to find an asynchronous system that can realize a computation described by a $\oneone$ MSC. 
+The additional constraint satisfied by $\oneone$-MSCs ensures that messages sent from  process $p$ to  $q$ are always received in the same order as they are sent, i.e., $q$ observes a FIFO policy with respect to the messages received by $p$.  Hence, for each pair $(p,q)$ of processes, we cannot have an unmatched message $m_1$ (sent by $p$) followed by a matched message $m_2$ (sent by $p$).  By definition, every $\oneone$-MSC is an asynchronous MSC. Indeed, it is always possible to find an asynchronous system that can realize a computation described by a $\oneone$ MSC.
 %In other word, the possible behaviours, i.e. MSCs, generated by a system $S$ that uses $\oneone$ communication are a subset of all the behaviours that $S$ would be able to generate using asynchronous communication.
 \begin{definition}[$\oneone$-MSCs]\label{def:pp_msc}
 A $\oneone$-MSC is an asynchronous MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ where for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{p}{q}$, $\lambda(s')=\pqsAct{p}{q}$, and $s \procrel^+ s'$, we have either:
@@ -83,7 +87,7 @@ The set $\ppMSCs$ of $\oneone$ MSCs is MSO-definable as
 		\bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
 		\bigvee_{\substack{a,b \in \pqsAct{p}{q}}}\hspace{-1em}
 		(\lambda(s) = a \;\wedge\; \lambda(s') = b) \;\wedge\; s \procrel^+ s' \;\wedge\;
-		(\psi_1 \vee \psi_2 ) 	
+		(\psi_1 \vee \psi_2 )
 		\right)
 	\]
 	where $\psi_1$ and $\psi_2$ are
@@ -93,7 +97,7 @@ The set $\ppMSCs$ of $\oneone$ MSCs is MSO-definable as
 			s \lhd r & \wedge\\
 			s' \lhd r' & \wedge\\
 			r' \procrel^+ r &
-		\end{array} 
+		\end{array}
 		\right) \quad \quad
 		\psi_2 = (\neg \mathit{matched}(s) \wedge \mathit{matched}(s'))
 		\]
@@ -111,10 +115,10 @@ In other words, it ensures that channels operate in FIFO mode, where an unmatche
 
 
 \paragraph{\bf Causally ordered MSCs}
-We will now consider the class of \co-MSCs. Recall that an MSC is causally ordered if all the messages sent to the same process are received in an order which is consistent with the causal ordering of the corresponding send events. 
+We will now consider the class of \co-MSCs. Recall that an MSC is causally ordered if all the messages sent to the same process are received in an order which is consistent with the causal ordering of the corresponding send events.
 
 \begin{definition}[\co-MSC]\label{def:co_msc}
-An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le s'$, we have either:
+An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \happensbefore s'$, we have either:
 \begin{itemize}%\itemsep=0.5ex
 	\item $s,s' \in \Matched{\msc}$ and $r \procrel^* r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
 	\item $s' \in \Unm{\msc}$.
@@ -126,8 +130,8 @@ This definition is translated into the following MSO formula for $\coMSCs$:
 	\coformula = \neg \exists s.\exists s'. \left(
 	\bigvee_{\substack{q \in \Procs}}\;
 	\bigvee_{\substack{a,b \in \pqsAct{\plh}{q}}}\hspace{-1em}
-	(\lambda(s) = a \;\wedge\; \lambda(s') = b) \;\wedge\; s \le s' \;\wedge\;
-	(\psi_1 \vee \psi_2 ) 	
+	(\lambda(s) = a \;\wedge\; \lambda(s') = b) \;\wedge\; s \happensbefore s' \;\wedge\;
+	(\psi_1 \vee \psi_2 )
 	\right)
 \]
 where $\psi_1$ and $\psi_2$ have been defined above for \pp. The property $\coformula$ says that there cannot be two send events $s$ and $s'$, with the same recipient, such that $s \le s'$ and either
@@ -169,12 +173,12 @@ In order to find a proper MSO formula we consider an equivalent definition (the 
 		\item $s \in \Matched{\msc}$ and $s' \in \Unm{\msc}$, or
 		\item $s \lhd f_1$ and $s' \lhd f_2$ for some $f_1,f_2 \in \Events_q$ such that $f_1 \procrel^+ f_2$.
 	\end{itemize}
-	
-	We let ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$. 
+
+	We let ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$.
 	$\msc $ is a \emph{$\none$-MSC}
-	if ${\mbpartial}$ is a partial order. 
+	if ${\mbpartial}$ is a partial order.
 \end{definition}
-The ${\mbrel}$ relation ensures that send events addressed to the same process are executed in an order that is suitable for the $\none$ communication. If ${\mbpartial}$ is a partial order, it means that it is possible to find a linearization $\linrel$, such that $\linrel \;\subseteq\; \mbpartial$. It is easy to see that such a linearization is exactly what we called a $\none$ linearization in Definition~\ref{def:mb_msc}. 
+The ${\mbrel}$ relation ensures that send events addressed to the same process are executed in an order that is suitable for the $\none$ communication. If ${\mbpartial}$ is a partial order, it means that it is possible to find a linearization $\linrel$, such that $\linrel \;\subseteq\; \mbpartial$. It is easy to see that such a linearization is exactly what we called a $\none$ linearization in Definition~\ref{def:mb_msc}.
 %Finally notice  that ${\le} \subseteq {\mbpartial}$. Hence entailing that a \mb-MSC is also a \pp-MSC.
 
 The MSO-definability of $\mbMSCs$ directly follows from the previous definition:
@@ -212,11 +216,11 @@ An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\onen$ MSC} if it ha
 \end{itemize}
 \end{definition}
 
-Such a linearization will be referred to as a \emph{$\onen$ linearization}. 
+Such a linearization will be referred to as a \emph{$\onen$ linearization}.
 
 Similarly as before, we give an alternative definition (equivalence is shown in Appendix \ref{apx:MSO}). We define
 	an additional binary relation that represents a constraint
-	under the $\onen$ semantics, which ensures that messages sent from the same process are received in the same order. 
+	under the $\onen$ semantics, which ensures that messages sent from the same process are received in the same order.
 
 \begin{definition} [$\onen$ alternative]\label{def:one_n_alt}
 	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\onenrel} \subseteq \Events \times \Events$ be defined as $e_1 \onenrel e_2$ if there are two events $e_1$ and $e_2$, and $p \in \Procs$ such that either:
@@ -224,20 +228,20 @@ Similarly as before, we give an alternative definition (equivalence is shown in 
 		\item $\lambda(e_1) \in \psAct{p}$, $\lambda(e_2) \in \psAct{p}$, $e_1 \in \Matched{\msc}$, and $e_2 \in \Unm{\msc}$, or
 		\item $\lambda(e_1) \in \prAct{p}$, $\lambda(e_2) \in \prAct{p}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events_p$, and $s_1 \procrel^+ s_2$.
 	\end{itemize}
-	
+
 	We let ${\onenpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel})^\ast$.
 		%\begin{definition}\label{def:mailbox-msc}
 	$\msc$ is a \emph{$\onen$ MSC}
-	if ${\onenpartial}$ is a partial order. 
+	if ${\onenpartial}$ is a partial order.
 \end{definition}
 
-The ${\onenrel}$ relation ensures that messages sent by a process are sent and received in an order that is suitable for the $\onen$ communication. As before, since ${\onenpartial}$ is a partial order, then it is possible to find a linearization $\linrel$, such that $\linrel \subseteq \onenpartial$. It is not difficult to see that such a linearization is exactly what we called a $\onen$ linearization in Definition~\ref{def:one_n}. 
+The ${\onenrel}$ relation ensures that messages sent by a process are sent and received in an order that is suitable for the $\onen$ communication. As before, since ${\onenpartial}$ is a partial order, then it is possible to find a linearization $\linrel$, such that $\linrel \subseteq \onenpartial$. It is not difficult to see that such a linearization is exactly what we called a $\onen$ linearization in Definition~\ref{def:one_n}.
 
 Directly from  Definition~\ref{def:one_n_alt}, we obtain the MSO formula:
 \[
 	\onenformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \onenpartial y \wedge y \onenpartial x)
 \]
-Recall that $\onenpartial$ is the union of the MSO-definable relations $\procrel$, $\lhd$, and $\onenrel$. In particular, we can define $x \onenrel y$ as 
+Recall that $\onenpartial$ is the union of the MSO-definable relations $\procrel$, $\lhd$, and $\onenrel$. In particular, we can define $x \onenrel y$ as
 \[
 x \onenrel y =
 \begin{array}{rl}
@@ -249,7 +253,7 @@ x \onenrel y =
 & \left(
 	\bigvee_{\substack{p \in \Procs\\a,b \in \prAct{p}}}\hspace{-1em}
 	(\lambda(x) = a \;\wedge\; \lambda(y) = b)
-	\;\wedge\; 
+	\;\wedge\;
 	\exists x'.\exists y'. (x' \lhd x \;\wedge\; y' \lhd y \;\wedge\; x' \procrel^+ y')
 \right)\\
 \end{array}
@@ -260,7 +264,7 @@ x \onenrel y =
 %\cinzia{maybe move previous sentence to next section}
 
 \paragraph{\bf \nn MSCs}
-Intuitively, with an $\nn$ MSC we are always able to schedule events in such a way that messages are received in the same order as they were sent, moreover unmatched messages are sent only after all matched messages are sent. 
+Intuitively, with an $\nn$ MSC we are always able to schedule events in such a way that messages are received in the same order as they were sent, moreover unmatched messages are sent only after all matched messages are sent.
 \begin{definition}[$\nn$ MSC]\label{def:n_n}
 	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\nn$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $s \linrel s'$, we have either:
 	\begin{itemize}%\itemsep=0.5ex
@@ -269,8 +273,8 @@ Intuitively, with an $\nn$ MSC we are always able to schedule events in such a w
 	\end{itemize}
 \end{definition}
 
-Such a linearization will be referred to as a \emph{$\nn$ linearization}. 
-%By definition, every $\nn$ MSC is a $\onen$ MSC. 
+Such a linearization will be referred to as a \emph{$\nn$ linearization}.
+%By definition, every $\nn$ MSC is a $\onen$ MSC.
 As before, in order to characterise \nn MSCs in the MSO logic we give an alternative definition and prove that it is equivalent to the one above.
 
 
@@ -286,13 +290,13 @@ As before, in order to characterise \nn MSCs in the MSO logic we give an alterna
 		\item $\lambda(e_1) \in \psAct{\plh}$, $\lambda(e_2) \in \psAct{\plh}$, $e_1 \lhd r_1$ and $e_2 \lhd r_2$ for some $r_1,r_2 \in \Events$, $r_1 \nnrel r_2$ and $e_1 \slashed{\nnrel} e_2$.
 		\item $e_1 \in \Matched{\msc}$, $e_2 \in \Unm{\msc}$, $e_1 \slashed{\nnrel} e_2$.
 	\end{enumerate}
-	
-	%Note that $\mbpartial \subseteq \nnrel$, $\onenpartial \subseteq \nnrel$, and $\nnrel \subseteq\; \bowtie$. 
+
+	%Note that $\mbpartial \subseteq \nnrel$, $\onenpartial \subseteq \nnrel$, and $\nnrel \subseteq\; \bowtie$.
 	$\msc $ is a \emph{$\nn$ MSC}
 	if ${\bowtie}$ is acyclic.
 \end{definition}
 
-It is not trivial to see that Definition~\ref{def:n_n_alt} and Definition~\ref{def:n_n} are equivalent. To show that, we need some preliminary results and definitions. 
+It is not trivial to see that Definition~\ref{def:n_n_alt} and Definition~\ref{def:n_n} are equivalent. To show that, we need some preliminary results and definitions.
 
 
 \noindent We have now effectively proved that Definition~\ref{def:n_n_alt} of $\nn$ MSC is equivalent to Definition~\ref{def:n_n}.
@@ -316,7 +320,7 @@ In particular, we can define $x \bowtie y$ as
 	\end{array}
 \]
 
-\noindent where $\psi_3$ and $\psi_4$ are defined as 
+\noindent where $\psi_3$ and $\psi_4$ are defined as
 \[
 	\psi_3 =
 	\begin{array}{rl}
@@ -369,9 +373,9 @@ The following MSO formula derives directly from previous  definition:
 \]
 \noindent where $\varpropto$ is defined as
 \[
-s_1 \varpropto s_2 = 
+s_1 \varpropto s_2 =
 \bigvee_{\substack{e \in \sAct}}(\lambda(s_1) = e) \;\wedge\;
-s_1 \neq s_2 \;\wedge\; 
+s_1 \neq s_2 \;\wedge\;
 \exists r_2. (s_1 < r_2 \;\wedge\; s_2 \lhd r_2)
 \]
 
@@ -396,12 +400,12 @@ s_1 \neq s_2 \;\wedge\;
 
 % \davidequestion{The following formula should be wrong... I cannot use $n$ in an MSO formula}
 % \[
-% 	\rscformula = 
+% 	\rscformula =
 % 	\begin{array}{rl}
 % 		& \forall x.\left(\bigvee_{a \in \psAct{\plh}} \lambda(x) = a \;\implies\; \mathit{matched}(x)\right) \;\wedge\; \\
-% 		& \neg \left( 
+% 		& \neg \left(
 % 			\bigvee_{k=1}^n \left(
-% 			\exists s_1 \cdots s_k. \exists r_1 \cdots r_k. 
+% 			\exists s_1 \cdots s_k. \exists r_1 \cdots r_k.
 % 			\bigwedge_{i=1}^k (s_i \lhd r_i \;\wedge\; s_i \le r_{(i+1)\%k})
 % 		\right)
 % 		\right)\\
