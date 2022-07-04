@@ -40,7 +40,7 @@ $\sametype{e}{\pqsAct{p}{q}}{\procrel^+} = \sametype{f}{\pqrAct{p}{q}}{\procrel^
 \item[(2)] for all $f \in \Events$ such that $\lambda(f)$ is a receive action, there is $e \in \Events$ such that $e \lhd f$.
 \end{itemize}
 Finally, letting ${\le}_\msc = ({\procrel} \cup {\lhd})^\ast$,
-we require that $\le_\msc$ is a partial order. For convenience, we will simply write $\le$ when $M$ is clear from the context. 
+we require that $\le$ is a partial order. For convenience, we will simply write $\le$ when $M$ is clear from the context. 
 %We may also simply write ${\le}$ instead of $\le_{\msc}$ if
 %the MSC is clear from the context.
 
@@ -132,7 +132,7 @@ For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, we define
 an additional binary relation that represents a constraint
 under the mailbox semantics, where each process has only one incoming channel.
 Let ${\mbrel}_\msc \subseteq \Events \times \Events$
-be defined by: $e_1 \mbrel_\msc e_2$ if there is $q \in \Procs$
+be defined by: $e_1 \mbrel e_2$ if there is $q \in \Procs$
 such that $\lambda(e_1) \in \qsAct{q}$,
 $\lambda(e_2) \in \qsAct{q}$, and one of the following holds:
 \begin{itemize}\itemsep=0.5ex
@@ -140,12 +140,12 @@ $\lambda(e_2) \in \qsAct{q}$, and one of the following holds:
 \item $e_1 \lhd f_1$ and $e_2 \lhd f_2$ for some $f_1,f_2 \in \Events_q$ such that $f_1 \procrel^+ f_2$.
 \end{itemize}
 
-We let ${\preceq_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel_\msc})^\ast$.
-Note that ${\le_\msc} \subseteq {\preceq_\msc}$.
+We let ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$.
+Note that ${\le} \subseteq {\mbpartial}$.
 %
 %\begin{definition}\label{def:mailbox-msc}
 We call $\msc \in \ppMSCs$ a \emph{mailbox MSC}
-if ${\preceq_\msc}$ is a partial order.
+if ${\mbpartial}$ is a partial order.
 %\end{definition}
 Intuitively, this means that events can be scheduled in a way that corresponds
 to the mailbox semantics, i.e., with one incoming channel per process.
@@ -154,7 +154,7 @@ a mailbox MSC satisfies \emph{causal delivery}.
 The set of mailbox MSCs $\msc \in \ppMSCs$ is denoted by $\cdMSCs$.
 
 \begin{example}\label{ex:mailbox-msc}
-    MSC $\mscweakuniver$ is a mailbox MSC. Indeed, even though the order $\linrel$ defined in Example~\ref{ex:msc} does not respect all mailbox constraints, particularly the fact that $e_4 \mbrel_{\mscweakuniver} e_1$, there is a total order $ {\mblin} \supseteq {\preceq_{\mscweakuniver}}$ such that $
+    MSC $\mscweakuniver$ is a mailbox MSC. Indeed, even though the order $\linrel$ defined in Example~\ref{ex:msc} does not respect all mailbox constraints, particularly the fact that $e_4 \mbrel_{\mscweakuniver} e_1$, there is a total order $ {\mblin} \supseteq {\mbpartial_{\mscweakuniver}}$ such that $
     e_2 \mblin e_3 \mblin e_3' \mblin e_4 \mblin e_1 \mblin e_2' \mblin e_4'$. We call $\mblin$ a mailbox linearization, which is formally defined below.
 \end{example}
 
@@ -162,10 +162,10 @@ The set of mailbox MSCs $\msc \in \ppMSCs$ is denoted by $\cdMSCs$.
 
 Consider $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$.
 A \emph{\pp linearization} (or simply \emph{linearization}) of $\msc$ is a (reflexive) total order
-${\linrel} \subseteq \Events \times \Events$ such that ${\le_\msc} \subseteq
+${\linrel} \subseteq \Events \times \Events$ such that ${\le} \subseteq
 {\linrel}$. Similarly,
 a \emph{mailbox linearization} of $\msc$ is a total order
-${\linrel} \subseteq \Events \times \Events$ such that ${\preceq_\msc} \subseteq
+${\linrel} \subseteq \Events \times \Events$ such that ${\mbpartial} \subseteq
 {\linrel}$. That is, every mailbox linearization is a \pp linearization,
 but the converse is not necessarily true (Example~\ref{ex:mailbox-msc}).
 Note that an MSC is a mailbox MSC iff it has at least one mailbox linearization.
@@ -173,8 +173,8 @@ Note that an MSC is a mailbox MSC iff it has at least one mailbox linearization.
 \medskip
 
 Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and consider
-$E \subseteq \Events$ such that $E$ is ${\le_\msc}$-\emph{downward-closed}, i.e,
-for all $(e,f) \in {\le_\msc}$ such that $f \in E$, we also have $e \in E$.
+$E \subseteq \Events$ such that $E$ is ${\le}$-\emph{downward-closed}, i.e,
+for all $(e,f) \in {\le}$ such that $f \in E$, we also have $e \in E$.
 Then, the MSC $(E,{\procrel} \cap (E \times E),{\lhd} \cap (E \times E),\lambda')$,
 where $\lambda'$ is the restriction of $\Events$ to $E$, is called a \emph{prefix}
 of $\msc$. In particular, the empty MSC is a prefix of $\msc$.
@@ -190,9 +190,9 @@ Every prefix of a mailbox MSC is a mailbox MSC.
 Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \mbMSCs$ and $\msc_0 =
 (\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$, i.e.,
 $\Events_0 \subseteq \Events$. By contradiction, suppose that $\msc_0$ is not a
-mailbox MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \preceq_{M_0} f \preceq_{M_0}
-e$ with ${\preceq_{\msc_0}} = ({\rightarrow_0} \cup {\lhd_0} \cup {\mbrel_{\msc_0}})^*$.
-As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, and ${\mbrel_{\msc_0}} \subseteq {\mbrel_{\msc}}$. Finally, ${\preceq_{\msc_0}} \subseteq {\preceq_{\msc}}$ and $\msc$ is not a mailbox MSC, which is a contradiction.
+mailbox MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \mbpartial_{M_0} f \mbpartial_{M_0}
+e$ with ${\mbpartial_{\msc_0}} = ({\rightarrow_0} \cup {\lhd_0} \cup {\mbrel_{\msc_0}})^*$.
+As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, and ${\mbrel_{\msc_0}} \subseteq {\mbrel_{\msc}}$. Finally, ${\mbpartial_{\msc_0}} \subseteq {\mbpartial_{\msc}}$ and $\msc$ is not a mailbox MSC, which is a contradiction.
 \end{proof}
 
 Let $\msc_1 = (\Events_1,\procrel_1,\lhd_1,\lambda_1)$ and
@@ -385,10 +385,10 @@ It is worth mentioning that the (reflexive) transitive closure of
 a binary relation defined by an MSO formula with free variables $x$ and $y$,
 such as $x \procrel y$, is MSO-definable so that the logic can freely
 use formulas of the form $x \procrel^+ y$ or $x \le y$ (where $\le$
-is interpreted as $\le_\msc$ for the given MSC $\msc$).
+is interpreted as $\le$ for the given MSC $\msc$).
 Therefore, the definition of a mailbox MSC can be readily translated into
-the formula $\mbformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \preceq y \wedge y \preceq x)$ so that we have $L(\mbformula) = \mbMSCs$.
-Here, $x \preceq y$ is obtained as the MSO-definable reflexive transitive closure of
+the formula $\mbformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \mbpartial y \wedge y \mbpartial x)$ so that we have $L(\mbformula) = \mbMSCs$.
+Here, $x \mbpartial y$ is obtained as the MSO-definable reflexive transitive closure of
 the union of the MSO-definable relations $\procrel$, $\lhd$, and $\sqsubset$.
 In particular, we may define $x \sqsubset y$ by :
 \[
@@ -458,7 +458,7 @@ let $\sametype{e}{A}{\rel} = |\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(
 \item[(2)] for all $f \in \Events$ such that $\lambda(f)$ is a receive action, there is exactly one $e \in \Events$ such that $e \lhd f$.
 \end{itemize}
 Finally, letting ${\le}_\msc = ({\procrel} \cup {\lhd})^\ast$,
-we require that $\le_\msc$ is a partial order. For convenience, we simply write $\le$ when $M$ is clear from the context. We will refer to $\le$ as the \emph{causal ordering} or \emph{happens-before} relation. If, for two events $e$ and $f$, we have that $e \le f$, we will equivalently say that there is a \emph{causal path} between $e$ and $f$.
+we require that $\le$ is a partial order. For convenience, we simply write $\le$ when $M$ is clear from the context. We will refer to $\le$ as the \emph{causal ordering} or \emph{happens-before} relation. If, for two events $e$ and $f$, we have that $e \le f$, we will equivalently say that there is a \emph{causal path} between $e$ and $f$.
 \end{definition}
 
 According to Condition (2), every receive event must have a matching send event. Note that, however, there may be unmatched send events.
@@ -478,13 +478,13 @@ let $\asMSCs$ be the set of all the asynchronous MSCs over the given sets $\Proc
 % \paragraph*{Linearizations.}
 
 % Consider $\msc = (\Events,\procrel,\lhd,\lambda) \in \asMSCs$.
-% An \emph{asynchronous linearization} of $\msc$ is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\le_\msc} \subseteq {\linrel}$. Intuitively, an asynchronous linearization of $\msc$ is a possible ordering of its events.
+% An \emph{asynchronous linearization} of $\msc$ is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\le} \subseteq {\linrel}$. Intuitively, an asynchronous linearization of $\msc$ is a possible ordering of its events.
 % \davide{Example of asynchronous linearization.}
 
 \paragraph*{Linearizations.}
 
 Consider $\msc = (\Events,\procrel,\lhd,\lambda) \in \asMSCs$.
-A \emph{linearization} of $\msc$ is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\le_\msc} \subseteq {\linrel}$. In other words, a linearization of $\msc$ is a total order that respects the happens-before relation $\le_\msc$ defined over $\msc$.
+A \emph{linearization} of $\msc$ is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\le} \subseteq {\linrel}$. In other words, a linearization of $\msc$ is a total order that respects the happens-before relation $\le$ defined over $\msc$.
 \davide{Provide example of linearization.}
 
 \medskip
@@ -506,7 +506,7 @@ The additional constraint satisfied by \pp MSCs ensures that channels operate in
 We will now consider the class of MSCs for which there is a causally ordered system that can produce their behaviour. Intuitively, an MSC is causally ordered if all the messages sent to the same process are received in an order which is consistent with the causal ordering of the corresponding send events. Below the formal definition, which also considers unmatched messages.
 \davide{Provide example of an MSC that is not causally ordered}
 \begin{definition}[Causally ordered MSC]
-An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le_\msc s'$, we have either:
+An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le s'$, we have either:
 \begin{itemize}\itemsep=0.5ex
 	\item $s,s' \in \Matched{\msc}$ and $r \procrel^* r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
 	\item $s' \in \Unm{\msc}$.
@@ -535,7 +535,7 @@ Such a linearization will be referred to as a \emph{mailbox linearization}, and 
 	Every mailbox MSC is a causally ordered MSC.
 \end{proposition}
 \begin{proof}
-Let $\msc$ be a mailbox MSC and $\linrel$ a mailbox linearization of it. Recall that a linearization has to respect the happens-before partial order over $\msc$, i.e. $\le_\msc \,\subseteq\, \linrel$. Consider any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$ and $s \le_\msc s'$. Since $\le_\msc \,\subseteq\, \linrel$, we have that $s \linrel s'$ and, by the definition of mailbox linearization, either
+Let $\msc$ be a mailbox MSC and $\linrel$ a mailbox linearization of it. Recall that a linearization has to respect the happens-before partial order over $\msc$, i.e. $\le \,\subseteq\, \linrel$. Consider any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$ and $s \le s'$. Since $\le \,\subseteq\, \linrel$, we have that $s \linrel s'$ and, by the definition of mailbox linearization, either
 \begin{enumerate*}[label={(\roman*)}]
 	\item $s' \in \Unm{\msc}$, or 
 	\item $s,s' \in \Matched{\msc}$, $s \lhd r$, $s' \lhd r'$ and $r \linrel r'$. 
@@ -564,12 +564,12 @@ Such a linearization will be referred to as a \emph{$\onen$ linearization}. Note
 	Every $\onen$ MSC is a causally ordered MSC.
 \end{proposition}
 \begin{proof}
-By contradiction. Suppose that $\msc$ is a $\onen$ MSC, but not a causally ordered MSC. Since $\msc$ is not causally ordered, there must be two send events $s$ and $s'$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \le_\msc s'$, and we have either:
+By contradiction. Suppose that $\msc$ is a $\onen$ MSC, but not a causally ordered MSC. Since $\msc$ is not causally ordered, there must be two send events $s$ and $s'$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \le s'$, and we have either:
 \begin{enumerate}\itemsep=0.5ex
 	\item $s,s' \in \Matched{\msc}$ and $r' \procrel^* r$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
 	\item  $s \in \Unm{\msc}$ and $s' \in \Matched{\msc}$.
 \end{enumerate}
-We need to show that both of these scenarios lead to a contradiction. (1) Suppose $s$ and $s'$ are executed by the same process. Since $\msc$ is a $\onen$ MSC, there must be a linearization $\linrel$ such that $r \linrel r'$, but this is clearly impossible since we have $r' \procrel^* r$. Suppose now that $s$ and $s'$ are executed by two different processes $p$ and $q$. We know by hypothesis that $s \le_\msc s'$, i.e. there is a causal path of events $P = s \sim a \sim \dots \sim s' \sim r'$ from $s$ to $r'$, where $\sim$ is either $\procrel$ or $\lhd$. Refer to the first example in Figure~\ref{fig:onen_is_co} for a visual representation ($P$ is drawn in purple). To have a causal path $P$, there must be a send event $s''$ that is executed by $p$ after $s$ and that is part of $P$, along with its receipt $r''$ (i.e. $P = s \le_\msc s'' \lhd r'' \le_\msc s' \lhd r'$). We clearly have $r'' \linrel r'$ for any linearization of $\msc$, because $r'' \le_\msc r'$ (they are both in the causal path $P$ and $r''$ happens before $r$). Since $\msc$ is a $\onen$ MSC, there has to be a linearization $\linrel$ where $r \linrel r''$, because $s$ and $s''$ are send events executed by the same process. It follows that $\msc$ should have a linearization were $r \linrel r'' \linrel r'$, but this is not possible because of the hypothesis that $r' \procrel^* r$. This is a contradiction. (2) Suppose $s$ and $s'$ are executed by the same process. It is trivial to see, by definition, that $\msc$ cannot be a $\onen$ MSC. Suppose now that $s$ and $s'$ are executed by two different processes $p$ and $q$, and consider the same send event $s''$ as before (executed by $p$). Refer to the second example in Figure~\ref{fig:onen_is_co} for a visual representation. Since $s''$ is matched, we have two events $s$ and $s''$, sent by the same process $p$, that are unmatched and matched, respectively. Clearly, $\msc$ cannot be a $\onen$ MSC.
+We need to show that both of these scenarios lead to a contradiction. (1) Suppose $s$ and $s'$ are executed by the same process. Since $\msc$ is a $\onen$ MSC, there must be a linearization $\linrel$ such that $r \linrel r'$, but this is clearly impossible since we have $r' \procrel^* r$. Suppose now that $s$ and $s'$ are executed by two different processes $p$ and $q$. We know by hypothesis that $s \le s'$, i.e. there is a causal path of events $P = s \sim a \sim \dots \sim s' \sim r'$ from $s$ to $r'$, where $\sim$ is either $\procrel$ or $\lhd$. Refer to the first example in Figure~\ref{fig:onen_is_co} for a visual representation ($P$ is drawn in purple). To have a causal path $P$, there must be a send event $s''$ that is executed by $p$ after $s$ and that is part of $P$, along with its receipt $r''$ (i.e. $P = s \le s'' \lhd r'' \le s' \lhd r'$). We clearly have $r'' \linrel r'$ for any linearization of $\msc$, because $r'' \le r'$ (they are both in the causal path $P$ and $r''$ happens before $r$). Since $\msc$ is a $\onen$ MSC, there has to be a linearization $\linrel$ where $r \linrel r''$, because $s$ and $s''$ are send events executed by the same process. It follows that $\msc$ should have a linearization were $r \linrel r'' \linrel r'$, but this is not possible because of the hypothesis that $r' \procrel^* r$. This is a contradiction. (2) Suppose $s$ and $s'$ are executed by the same process. It is trivial to see, by definition, that $\msc$ cannot be a $\onen$ MSC. Suppose now that $s$ and $s'$ are executed by two different processes $p$ and $q$, and consider the same send event $s''$ as before (executed by $p$). Refer to the second example in Figure~\ref{fig:onen_is_co} for a visual representation. Since $s''$ is matched, we have two events $s$ and $s''$, sent by the same process $p$, that are unmatched and matched, respectively. Clearly, $\msc$ cannot be a $\onen$ MSC.
 \end{proof}
 
 \begin{figure}[h]
@@ -637,18 +637,18 @@ We need to show that both of these scenarios lead to a contradiction. (1) Suppos
 \begin{definition} [$\onen$ alternative]% \label{def:one_n_alt}
 For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, we define
 an additional binary relation that represents a constraint
-under the $\onen$ semantics, which ensures that messages sent from the same process are received in the same order. Let ${\onenrel}_\msc \subseteq \Events \times \Events$ be defined as $e_1 \onenrel_\msc e_2$ if there are two events $e_1$ and $e_2$, and $p \in \Procs$ such that either:
+under the $\onen$ semantics, which ensures that messages sent from the same process are received in the same order. Let ${\onenrel}_\msc \subseteq \Events \times \Events$ be defined as $e_1 \onenrel e_2$ if there are two events $e_1$ and $e_2$, and $p \in \Procs$ such that either:
 \begin{itemize}\itemsep=0.5ex
 	\item $\lambda(e_1) \in \psAct{p}$, $\lambda(e_2) \in \psAct{p}$, $e_1 \in \Matched{\msc}$, and $e_2 \in \Unm{\msc}$, or
 	\item $\lambda(e_1) \in \prAct{p}$, $\lambda(e_2) \in \prAct{p}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events_p$, and $s_1 \procrel^+ s_2$.
 \end{itemize}
 
-We let ${\lessdot_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel_\msc})^\ast$.
-Note that ${\le_\msc} \subseteq {\lessdot_\msc}$.
+We let ${\onenpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel})^\ast$.
+Note that ${\le} \subseteq {\onenpartial}$.
 %
 %\begin{definition}% \label{def:mailbox-msc}
 	We call $\msc \in \asMSCs$ a \emph{$\onen$ MSC}
-	if ${\lessdot_\msc}$ is a partial order.
+	if ${\onenpartial}$ is a partial order.
 \end{definition}
 
 \davidequestion{Should I also include the proof that every mailbox MSC without unmatched messages is $\onen$? Do we need it?}
@@ -657,7 +657,7 @@ Note that ${\le_\msc} \subseteq {\lessdot_\msc}$.
 	Every $\onen$ MSC without unmatched messages is a mailbox MSC.
 \end{proposition}
 \begin{proof}
-We show that the contrapositive is true, i.e. if an MSC is not mailbox (and it does not have unmatched messages), it is also not $\onen$. Suppose $\msc$ is an asynchronous MSC, but not mailbox. There must be a cycle $\xi$ such that  $e \preceq e$, for some event $e$. Recall that ${\preceq} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$ and ${\le} = ({\procrel} \cup {\lhd})^\ast$. We can always explicitely write a cycle $e \preceq e$ only using $\mbrel$ and $\le$. For instance, there might be a cycle $e \preceq e$ because we have that $e \mbrel f \le g \mbrel h \mbrel i \le e$. Consider any two adiacent events $s_1$ and $s_2$ in the cycle $\xi$, where $\xi$ has been written using only $\mbrel$ and $\le$, and we never have two consecutive $\le$\footnote{This is always possible, since $a \le b \le c$ is written as $a \le c$.}. We have two cases:
+We show that the contrapositive is true, i.e. if an MSC is not mailbox (and it does not have unmatched messages), it is also not $\onen$. Suppose $\msc$ is an asynchronous MSC, but not mailbox. There must be a cycle $\xi$ such that  $e \mbpartial e$, for some event $e$. Recall that ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$ and ${\le} = ({\procrel} \cup {\lhd})^\ast$. We can always explicitely write a cycle $e \mbpartial e$ only using $\mbrel$ and $\le$. For instance, there might be a cycle $e \mbpartial e$ because we have that $e \mbrel f \le g \mbrel h \mbrel i \le e$. Consider any two adiacent events $s_1$ and $s_2$ in the cycle $\xi$, where $\xi$ has been written using only $\mbrel$ and $\le$, and we never have two consecutive $\le$\footnote{This is always possible, since $a \le b \le c$ is written as $a \le c$.}. We have two cases:
 \begin{enumerate}
 	\item $s_1 \mbrel s_2$. We know, by definition of $\mbrel$, that $s_1$ and $s_2$ must be two send events and that $r_1 \procrel^+ r_2$, where $r_1$ and $r_2$ are the receive events that match with $s_1$ and $s_2$, respectively (we are not considering unmatched messages by hypothesis).
 	\item $s_1 \le s_2$. Since $\msc$ is asynchronous by hyphotesis, $\xi$ has to contain at least one $\mbrel$\footnote{If that was not the case, $\le$ would also be cyclic and $\msc$ would not be an asynchronous MSC.}; recall that we also wrote $\xi$ in such a way that we do not have two consecutive $\le$. It is not difficult to see that $s_1$ and $s_2$ have to be send events, since they belong to $\xi$. We have two cases:
@@ -665,9 +665,9 @@ We show that the contrapositive is true, i.e. if an MSC is not mailbox (and it d
 		\item $r_1$ is in the causal path, i.e. $s_1 \lhd r_1 \le s_2$. In particular, note that $r_1 \le r_2$.
 		\item $r_1$ is not in the causal path, hence there must be a message $m_k$ sent by the same process that sent $s_1$, such that $s_1 \procrel^+ s_k \lhd r_k \le s_2 \lhd r_2$, where $s_k$ and $r_k$ are the send and receive events associated with $m_k$, respectively. Since messages $m_1$ and $m_k$ are sent by the same process and $s_1 \procrel^+ s_k$, we should have $r_1 \onenrel r_k$, according to the $\onen$ semantics. In particular, note the we have $r_1 \onenrel r_k \le r_2$.
 	\end{enumerate}
-	In both case (a) and (b), we conclude that $r_1 \lessdot r_2$. Recall that ${\lessdot} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel_\msc})^\ast$.
+	In both case (a) and (b), we conclude that $r_1 \onenpartial r_2$. Recall that ${\onenpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel})^\ast$.
 \end{enumerate}
-Notice that, for either cases, a relation between two send events $s_1$ and $s_2$ (i.e. $s_1 \mbrel s_2$ or $s_1 \le s_2$) always implies a relation between the respective receive events $r_1$ and $r_2$, according to the $\onen$ semantics. It follows that $\xi$, which is a cycle for the $\preceq$ relation, always implies a cycle for the $\lessdot$ relation\footnote{If $\lessdot$ is cyclic, $\msc$ is not a $\onen$ MSC.}, as shown by the following example. Let $\msc$ be a non-mailbox MSC, and suppose we have a cycle $s_1 \mbrel s_2 \mbrel s_3 \le s_4 \mbrel s_5 \le s_1$. $s_1 \mbrel s_2$ falls into case (1), so it implies $r_1 \procrel^+ r_2$. The same goes for $s_2 \mbrel r_3$, which implies $r_2 \procrel^+ r_3$. $s_3 \le s_4$ falls into case (2), and implies that $r_3 \lessdot r_4$. $s_4 \mbrel s_5$ falls into case (1) and it implies $r_4 \procrel^+ r_5$. $s_5 \le s_1$ falls into case (2) and implies that $r_5 \lessdot r_1$. Putting all these implications together, we have that $r_1 \procrel^+ r_2 \procrel^+ r_3 \lessdot r_4 \procrel^+ r_5 \lessdot r_1$, which is a cycle for $\lessdot$. Note that, given any cycle for $\preceq$, we are always able to apply this technique to obtain a cycle for $\lessdot$.
+Notice that, for either cases, a relation between two send events $s_1$ and $s_2$ (i.e. $s_1 \mbrel s_2$ or $s_1 \le s_2$) always implies a relation between the respective receive events $r_1$ and $r_2$, according to the $\onen$ semantics. It follows that $\xi$, which is a cycle for the $\mbpartial$ relation, always implies a cycle for the $\onenpartial$ relation\footnote{If $\onenpartial$ is cyclic, $\msc$ is not a $\onen$ MSC.}, as shown by the following example. Let $\msc$ be a non-mailbox MSC, and suppose we have a cycle $s_1 \mbrel s_2 \mbrel s_3 \le s_4 \mbrel s_5 \le s_1$. $s_1 \mbrel s_2$ falls into case (1), so it implies $r_1 \procrel^+ r_2$. The same goes for $s_2 \mbrel r_3$, which implies $r_2 \procrel^+ r_3$. $s_3 \le s_4$ falls into case (2), and implies that $r_3 \onenpartial r_4$. $s_4 \mbrel s_5$ falls into case (1) and it implies $r_4 \procrel^+ r_5$. $s_5 \le s_1$ falls into case (2) and implies that $r_5 \onenpartial r_1$. Putting all these implications together, we have that $r_1 \procrel^+ r_2 \procrel^+ r_3 \onenpartial r_4 \procrel^+ r_5 \onenpartial r_1$, which is a cycle for $\onenpartial$. Note that, given any cycle for $\mbpartial$, we are always able to apply this technique to obtain a cycle for $\onenpartial$.
 \end{proof}
 
 Proposition~\ref{prop:onen_mb_no_unmatched} remains true even if we consider unmatched messages.
@@ -676,7 +676,7 @@ Proposition~\ref{prop:onen_mb_no_unmatched} remains true even if we consider unm
 	Every $\onen$ MSC is a mailbox MSC.
 \end{proposition}
 \begin{proof}
-Let $\msc$ be an asynchronous MSC. The proof proceeds in the same way as the one of Proposition~\ref{prop:onen_mb_no_unmatched}, but unmatched messages introduce some additional cases. Consider any two adiacent events $s_1$ and $s_2$ in a cycle $\xi$ for $\preceq$, where $\xi$ has been written using only $\mbrel$ and $\le$, and we never have two consecutive $\le$. These are some additional cases:
+Let $\msc$ be an asynchronous MSC. The proof proceeds in the same way as the one of Proposition~\ref{prop:onen_mb_no_unmatched}, but unmatched messages introduce some additional cases. Consider any two adiacent events $s_1$ and $s_2$ in a cycle $\xi$ for $\mbpartial$, where $\xi$ has been written using only $\mbrel$ and $\le$, and we never have two consecutive $\le$. These are some additional cases:
 \begin{enumerate}\setcounter{enumi}{2}
 	\item $u_1 \mbrel s_2$, where $u_1$ is the send event of an unmatched message. This case never happens because of how $\mbrel$ is defined.
 	\item $u_1 \le u_2$, where $u_1$ and $u_2$ are both send events of unmatched messages. Since both $u_1$ and $u_2$ are part of the cycle $\xi$, there must be an event $s_3$ such that $u_1 \le u_2 \mbrel s_3$. However, $u_2 \mbrel s_3$ falls into case (3), which can never happen.
@@ -697,7 +697,7 @@ We showed that cases (3) and (4) can never happen, whereas cases (5) and (6) bot
 Such a linearization will be referred to as a \emph{$\nn$ linearization}. Intuitively, with an $\nn$ MSC we are always able to schedule events in such a way that messages are received in the same order as they were sent, and unmatched messages are sent only after all matched messages are sent. By definition, every $\nn$ MSC is a $\onen$ MSC. 
 
 \begin{definition} [$\nn$ alternative]% \label{def:n_n_alt}
-For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel}_\msc = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel_\msc} \,\cup\, {\onenrel_\msc})^\ast$. We define an additional binary relation $\bowtie_\msc \subseteq \Events \times \Events$, such that for two events $e_1$ and $e_2$ we have $e_1 \bowtie_\msc e_2$ if one of the following holds:
+For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel}_\msc = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel} \,\cup\, {\onenrel})^\ast$. We define an additional binary relation $\bowtie_\msc \subseteq \Events \times \Events$, such that for two events $e_1$ and $e_2$ we have $e_1 \bowtie_\msc e_2$ if one of the following holds:
 \begin{enumerate}\itemsep=0.5ex
 	\item $e_1 \nnrel_\msc e_2$
 	\item $\lambda(e_1) \in \prAct{\plh}$, $\lambda(e_2) \in \prAct{\plh}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events$, $s_1 \nnrel_\msc s_2$ and $e_1 \slashed{\nnrel}_\msc e_2$.
@@ -705,7 +705,7 @@ For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel}_\msc = ({\pro
 	\item $e_1 \in \Matched{\msc}$, $e_2 \in \Unm{\msc}$, $e_1 \slashed{\nnrel}_\msc e_2$.
 \end{enumerate}
 
-Note that $\preceq_\msc \subseteq \nnrel_\msc$, $\lessdot_\msc \subseteq \nnrel_\msc$, and $\nnrel_\msc \subseteq\; \bowtie_\msc$. We call $\msc \in \asMSCs$ a \emph{$\nn$ MSC}
+Note that $\mbpartial \subseteq \nnrel_\msc$, $\onenpartial \subseteq \nnrel_\msc$, and $\nnrel_\msc \subseteq\; \bowtie_\msc$. We call $\msc \in \asMSCs$ a \emph{$\nn$ MSC}
 if ${\bowtie_\msc}$ is acyclic.
 \davidequestion{Initially I said "We call $\msc \in \asMSCs$ a \emph{$\nn$ MSC} if ${\bowtie_\msc}$ is a partial order", but I don't think it is true, since $\bowtie_\msc$ does not have to be transitive.}
 \end{definition}
@@ -802,8 +802,8 @@ Following the characterization given in \cite[Theorem 4.4]{DBLP:journals/dc/Char
 % \begin{proof}
 % Let $\msc$ be a $\onen$ MSC without unmatched messages, and let $L$ be a $\onen$ linearization. We will show that, by reordering some of the events in $L$, we are always able to obtain a $\nn$ linearization for $\msc$. The algorithm works as follow:
 % \begin{enumerate}
-% 	\item Find a pair $(m_1,m_2)$ of distinct messages such that their send order in $L$ is the inverse of the receive order\footnote{Note that $L$ is already a $\nn$ linearization if such a pair does not exist}. This can only happen if there is not a causal path between $s_1$ and $s_2$, i.e $s_1 \le \ge s_2$, where $s_i$ is the send event of message $m_i$. To see why, suppose w.l.o.g. that $s_1 \le s_2$. As seen in the proof of Proposition~\ref{prop:onen_mb_no_unmatched}, there must be a message $m_k$ sent by the same process that sent $s_1$, such that we have $r_1 \onenrel r_k \le r_2$, and in particular $r_1 \lessdot r_2$. Therefore, if $s_1 \le s_2$, the receive order has to match the send order in $L$ and it will never be the opposite.
-% 	\item Suppose, w.l.o.g. that $s_2 \linrel s_1$ and $r_1 \linrel r_2$, and we saw that $s_1 \le \ge s_2$. We would like to invert the order of $s_1$ and $s_2$ in the linearization, so that it matches the receive order. If we simply swap $s_2$ and $s_1$ in $L$, the new linearization could be invalid for $\msc$; for instance, there might be some events between $s_2$ and $s_1$ (in the linearization $L$) that need to happen before $s_1$. However, we show that it is still possible to invert the order of $s_1$ and $s_2$ without invalidating the linearization. Suppose that $s_2$ and $s_1$ are the $i$-th and the $j$-th events of $L$, respectively, where $i<j$. The idea is to move $s_2$ right before $s_1$, along with all the events on which $s_1$ depends, that are between $s_2$ and $s_1$ in $L$; we say that $s_1$ depends on an event $e$ if $e \lessdot s_1$.
+% 	\item Find a pair $(m_1,m_2)$ of distinct messages such that their send order in $L$ is the inverse of the receive order\footnote{Note that $L$ is already a $\nn$ linearization if such a pair does not exist}. This can only happen if there is not a causal path between $s_1$ and $s_2$, i.e $s_1 \le \ge s_2$, where $s_i$ is the send event of message $m_i$. To see why, suppose w.l.o.g. that $s_1 \le s_2$. As seen in the proof of Proposition~\ref{prop:onen_mb_no_unmatched}, there must be a message $m_k$ sent by the same process that sent $s_1$, such that we have $r_1 \onenrel r_k \le r_2$, and in particular $r_1 \onenpartial r_2$. Therefore, if $s_1 \le s_2$, the receive order has to match the send order in $L$ and it will never be the opposite.
+% 	\item Suppose, w.l.o.g. that $s_2 \linrel s_1$ and $r_1 \linrel r_2$, and we saw that $s_1 \le \ge s_2$. We would like to invert the order of $s_1$ and $s_2$ in the linearization, so that it matches the receive order. If we simply swap $s_2$ and $s_1$ in $L$, the new linearization could be invalid for $\msc$; for instance, there might be some events between $s_2$ and $s_1$ (in the linearization $L$) that need to happen before $s_1$. However, we show that it is still possible to invert the order of $s_1$ and $s_2$ without invalidating the linearization. Suppose that $s_2$ and $s_1$ are the $i$-th and the $j$-th events of $L$, respectively, where $i<j$. The idea is to move $s_2$ right before $s_1$, along with all the events on which $s_1$ depends, that are between $s_2$ and $s_1$ in $L$; we say that $s_1$ depends on an event $e$ if $e \onenpartial s_1$.
 % \end{enumerate}
 % \end{proof}
 
@@ -836,7 +836,7 @@ as message $\msg_1$ is not received,
 but by $\mscstrongexist$ from Fig.~\ref{fig:msc_strong_exist}.
 
 Given a sentence $\phi$, i.e., a formula without free variables,
-we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous MSCs, the formula $\asformula = true$ clearly describes the set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula\footnote{See Section~\ref{sec:mso_extra} for details.} with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable so that the logic can freely use formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \le y$ (where $\le$ is interpreted as $\le_\msc$ for the given MSC $\msc$).
+we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous MSCs, the formula $\asformula = true$ clearly describes the set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula\footnote{See Section~\ref{sec:mso_extra} for details.} with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable so that the logic can freely use formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \le y$ (where $\le$ is interpreted as $\le$ for the given MSC $\msc$).
 
 \paragraph*{Peer-to-peer MSCs}
 	The set of \pp MSCs is MSO-definable as
@@ -877,13 +877,13 @@ Given an MSC $\msc$, it is causally ordered if and only if it satisfies the MSO 
 	\coformula = \neg \exists s.\exists s'. \left(
 	\bigvee_{\substack{q \in \Procs}}\;
 	\bigvee_{\substack{a,b \in \pqsAct{\plh}{q}}}\hspace{-1em}
-	(\lambda(s) = a \;\wedge\; \lambda(s') = b) \;\wedge\; s \le_\msc s' \;\wedge\;
+	(\lambda(s) = a \;\wedge\; \lambda(s') = b) \;\wedge\; s \le s' \;\wedge\;
 	(\psi_1 \vee \psi_2 ) 	
 	\right)
 \]
 where $\psi_1$ and $\psi_2$ are the same formulas used for \pp.
 
-The property $\coformula$ says that there cannot be two send events $s$ and $s'$, with the same recipient, such that $s \le_\msc s'$ and either
+The property $\coformula$ says that there cannot be two send events $s$ and $s'$, with the same recipient, such that $s \le s'$ and either
 \begin{enumerate*}[label={(\roman*)}]
 	\item their corresponding receive events $r$ and $r'$ happen in the opposite order, i.e. $r' \procrel^+ r$, or
 	\item $s$ is unmatched and $s'$ is matched.
@@ -894,7 +894,7 @@ The set $\coMSCs$ of causally ordered MSCs is therefore MSO-definable as $\coMSC
 
 Given an MSC $\msc$, it is a mailbox MSC if and only if it satisfies the MSO formula
 \[
-	\mbformula = \ppformula \;\wedge\; \neg \exists x.\exists y.(\neg (x = y) \wedge x \preceq_\msc y \wedge y \preceq_\msc x)
+	\mbformula = \ppformula \;\wedge\; \neg \exists x.\exists y.(\neg (x = y) \wedge x \mbpartial y \wedge y \mbpartial x)
 \]
 The set $\mbMSCs$ of mailbox MSCs is therefore MSO-definable as $\mbMSCs=L(\mbformula)$.
 \davide{This does not match my definition of mailbox MSC, should I also give the alternative definition (the one in the concur paper) or rewrite everything according to my definition? Give both definitions and prove that they are equivalent}
@@ -903,11 +903,11 @@ The set $\mbMSCs$ of mailbox MSCs is therefore MSO-definable as $\mbMSCs=L(\mbfo
 
 Following Definition~\ref{def:one_n_alt}, an MSC $\msc$ is a $\onen$ MSC if and only if it satisfies the MSO formula
 \[
-	\onenformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \lessdot_\msc y \wedge y \lessdot_\msc x)
+	\onenformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \onenpartial y \wedge y \onenpartial x)
 \]
-Recall that $\lessdot_\msc$ is the union of the MSO-definable relations $\procrel$, $\lhd$, and $\onenrel_\msc$. In particular, we can define $x \onenrel_\msc y$ as 
+Recall that $\onenpartial$ is the union of the MSO-definable relations $\procrel$, $\lhd$, and $\onenrel$. In particular, we can define $x \onenrel y$ as 
 \[
-x \onenrel_\msc y =
+x \onenrel y =
 \begin{array}{rl}
 & \left(
 	\bigvee_{\substack{p \in \Procs\\a,b \in \psAct{p}}}\hspace{-1em}
@@ -922,7 +922,7 @@ x \onenrel_\msc y =
 \right)\\
 \end{array}
 \]
-The MSO formula for $x \onenrel_\msc y$ closely follows Definition~\ref{def:one_n_alt}. The set $\onenMSCs$ of $\onen$ MSCs is therefore MSO-definable as $\onenMSCs=L(\onenformula)$.
+The MSO formula for $x \onenrel y$ closely follows Definition~\ref{def:one_n_alt}. The set $\onenMSCs$ of $\onen$ MSCs is therefore MSO-definable as $\onenMSCs=L(\onenformula)$.
 
 \paragraph*{$\nn$ MSCs}
 
@@ -986,7 +986,7 @@ s_1 \neq s_2 \;\wedge\;
 % 		& \neg \left( 
 % 			\bigvee_{k=1}^n \left(
 % 			\exists s_1 \cdots s_k. \exists r_1 \cdots r_k. 
-% 			\bigwedge_{i=1}^k (s_i \lhd r_i \;\wedge\; s_i \le_\msc r_{(i+1)\%k})
+% 			\bigwedge_{i=1}^k (s_i \lhd r_i \;\wedge\; s_i \le r_{(i+1)\%k})
 % 		\right)
 % 		\right)\\
 % 	\end{array}

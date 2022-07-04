@@ -172,10 +172,10 @@ It is worth mentioning that the (reflexive) transitive closure of
 a binary relation defined by an MSO formula with free variables $x$ and $y$,
 such as $x \procrel y$, is MSO-definable so that the logic can freely
 use formulas of the form $x \procrel^+ y$ or $x \le y$ (where $\le$
-is interpreted as $\le_\msc$ for the given MSC $\msc$).
+is interpreted as $\le$ for the given MSC $\msc$).
 Therefore, the definition of a mailbox MSC can be readily translated into
-the formula $\mbformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \preceq y \wedge y \preceq x)$ so that we have $L(\mbformula) = \mbMSCs$.
-Here, $x \preceq y$ is obtained as the MSO-definable reflexive transitive closure of
+the formula $\mbformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \mbpartial y \wedge y \mbpartial x)$ so that we have $L(\mbformula) = \mbMSCs$.
+Here, $x \mbpartial y$ is obtained as the MSO-definable reflexive transitive closure of
 the union of the MSO-definable relations $\procrel$, $\lhd$, and $\sqsubset$.
 In particular, we may define $x \sqsubset y$ by :
 \[
