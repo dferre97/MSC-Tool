@@ -16,8 +16,8 @@ An \emph{asynchronous MSC}  over $\Procs$ and $\Msg$ is a tuple $\msc = (\Events
 \item[(1)] for every pair $(e,f) \in {\lhd}$, there is a send action $\sact{p}{q}{\msg} \in \Act$ such that $\lambda(e) = \sact{p}{q}{\msg}$, $\lambda(f) = \ract{p}{q}{\msg}$.
 \item[(2)] for all $f \in \Events$ such that $\lambda(f)$ is a receive action, there is exactly one $e \in \Events$ such that $e \lhd f$.
 \end{itemize}
-Finally, letting ${\le}_\msc = ({\procrel} \cup {\lhd})^\ast$,
-we require that $\le_\msc$ is a partial order. For convenience, we simply write $\le$ when $M$ is clear from the context. We will refer to $\le$ as the \emph{happens-before} relation\footnote{In the literature, the relation is also referred to as the \emph{causal ordering} relation}. If, for two events $e$ and $f$, we have that $e \le f$, we   say that there is a \emph{causal path} between $e$ and $f$.
+Finally, letting ${\le} = ({\procrel} \cup {\lhd})^\ast$,
+we require that $\le$ is a partial order. We will refer to $\le$ as the \emph{happens-before} relation\footnote{In the literature, the relation is also referred to as the \emph{causal ordering} relation}. If, for two events $e$ and $f$, we have that $e \le f$, we   say that there is a \emph{causal path} between $e$ and $f$.
 For an event $e \in \Events$, a set of actions $A \subseteq \Act$, and a relation $\rel \subseteq \Events \times \Events$,
 let $\sametype{e}{A}{\rel} = |\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(f) \in A\}|$.
 \end{definition}
@@ -39,12 +39,12 @@ let $\asMSCs$ be the set of all the asynchronous MSCs over the given sets $\Proc
 % \paragraph*{Linearizations.}
 %
 % Consider $\msc = (\Events,\procrel,\lhd,\lambda) \in \asMSCs$.
-% An \emph{asynchronous linearization} of $\msc$ is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\le_\msc} \subseteq {\linrel}$. Intuitively, an asynchronous linearization of $\msc$ is a possible ordering of its events.
+% An \emph{asynchronous linearization} of $\msc$ is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\le} \subseteq {\linrel}$. Intuitively, an asynchronous linearization of $\msc$ is a possible ordering of its events.
 % \davide{Example of asynchronous linearization.}
 %
-A \emph{linearization} of $\msc$ is a total order on the events that respects the happens-before relation $\le_\msc$ defined over $\msc$, more formally is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\le_\msc} \subseteq {\linrel}$. 
+A \emph{linearization} of $\msc$ is a total order on the events that respects the happens-before relation $\le$ defined over $\msc$, more formally is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\le} \subseteq {\linrel}$. 
 
-Next we briefly recall some notion of MSO logic.
+Next we briefly recall the notion of MSO logic over MSCs.
 
 \begin{definition}[MSO logic]
 The set of MSO formulas over MSCs (over $\Procs$ and $\Msg$) is given by the grammar
@@ -60,9 +60,9 @@ We use common abbreviations such as $\wedge$, $\Rightarrow$, $\forall$, etc. The
 For instance, the formula $\neg\exists x.(\bigvee_{a \in \sAct} \lambda(x) = a \;\wedge\; \neg \mathit{matched}(x))$, 
 with $\mathit{matched}(x) = \exists y.x \lhd y$, 
 says that there are no unmatched send events. All MSCs of Figure \ref{fig:exmscs} satisfy the formula. Given a sentence $\phi$, i.e., a formula without free variables,
-we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous MSCs, the formula $\asformula = true$ describes the whole set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula (more detail are given in Appendix~\ref{apx:MSO}) with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable. The logic can then freely use formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \le y$ (where $\le$ is interpreted as $\le_\msc$ for the given MSC $\msc$).
+we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous MSCs, the formula $\asformula = true$ describes the whole set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable (more details are given in Appendix~\ref{apx:MSO}). The logic can then freely use formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \le y$.
 
-As mentioned above, the class of asynchronous MSCs is the biggest and most general one out of the seven. All the others classes of MSCs will be obtained by adding some constraints. We consider the possibility of having unmatched messages and, generally speaking, given a communication model $\comsymb$ a $\comsymb$-MSC means that there is a $\comsymb$-systems that produces the behaviour shown by $M$.
+As mentioned above, the class of asynchronous MSCs is the biggest and most general one out of the seven. All the others classes of MSCs will be obtained by adding some constraints. We consider the possibility of having unmatched messages. Recall that, given a communication model $\comsymb$, a $\comsymb$-MSC implies that there is a $\comsymb$-systems that can produce the behaviour shown by $M$.
 
 
 \paragraph{\bf Peer-to-peer MSCs}
@@ -114,7 +114,7 @@ In other words, it ensures that channels operate in FIFO mode, where an unmatche
 We will now consider the class of \co-MSCs. Recall that an MSC is causally ordered if all the messages sent to the same process are received in an order which is consistent with the causal ordering of the corresponding send events. 
 
 \begin{definition}[\co-MSC]\label{def:co_msc}
-An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le_\msc s'$, we have either:
+An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le s'$, we have either:
 \begin{itemize}%\itemsep=0.5ex
 	\item $s,s' \in \Matched{\msc}$ and $r \procrel^* r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$.
 	\item $s' \in \Unm{\msc}$.
@@ -126,11 +126,11 @@ This definition is translated into the following MSO formula for $\coMSCs$:
 	\coformula = \neg \exists s.\exists s'. \left(
 	\bigvee_{\substack{q \in \Procs}}\;
 	\bigvee_{\substack{a,b \in \pqsAct{\plh}{q}}}\hspace{-1em}
-	(\lambda(s) = a \;\wedge\; \lambda(s') = b) \;\wedge\; s \le_\msc s' \;\wedge\;
+	(\lambda(s) = a \;\wedge\; \lambda(s') = b) \;\wedge\; s \le s' \;\wedge\;
 	(\psi_1 \vee \psi_2 ) 	
 	\right)
 \]
-where $\psi_1$ and $\psi_2$ have been defined above for \pp. The property $\coformula$ says that there cannot be two send events $s$ and $s'$, with the same recipient, such that $s \le_\msc s'$ and either
+where $\psi_1$ and $\psi_2$ have been defined above for \pp. The property $\coformula$ says that there cannot be two send events $s$ and $s'$, with the same recipient, such that $s \le s'$ and either
 \begin{enumerate*}[label={(\roman*)}]
 	\item their corresponding receive events $r$ and $r'$ happen in the opposite order, i.e. $r' \procrel^+ r$, or
 	\item $s$ is unmatched and $s'$ is matched.
@@ -161,8 +161,8 @@ In order to find a proper MSO formula we consider an equivalent definition (the 
 
 
 \begin{definition} [$\none$ alternative]\label{def:n_one_alt}
-	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$.	Let ${\mbrel}_\msc \subseteq \Events \times \Events$
-	be defined as $s \mbrel_\msc s'$ if there is $q \in \Procs$
+	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$.	Let ${\mbrel} \subseteq \Events \times \Events$
+	be defined as $s \mbrel s'$ if there is $q \in \Procs$
 	such that $\lambda(s) \in \qsAct{q}$,
 	$\lambda(s') \in \qsAct{q}$, and one of the following holds:
 	\begin{itemize}%\itemsep=0.5ex
@@ -170,20 +170,20 @@ In order to find a proper MSO formula we consider an equivalent definition (the 
 		\item $s \lhd f_1$ and $s' \lhd f_2$ for some $f_1,f_2 \in \Events_q$ such that $f_1 \procrel^+ f_2$.
 	\end{itemize}
 	
-	We let ${\preceq_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel_\msc})^\ast$. 
+	We let ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$. 
 	$\msc $ is a \emph{$\none$-MSC}
-	if ${\preceq_\msc}$ is a partial order. 
+	if ${\mbpartial}$ is a partial order. 
 \end{definition}
-The ${\mbrel}_\msc$ relation ensures that send events addressed to the same process are executed in an order that is suitable for the $\none$ communication. If ${\preceq_\msc}$ is a partial order, it means that it is possible to find a linearization $\linrel$, such that $\linrel \;\subseteq\; \preceq_\msc$. It is easy to see that such a linearization is exactly what we called a $\none$ linearization in Definition~\ref{def:mb_msc}. 
-%Finally notice  that ${\le_\msc} \subseteq {\preceq_\msc}$. Hence entailing that a \mb-MSC is also a \pp-MSC.
+The ${\mbrel}$ relation ensures that send events addressed to the same process are executed in an order that is suitable for the $\none$ communication. If ${\mbpartial}$ is a partial order, it means that it is possible to find a linearization $\linrel$, such that $\linrel \;\subseteq\; \mbpartial$. It is easy to see that such a linearization is exactly what we called a $\none$ linearization in Definition~\ref{def:mb_msc}. 
+%Finally notice  that ${\le} \subseteq {\mbpartial}$. Hence entailing that a \mb-MSC is also a \pp-MSC.
 
 The MSO-definability of $\mbMSCs$ directly follows from the previous definition:
 \[
-	\mbformula = \ppformula \;\wedge\; \neg \exists x.\exists y.(\neg (x = y) \wedge x \preceq_\msc y \wedge y \preceq_\msc x)
+	\mbformula = \ppformula \;\wedge\; \neg \exists x.\exists y.(\neg (x = y) \wedge x \mbpartial y \wedge y \mbpartial x)
 \]
 %This formula closely follows Definition~\ref{def:n_one_alt}. The set $\mbMSCs$ of $\none$ MSCs is therefore MSO-definable as $\mbMSCs=L(\mbformula)$.
 
-where $x \preceq y$ is obtained as the MSO-definable reflexive transitive closure of
+where $x \mbpartial y$ is obtained as the MSO-definable reflexive transitive closure of
 the union of the MSO-definable relations $\procrel$, $\lhd$, $\sqsubset$, and we may define $x \sqsubset y$ as:
 \[
 x \sqsubset y =
@@ -219,27 +219,27 @@ Similarly as before, we give an alternative definition (equivalence is shown in 
 	under the $\onen$ semantics, which ensures that messages sent from the same process are received in the same order. 
 
 \begin{definition} [$\onen$ alternative]\label{def:one_n_alt}
-	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\onenrel}_\msc \subseteq \Events \times \Events$ be defined as $e_1 \onenrel_\msc e_2$ if there are two events $e_1$ and $e_2$, and $p \in \Procs$ such that either:
+	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\onenrel} \subseteq \Events \times \Events$ be defined as $e_1 \onenrel e_2$ if there are two events $e_1$ and $e_2$, and $p \in \Procs$ such that either:
 	\begin{itemize}%\itemsep=0.5ex
 		\item $\lambda(e_1) \in \psAct{p}$, $\lambda(e_2) \in \psAct{p}$, $e_1 \in \Matched{\msc}$, and $e_2 \in \Unm{\msc}$, or
 		\item $\lambda(e_1) \in \prAct{p}$, $\lambda(e_2) \in \prAct{p}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events_p$, and $s_1 \procrel^+ s_2$.
 	\end{itemize}
 	
-	We let ${\lessdot_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel_\msc})^\ast$.
+	We let ${\onenpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel})^\ast$.
 		%\begin{definition}\label{def:mailbox-msc}
 	$\msc$ is a \emph{$\onen$ MSC}
-	if ${\lessdot_\msc}$ is a partial order. 
+	if ${\onenpartial}$ is a partial order. 
 \end{definition}
 
-The ${\onenrel}_\msc$ relation ensures that messages sent by a process are sent and received in an order that is suitable for the $\onen$ communication. As before, since ${\lessdot_\msc}$ is a partial order, then it is possible to find a linearization $\linrel$, such that $\linrel \subseteq \lessdot_\msc$. It is not difficult to see that such a linearization is exactly what we called a $\onen$ linearization in Definition~\ref{def:one_n}. 
+The ${\onenrel}$ relation ensures that messages sent by a process are sent and received in an order that is suitable for the $\onen$ communication. As before, since ${\onenpartial}$ is a partial order, then it is possible to find a linearization $\linrel$, such that $\linrel \subseteq \onenpartial$. It is not difficult to see that such a linearization is exactly what we called a $\onen$ linearization in Definition~\ref{def:one_n}. 
 
 Directly from  Definition~\ref{def:one_n_alt}, we obtain the MSO formula:
 \[
-	\onenformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \lessdot_\msc y \wedge y \lessdot_\msc x)
+	\onenformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \onenpartial y \wedge y \onenpartial x)
 \]
-Recall that $\lessdot_\msc$ is the union of the MSO-definable relations $\procrel$, $\lhd$, and $\onenrel_\msc$. In particular, we can define $x \onenrel_\msc y$ as 
+Recall that $\onenpartial$ is the union of the MSO-definable relations $\procrel$, $\lhd$, and $\onenrel$. In particular, we can define $x \onenrel y$ as 
 \[
-x \onenrel_\msc y =
+x \onenrel y =
 \begin{array}{rl}
 & \left(
 	\bigvee_{\substack{p \in \Procs\\a,b \in \psAct{p}}}\hspace{-1em}
@@ -254,9 +254,9 @@ x \onenrel_\msc y =
 \right)\\
 \end{array}
 \]
-%The MSO formula for $x \onenrel_\msc y$ closely follows Definition~\ref{def:one_n_alt}. The set $\onenMSCs$ of $\onen$ MSCs is therefore MSO-definable as $\onenMSCs=L(\onenformula)$.
+%The MSO formula for $x \onenrel y$ closely follows Definition~\ref{def:one_n_alt}. The set $\onenMSCs$ of $\onen$ MSCs is therefore MSO-definable as $\onenMSCs=L(\onenformula)$.
 
-%Finally it is worth noting that ${\le_\msc} \subseteq {\lessdot_\msc}$.
+%Finally it is worth noting that ${\le} \subseteq {\onenpartial}$.
 %\cinzia{maybe move previous sentence to next section}
 
 \paragraph{\bf \nn MSCs}
@@ -279,45 +279,45 @@ As before, in order to characterise \nn MSCs in the MSO logic we give an alterna
 
 
 \begin{definition} [$\nn$ alternative]\label{def:n_n_alt}
-	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel}_\msc = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel_\msc} \,\cup\, {\onenrel_\msc})^\ast$. We define  $\bowtie_\msc \subseteq \Events \times \Events$,  such that $e_1 \bowtie_\msc e_2$ if one of the following holds:
+	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel} \,\cup\, {\onenrel})^\ast$. We define  $\bowtie \subseteq \Events \times \Events$,  such that $e_1 \bowtie e_2$ if one of the following holds:
 	\begin{enumerate}%\itemsep=0.5ex
-		\item $e_1 \nnrel_\msc e_2$
-		\item $\lambda(e_1) \in \prAct{\plh}$, $\lambda(e_2) \in \prAct{\plh}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events$, $s_1 \nnrel_\msc s_2$ and $e_1 \slashed{\nnrel}_\msc e_2$.
-		\item $\lambda(e_1) \in \psAct{\plh}$, $\lambda(e_2) \in \psAct{\plh}$, $e_1 \lhd r_1$ and $e_2 \lhd r_2$ for some $r_1,r_2 \in \Events$, $r_1 \nnrel_\msc r_2$ and $e_1 \slashed{\nnrel}_\msc e_2$.
-		\item $e_1 \in \Matched{\msc}$, $e_2 \in \Unm{\msc}$, $e_1 \slashed{\nnrel}_\msc e_2$.
+		\item $e_1 \nnrel e_2$
+		\item $\lambda(e_1) \in \prAct{\plh}$, $\lambda(e_2) \in \prAct{\plh}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events$, $s_1 \nnrel s_2$ and $e_1 \slashed{\nnrel} e_2$.
+		\item $\lambda(e_1) \in \psAct{\plh}$, $\lambda(e_2) \in \psAct{\plh}$, $e_1 \lhd r_1$ and $e_2 \lhd r_2$ for some $r_1,r_2 \in \Events$, $r_1 \nnrel r_2$ and $e_1 \slashed{\nnrel} e_2$.
+		\item $e_1 \in \Matched{\msc}$, $e_2 \in \Unm{\msc}$, $e_1 \slashed{\nnrel} e_2$.
 	\end{enumerate}
 	
-	%Note that $\preceq_\msc \subseteq \nnrel_\msc$, $\lessdot_\msc \subseteq \nnrel_\msc$, and $\nnrel_\msc \subseteq\; \bowtie_\msc$. 
+	%Note that $\mbpartial \subseteq \nnrel$, $\onenpartial \subseteq \nnrel$, and $\nnrel \subseteq\; \bowtie$. 
 	$\msc $ is a \emph{$\nn$ MSC}
-	if ${\bowtie_\msc}$ is acyclic.
+	if ${\bowtie}$ is acyclic.
 \end{definition}
 
 It is not trivial to see that Definition~\ref{def:n_n_alt} and Definition~\ref{def:n_n} are equivalent. To show that, we need some preliminary results and definitions. 
 
 \begin{proposition}
-	Let $\msc$ be an MSC. Given two matched send events $s_1$ and $s_2$, and their respective receive events $r_1$ and $r_2$, $r_1 \bowtie_\msc r_2 \implies s_1 \bowtie_\msc s_2$.
+	Let $\msc$ be an MSC. Given two matched send events $s_1$ and $s_2$, and their respective receive events $r_1$ and $r_2$, $r_1 \bowtie r_2 \implies s_1 \bowtie s_2$.
 \end{proposition}
 \begin{proof}
-Follows from the definition of $\bowtie_\msc$. We have $r_1 \bowtie_\msc r_2$ if either:
+Follows from the definition of $\bowtie$. We have $r_1 \bowtie r_2$ if either:
 \begin{itemize}%\itemsep=0.5ex
-	\item $r_1 \nnrel_\msc r_2$. Two cases: either \begin{enumerate*}[label={(\roman*)}]
-		\item $s_1 \nnrel_\msc s_2$, or 
-		\item $s_1 \slashed{\nnrel}_\msc s_2$.
+	\item $r_1 \nnrel r_2$. Two cases: either \begin{enumerate*}[label={(\roman*)}]
+		\item $s_1 \nnrel s_2$, or 
+		\item $s_1 \slashed{\nnrel} s_2$.
 	\end{enumerate*}
-	The first case clearly implies $s_1 \bowtie_\msc s_2$, for rule 1 in the definition of $\bowtie_\msc$. The second too, because of rule 3.
-	\item  $r_1 \slashed{\nnrel}_\msc r_2$, but $r_1 \bowtie_\msc r_2$. This is only possible if rule 2 in the definition of $\bowtie_\msc$ was used, which implies $s_1 \nnrel_\msc s_2$ and, for rule 1, $s_1 \bowtie_\msc s_2$.
+	The first case clearly implies $s_1 \bowtie s_2$, for rule 1 in the definition of $\bowtie$. The second too, because of rule 3.
+	\item  $r_1 \slashed{\nnrel} r_2$, but $r_1 \bowtie r_2$. This is only possible if rule 2 in the definition of $\bowtie$ was used, which implies $s_1 \nnrel s_2$ and, for rule 1, $s_1 \bowtie s_2$.
 \end{itemize}
 \end{proof}
 
 \begin{proposition}\label{prop:n_n_cycl}
-	Let $\msc$ be an MSC. If $\bowtie_\msc$ is cyclic, then $\msc$ is not $\nn$.
+	Let $\msc$ be an MSC. If $\bowtie$ is cyclic, then $\msc$ is not $\nn$ according to Definition~\ref{def:n_n}.
 \end{proposition}
 \begin{proof}
-According to Definition~\ref{def:n_n}, an MSC is $\nn$ if it has at least one $\nn$ linearization. Note that, because of how it is defined, any $\nn$ linearization is always both a $\none$ and a $\onen$ linearization. It follows that the cyclicity of $\nnrel_\msc$ (not $\bowtie_\msc$) implies that $\msc$ is not $\nn$, because it means that we are not even able to find a linearization that is both $\none$ and $\onen$. Moreover, since in a $\nn$ linearization the order in which messages are sent matches the order in which they are received, and unmatched send events can be executed only after matched send events, a $\nn$ MSC always has to satisfy the constraints imposed by the $\bowtie_\msc$ relation. If $\bowtie_\msc$ is cyclic, then for sure there is no $\nn$ linearization for $\msc$.
+According to Definition~\ref{def:n_n}, an MSC is $\nn$ if it has at least one $\nn$ linearization. Note that, because of how it is defined, any $\nn$ linearization is always both a $\none$ and a $\onen$ linearization. It follows that the cyclicity of $\nnrel$ (not $\bowtie$) implies that $\msc$ is not $\nn$, since we are not even able to find a linearization that is both $\none$ and $\onen$. Moreover, since in a $\nn$ linearization the order in which messages are sent matches the order in which they are received, and unmatched send events can be executed only after matched send events, a $\nn$ MSC always has to satisfy all the constraints imposed by the $\bowtie$ relation. If $\bowtie$ is cyclic, then for sure there is no $\nn$ linearization for $\msc$.
 \davide{This proof does not convince me... maybe rewrite it better}
 \end{proof}
 
-Let the \emph{Event Dependency Graph} (EDG) of a $\nn$ MSC $\msc$ be a graph that has events as nodes and an edge between two events $e_1$ and $e_2$ if $e_1 \bowtie_\msc e_2$. We now present an algorithm that, given the EDG of an $\nn$ MSC $\msc$, computes a $\nn$ linearization of $\msc$. We then show that, if $\bowtie_\msc$ is acyclic (i.e. it is a partial order), this algorithm always terminates correctly. This, along with Proposition~\ref{prop:n_n_cycl}, effectively shows that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent.
+Let the \emph{Event Dependency Graph} (EDG) of a $\nn$ MSC $\msc$ be a graph that has events as nodes and an edge between two events $e_1$ and $e_2$ if $e_1 \bowtie e_2$. We now present an algorithm that, given the EDG of an $\nn$ MSC $\msc$, computes a $\nn$ linearization of $\msc$. We then show that, if $\bowtie$ is acyclic (i.e. it is a partial order), this algorithm always terminates correctly. This, along with Proposition~\ref{prop:n_n_cycl}, effectively shows that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent.
 
 \paragraph*{Algorithm for finding a $\nn$ linearization}
 The input of this algorithm is the EDG of an MSC $\msc$, and it outputs a valid $\nn$ linearization for $\msc$, if $\msc$ is $\nn$. The algorithm works as follows:
@@ -332,7 +332,7 @@ The input of this algorithm is the EDG of an MSC $\msc$, and it outputs a valid 
 We now need to show that 
 \begin{enumerate*}[label={(\roman*)}]
 	\item if this algorithm terminates correctly (i.e. step 4 is never executed), it returns a $\nn$ linearization, and 
-	\item if $\bowtie_\msc$ is acyclic, the algorithm always terminates correctly.
+	\item if $\bowtie$ is acyclic, the algorithm always terminates correctly.
 \end{enumerate*}
 \begin{proposition}
 	If the above algorithm returns a linearization for an MSC $\msc$, it is a $\nn$ linearization.
@@ -342,18 +342,18 @@ We now need to show that
 \end{proof}
 
 \begin{proposition}
-	Given an MSC $\msc$, the above algorithm always terminates correctly if $\bowtie_\msc$ is acyclic.
+	Given an MSC $\msc$, the above algorithm always terminates correctly if $\bowtie$ is acyclic.
 \end{proposition}
 \begin{proof}
-We want to prove that, if $\bowtie_\msc$ is acyclic, step 4 of the algorithm is never executed, i.e. it terminates correctly. Note that the acyclicity of $\bowtie_\msc$ implies that the EDG of $\msc$ is a DAG. Moreover, at every step of the algorithm we remove nodes and edges from the EDG, so it still remains a DAG. The proof goes by induction on the number of events added to the linearization.\newline
-Base case: no event has been added to the linearization yet. Since the EDG is a DAG, there must be an event with in-degree 0. In particular, this has to be a send event (a receive event depends on its respective send event, so it cannot have in-degree 0). If it is a matched send event, step 1 is applied. If there are no matched send events, step 2 is applied on an unmatched send. We show that it is impossible to have an unmatched send event of in-degree 0 if there are still matched send events in the EDG, so either step 1 or 2 are applied in the base case. Let $s$ be one of those matched send events and let $u$ be an unmatched send. Because of rule 4 in the definition of $\bowtie_\msc$, we have that $s \bowtie_\msc u$, which implies that $u$ cannot have in-degree 0 if $s$ is still in the EDG.\newline
+We want to prove that, if $\bowtie$ is acyclic, step 4 of the algorithm is never executed, i.e. it terminates correctly. Note that the acyclicity of $\bowtie$ implies that the EDG of $\msc$ is a DAG. Moreover, at every step of the algorithm we remove nodes and edges from the EDG, so it still remains a DAG. The proof goes by induction on the number of events added to the linearization.\newline
+Base case: no event has been added to the linearization yet. Since the EDG is a DAG, there must be an event with in-degree 0. In particular, this has to be a send event (a receive event depends on its respective send event, so it cannot have in-degree 0). If it is a matched send event, step 1 is applied. If there are no matched send events, step 2 is applied on an unmatched send. We show that it is impossible to have an unmatched send event of in-degree 0 if there are still matched send events in the EDG, so either step 1 or 2 are applied in the base case. Let $s$ be one of those matched send events and let $u$ be an unmatched send. Because of rule 4 in the definition of $\bowtie$, we have that $s \bowtie u$, which implies that $u$ cannot have in-degree 0 if $s$ is still in the EDG.\newline
 Inductive step: we want to show that we are never going to execute step 4. In particular, Step 4 is executed when none of the first three steps can be applied. This happens when there are no matched send events with in-degree 0 and one of the following holds:
 \begin{itemize}%\itemsep=0.5ex
-	\item \emph{There are still matched send events in the EDG with in-degree $>0$, there are no unmatched messages with in-degree 0, and there is no receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization}. Since the EDG is a DAG, there must be at least one receive event with in-degree 0. We want to show that, between these receive events with in-degree 0, there is also the receive event $r$ of the first message whose send event was added to the linearization, so that we can apply step 3 and step 4 is not executed. Suppose, by contradiction, that $r$ has in-degree $>0$, so it depends on other events. For any maximal chain in the EDG that contains one of these events, consider the first event $e$, which clearly has in-degree 0. In particular, $e$ cannot be a send event, because we would have applied step 1 or step 2. Hence, $e$ can only be a receive event for a send event that was not the first added to the linearization (and whose respective receive still has not been added). However, this is also impossible, since $r_e \bowtie_\msc r$ implies $s_e \bowtie_\msc s$, and we could not have added $s$ to the linearization before $s_e$. Because we got to a contradiction, the hypothesis that $r$ has in-degree $>0$ must be false, and we can indeed apply step 3.
-	\item \emph{There are still matched send events in the EDG with in-degree $>0$, there is at least one unmatched message with in-degree 0, and there is no receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization}. We show that it is impossible to have an unmatched send event of in-degree 0 if there are still matched send events in the EDG. Let $s$ be one of those matched send events and let $u$ be an unmatched send. Because of rule 4 in the definition of $\bowtie_\msc$, we have that $s \bowtie_\msc u$, which implies that $u$ cannot have in-degree 0 if $s$ is still in the EDG.
-	\item \emph{There are no more matched send events in the EDG, there are no unmatched messages with in-degree 0, and there is no receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization}. Very similar to the first case. Since the EDG is a DAG, there must be at least one receive event with in-degree 0. We want to show that, between these receive events with in-degree 0, there is also the receive event $r$ of the first message whose send event was added to the linearization, so that we can apply step 3 and step 4 is not executed. Suppose, by contradiction, that $r$ has in-degree $>0$, so it depends on other events. For any maximal chain in the EDG that contains one of these events, consider the first event $e$, which clearly has in-degree 0. In particular, $e$ cannot be a send event, because by hypothesis there are no more send events with in-degree 0 in the EDG. Hence, $e$ can only be a receive event for a send event that was not the first added to the linearization (and whose respective receive still has not been added). However, this is also impossible, since $r_e \bowtie_\msc r$ implies $s_e \bowtie_\msc s$, and we could not have added $s$ to the linearization before $s_e$. Because we got to a contradiction, the hypothesis that $r$ has in-degree $>0$ must be false, and we can indeed apply step 3.
+	\item \emph{There are still matched send events in the EDG with in-degree $>0$, there are no unmatched messages with in-degree 0, and there is no receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization}. Since the EDG is a DAG, there must be at least one receive event with in-degree 0. We want to show that, between these receive events with in-degree 0, there is also the receive event $r$ of the first message whose send event was added to the linearization, so that we can apply step 3 and step 4 is not executed. Suppose, by contradiction, that $r$ has in-degree $>0$, so it depends on other events. For any maximal chain in the EDG that contains one of these events, consider the first event $e$, which clearly has in-degree 0. In particular, $e$ cannot be a send event, because we would have applied step 1 or step 2. Hence, $e$ can only be a receive event for a send event that was not the first added to the linearization (and whose respective receive still has not been added). However, this is also impossible, since $r_e \bowtie r$ implies $s_e \bowtie s$, and we could not have added $s$ to the linearization before $s_e$. Because we got to a contradiction, the hypothesis that $r$ has in-degree $>0$ must be false, and we can indeed apply step 3.
+	\item \emph{There are still matched send events in the EDG with in-degree $>0$, there is at least one unmatched message with in-degree 0, and there is no receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization}. We show that it is impossible to have an unmatched send event of in-degree 0 if there are still matched send events in the EDG. Let $s$ be one of those matched send events and let $u$ be an unmatched send. Because of rule 4 in the definition of $\bowtie$, we have that $s \bowtie u$, which implies that $u$ cannot have in-degree 0 if $s$ is still in the EDG.
+	\item \emph{There are no more matched send events in the EDG, there are no unmatched messages with in-degree 0, and there is no receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization}. Very similar to the first case. Since the EDG is a DAG, there must be at least one receive event with in-degree 0. We want to show that, between these receive events with in-degree 0, there is also the receive event $r$ of the first message whose send event was added to the linearization, so that we can apply step 3 and step 4 is not executed. Suppose, by contradiction, that $r$ has in-degree $>0$, so it depends on other events. For any maximal chain in the EDG that contains one of these events, consider the first event $e$, which clearly has in-degree 0. In particular, $e$ cannot be a send event, because by hypothesis there are no more send events with in-degree 0 in the EDG. Hence, $e$ can only be a receive event for a send event that was not the first added to the linearization (and whose respective receive still has not been added). However, this is also impossible, since $r_e \bowtie r$ implies $s_e \bowtie s$, and we could not have added $s$ to the linearization before $s_e$. Because we got to a contradiction, the hypothesis that $r$ has in-degree $>0$ must be false, and we can indeed apply step 3.
 \end{itemize}
-We showed that, if $\bowtie_\msc$ is acyclic, the algorithm always terminates correctly and computes a valid $\nn$ linearization.
+We showed that, if $\bowtie$ is acyclic, the algorithm always terminates correctly and computes a valid $\nn$ linearization.
 \end{proof}
 
 \noindent We have now effectively proved that Definition~\ref{def:n_n_alt} of $\nn$ MSC is equivalent to Definition~\ref{def:n_n}.
@@ -373,9 +373,9 @@ Following the characterization given in \cite[Theorem 4.4]{DBLP:journals/dc/Char
 
 
 \begin{definition}
-	Let $\msc$ be an MSC and $<_\msc = (\procrel \cup \lhd)^+$. A crown of size $k$ in $\msc$ is a sequence $\langle(s_i,r_i),\, i \in \{1,\dots,k\}\rangle$ of pairs of corresponding send and receive events such that
+	Let $\msc$ be an MSC and $< = (\procrel \cup \lhd)^+$. A crown of size $k$ in $\msc$ is a sequence $\langle(s_i,r_i),\, i \in \{1,\dots,k\}\rangle$ of pairs of corresponding send and receive events such that
 	\[
-		s_1 <_\msc r_2, s_2 <_\msc r_3, \dots, s_{k-1} <_\msc r_k, s_k <_\msc r_1.
+		s_1 < r_2, s_2 < r_3, \dots, s_{k-1} < r_k, s_k < r_1.
 	\]
 \end{definition}
 
@@ -407,25 +407,25 @@ s_1 \neq s_2 \;\wedge\;
 % \begin{proof}
 % Let $\msc$ be a $\onen$ MSC without unmatched messages, and let $L$ be a $\onen$ linearization. We will show that, by reordering some of the events in $L$, we are always able to obtain a $\nn$ linearization for $\msc$. The algorithm works as follow:
 % \begin{enumerate}
-% 	\item Find a pair $(m_1,m_2)$ of distinct messages such that their send order in $L$ is the inverse of the receive order\footnote{Note that $L$ is already a $\nn$ linearization if such a pair does not exist}. This can only happen if there is not a causal path between $s_1$ and $s_2$, i.e $s_1 \le \ge s_2$, where $s_i$ is the send event of message $m_i$. To see why, suppose w.l.o.g. that $s_1 \le s_2$. As seen in the proof of Proposition~\ref{prop:onen_mb_no_unmatched}, there must be a message $m_k$ sent by the same process that sent $s_1$, such that we have $r_1 \onenrel r_k \le r_2$, and in particular $r_1 \lessdot r_2$. Therefore, if $s_1 \le s_2$, the receive order has to match the send order in $L$ and it will never be the opposite.
-% 	\item Suppose, w.l.o.g. that $s_2 \linrel s_1$ and $r_1 \linrel r_2$, and we saw that $s_1 \le \ge s_2$. We would like to invert the order of $s_1$ and $s_2$ in the linearization, so that it matches the receive order. If we simply swap $s_2$ and $s_1$ in $L$, the new linearization could be invalid for $\msc$; for instance, there might be some events between $s_2$ and $s_1$ (in the linearization $L$) that need to happen before $s_1$. However, we show that it is still possible to invert the order of $s_1$ and $s_2$ without invalidating the linearization. Suppose that $s_2$ and $s_1$ are the $i$-th and the $j$-th events of $L$, respectively, where $i<j$. The idea is to move $s_2$ right before $s_1$, along with all the events on which $s_1$ depends, that are between $s_2$ and $s_1$ in $L$; we say that $s_1$ depends on an event $e$ if $e \lessdot s_1$.
+% 	\item Find a pair $(m_1,m_2)$ of distinct messages such that their send order in $L$ is the inverse of the receive order\footnote{Note that $L$ is already a $\nn$ linearization if such a pair does not exist}. This can only happen if there is not a causal path between $s_1$ and $s_2$, i.e $s_1 \le \ge s_2$, where $s_i$ is the send event of message $m_i$. To see why, suppose w.l.o.g. that $s_1 \le s_2$. As seen in the proof of Proposition~\ref{prop:onen_mb_no_unmatched}, there must be a message $m_k$ sent by the same process that sent $s_1$, such that we have $r_1 \onenrel r_k \le r_2$, and in particular $r_1 \onenpartial r_2$. Therefore, if $s_1 \le s_2$, the receive order has to match the send order in $L$ and it will never be the opposite.
+% 	\item Suppose, w.l.o.g. that $s_2 \linrel s_1$ and $r_1 \linrel r_2$, and we saw that $s_1 \le \ge s_2$. We would like to invert the order of $s_1$ and $s_2$ in the linearization, so that it matches the receive order. If we simply swap $s_2$ and $s_1$ in $L$, the new linearization could be invalid for $\msc$; for instance, there might be some events between $s_2$ and $s_1$ (in the linearization $L$) that need to happen before $s_1$. However, we show that it is still possible to invert the order of $s_1$ and $s_2$ without invalidating the linearization. Suppose that $s_2$ and $s_1$ are the $i$-th and the $j$-th events of $L$, respectively, where $i<j$. The idea is to move $s_2$ right before $s_1$, along with all the events on which $s_1$ depends, that are between $s_2$ and $s_1$ in $L$; we say that $s_1$ depends on an event $e$ if $e \onenpartial s_1$.
 % \end{enumerate}
 % \end{proof}
 
 Following Definition~\ref{def:n_n_alt}, an MSC $\msc$ is a $\nn$ MSC if and only if it satisfies the MSO formula
 \[
-	\nnformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \bowtie_\msc y \wedge y \bowtie_\msc x)
+	\nnformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \bowtie y \wedge y \bowtie x)
 \]
-In particular, we can define $x \bowtie_\msc y$ as
+In particular, we can define $x \bowtie y$ as
 \[
-	x \bowtie_\msc y =
+	x \bowtie y =
 	\begin{array}{rl}
 	& \left(
 		\bigvee_{\substack{a,b \in \psAct{\plh}}}
 		(\lambda(x) = a \;\wedge\; \lambda(y) = b)
 		\;\wedge\; \mathit{matched}(x) \;\wedge\; \neg \mathit{matched}(y)
 	\right) \;\vee\\
-	& (x \nnrel_\msc y) \quad \vee \quad \psi_3 \quad \vee \quad \psi_4\\
+	& (x \nnrel y) \quad \vee \quad \psi_3 \quad \vee \quad \psi_4\\
 	\end{array}
 \]
 
@@ -436,7 +436,7 @@ In particular, we can define $x \bowtie_\msc y$ as
 		& \bigvee_{\substack{a,b \in \prAct{\plh}}}
 		  (\lambda(x) = a \;\wedge\; \lambda(y) = b)
 		  \;\wedge\; \\
-		& \exists x'.\exists y'.(x' \lhd x \;\wedge\; y' \lhd y) \;\wedge\; (x' \nnrel_\msc y') \;\wedge\; \neg(x \nnrel_\msc y)\\
+		& \exists x'.\exists y'.(x' \lhd x \;\wedge\; y' \lhd y) \;\wedge\; (x' \nnrel y') \;\wedge\; \neg(x \nnrel y)\\
 	\end{array}
 \]
 \[
@@ -445,11 +445,11 @@ In particular, we can define $x \bowtie_\msc y$ as
 		& \bigvee_{\substack{a,b \in \psAct{\plh}}}
 		  (\lambda(x) = a \;\wedge\; \lambda(y) = b)
 		  \;\wedge\; \\
-		& \exists x'.\exists y'.(x \lhd x' \;\wedge\; y \lhd y') \;\wedge\; (x' \nnrel_\msc y') \;\wedge\; \neg(x \nnrel_\msc y)\\
+		& \exists x'.\exists y'.(x \lhd x' \;\wedge\; y \lhd y') \;\wedge\; (x' \nnrel y') \;\wedge\; \neg(x \nnrel y)\\
 	\end{array}
 \]
 
-The MSO formula for $x \nnrel_\msc y$ closely follows Definition~\ref{def:n_n_alt}. The set $\nnMSCs$ of $\nn$ MSCs is therefore MSO-definable as $\nnMSCs=L(\nnformula)$.
+The MSO formula for $x \nnrel y$ closely follows Definition~\ref{def:n_n_alt}. The set $\nnMSCs$ of $\nn$ MSCs is therefore MSO-definable as $\nnMSCs=L(\nnformula)$.
 
 % \davidequestion{The following formula should be wrong... I cannot use $n$ in an MSO formula}
 % \[
@@ -459,7 +459,7 @@ The MSO formula for $x \nnrel_\msc y$ closely follows Definition~\ref{def:n_n_al
 % 		& \neg \left( 
 % 			\bigvee_{k=1}^n \left(
 % 			\exists s_1 \cdots s_k. \exists r_1 \cdots r_k. 
-% 			\bigwedge_{i=1}^k (s_i \lhd r_i \;\wedge\; s_i \le_\msc r_{(i+1)\%k})
+% 			\bigwedge_{i=1}^k (s_i \lhd r_i \;\wedge\; s_i \le r_{(i+1)\%k})
 % 		\right)
 % 		\right)\\
 % 	\end{array}

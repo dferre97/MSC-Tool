@@ -34,13 +34,13 @@ We show here that the two alternative definitions of $\none$ MSC that we gave ar
     Definition~\ref{def:mb_msc} and Definition~\ref{def:n_one_alt} of $\none$ MSC are equivalent.
 \end{proposition}
 \begin{proof}
-    ($\Rightarrow$)  We show that if $\msc$ is a $\none$ MSC, according to Definition~\ref{def:n_one_alt}, then it is also a $\none$ MSC, according to Definition~\ref{def:mb_msc}. By definition of $\preceq_\msc$, we must have 
+    ($\Rightarrow$)  We show that if $\msc$ is a $\none$ MSC, according to Definition~\ref{def:n_one_alt}, then it is also a $\none$ MSC, according to Definition~\ref{def:mb_msc}. By definition of $\mbpartial$, we must have 
     \begin{enumerate*}[label={(\roman*)}]
-        \item $s \preceq_\msc s'$ for any two matched send events $s$ and $s'$ addressed to the same process, such that $r \procrel^+ r$, where $s \lhd r$ and $s' \lhd r'$, and
-        \item $s \preceq_\msc s'$, if $s$ and $s'$ are a matched and an unmatched send event, respectively.
+        \item $s \mbpartial s'$ for any two matched send events $s$ and $s'$ addressed to the same process, such that $r \procrel^+ r$, where $s \lhd r$ and $s' \lhd r'$, and
+        \item $s \mbpartial s'$, if $s$ and $s'$ are a matched and an unmatched send event, respectively.
     \end{enumerate*} 
-    If $\preceq_\msc$ is a partial order, we can find at least one linearization $\linrel$ such that $\preceq_\msc \;\subseteq\; \linrel$; such a linearization satisfies the conditions of Definition~\ref{def:mb_msc}.\newline
-    ($\Leftarrow$) We show that if $\msc$ is not a $\none$ MSC, according to Definition~\ref{def:n_one_alt}, then it is also not a $\none$ MSC, according to Definition~\ref{def:mb_msc}. Since ${\preceq_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel_\msc})^\ast$ is not a partial order, $\preceq_\msc$ must be cyclic\footnote{$\preceq_\msc$ is reflexive and transitive by definition, if it were also acyclic it would be a partial order}. If $\preceq_\msc$ is cyclic, it means that we cannot find a linearization $\linrel$ such that $\preceq_\msc \;\subseteq\; \linrel$. In other words, we cannot find a linearization where      
+    If $\mbpartial$ is a partial order, we can find at least one linearization $\linrel$ such that $\mbpartial \;\subseteq\; \linrel$; such a linearization satisfies the conditions of Definition~\ref{def:mb_msc}.\newline
+    ($\Leftarrow$) We show that if $\msc$ is not a $\none$ MSC, according to Definition~\ref{def:n_one_alt}, then it is also not a $\none$ MSC, according to Definition~\ref{def:mb_msc}. Since ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$ is not a partial order, $\mbpartial$ must be cyclic\footnote{$\mbpartial$ is reflexive and transitive by definition, if it were also acyclic it would be a partial order}. If $\mbpartial$ is cyclic, it means that we cannot find a linearization $\linrel$ such that $\mbpartial \;\subseteq\; \linrel$. In other words, we cannot find a linearization where      
     \begin{enumerate*}[label={(\roman*)}]
         \item $s \linrel s'$ for any two matched send events $s$ and $s'$ addressed to the same process, such that $r \procrel^+ r$, where $s \lhd r$ and $s' \lhd r'$, and
         \item $s \linrel s'$, if $s$ and $s'$ are a matched and an unmatched send event, respectively.
@@ -54,13 +54,13 @@ We show here that the two alternative definitions of $\onen$ MSC that we gave ar
     Definition~\ref{def:one_n} and Definition~\ref{def:one_n_alt} of $\onen$ MSC are equivalent.
 \end{proposition}
 \begin{proof}
-    ($\Rightarrow$)  We show that if $\msc$ is a $\onen$ MSC, according to Definition~\ref{def:one_n_alt}, then it is also a $\onen$ MSC, according to Definition~\ref{def:one_n}. By definition of $\lessdot_\msc$, we must have 
+    ($\Rightarrow$)  We show that if $\msc$ is a $\onen$ MSC, according to Definition~\ref{def:one_n_alt}, then it is also a $\onen$ MSC, according to Definition~\ref{def:one_n}. By definition of $\onenpartial$, we must have 
     \begin{enumerate*}[label={(\roman*)}]
-        \item $r \lessdot_\msc r'$ for any two receive events $r$ and $r'$ whose matched send events $s$ and $s'$ are such that $s \procrel^+ s'$, and
-        \item $s \lessdot_\msc s'$, if $s$ and $s'$ are a matched and an unmatched send event executed by the same process, respectively.
+        \item $r \onenpartial r'$ for any two receive events $r$ and $r'$ whose matched send events $s$ and $s'$ are such that $s \procrel^+ s'$, and
+        \item $s \onenpartial s'$, if $s$ and $s'$ are a matched and an unmatched send event executed by the same process, respectively.
     \end{enumerate*} 
-    If $\lessdot_\msc$ is a partial order, we can find at least one linearization $\linrel$ such that $\lessdot_\msc \;\subseteq\; \linrel$; such a linearization satisfies the conditions of Definition~\ref{def:one_n}.\newline
-    ($\Leftarrow$) We show that if $\msc$ is not a $\onen$ MSC, according to Definition~\ref{def:one_n_alt}, then it is also not a $\onen$ MSC, according to Definition~\ref{def:one_n}. Since ${\lessdot_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel_\msc})^\ast$ is not a partial order, $\lessdot_\msc$ must be cyclic. If $\lessdot_\msc$ is cyclic, it means that we cannot find a linearization $\linrel$ such that $\lessdot_\msc \;\subseteq\; \linrel$. In other words, we cannot find a linearization where      
+    If $\onenpartial$ is a partial order, we can find at least one linearization $\linrel$ such that $\onenpartial \;\subseteq\; \linrel$; such a linearization satisfies the conditions of Definition~\ref{def:one_n}.\newline
+    ($\Leftarrow$) We show that if $\msc$ is not a $\onen$ MSC, according to Definition~\ref{def:one_n_alt}, then it is also not a $\onen$ MSC, according to Definition~\ref{def:one_n}. Since ${\onenpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel})^\ast$ is not a partial order, $\onenpartial$ must be cyclic. If $\onenpartial$ is cyclic, it means that we cannot find a linearization $\linrel$ such that $\onenpartial \;\subseteq\; \linrel$. In other words, we cannot find a linearization where      
     \begin{enumerate*}[label={(\roman*)}]
         \item $r \linrel r'$ for any two receive events $r$ and $r'$ whose matched send events $s$ and $s'$ are such that $s \procrel^+ s'$, and
         \item $s \linrel s'$, if $s$ and $s'$ are a matched and an unmatched send event executed by the same process, respectively.

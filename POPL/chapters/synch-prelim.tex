@@ -3,15 +3,15 @@
 
 \begin{definition}[Prefix]
 	Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and consider
-	$E \subseteq \Events$ such that $E$ is ${\le_\msc}$-\emph{downward-closed}, i.e,
-	for all $(e,f) \in {\le_\msc}$ such that $f \in E$, we also have $e \in E$.
+	$E \subseteq \Events$ such that $E$ is ${\le}$-\emph{downward-closed}, i.e,
+	for all $(e,f) \in {\le}$ such that $f \in E$, we also have $e \in E$.
 	Then, the MSC $M' = (E,{\procrel} \cap (E \times E),{\lhd} \cap (E \times E),\lambda')$,
 	where $\lambda'$ is the restriction of $\Events$ to $E$, is called a \emph{prefix}
 	of $\msc$. 	
 \end{definition}
 
-If we consider a set $E$ that is ${\lessdot_\msc}$-\emph{downward-closed}, we call $M'$ a \emph{$\onen$ prefix}.
-If the set $E$ is ${\bowtie_\msc}$-\emph{downward-closed}, we call $M'$ a \emph{$\nn$ prefix}. Note that every $\onen$ or $\nn$ prefix is also a prefix, since $\le_\msc \subseteq {\lessdot_\msc}$ and $\le_\msc \subseteq {\bowtie_\msc}$.
+If we consider a set $E$ that is ${\onenpartial}$-\emph{downward-closed}, we call $M'$ a \emph{$\onen$ prefix}.
+If the set $E$ is ${\bowtie_\msc}$-\emph{downward-closed}, we call $M'$ a \emph{$\nn$ prefix}. Note that every $\onen$ or $\nn$ prefix is also a prefix, since $\le \subseteq {\onenpartial}$ and $\le \subseteq {\bowtie_\msc}$.
 
 Note that the empty MSC is a prefix of $\msc$.
 We denote the set of prefixes of $\msc$ by $\Pref{\msc}$, whereas $\Prefonen{\msc}$ and $\Prefnn{\msc}$ are used for the $\onen$ and the $\nn$ variants, respectively.
@@ -21,8 +21,8 @@ $\Pref{L} = \bigcup_{\msc \in L} \Pref{\msc}$.
 \begin{comment}
 
 Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and consider
-$E \subseteq \Events$ such that $E$ is ${\le_\msc}$-\emph{downward-closed}, i.e,
-for all $(e,f) \in {\le_\msc}$ such that $f \in E$, we also have $e \in E$.
+$E \subseteq \Events$ such that $E$ is ${\le}$-\emph{downward-closed}, i.e,
+for all $(e,f) \in {\le}$ such that $f \in E$, we also have $e \in E$.
 Then, the MSC $(E,{\procrel} \cap (E \times E),{\lhd} \cap (E \times E),\lambda')$,
 where $\lambda'$ is the restriction of $\Events$ to $E$, is called a \emph{prefix}
 of $\msc$. In particular, the empty MSC is a prefix of $\msc$.
@@ -33,8 +33,8 @@ $\Pref{L} = \bigcup_{\msc \in L} \Pref{\msc}$.
 \smallskip
 
 Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \onenMSCs$ and consider
-$E \subseteq \Events$ such that $E$ is ${\lessdot_\msc}$-\emph{downward-closed}, i.e,
-for all $(e,f) \in {\lessdot_\msc}$ such that $f \in E$, we also have $e \in E$.
+$E \subseteq \Events$ such that $E$ is ${\onenpartial}$-\emph{downward-closed}, i.e,
+for all $(e,f) \in {\onenpartial}$ such that $f \in E$, we also have $e \in E$.
 Then, the MSC $(E,{\procrel} \cap (E \times E),{\lhd} \cap (E \times E),\lambda')$,
 where $\lambda'$ is the restriction of $\Events$ to $E$, is called a \emph{$\onen$ prefix} of $\msc$. We denote the set of $\onen$ prefixes of $\msc$ by $\Prefonen{\msc}$.
 
@@ -108,7 +108,7 @@ Note that this proposition is not true for the $\onen$ and the $\nn$ communicati
 Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \ppMSCs$ and let $\msc_0 =
 (\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$, where $\Events_0 \subseteq \Events$, ${\rightarrow_0} \subseteq {\rightarrow}$, and ${\lhd_0} \subseteq {\lhd}$. Since $\msc$ is \pp, we have that for every pair $(e,f) \in {\lhd}$, such that $\lambda(e) = \sact{p}{q}{\msg}$ and $\lambda(f) = \ract{p}{q}{\msg}$, $\sametype{e}{\pqsAct{p}{q}}{\procrel^+} = \sametype{f}{\pqrAct{p}{q}}{\procrel^+}$. We show that, for every pair $(e,f) \in {\lhd_0}$, this property still holds. 
 Since  ${\lhd_0} \subseteq {\lhd}$, every pair $(e,f)$ that belongs to $\lhd_0$ also belongs to $\lhd$, and we know that $\sametype{e}{\pqsAct{p}{q}}{\procrel^+} = \sametype{f}{\pqrAct{p}{q}}{\procrel^+}$. 
-Because of the $\le_\msc$-downward-closeness of $\Events_0$, it is easy to see that $\sametype{e}{\pqsAct{p}{q}}{\procrel^+}=\sametype{e}{\pqsAct{p}{q}}{\procrel_0^+}$ and $\sametype{f}{\pqrAct{p}{q}}{\procrel^+}=\sametype{f}{\pqrAct{p}{q}}{\procrel_0^+}$.
+Because of the $\le$-downward-closeness of $\Events_0$, it is easy to see that $\sametype{e}{\pqsAct{p}{q}}{\procrel^+}=\sametype{e}{\pqsAct{p}{q}}{\procrel_0^+}$ and $\sametype{f}{\pqrAct{p}{q}}{\procrel^+}=\sametype{f}{\pqrAct{p}{q}}{\procrel_0^+}$.
 \end{proof}
 
 \begin{lemma}
@@ -131,7 +131,7 @@ In both cases, $\msc$ would also not be a causally ordered $\MSCs$, since $\Even
 \end{lemma}
 \begin{proof}
 	Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \onenMSCs$ and let $\msc_0 =
-	(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a $\onen$ prefix of $\msc$, where $\Events_0 \subseteq \Events$. Firstly, the $\lessdot_\msc$-downward-closeness of $\Events_0$ guarantees that ${\msc_0}$ is still an MSC. We need to prove that it is a $\onen$ MSC. By contradiction, suppose that $\msc_0$ is not a $\onen$ MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \lessdot_{\msc_0} f \lessdot_{\msc_0} e$, where $\lessdot_{\msc_0} = (\procrel_0 \cup \lhd_0 \cup \onenrel_{\msc_0})^\ast$. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, ${\onenrel_{\msc_0}} \subseteq {\onenrel_\msc}$. Clearly, $\lessdot_{\msc_0} \subseteq \lessdot_\msc$, so $e \lessdot_\msc f \lessdot_\msc e$. This implies that $\msc$ is not a $\onen$ MSC, because $\lessdot_\msc$ is cyclic, which is a contradiction. Hence $\msc_0$ is a $\onen$ MSC.
+	(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a $\onen$ prefix of $\msc$, where $\Events_0 \subseteq \Events$. Firstly, the $\onenpartial$-downward-closeness of $\Events_0$ guarantees that ${\msc_0}$ is still an MSC. We need to prove that it is a $\onen$ MSC. By contradiction, suppose that $\msc_0$ is not a $\onen$ MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \onenpartial_{\msc_0} f \onenpartial_{\msc_0} e$, where $\onenpartial_{\msc_0} = (\procrel_0 \cup \lhd_0 \cup \onenrel_{\msc_0})^\ast$. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, ${\onenrel_{\msc_0}} \subseteq {\onenrel}$. Clearly, $\onenpartial_{\msc_0} \subseteq \onenpartial$, so $e \onenpartial f \onenpartial e$. This implies that $\msc$ is not a $\onen$ MSC, because $\onenpartial$ is cyclic, which is a contradiction. Hence $\msc_0$ is a $\onen$ MSC.
 \end{proof}
 
 \noindent Note that every $\onen$ prefix is also a prefix.
@@ -299,7 +299,7 @@ The latter is decidable due to Fact~\ref{p2p}.
 \begin{proof}
 	Let $k$ and $\Class$ be fixed, and let
 	$\msc\in \MSCs\setminus \Class$ be fixed. If the empty MSC is not in $\Class$, then we are done, since it is a valid prefix of $\msc$ and it is in $\stwMSCs{(k+2)} \setminus \Class$.
-	Otherwise, let $\msc'\in \Pref{\msc} \setminus \Class$ such that, for all $\le_\msc$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\le_\msc$-maximal events. Let $e$ be $\le_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
+	Otherwise, let $\msc'\in \Pref{\msc} \setminus \Class$ such that, for all $\le$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\le$-maximal events. Let $e$ be $\le_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
 	So Eve has a winning strategy with $k+1$ pebbles for $\msc''$.
 	Let us design a winning strategy with $k+3$ pebbles for Eve for $\msc'$, which will show the claim.
 
@@ -325,7 +325,7 @@ The latter is decidable due to Fact~\ref{p2p}.
 \begin{proof}
 	Let $k$ and $\Class$ be fixed, and let
 	$\msc\in \onenMSCs \setminus \Class$ be fixed. If the empty MSC is not in $\Class$, then we are done, since it is a valid $\onen$ prefix of $\msc$ and it is in $\stwMSCs{(k+2)} \setminus \Class$.
-	Otherwise, let $\msc'\in \Prefonen{\msc} \setminus \Class$ such that, for all $\lessdot_\msc$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\lessdot_\msc$-maximal events. Let $e$ be $\lessdot_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
+	Otherwise, let $\msc'\in \Prefonen{\msc} \setminus \Class$ such that, for all $\onenpartial$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\onenpartial$-maximal events. Let $e$ be $\onenpartial_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
 	The proof proceeds exactly as the proof of Lemma~\ref{lem:pref_stw_k+2}. 
 \end{proof}
 

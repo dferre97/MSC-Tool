@@ -2,17 +2,17 @@
 	Every $\co$ MSC is a $\oneone$ MSC.
 \end{proposition}
 \begin{proof}
-	According to Definition~\ref{def:co_msc}, and MSC is $\co$ if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le_\msc s'$, we have either
+	According to Definition~\ref{def:co_msc}, and MSC is $\co$ if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le s'$, we have either
 	\begin{enumerate*}[label={(\roman*)}]
 		\item $s,s' \in \Matched{\msc}$ and $r \procrel^* r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$, or
 		\item $s' \in \Unm{\msc}$.
 	\end{enumerate*}
-	The conditions imposed by the Definition~\ref{def:pp_msc} of $\oneone$ are clearly satified by any causally ordered MSC; in particular, note that $s \procrel^+ s'$ implies $s \le_\msc s'$.
+	The conditions imposed by the Definition~\ref{def:pp_msc} of $\oneone$ are clearly satified by any causally ordered MSC; in particular, note that $s \procrel^+ s'$ implies $s \le s'$.
 \end{proof}
 
 \mbonennounmatched*
 \begin{proof}
-	We show that the contrapositive is true, i.e. if an MSC is not $\onen$ (and it does not have unmatched messages), it is also not mailbox. Suppose $\msc$ is an asynchronous MSC, but not $\onen$. There must be a cycle $\xi$ such that  $e \lessdot e$, for some event $e$. Recall that ${\lessdot} = ({\procrel} \,\cup\, {\onenrel} \,\cup\, {\mbrel})^\ast$ and ${\le} = ({\procrel} \cup {\onenrel})^\ast$. We can always explicitely write a cycle $e \lessdot e$ only using $\onenrel$ and $\le$. For instance, there might be a cycle $e \lessdot e$ because we have that $e \onenrel f \le g \onenrel h \onenrel i \le e$. Consider any two adiacent events $r_1$ and $r_2$ in the cycle $\xi$, where $\xi$ has been written using only $\onenrel$ and $\le$, and we never have two consecutive $\le$. We have two cases:
+	We show that the contrapositive is true, i.e. if an MSC is not $\onen$ (and it does not have unmatched messages), it is also not mailbox. Suppose $\msc$ is an asynchronous MSC, but not $\onen$. There must be a cycle $\xi$ such that  $e \onenpartial e$, for some event $e$. Recall that ${\onenpartial} = ({\procrel} \,\cup\, {\onenrel} \,\cup\, {\mbrel})^\ast$ and ${\le} = ({\procrel} \cup {\onenrel})^\ast$. We can always explicitely write a cycle $e \onenpartial e$ only using $\onenrel$ and $\le$. For instance, there might be a cycle $e \onenpartial e$ because we have that $e \onenrel f \le g \onenrel h \onenrel i \le e$. Consider any two adiacent events $r_1$ and $r_2$ in the cycle $\xi$, where $\xi$ has been written using only $\onenrel$ and $\le$, and we never have two consecutive $\le$. We have two cases:
 	\begin{enumerate}
 		\item $r_1 \onenrel r_2$. By definition of $\onenrel$, $r_1$ and $r_2$ must be two receive events, since we are not considering unmatched send events, and $s_1 \procrel^+ s_2$, where $s_1$ and $s_2$ are the send events that match with $r_1$ and $r_2$, respectively.
 		\item $r_1 \le r_2$. Since $\msc$ is asynchronous by hyphotesis, $\xi$ has to contain at least one $\onenrel$; recall that we also wrote $\xi$ in such a way that we do not have two consecutive $\le$. It is not difficult to see that $r_1$ and $r_2$ have to be receive events, since they belong to $\xi$. Let $s_1$ and $s_2$ be the two send events such that $s_1 \lhd r_1$ and $s_2 \lhd r_2$. We have two cases:
@@ -20,9 +20,9 @@
 			\item $s_2$ is in the causal path between $r_1$ and $r_2$, i.e. $s_1 \lhd r_1 \le s_2 \lhd r_2$. In particular, note that $s_1 \le s_2$.
 			\item $s_2$ is not in the causal path between $r_1$ and $r_2$, hence there must be a message $m_k$ received by the same process that executes $r_2$, such that $r_1 \le s_k \lhd r_k \procrel^+ r_2$, where $r_k$ is the send event of $m_k$. Since messages $m_k$ and $m_2$ are received by the same process and $r_k \procrel^+ r_2$, we should have $s_k \mbrel s_2$, according to the mailbox semantics. In particular, note the we have $s_1 \le s_k \mbrel s_2$.
 		\end{enumerate}
-		In both case (a) and (b), we conclude that $s_1 \preceq s_2$. Recall that ${\preceq} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel_\msc})^\ast$.
+		In both case (a) and (b), we conclude that $s_1 \mbpartial s_2$. Recall that ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$.
 	\end{enumerate}
-	Notice that, for either cases, a relation between two receive events $r_1$ and $r_2$ implies a relation between the respective send events $s_1$ and $s_2$, according to the mailbox semantics. It follows that $\xi$, which is a cycle for the $\lessdot$ relation, always implies a cycle for the $\preceq$ relation.
+	Notice that, for either cases, a relation between two receive events $r_1$ and $r_2$ implies a relation between the respective send events $s_1$ and $s_2$, according to the mailbox semantics. It follows that $\xi$, which is a cycle for the $\onenpartial$ relation, always implies a cycle for the $\mbpartial$ relation.
 	\end{proof}
 
 	\begin{proposition} \label{prop:nn_is_onen}
