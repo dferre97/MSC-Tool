@@ -77,7 +77,7 @@ A $\oneone$-MSC is an asynchronous MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ 
 
 \end{definition}
 
-The set of $\oneone$ MSCs is MSO-definable as
+The set $\ppMSCs$ of $\oneone$ MSCs is MSO-definable as
 	\[
 		\ppformula = \neg \exists s.\exists s'. \left(
 		\bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
@@ -121,7 +121,7 @@ An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, f
 \end{itemize}
 \end{definition}
 
-This definition immediately translates in the following MSO formula:
+This definition is translated into the following MSO formula for $\coMSCs$:
 \[
 	\coformula = \neg \exists s.\exists s'. \left(
 	\bigvee_{\substack{q \in \Procs}}\;
@@ -171,19 +171,33 @@ In order to find a proper MSO formula we consider an equivalent definition (the 
 	\end{itemize}
 	
 	We let ${\preceq_\msc} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel_\msc})^\ast$. 
-	$\msc $ is a \emph{$\none$- MSC}
+	$\msc $ is a \emph{$\none$-MSC}
 	if ${\preceq_\msc}$ is a partial order. 
 \end{definition}
-The ${\mbrel}_\msc$ relation ensures that send events addressed to the same process are executed in an order that is suitable for the $\none$ communication. If ${\preceq_\msc}$ is a partial order, it means that it is possible to find a linearization $\linrel$, such that $\linrel \subseteq \preceq_\msc$. It is easy to see that such a linearization is exactly what we called a $\none$ linearization in Definition~\ref{def:mb_msc}. 
+The ${\mbrel}_\msc$ relation ensures that send events addressed to the same process are executed in an order that is suitable for the $\none$ communication. If ${\preceq_\msc}$ is a partial order, it means that it is possible to find a linearization $\linrel$, such that $\linrel \;\subseteq\; \preceq_\msc$. It is easy to see that such a linearization is exactly what we called a $\none$ linearization in Definition~\ref{def:mb_msc}. 
 %Finally notice  that ${\le_\msc} \subseteq {\preceq_\msc}$. Hence entailing that a \mb-MSC is also a \pp-MSC.
 
-
-Immediately from previous definition one can derive the corresponding  MSO formula:
+The MSO-definability of $\mbMSCs$ directly follows from the previous definition:
 \[
 	\mbformula = \ppformula \;\wedge\; \neg \exists x.\exists y.(\neg (x = y) \wedge x \preceq_\msc y \wedge y \preceq_\msc x)
 \]
 %This formula closely follows Definition~\ref{def:n_one_alt}. The set $\mbMSCs$ of $\none$ MSCs is therefore MSO-definable as $\mbMSCs=L(\mbformula)$.
 
+where $x \preceq y$ is obtained as the MSO-definable reflexive transitive closure of
+the union of the MSO-definable relations $\procrel$, $\lhd$, $\sqsubset$, and we may define $x \sqsubset y$ as:
+\[
+x \sqsubset y =
+\displaystyle
+\hspace{-1em}\bigvee_{\substack{q \in \Procs\\a,b \in \qsAct{q}}}\hspace{-1em}
+(\lambda(x) = a \;\wedge\; \lambda(y) = b)
+\wedge
+\left(
+\begin{array}{rl}
+& \mathit{matched}(x) \wedge \neg \mathit{matched}(y)\\[1ex]
+\vee & \exists x'.\exists y'. (x \lhd x' \;\wedge\; y \lhd y' \;\wedge\; x' \procrel^+ y')
+\end{array}
+\right).
+\]
 
 
 
@@ -276,7 +290,6 @@ As before, in order to characterise \nn MSCs in the MSO logic we give an alterna
 	%Note that $\preceq_\msc \subseteq \nnrel_\msc$, $\lessdot_\msc \subseteq \nnrel_\msc$, and $\nnrel_\msc \subseteq\; \bowtie_\msc$. 
 	$\msc $ is a \emph{$\nn$ MSC}
 	if ${\bowtie_\msc}$ is acyclic.
-	\davidequestion{Initially I said "We call $\msc \in \asMSCs$ a \emph{$\nn$ MSC} if ${\bowtie_\msc}$ is a partial order", but I don't think it is true, since $\bowtie_\msc$ does not have to be transitive... correct?}
 \end{definition}
 
 It is not trivial to see that Definition~\ref{def:n_n_alt} and Definition~\ref{def:n_n} are equivalent. To show that, we need some preliminary results and definitions. 
@@ -399,22 +412,6 @@ s_1 \neq s_2 \;\wedge\;
 % \end{enumerate}
 % \end{proof}
 
-
-
-\paragraph*{$\oneone$ MSCs}
-	
-
-\paragraph*{Causally ordered MSCs}
-
-
-\paragraph*{$\none$ MSCs}
-
-
-\paragraph*{$\onen$ MSCs}
-
-
-\paragraph*{$\nn$ MSCs}
-
 Following Definition~\ref{def:n_n_alt}, an MSC $\msc$ is a $\nn$ MSC if and only if it satisfies the MSO formula
 \[
 	\nnformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \bowtie_\msc y \wedge y \bowtie_\msc x)
@@ -453,8 +450,6 @@ In particular, we can define $x \bowtie_\msc y$ as
 \]
 
 The MSO formula for $x \nnrel_\msc y$ closely follows Definition~\ref{def:n_n_alt}. The set $\nnMSCs$ of $\nn$ MSCs is therefore MSO-definable as $\nnMSCs=L(\nnformula)$.
-
-\paragraph*{$\rsc$ MSCs}
 
 % \davidequestion{The following formula should be wrong... I cannot use $n$ in an MSO formula}
 % \[
