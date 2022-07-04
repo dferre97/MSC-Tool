@@ -208,11 +208,12 @@
 \maketitle
 
 \section{Introduction}
-\begin{itemize}
-  \item Interleaving based semantics VS partial order/graph based semantics
-  \item Synchronous and asynchronous communication
-  \item The problem of synchronizability
-\end{itemize}
+% \begin{itemize}
+%   \item Interleaving based semantics VS partial order/graph based semantics
+%   \item Synchronous and asynchronous communication
+%   \item The problem of synchronizability
+% \end{itemize}
+
 \input{chapters/ch-1.tex}
 
 \section{Asynchronous communication models overview}
@@ -240,12 +241,15 @@
 
 % \input{chapters/ch-2.tex}
 
+\section{Asynchronous communication models as classes of MSCs}\label{sec:MSC}
 
-\section{Asynchronous communication models operational semantics}\label{sec:impl}
+\input{chapters/ch-msc.tex}
+
+\section{Asynchronous communication models as classes of executions}\label{sec:impl}
 
 \input{chapters/ch-4.tex}
 
-\section{Asynchronous communication models as classes of MSCs, MSO-definability}\label{sec:MSO}
+\section{MSO definability}\label{sec:MSO}
 %\begin{itemize}
 %  \item Definition of MSC class for each communication model (alternative definitions)
 %  \item MSO-definability of each class
@@ -265,7 +269,7 @@
 
 \input{chapters/ch-6.tex}
 
-\section{An application: special treewidth and decidability of the synchronizability problem} \label{sec:checking}
+\section{An application: special treewidth and bounded model-checking} \label{sec:checking}
 
 \input{chapters/ch-7.tex}
 
