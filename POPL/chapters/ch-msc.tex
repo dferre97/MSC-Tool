@@ -17,7 +17,7 @@ This communication model can be modeled as a bag where all messages are stored a
 It is also referred to as NON-FIFO (cfr.  \cite{DBLP:journals/dc/Charron-BostMT96}).
 An MSC that shows a valid computation for the fully asynchronous communication model will be called a fully asynchronous MSC (or simply MSC). An example of such an MSC can be found in Fig.~\ref{fig:fully_asy_ex}; indeed, even if message $m_1$ is sent before $m_2$, process $q$ does not have to receive $m_1$ first. Below, we give the formal definition of MSC, along with some necessary preliminaries.
 
-\paragraph{\bf Processes, messages, and actions}
+\paragraph*{Processes, messages, and actions}
 We assume a finite set of \emph{processes} $\Procs=\{p,q,\ldots\}$ and a finite set of messages $\Msg=\{\msg,\ldots\}$.
 Each process may either (asynchronously) send a message to another one, or wait until it receives a message.
 We therefore consider two kinds of actions. A \emph{send action} is of the form $\sact{p}{q}{\msg}$;
@@ -151,6 +151,12 @@ action and there is no $f \in \Events$ such that $e \lhd f\}$.
 \end{figure}
 
 \davide{I think it would be a good idea to add another set of MSC examples that contain unmatched messages.}
+
+\paragraph*{Linearizations.}
+
+Let $\msc = (\Events,\procrel,\lhd,\lambda)$ be an MSC.
+A \emph{linearization} of $\msc$ is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\happensbefore} \subseteq {\linrel}$. In other words, a linearization of $\msc$ represent a possible way to schedule its events.
+\davide{Provide example of linearization.}
 
 Definition~\ref{def:msc} of (fully asynchronous) MSC will serve as a basis on which the other communication models will build on, adding some additional constraints.
 

@@ -28,6 +28,8 @@ or, equivalently:
 
 \subsection{Missing proofs}
 
+\paragraph*{\bf Mailbox}
+
 We show here that the two alternative definitions of $\none$ MSC that we gave are equivalent.
 
 \begin{proposition}
@@ -47,6 +49,8 @@ We show here that the two alternative definitions of $\none$ MSC that we gave ar
     \end{enumerate*} 
     It follows that $\msc$ is not a $\none$ MSC also according to Definition~\ref{def:mb_msc}.
 \end{proof}
+
+\paragraph*{\bf $\onen$}
 
 We show here that the two alternative definitions of $\onen$ MSC that we gave are equivalent.
 
@@ -68,57 +72,30 @@ We show here that the two alternative definitions of $\onen$ MSC that we gave ar
     It follows that $\msc$ is not a $\onen$ MSC also according to Definition~\ref{def:one_n}.
 \end{proof}
 
-\subsection{\nn}
-\begin{proposition}
-	Let $\msc$ be an MSC. Given two matched send events $s_1$ and $s_2$, and their respective receive events $r_1$ and $r_2$, $r_1 \bowtie r_2 \implies s_1 \bowtie s_2$.
-\end{proposition}
+\paragraph*{\bf $\nn$}
+
+We show here the missing proofs for the equivalence of the two definitions of $\nn$ MSC that we gave.
+
+\nnfirstprop*
 \begin{proof}
-Follows from the definition of $\bowtie$. We have $r_1 \bowtie r_2$ if either:
-\begin{itemize}%\itemsep=0.5ex
-	\item $r_1 \nnrel r_2$. Two cases: either \begin{enumerate*}[label={(\roman*)}]
-		\item $s_1 \nnrel s_2$, or 
-		\item $s_1 \slashed{\nnrel} s_2$.
-	\end{enumerate*}
-	The first case clearly implies $s_1 \bowtie s_2$, for rule 1 in the definition of $\bowtie$. The second too, because of rule 3.
-	\item  $r_1 \slashed{\nnrel} r_2$, but $r_1 \bowtie r_2$. This is only possible if rule 2 in the definition of $\bowtie$ was used, which implies $s_1 \nnrel s_2$ and, for rule 1, $s_1 \bowtie s_2$.
-\end{itemize}
+    Follows from the definition of $\bowtie$. We have $r_1 \bowtie r_2$ if either:
+    \begin{itemize}%\itemsep=0.5ex
+        \item $r_1 \nnrel r_2$. Two cases: either \begin{enumerate*}[label={(\roman*)}]
+            \item $s_1 \nnrel s_2$, or 
+            \item $s_1 \slashed{\nnrel} s_2$.
+        \end{enumerate*}
+        The first case clearly implies $s_1 \bowtie s_2$, for rule 1 in the definition of $\bowtie$. The second too, because of rule 3.
+        \item  $r_1 \slashed{\nnrel} r_2$, but $r_1 \bowtie r_2$. This is only possible if rule 2 in the definition of $\bowtie$ was used, which implies $s_1 \nnrel s_2$ and, for rule 1, $s_1 \bowtie s_2$.
+    \end{itemize}
 \end{proof}
 
-\begin{proposition}\label{prop:n_n_cycl}
-	Let $\msc$ be an MSC. If $\bowtie$ is cyclic, then $\msc$ is not $\nn$.
-\end{proposition}
+\nnsecondprop*
 \begin{proof}
-According to Definition~\ref{def:n_n}, an MSC is $\nn$ if it has at least one $\nn$ linearization. Note that, because of how it is defined, any $\nn$ linearization is always both a $\none$ and a $\onen$ linearization. It follows that the cyclicity of $\nnrel$ (not $\bowtie$) implies that $\msc$ is not $\nn$, because it means that we are not even able to find a linearization that is both $\none$ and $\onen$. Moreover, since in a $\nn$ linearization the order in which messages are sent matches the order in which they are received, and unmatched send events can be executed only after matched send events, a $\nn$ MSC always has to satisfy the constraints imposed by the $\bowtie$ relation. If $\bowtie$ is cyclic, then for sure there is no $\nn$ linearization for $\msc$.
-\davide{This proof does not convince me... maybe rewrite it better}
-\end{proof}
+    According to Definition~\ref{def:n_n}, an MSC is $\nn$ if it has at least one $\nn$ linearization. Note that, because of how it is defined, any $\nn$ linearization is always both a $\none$ and a $\onen$ linearization. It follows that the cyclicity of $\nnrel$ (not $\bowtie$) implies that $\msc$ is not $\nn$, because it means that we are not even able to find a linearization that is both $\none$ and $\onen$. Moreover, since in a $\nn$ linearization the order in which messages are sent matches the order in which they are received, and unmatched send events can be executed only after matched send events, a $\nn$ MSC always has to satisfy the constraints imposed by the $\bowtie$ relation. If $\bowtie$ is cyclic, then for sure there is no $\nn$ linearization for $\msc$.
+    \davide{This proof is not very formal... do you think it is fine?}
+\end{proof}    
 
-Let the \emph{Event Dependency Graph} (EDG) of a $\nn$ MSC $\msc$ be a graph that has events as nodes and an edge between two events $e_1$ and $e_2$ if $e_1 \bowtie e_2$. We now present an algorithm that, given the EDG of an $\nn$ MSC $\msc$, computes a $\nn$ linearization of $\msc$. We then show that, if $\bowtie$ is acyclic (i.e. it is a partial order), this algorithm always terminates correctly. This, along with Proposition~\ref{prop:n_n_cycl}, effectively shows that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent.
-
-\paragraph*{Algorithm for finding a $\nn$ linearization}
-The input of this algorithm is the EDG of an MSC $\msc$, and it outputs a valid $\nn$ linearization for $\msc$, if $\msc$ is $\nn$. The algorithm works as follows:
-\begin{enumerate}
-	\item If there is a matched send event $s$ with in-degree 0 in the EDG, add $s$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 2.
-	\item If there are no matched send events in the EDG and there is an unmatched send event $s$ with in-degree 0 in the EDG, add $s$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 3.
-		\item If there is a receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization, add $r$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 4.
-		\item Throw an error and terminate.
-		\item If all the events of $\msc$ were added to the linearization, return the linearization and terminate. Otherwise, go back to step 1.
-\end{enumerate} 
-
-We now need to show that 
-\begin{enumerate*}[label={(\roman*)}]
-	\item if this algorithm terminates correctly (i.e. step 4 is never executed), it returns a $\nn$ linearization, and 
-	\item if $\bowtie$ is acyclic, the algorithm always terminates correctly.
-\end{enumerate*}
-\begin{proposition}
-	If the above algorithm returns a linearization for an MSC $\msc$, it is a $\nn$ linearization.
-\end{proposition}
-\begin{proof}
-	Step 2 ensures that the order (in the linearization) in which matched messages are sent is the same as the order in which they are received. Moreover, according to step 3, an unmatched send events is added to the linearization only if all the matched send events were already added.
-\end{proof}
-
-\begin{proposition}
-	Given an MSC $\msc$, the above algorithm always terminates correctly if $\bowtie$ is acyclic.
-\end{proposition}
+\nnalgotermination*
 \begin{proof}
 We want to prove that, if $\bowtie$ is acyclic, step 4 of the algorithm is never executed, i.e. it terminates correctly. Note that the acyclicity of $\bowtie$ implies that the EDG of $\msc$ is a DAG. Moreover, at every step of the algorithm we remove nodes and edges from the EDG, so it still remains a DAG. The proof goes by induction on the number of events added to the linearization.\newline
 Base case: no event has been added to the linearization yet. Since the EDG is a DAG, there must be an event with in-degree 0. In particular, this has to be a send event (a receive event depends on its respective send event, so it cannot have in-degree 0). If it is a matched send event, step 1 is applied. If there are no matched send events, step 2 is applied on an unmatched send. We show that it is impossible to have an unmatched send event of in-degree 0 if there are still matched send events in the EDG, so either step 1 or 2 are applied in the base case. Let $s$ be one of those matched send events and let $u$ be an unmatched send. Because of rule 4 in the definition of $\bowtie$, we have that $s \bowtie u$, which implies that $u$ cannot have in-degree 0 if $s$ is still in the EDG.\newline

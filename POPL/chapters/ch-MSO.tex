@@ -115,21 +115,8 @@ x \mbrel y =
 
 
 \paragraph{\bf \onen MSCs}
- $\onen$ communication is the dual of \mb communication, with the difference that here $s$ and $s'$ are two send events executed by the same process, and not addressed to the same process. In a $\onen$ MSC we cannot have two messages $m_1$ and $m_2$, sent by the same process, such that $m_1$ is unmatched and $m_2$ is matched; indeed, according to the $\onen$ communication model, $m_1$ must be received before $m_2$.
-Formally:
-\begin{definition}[$\onen$ MSC]\label{def:one_n}
-An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\onen$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{p}{\plh}$, $\lambda(s')=\pqsAct{p}{\plh}$, and $s \procrel^+ s'$ (which implies $s \linrel s'$), we have either:
-\begin{itemize}%\itemsep=0.5ex
-	\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, with  $r$ and $r'$  two receive events such that $s \lhd r$ and $s' \lhd r'$.
-	\item $s' \in \Unm{\msc}$.
-\end{itemize}
-\end{definition}
 
-Such a linearization will be referred to as a \emph{$\onen$ linearization}.
-
-Similarly as before, we give an alternative definition (equivalence is shown in Appendix \ref{apx:MSO}). We define
-	an additional binary relation that represents a constraint
-	under the $\onen$ semantics, which ensures that messages sent from the same process are received in the same order.
+As with the mailbox communication model, we give an alternative definition of $\onen$ MSC; the equivalence with Definition~\ref{def:one_n} is shown in Appendix~\ref{apx:MSO}.
 
 \begin{definition} [$\onen$ alternative]\label{def:one_n_alt}
 	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\onenrel} \subseteq \Events \times \Events$ be defined as $e_1 \onenrel e_2$ if there are two events $e_1$ and $e_2$, and $p \in \Procs$ such that either:
@@ -144,9 +131,8 @@ Similarly as before, we give an alternative definition (equivalence is shown in 
 	if ${\onenpartial}$ is a partial order.
 \end{definition}
 
-The ${\onenrel}$ relation ensures that messages sent by a process are sent and received in an order that is suitable for the $\onen$ communication. As before, since ${\onenpartial}$ is a partial order, then it is possible to find a linearization $\linrel$, such that $\linrel \subseteq \onenpartial$. It is not difficult to see that such a linearization is exactly what we called a $\onen$ linearization in Definition~\ref{def:one_n}.
-
-Directly from  Definition~\ref{def:one_n_alt}, we obtain the MSO formula:
+The ${\onenrel}$ relation ensures that messages sent by a process are sent and received in an order that is suitable for the $\onen$ communication. Since ${\onenpartial}$ is a partial order, it is possible to find a linearization $\linrel$ such that $\linrel \;\subseteq\; \onenpartial$. It is not difficult to see that such a linearization is exactly what we called a $\onen$ linearization in Definition~\ref{def:one_n}.
+The MSO formula that defines $\onenMSCs$ follows from  Definition~\ref{def:one_n_alt}:
 \[
 	\onenformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \onenpartial y \wedge y \onenpartial x)
 \]
@@ -173,23 +159,8 @@ x \onenrel y =
 %\cinzia{maybe move previous sentence to next section}
 
 \paragraph{\bf \nn MSCs}
-Intuitively, with an $\nn$ MSC we are always able to schedule events in such a way that messages are received in the same order as they were sent, moreover unmatched messages are sent only after all matched messages are sent.
-\begin{definition}[$\nn$ MSC]\label{def:n_n}
-	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\nn$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $s \linrel s'$, we have either:
-	\begin{itemize}%\itemsep=0.5ex
-		\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, with $r$ and $r'$  two receive events such that $s \lhd r$ and $s' \lhd r'$.
-		\item $s' \in \Unm{\msc}$.
-	\end{itemize}
-\end{definition}
 
-Such a linearization will be referred to as a \emph{$\nn$ linearization}.
-%By definition, every $\nn$ MSC is a $\onen$ MSC.
-As before, in order to characterise \nn MSCs in the MSO logic we give an alternative definition and prove that it is equivalent to the one above.
-
-
-
-
-
+In order to show the MSO-definability of \nn MSCs we give an alternative definition and prove that it is equivalent to Definition~\ref{def:n_n}. Unlike mailbox and $\onen$ communication models, the equivalence is not trivial.
 
 \begin{definition} [$\nn$ alternative]\label{def:n_n_alt}
 	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel} \,\cup\, {\onenrel})^\ast$. We define  $\bowtie \subseteq \Events \times \Events$,  such that $e_1 \bowtie e_2$ if one of the following holds:
@@ -205,18 +176,57 @@ As before, in order to characterise \nn MSCs in the MSO logic we give an alterna
 	if ${\bowtie}$ is acyclic.
 \end{definition}
 
-It is not trivial to see that Definition~\ref{def:n_n_alt} and Definition~\ref{def:n_n} are equivalent. To show that, we need some preliminary results and definitions.
+To prove that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent, we need some preliminary results and definitions. Please note that missing proofs can be found in Appendix~\ref{apx:MSO}.
 
+\begin{restatable}{proposition}{nnfirstprop}
+	Let $\msc$ be an MSC. Given two matched send events $s_1$ and $s_2$, and their respective receive events $r_1$ and $r_2$, $r_1 \bowtie r_2 \implies s_1 \bowtie s_2$.
+\end{restatable}
 
-\noindent We have now effectively proved that Definition~\ref{def:n_n_alt} of $\nn$ MSC is equivalent to Definition~\ref{def:n_n}.
+\begin{restatable}{proposition}{nnsecondprop}
+\label{prop:n_n_cycl}
+	Let $\msc$ be an MSC. If $\bowtie$ is cyclic, then $\msc$ is not $\nn$.
+\end{restatable}
 
-\medskip
+Let the \emph{Event Dependency Graph} (EDG) of a $\nn$ MSC $\msc$ be a graph that has events as nodes and an edge between two events $e_1$ and $e_2$ if $e_1 \bowtie e_2$. We now present an algorithm that, given the EDG of an $\nn$ MSC $\msc$, computes a $\nn$ linearization of $\msc$. We then show that, if $\bowtie$ is acyclic, this algorithm always terminates correctly. This, along with Proposition~\ref{prop:n_n_cycl}, effectively shows that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent.
 
-Following Definition~\ref{def:n_n_alt}, an MSC $\msc$ is a $\nn$ MSC if and only if it satisfies the MSO formula
+\paragraph*{Algorithm for finding a $\nn$ linearization}
+The input of this algorithm is the EDG of an MSC $\msc$, and it outputs a valid $\nn$ linearization for $\msc$, if $\msc$ is $\nn$. The algorithm works as follows:
+\begin{enumerate}
+	\item If there is a matched send event $s$ with in-degree 0 in the EDG, add $s$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 2.
+	\item If there are no matched send events in the EDG and there is an unmatched send event $s$ with in-degree 0 in the EDG, add $s$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 3.
+		\item If there is a receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization, add $r$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 4.
+		\item Throw an error and terminate.
+		\item If all the events of $\msc$ were added to the linearization, return the linearization and terminate. Otherwise, go back to step 1.
+\end{enumerate} 
+
+We now need to show that 
+\begin{enumerate*}[label={(\roman*)}]
+	\item if this algorithm terminates correctly (i.e. step 4 is never executed), it returns a $\nn$ linearization, and 
+	\item if $\bowtie$ is acyclic, the algorithm always terminates correctly.
+\end{enumerate*}
+
+\begin{proposition}
+	If the above algorithm returns a linearization for an MSC $\msc$, it is a $\nn$ linearization.
+\end{proposition}
+\begin{proof}
+	Step 2 ensures that the order (in the linearization) in which matched messages are sent is the same as the order in which they are received. Moreover, according to step 3, an unmatched send events is added to the linearization only if all the matched send events were already added.
+\end{proof}
+
+\davide{Insert here an example of the algorithm!}
+
+The proof for the next proposition is quite intricate, and it can be found in Appendix~\ref{apx:MSO}.
+
+\begin{restatable}{proposition}{nnalgotermination}
+\label{prop:nn_algo_term}
+	Given an MSC $\msc$, the above algorithm always terminates correctly if $\bowtie$ is acyclic.
+\end{restatable}
+
+Proposition~\ref{prop:n_n_cycl} and Proposition~\ref{prop:nn_algo_term} are sufficient to prove that Definition~\ref{def:n_n_alt} and Definition~\ref{def:n_n} are equivalent.
+Based on Definition~\ref{def:n_n_alt}, we can finally write an MSO formula for $\nn$ MSCs:
 \[
 	\nnformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \bowtie y \wedge y \bowtie x)
 \]
-In particular, we can define $x \bowtie y$ as
+where we can define $x \bowtie y$ as
 \[
 	x \bowtie y =
 	\begin{array}{rl}
@@ -249,27 +259,19 @@ In particular, we can define $x \bowtie y$ as
 	\end{array}
 \]
 
-The MSO formula for $x \nnrel y$ closely follows Definition~\ref{def:n_n_alt}. The set $\nnMSCs$ of $\nn$ MSCs is therefore MSO-definable as $\nnMSCs=L(\nnformula)$.
+Note that $\nnrel$ is MSO-definable, since it is defined as the reflexive transitive closure of MSO-definable relations.
 
+\paragraph{\bf Realizable with Synchronous Communication MSCs} 
 
+Following the characterization given in \cite[Theorem 4.4]{DBLP:journals/dc/Charron-BostMT96}, we also give an alternative definition of $\rsc$-MSC (the equivalence with Definition~\ref{def:rsc} is shown in Appendix~\ref{apx:MSO}). We first need to introduce the concept of \emph{crown}.
 
-
-\paragraph{\bf Realizable with Synchronous Communication MSCs} Finally, we give the formal definition of  \rsc-MSC and its characterisation as in MSO logic.
-\begin{definition}[$\rsc$-MSC]\label{def:rsc}
-	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is an \emph{\rsc-MSC} if it has no unmatched send events and there is a linearization $\linrel$ where any matched send event is immediately followed by its respective receive event.
-\end{definition}
-
-Following the characterization given in \cite[Theorem 4.4]{DBLP:journals/dc/Charron-BostMT96}, we also give an alternative but equivalent definition of $\rsc$-MSC. We first need to define
-
-
-
-\begin{definition}
-	Let $\msc$ be an MSC and $< = (\procrel \cup \lhd)^+$. A crown of size $k$ in $\msc$ is a sequence $\langle(s_i,r_i),\, i \in \{1,\dots,k\}\rangle$ of pairs of corresponding send and receive events such that
+\begin{definition} [crown]
+	Let $\msc$ be an MSC. A \emph{crown} of size $k$ in $\msc$ is a sequence $\langle(s_i,r_i),\, i \in \{1,\dots,k\}\rangle$ of pairs of corresponding send and receive events such that
 	\[
-		s_1 < r_2, s_2 < r_3, \dots, s_{k-1} < r_k, s_k < r_1.
+		s_1 \happensbeforestrict r_2, s_2 \happensbeforestrict r_3, \dots, s_{k-1} \happensbeforestrict r_k, s_k \happensbeforestrict r_1.
 	\]
 \end{definition}
-
+\davide{Should I specify somewhere that $\happensbeforestrict = (\procrel \cup \lhd)^+$ or is it clear?}
 
 \begin{definition} [$\rsc$ alternative]\label{def:rsc_alt}
 	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{RSC MSC} if and only if it does not contain any crown.
