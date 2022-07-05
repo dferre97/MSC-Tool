@@ -35,7 +35,7 @@ i.e. whether $L_{\comsymb}(\Sys)\subseteq \aMSCclass$, will be later
 refered to as the "synchronisability problem".
 
 
-Bollig~\emph{et al}~\cite{BolligFG21} introduced a general framework that allows to derive decidability results 
+Bollig~\emph{et al}~\cite{DBLP:conf/concur/BolligGFLLS21} introduced a general framework that allows to derive decidability results 
 for the bounded model-checking and synchronizability problems
 for various classes of MSCs $\aMSCclass$. The communication model is however a fixed parameter
 in their framework.
@@ -110,12 +110,12 @@ $\cL{\Sys} \subseteq \aMSCclass$.
 \begin{definition}
 Let a communication model $\comsymb$ and a class $\aMSCclass$ of MSCs be fixed. The
 $(\comsymb,\aMSCclass)$-synchronisability problem is defined as follows: given a
-system $\Sys$, decide whether $L_{\comsymb}(\Sys)\subseteq \aMSCclass$
+system $\Sys$, decide whether $L_{\comsymb}(\Sys)\subseteq \aMSCclass$.
 \end{definition}
 
-In \cite{BolligFG21} the authors show that, for $\comsymb = \oneone$ and $\comsymb = \none$, 
+In \cite{DBLP:conf/concur/BolligGFLLS21} the authors show that, for $\comsymb = \oneone$ and $\comsymb = \none$, 
 the $(\comsymb,\aMSCclass)$-synchronizability problem is decidable for several classes $\aMSCclass$. 
-We generalize their result to other communication models under a slight assumption on the bounding class $\aMSCclass$.
+We generalize their result to other communication models under a general assumption on the bounding class $\aMSCclass$.
 
 \begin{restatable}{theorem}{thmsync}\label{thm:sync}
 %	Fix finite sets $\Procs$ and $\Msg$.
@@ -132,7 +132,7 @@ We review the classes of weakly synchronous and weakly k-synchronous inspired
 by~\cite{DBLP:conf/cav/BouajjaniEJQ18},
 and the classes of existentially $k$-bounded and universally $k$-bounded MSCs~\cite{DBLP:conf/dlt/GenestMK04}.
 
-% As shown in \cite{BolligFG21}, if we have a system $\Sys$ and a STW-bounded class $\aMSCclass$, then the model-checking problem\footnote{Given $\Procs$ and $\Msg$, a communicating system $\Sys$, an MSO sentence $\phi$, do we have $\cL{\Sys} \subseteq L(\phi)?$} for $\Sys$ becomes decidable if $L(S) \subseteq \aMSCclass$; this motivates the study of the synchronizability problem.
+% As shown in \cite{DBLP:conf/concur/BolligGFLLS21}, if we have a system $\Sys$ and a STW-bounded class $\aMSCclass$, then the model-checking problem\footnote{Given $\Procs$ and $\Msg$, a communicating system $\Sys$, an MSO sentence $\phi$, do we have $\cL{\Sys} \subseteq L(\phi)?$} for $\Sys$ becomes decidable if $L(S) \subseteq \aMSCclass$; this motivates the study of the synchronizability problem.
 
 Fig.~\ref{fig:stw-bound} summarizes the decidability results of the
 $(\comsymb,\aMSCclass)$-synchronizability problem for each combination of $\comsymb$ and $\aMSCclass$ 
@@ -171,12 +171,13 @@ a ${\le}$-downward-closed set.
 
 In other words, an exchange is an MSC $\msc$ where no send event depends on a receive event. 
 If that is the case, we can find a linearization for $\msc$ where all the send events are executed before the 
-receive events. Remember that $\msc_1\cdot\msc_2$ denote the vertical concatenation of MSC (see Section~\ref{sec:msc}).
+receive events. Remember that $\msc_1\cdot\msc_2$ denote the vertical concatenation of MSCs (see 
+Section~\ref{sec:MSC}).
 
 \begin{definition}[weakly synchronous]\label{def:weaksync-new}
 	We say that $\msc \in \MSCs$ is
 	\emph{weakly synchronous} if it is of the form
-	$\msc = \msc_1 \cdot \ldots \cdot \msc_n$
+	$\msc = \msc_1 \cdot \msc_2 \cdots \msc_n$
 	such that every $\msc_i$ is an exchange.
 \end{definition}
 
@@ -225,7 +226,7 @@ receive events. Remember that $\msc_1\cdot\msc_2$ denote the vertical concatenat
 	\end{center}
 \end{minipage}
 
-In \cite{BolligFG21} it is shown that, for the class of weakly synchronous MSCs, 
+In \cite{DBLP:conf/concur/BolligGFLLS21} it is shown that, for the class of weakly synchronous MSCs, 
 the synchronisability problem is undecidable for $\comsymb = \oneone$, but decidable for $\comsymb = \oneone$.
 Here we investigate the decidability of weak synchronability for other 
 communication models. We first show that weak synchronisability 
@@ -256,12 +257,13 @@ For $\onen$ and $\nn$, on the other hand, weak synchronisability is decidable.
 	(see~\cite{DBLP:conf/concur/BolligGFLLS21}).
 
 	\etienne{Better cite CONCUR paper to say where to look for the proof (cite[Thm truc]\{paper bidule\}).}
-	% We will consider $\comsymb = \onen$; the proof for $\comsymb = \nn$ follows the same steps. We would like to know if every MSC in $\onenL{\System}$ is in the class of weakly synchronous MSCs. Since every MSC in $\onenL{\System}$ is a $\onen$ MSC, we can equivalently restrict the problem to the class of weakly synchronous MSCs that are also $\onen$ MSCs. Let $\aMSCclass$ be the class of $\onen$ weakly synchronous MSCs; we show that $\aMSCclass$ is MSO-definable and STW-bounded, which implies the decidability of $SP$ for Theorem~\ref{thm:sync}. The class of weakly synchronous MSCs was shown to be MSO-definable in \cite{BolligFG21}; to be precise, their characterization is for $\oneone$ weakly synchronous MSCs (since their definition of MSC is equivalent to our definition of $\oneone$ MSC), but it also works for (asynchronous) weakly synchronous MSCs. We showed in Section~\ref{sec:MSO} that $\onenMSCs$ is MSO-definable; it follows that the class of $\onen$ weakly synchronous MSCs is also MSO-definable (we just take the conjuction of the the two formulas). The class of $\none$ weakly synchronous MSCs was shown to be STW-bounded in \cite{BolligFG21}, and since $\onenMSCs \subset \mbMSCs$, we also have that the class of $\none$ weakly synchronous MSCs has a bounded special treewidth. 
+	% We will consider $\comsymb = \onen$; the proof for $\comsymb = \nn$ follows the same steps. We would like to know if every MSC in $\onenL{\System}$ is in the class of weakly synchronous MSCs. Since every MSC in $\onenL{\System}$ is a $\onen$ MSC, we can equivalently restrict the problem to the class of weakly synchronous MSCs that are also $\onen$ MSCs. Let $\aMSCclass$ be the class of $\onen$ weakly synchronous MSCs; we show that $\aMSCclass$ is MSO-definable and STW-bounded, which implies the decidability of $SP$ for Theorem~\ref{thm:sync}. The class of weakly synchronous MSCs was shown to be MSO-definable in \cite{DBLP:conf/concur/BolligGFLLS21}; to be precise, their characterization is for $\oneone$ weakly synchronous MSCs (since their definition of MSC is equivalent to our definition of $\oneone$ MSC), but it also works for (asynchronous) weakly synchronous MSCs. We showed in Section~\ref{sec:MSO} that $\onenMSCs$ is MSO-definable; it follows that the class of $\onen$ weakly synchronous MSCs is also MSO-definable (we just take the conjuction of the the two formulas). The class of $\none$ weakly synchronous MSCs was shown to be STW-bounded in \cite{DBLP:conf/concur/BolligGFLLS21}, and since $\onenMSCs \subset \mbMSCs$, we also have that the class of $\none$ weakly synchronous MSCs has a bounded special treewidth. 
 \end{proof}
 
 \subsection{Weakly \texorpdfstring{$k$}{k}-synchronous MSCs}
 
-The undecidability result for some of the communication models motivates the study of other classes. Here we present weakly $k$-synchronous MSCs (\cite{BolligFG21}), which are a variant of weakly synchronous MSCs where the number of messages sent per exchange is at most $k$.
+%The undecidability result for some of the communication models motivates the study of other classes. 
+We consider now weakly $k$-synchronous MSCs (\cite{DBLP:conf/concur/BolligGFLLS21}), which are a variant of weakly synchronous MSCs where the number of messages sent per exchange is at most $k$.
 
 \begin{definition}[$k$-exchange]\label{def:weak-k-synchr}
 Let $\msc = (\Events,\procrel,\lhd,\lambda)$ be an MSC
@@ -270,16 +272,15 @@ We call $\msc$ a $k$-\emph{exchange} if
 $\msc$ is an exchange and $|\SendEv{\msc}| \le k$.
 \end{definition}
 
-\begin{definition}[weakly $k$-synchronous]\label{def:weaksync}
-Let $k \in \N$.
-We say that $\msc \in \MSCs$ is
-weakly $k$-synchronous if it is of the form
-$\msc = \msc_1 \cdot \ldots \cdot \msc_n$
-such that every $\msc_i$ is a $k$-exchange.
-\end{definition}
-
 \noindent
 \begin{minipage}[c]{10.5cm}
+	\begin{definition}[weakly $k$-synchronous]\label{def:weaksync}
+	Let $k \in \N$.
+	We say that $\msc \in \MSCs$ is
+	weakly $k$-synchronous if it is of the form
+	$\msc = \msc_1 \cdot \msc_2 \cdots \msc_n$
+	such that every $\msc_i$ is a $k$-exchange.
+	\end{definition}
 	\begin{example}
 	MSC $\mscweakSexist$ in Fig.~\ref{fig:msc_weak_S_exist} is weakly $1$-synchronous, as it can be
 	decomposed  into three \kE{1}s (the decomposition is depicted by the
@@ -325,7 +326,7 @@ such that every $\msc_i$ is a $k$-exchange.
 \end{center}
 \end{minipage}
 
-As for weakly synchronous MSCs, the class of weakly $k$-synchronous MSCs was already shown to be MSO-definable and STW-bounded in \cite{BolligFG21}, and these results still hold even for our definition of MSC. A direct application of Theorem~\ref{thm:sync} shows that, for weakly $k$-synchronous MSCs, $SP$ is decidable for all communication models.
+As for weakly synchronous MSCs, the class of weakly $k$-synchronous MSCs was already shown to be MSO-definable and STW-bounded in \cite{DBLP:conf/concur/BolligGFLLS21}, and these results still hold even for our definition of MSC. A direct application of Theorem~\ref{thm:sync} shows that, for weakly $k$-synchronous MSCs, $SP$ is decidable for all communication models.
 
 \begin{proposition}\label{thm:weak-k-sync}
 	Let $\comsymb \in \{$$\asy, $ $\oneone, $ $\co, $ $\none, $ $\onen, $ $\nn\}$.
@@ -339,7 +340,7 @@ As for weakly synchronous MSCs, the class of weakly $k$-synchronous MSCs was alr
 
 \subsection{Existentially bounded MSCs}
 
-We move now to existentially $k$-bounded MSCs, which have been studied extensively in literature \cite{DBLP:conf/fossacs/LohreyM02,DBLP:conf/dlt/GenestMK04,GKM07,BolligFG21}. These  kind of MSCs represent the behaviour of systems that can be realized with bounded channels, i.e. channels where at most $k$ messages can transit at any moment in time. For our definition of $k$-bounded MSCs, we suppose that there is a channel $(p,q)$ for any pair of processes such that $p$ sends messages to $q$ (there is a different channel for messages sent by $q$ to $p$). Intuitively, we say that an MSC is existentially $k$-bounded if it has linearization where, at any moment in time, there are no more than $k$ messages in any channel. Such a linearization will be referred to as a $k$-\emph{bounded linearization}. We give formal definitions below.
+We move now to existentially $k$-bounded MSCs, which have been studied extensively in literature \cite{DBLP:conf/fossacs/LohreyM02,DBLP:conf/dlt/GenestMK04,GKM07,DBLP:conf/concur/BolligGFLLS21}. These  kind of MSCs represent the behaviour of systems that can be realized with bounded channels, i.e. channels where at most $k$ messages can transit at any moment in time. For our definition of $k$-bounded MSCs, we suppose that there is a channel $(p,q)$ for any pair of processes such that $p$ sends messages to $q$ (there is a different channel for messages sent by $q$ to $p$). Intuitively, we say that an MSC is existentially $k$-bounded if it has linearization where, at any moment in time, there are no more than $k$ messages in any channel. Such a linearization will be referred to as a $k$-\emph{bounded linearization}. We give formal definitions below.
 
 \begin{definition}\label{def:lin_k_bounded}
 	Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and $k \in \N$.
