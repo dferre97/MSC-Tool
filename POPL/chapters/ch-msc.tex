@@ -43,10 +43,13 @@ is the set of all the actions.
 	\item[(2)] for all $f \in \Events$ such that $\lambda(f)$ is a receive action, there is exactly one $e \in \Events$ such that $e \lhd f$.
 	\end{itemize}
 	Finally, letting ${\happensbefore} = ({\procrel} \cup {\lhd})^\ast$,
-	we require that $\happensbefore$ is a partial order. We will refer to $\happensbefore$ as the \emph{happens-before} relation\footnote{In the literature, the relation is also referred to as the \emph{causal ordering} relation}. If, for two events $e$ and $f$, we have that $e \happensbefore f$, we   say that there is a \emph{causal path} between $e$ and $f$.
-	For an event $e \in \Events$, a set of actions $A \subseteq \Act$, and a relation $\rel \subseteq \Events \times \Events$,
-	let $\sametype{e}{A}{\rel} = \cardinalof{\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(f) \in A\}}$.
+	we require that $\happensbefore$ is a partial order.
 \end{definition}
+We will refer to $\happensbefore$ as the \emph{happens-before} relation\footnote{In the literature, the relation is also referred to as the \emph{causal ordering} relation and it is the same as the "happened before" relation introduced in \cite{Lamport78}.}. If, for two events $e$ and $f$, we have that $e \happensbefore f$, we   say that there is a \emph{causal path} between $e$ and $f$.
+For an event $e \in \Events$, a set of actions $A \subseteq \Act$, and a relation $\rel \subseteq \Events \times \Events$,
+let $\sametype{e}{A}{\rel} = \cardinalof{\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(f) \in A\}}$.
+\davide{I think that this notation of $\sametype{e}{A}{\rel}$ should be removed here and just introduced in the last chapter (if I recall correctly we only use it for the existentially k-bounded MSCs).}
+Definition~\ref{def:msc} of (fully asynchronous) MSC will serve as a basis on which the other communication models will build on, adding some additional constraints.
 
 According to Condition (2), every receive event must have a matching send event. Note that, however, there may be unmatched send events. An unmatched send event represents the scenario in which the recipient is not ready to receive a specific message.
 We let
@@ -158,9 +161,8 @@ Let $\msc = (\Events,\procrel,\lhd,\lambda)$ be an MSC.
 A \emph{linearization} of $\msc$ is a (reflexive) total order ${\linrel} \subseteq \Events \times \Events$ such that ${\happensbefore} \subseteq {\linrel}$. In other words, a linearization of $\msc$ represent a possible way to schedule its events.
 \davide{Provide example of linearization.}
 
-Definition~\ref{def:msc} of (fully asynchronous) MSC will serve as a basis on which the other communication models will build on, adding some additional constraints.
-
 \etienne{I just moved here the notion of concatenation of MSC}
+\paragraph*{Concatenation}
 MSCs form a monoid for the following notion of vertical concatenation.
 Let $\msc_1 = (\Events_1,\procrel_1,\lhd_1,\lambda_1)$ and
 $\msc_2 = (\Events_2,\procrel_2,\lhd_2,\lambda_2)$ be two MSCs.
@@ -168,14 +170,13 @@ The \emph{concatenation} $\msc_1 \cdot \msc_2$ of $\msc_1$ and $\msc_2$ is the M
 $(\Events,\procrel,\lhd,\lambda)$ where $\Events$ is the disjoint 
 union of $\Events_1$ and $\Events_2$,
 ${\lhd}  = {\lhd_1} \cup {\lhd_2}$, $\lambda(e)=\lambda_i(e)$ for all $e\in \Events_i$ ($i=1,2$); 
-moreovre, ${\procrel} = {\procrel_1} \cup {\procrel_2} \cup R$,
+moreover, ${\procrel} = {\procrel_1} \cup {\procrel_2} \cup R$,
 were $R$ is the set of event pairs $(e_1,e_2)$ 
 such that there is a process $p \in \Procs$ with $_1$ the maximal event of 
 $(\Events_1)_p$ and $e_2$ the minimal event of
 $(\Events_2)_p$.
 Note that $\msc_1 \cdot \msc_2$ is indeed an MSC and that
-concatenation is associative.
-
+concatenation is associative..
 
 
 \paragraph{\bf Peer-to-peer}
@@ -277,4 +278,4 @@ Such a linearization will be referred to as an \emph{$\rsc$ linearization}.
 
 
 \paragraph*{Classes of MSCs} 
-We denote by $\asMSCs$, $\ppMSCs$, $\coMSCs$, $\mbMSCs$, $\onenMSCs$, $\nnMSCs$, $\rscMSCs$ the sets of all MSCs, $\pp$-MSCs, $\mb$-MSCs, $\onen$ MSCs, $\nn$ MSCs, and $\rsc$ MSCs, over the given sets $\Procs$ and $\Msg$, respectively. Please note that we do not differentiate between isomorphic MSCs.
+We denote by $\asMSCs$ (resp. $\ppMSCs$, $\coMSCs$, $\mbMSCs$, $\onenMSCs$, $\nnMSCs$, $\rscMSCs$) the sets of all MSCs (resp. $\pp$-MSCs, $\co$-MSCs, $\mb$-MSCs, $\onen$ MSCs, $\nn$ MSCs, $\rsc$ MSCs) over the given sets $\Procs$ and $\Msg$. Please note that we do not differentiate between isomorphic MSCs.
