@@ -36,7 +36,7 @@ executed by $p$.
 Finally, $\Act = \bigcup_{p \in \Procs} \pAct{p}$
 is the set of all the actions.
 
-\begin{definition}[MSC]
+\begin{definition}[MSC]\label{def:msc}
 	An {MSC}  over $\Procs$ and $\Msg$ is a tuple $\msc = (\Events,\procrel,\lhd,\lambda)$, where $\Events$ is a finite (possibly empty) set of \emph{events} and $\lambda: \Events \to \Act$ is a labelling function that associates an action to each event. For $p \in \Procs$, let $\Events_p = \{e \in \Events \mid \lambda(e) \in \pAct{p}\}$ be the set of events that are executed by $p$. We require that $\procrel$ (the \emph{process relation}) is the disjoint union $\bigcup_{p \in \Procs} \procrel_p$ of relations ${\procrel_p} \subseteq \Events_p \times \Events_p$ such that $\procrel_p$ is the direct successor relation of a total order on $\Events_p$.  We require that ${\lhd} \subseteq \Events \times \Events$ (the \emph{message relation}) satisfies the following:
 	\begin{itemize}%\itemsep=0.5ex
 	\item[(1)] for every pair $(e,f) \in {\lhd}$, there is a send action $\sact{p}{q}{\msg} \in \Act$ such that $\lambda(e) = \sact{p}{q}{\msg}$, $\lambda(f) = \ract{p}{q}{\msg}$.
@@ -152,6 +152,8 @@ action and there is no $f \in \Events$ such that $e \lhd f\}$.
 
 \davide{I think it would be a good idea to add another set of MSC examples that contain unmatched messages.}
 
+Definition~\ref{def:msc} of (fully asynchronous) MSC will serve as a basis on which the other communication models will build on, adding some additional constraints.
+
 \paragraph{\bf Peer-to-peer}
 In the peer-to-peer ($\pp$) communication model, any two messages sent from one process to another  are always received in the same order as they are sent. A straightforward implementation would be connecting processes pairwise with FIFO channels. %i.e. messages are delivered by channels in the order in which they were sent\footnote{Please note that our definition of Communicating Finite-State Machine is different from the classical one. FIFO channels are replaced by bag channels, which do not ensure any specific order on the delivery of messages.}. This definition of Communicating Finite-State Machines clearly uses the $\oneone$ communication model, since we have FIFO channels between processes that take care of delivering messages in the correct order. The $\oneone$ communication model is referred to as \pp in \cite{DBLP:conf/concur/BolligGFLLS21}.
 For this reason, alternative names for this communication model are FIFO $1\mathsf{-}1$ \cite{DBLP:journals/fac/ChevrouHQ16} or simply FIFO \cite{babaoglu1993consistent, DBLP:journals/dc/Charron-BostMT96, tel2000introduction}.
@@ -251,4 +253,4 @@ Such a linearization will be referred to as an \emph{$\rsc$ linearization}.
 
 
 \paragraph*{Classes of MSCs} 
-We denote by $\asMSCs$, $\ppMSCs$, $\coMSCs$, $\mbMSCs$, $\onenMSCs$, $\nnMSCs$, $\rscMSCs$ the sets of all MSCs, $\pp$-MSCs, $\mb$-MSCs, $\onen$ MSCs, $\nn$ MSCs, and $\rsc$ MSCs, over the given sets $\Procs$ and $\Msg$, respectively. Please note that we do not distinguish isomorphic MSCs.
+We denote by $\asMSCs$, $\ppMSCs$, $\coMSCs$, $\mbMSCs$, $\onenMSCs$, $\nnMSCs$, $\rscMSCs$ the sets of all MSCs, $\pp$-MSCs, $\mb$-MSCs, $\onen$ MSCs, $\nn$ MSCs, and $\rsc$ MSCs, over the given sets $\Procs$ and $\Msg$, respectively. Please note that we do not differentiate between isomorphic MSCs.
