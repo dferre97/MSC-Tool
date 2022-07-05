@@ -157,13 +157,15 @@ action and there is no $f \in \Events$ such that $e \lhd f\}$.
 MSCs form a monoid for the following notion of vertical concatenation.
 Let $\msc_1 = (\Events_1,\procrel_1,\lhd_1,\lambda_1)$ and
 $\msc_2 = (\Events_2,\procrel_2,\lhd_2,\lambda_2)$ be two MSCs.
-The \emph{concatenation} $\msc_1 \cdot \msc_2 = (\Events,\procrel,\lhd,\lambda)$ has $\Events$ as the disjoint 
+The \emph{concatenation} $\msc_1 \cdot \msc_2$ of $\msc_1$ and $\msc_2$ is the MSC 
+$(\Events,\procrel,\lhd,\lambda)$ where $\Events$ is the disjoint 
 union of $\Events_1$ and $\Events_2$,
-${\lhd}  = {\lhd_1} \cup {\lhd_2}$, $\lambda(e)=\lambda_i(e)$ for all $e\in \Events_i$ ($i=1,2$), 
-and ${\procrel} = {\procrel_1} \cup {\procrel_2} \cup R$.
-Here, $R$ contains, for all $p \in \Procs$ such that $(\Events_1)_p$ and
-$(\Events_2)_p$ are non-empty, the pair $(e_1,e_2)$ where $e_1$ is the
-maximal $p$-event in $M_1$ and $e_2$ is the minimal $p$-event in $M_2$.
+${\lhd}  = {\lhd_1} \cup {\lhd_2}$, $\lambda(e)=\lambda_i(e)$ for all $e\in \Events_i$ ($i=1,2$); 
+moreovre, ${\procrel} = {\procrel_1} \cup {\procrel_2} \cup R$,
+were $R$ is the set of event pairs $(e_1,e_2)$ 
+such that there is a process $p \in \Procs$ with $_1$ the maximal event of 
+$(\Events_1)_p$ and $e_2$ the minimal event of
+$(\Events_2)_p$.
 Note that $\msc_1 \cdot \msc_2$ is indeed an MSC and that
 concatenation is associative.
 
