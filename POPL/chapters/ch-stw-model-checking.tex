@@ -234,7 +234,7 @@ is undecidable for causally ordered communication.
 
 \begin{restatable}{theorem}{thmCoWeakSync}\label{thm:co-weak-sync}
 	The following problem is undecidable:
-	Given finite sets $\Procs$ and $\Msg$ as well as a communicating system $\System$,
+	given a communicating system $\System$,
 	is every MSC in $\coL{\System}$ weakly synchronous?
 \end{restatable}
 
@@ -243,7 +243,7 @@ For $\onen$ and $\nn$, on the other hand, weak synchronisability is decidable.
 \begin{proposition}\label{thm:weak-sync}
 	Let $\comsymb \in \{$$\onen, $ $\nn\}$.
 	The following problem is decidable:
-	given finite sets $\Procs$ and $\Msg$ as well as a communicating system $\System$,
+	given a communicating system $\System$,
 	is every MSC in $\cL{\System}$ weakly synchronous?
 \end{proposition}
 
@@ -263,13 +263,13 @@ For $\onen$ and $\nn$, on the other hand, weak synchronisability is decidable.
 \subsection{Weakly \texorpdfstring{$k$}{k}-synchronous MSCs}
 
 %The undecidability result for some of the communication models motivates the study of other classes. 
-We consider now weakly $k$-synchronous MSCs (\cite{DBLP:conf/concur/BolligGFLLS21}), which are a variant of weakly synchronous MSCs where the number of messages sent per exchange is at most $k$.
+We consider now weakly $k$-synchronous MSCs (\cite{DBLP:conf/concur/BolligGFLLS21}), which are the weakly synchronous MSCs such that the number of messages sent per exchange is at most $k$.
 
 \begin{definition}[$k$-exchange]\label{def:weak-k-synchr}
 Let $\msc = (\Events,\procrel,\lhd,\lambda)$ be an MSC
 and $k \in \N$.
 We call $\msc$ a $k$-\emph{exchange} if
-$\msc$ is an exchange and $|\SendEv{\msc}| \le k$.
+$\msc$ is an exchange and $\cardinalof{\SendEv{\msc}} \le k$.
 \end{definition}
 
 \noindent
@@ -331,16 +331,26 @@ As for weakly synchronous MSCs, the class of weakly $k$-synchronous MSCs was alr
 \begin{proposition}\label{thm:weak-k-sync}
 	Let $\comsymb \in \{$$\asy, $ $\oneone, $ $\co, $ $\none, $ $\onen, $ $\nn\}$.
 	The following problem is decidable:
-	given finite sets $\Procs$ and $\Msg$ as well as a communicating system $\System$,
+	given a communicating system $\System$,
 	is every MSC in $\cL{\System}$ weakly $k$-synchronous?
 \end{proposition}
 \begin{proof}
-	The class $\aMSCclass$ of weakly $k$-synchronous MSCs is MSO-definable and STW-bounded. $SP$ is decidable for Theorem~\ref{thm:sync}.
+	The class $\aMSCclass$ of weakly $k$-synchronous MSCs is MSO-definable and STW-bounded, therefore the
+	result follows from Theorem~\ref{thm:sync}.
 \end{proof}
 
 \subsection{Existentially bounded MSCs}
 
-We move now to existentially $k$-bounded MSCs, which have been studied extensively in literature \cite{DBLP:conf/fossacs/LohreyM02,DBLP:conf/dlt/GenestMK04,GKM07,DBLP:conf/concur/BolligGFLLS21}. These  kind of MSCs represent the behaviour of systems that can be realized with bounded channels, i.e. channels where at most $k$ messages can transit at any moment in time. For our definition of $k$-bounded MSCs, we suppose that there is a channel $(p,q)$ for any pair of processes such that $p$ sends messages to $q$ (there is a different channel for messages sent by $q$ to $p$). Intuitively, we say that an MSC is existentially $k$-bounded if it has linearization where, at any moment in time, there are no more than $k$ messages in any channel. Such a linearization will be referred to as a $k$-\emph{bounded linearization}. We give formal definitions below.
+We move now to existentially $k$-bounded MSCs, first introduced by Lohrey and Muschol~\cite{DBLP:conf/fossacs/LohreyM02}, that form a relevant class of MSC for extending the
+Buechi-Elgot-Trakhthenbrot theorem from words to MSCs \cite{DBLP:conf/dlt/GenestMK04,GKM07}. 
+Existentially bounded MSCs represent the behaviour of systems that can be realized with bounded channels. 
+We stick to the original definition of Lohrey and Muscholl of $k$-bounded MSCs, where $k$
+represents the bound on the number of messages in transit from a given process to another, so that globally
+there may be up to $k(\cardinalof{\procSet})^2$ in transit.\footnote{This may look
+surprising in our general context to count messages in transit in that way, but it can be seen that, up to picking
+a different value for the bound $k$, it is equivalent to the possibly more
+intuitive definition based on counting all messages in transit whatever their sender and receiver.}
+Intuitively, we say that an MSC is existentially $k$-bounded if it admits a linearization where, at any moment in time, and for all pair of processes $p,q$, there are no more than $k$ messages in transit from $p$ to $q$. Such a linearization will be referred to as a $k$-\emph{bounded linearization}. We give formal definitions below.
 
 \begin{definition}\label{def:lin_k_bounded}
 	Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and $k \in \N$.
