@@ -22,7 +22,7 @@ $\Pref{L} = \bigcup_{\msc \in L} \Pref{\msc}$.
 	For $\comsymb \in \{\asy, \oneone, \co, \none\}$, every prefix of a $\comsymb$ MSC is a $\comsymb$ MSC.
 \end{proposition}
 \begin{proof}
-    For $\comsymb = \asy$ it is true by definition. For $\comsymb = \{\oneone, \none\}$ it was already shown to be true in \cite{BolligFG21}, so we just consider $\comsymb = \co$. Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \coMSCs$ and let $\msc_0 =
+    For $\comsymb = \asy$ it is true by definition. For $\comsymb = \{\oneone, \none\}$ it was already shown to be true in \cite{DBLP:conf/concur/BolligGFLLS21}, so we just consider $\comsymb = \co$. Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \coMSCs$ and let $\msc_0 =
     (\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a	causally ordered MSC. There must be two distinct $s,s' \in \Events_0$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \le_{\msc_0} s'$ and either
     \begin{enumerate*}[label={(\roman*)}]
         \item $r' \procrel^+ r$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$, or
@@ -124,8 +124,9 @@ definition of a generic \emph{bounded model-checking} problem for $\{\asy, \oneo
 	The bounded model-checking problem for $\comsymb \in \{$$\asy, $ $\oneone, $ $\co, $ $\none, $ $\onen, $ $\nn\}$ is decidable.
 \end{theorem}
 \davidequestion{Proof missing for $\asy$, Courcelle's theorem?}
+
 \begin{proof}
-    For $\comsymb = \{\oneone, \none\}$ refer to \cite{BolligFG21}. 
+    For $\comsymb = \{\oneone, \none\}$ refer to \cite{DBLP:conf/concur/BolligGFLLS21}. 
     Consider $\comsymb = \co$. As shown in Section~\ref{sec:MSO}, $\coMSCs=L(\coformula)$. Given a system $\System$, we then have that $\coL{\System} = \ppL{\System} \cap L(\coformula)$. We can rewrite the bounded model-checking problem for $\comsymb = \cosymb$ as
     \[\begin{array}{rl}
     &\coL{\System} \cap \stwMSCs{k} \subseteq L(\phi)\\[1ex]
@@ -145,7 +146,7 @@ In this last section we prove a series of statements to conclude that, when we h
 	$(\Pref{\msc} \cap \stwMSCs{(k+2)}) \setminus \Class \neq \emptyset$.
 \end{proposition}
 \begin{proof}
-    Already proved in \cite{BolligFG21}, but we provide more details for a clearer understanding.
+    Already proved in \cite{DBLP:conf/concur/BolligGFLLS21}, but we provide more details for a clearer understanding.
     Let $k$ and $\Class$ be fixed, and let
     $\msc\in \MSCs\setminus \Class$ be fixed. If the empty MSC is not in $\Class$, then we are done, since it is a valid prefix of $\msc$ and it is in $\stwMSCs{(k+2)} \setminus \Class$.
     Otherwise, let $\msc'\in \Pref{\msc} \setminus \Class$ such that, for all $\le$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\le$-maximal events. Let $e$ be $\le_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.

@@ -64,6 +64,7 @@
 % \addbibresource{my_biblio.bib} % do not put this in preamble or it breakes automatic suggestions for citations in vscode
 
 % % macros
+\usepackage{select_version}
 \usepackage{my_macro}
 \usepackage{laetitia_macro}
 \usepackage{etienne_macros}
@@ -216,34 +217,34 @@
 
 \input{chapters/ch-intro.tex}
 
-\section{Asynchronous communication models overview}
-\label{sec:com_models_overview}
-%\begin{itemize}
-%  \item Overview of asynchronous variants
-%  \item High-level description of each variant along with references to implementations (if existing)
-%  \item (Definitions based on linearization, intuitive)
-%  \item (Language of a system with a given communication model as a set of MSCs)
-%  \item Hint of hierarchy result
-%\end{itemize}
+% \section{Asynchronous communication models overview}
+% \label{sec:com_models_overview}
+% %\begin{itemize}
+% %  \item Overview of asynchronous variants
+% %  \item High-level description of each variant along with references to implementations (if existing)
+% %  \item (Definitions based on linearization, intuitive)
+% %  \item (Language of a system with a given communication model as a set of MSCs)
+% %  \item Hint of hierarchy result
+% %\end{itemize}
+
+% \input{chapters/ch-3.tex}
+
+
+% % \section{Preliminaries}\label{sec:prelim}
+% % \begin{itemize}
+% %   \item Communicating systems (communicating finite-state automata with bag channels)
+% %   \item MSCs and (conflict graph)
+% %   \item Causal path
+% %   \item Monadic Second-Order logic on MSCs
+% %   \item (Language of a system as a set of MSCs)
+% %   \item (Model checking and synchronizability)
+% % \end{itemize}
+
+% % \input{chapters/ch-2.tex}
+
+\section{Asynchronous communication models as classes of MSCs}\label{sec:MSC}
 
 \input{chapters/ch-msc.tex}
-
-
-% \section{Preliminaries}\label{sec:prelim}
-% \begin{itemize}
-%   \item Communicating systems (communicating finite-state automata with bag channels)
-%   \item MSCs and (conflict graph)
-%   \item Causal path
-%   \item Monadic Second-Order logic on MSCs
-%   \item (Language of a system as a set of MSCs)
-%   \item (Model checking and synchronizability)
-% \end{itemize}
-
-% \input{chapters/ch-2.tex}
-
-% \section{Asynchronous communication models as classes of MSCs}\label{sec:MSC}
-
-% \input{chapters/ch-msc-etienne.tex}
 
 \section{Asynchronous communication models as classes of executions}\label{sec:impl}
 
@@ -268,7 +269,7 @@
 
 \input{chapters/ch-hierarchy.tex}
 
-\section{An application: special treewidth and bounded model-checking} \label{sec:checking}
+\section{Application: synchronisability and bounded model-checking}\label{sec:checking}
 
 \input{chapters/ch-stw-model-checking.tex}
 
@@ -299,31 +300,35 @@
 \bibliography{bibfile}
 \newpage
 
+\ifappendix
+
 % %% Appendix
 \appendix
 
-\section{Additional material for Section ~\ref{sec:MSO}}
+\section{Additional material for Section~\ref{sec:MSO}}
 \label{apx:MSO}
 \cinzia{TODO: proofs mailbox alternative}
 \cinzia{TODO: proofs 1-n alternative}
 \input{appendix/apx-mso.tex}
 
-\section{Additional material for Section ~\ref{sec:hierarchy}}
+\section{Additional material for Section~\ref{sec:hierarchy}}
 \label{apx:hierarchy}
 \input{appendix/apx-hierarchy.tex}
 
-\section{Proof of Theorem \ref{thm:sync}}
-\label{apx:sync}
-\input{appendix/apx-sync.tex}
+\section{Additional material for Section~\ref{sec:checking}}
+\label{apx:checking}
+\input{appendix/apx-checking}
+
 
 % Text of appendix \ldots
+\fi
 
-
+\ifcomments
 \newpage
 OLD MATERIAL TO REMOVE
 
 
 % \input{chapters/synch-prelim.tex}
 \input{reference.tex}
-
+\fi
 \end{document}

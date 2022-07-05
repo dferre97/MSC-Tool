@@ -1,7 +1,12 @@
+\ifcomments
 \newcommand{\etienne}[1]{\todo[inline,backgroundcolor=blue!25]{E: #1}}
 \newcommand{\laetitia}[1]{\todo[inline,backgroundcolor=green!40]{L: #1}}
 \newcommand{\cinzia}[1]{\todo[inline,backgroundcolor=purple!30]{C: #1}}
-
+\else
+\newcommand{\etienne}[1]{}
+\newcommand{\laetitia}[1]{}
+\newcommand{\cinzia}[1]{}
+\fi
 %	robust
 \newcommand{\nameclass}{robust}
 %	robust
@@ -26,7 +31,8 @@
 \newcommand{\sttunion}{\oplus}
 
 \newcommand{\sem}[1]{\llbracket #1 \rrbracket}
-\newcommand{\Class}{\mathcal{C}}
+\newcommand{\aMSCclass}{\mathcal{C}}
+\newcommand{\Class}{\aMSCclass}
 \newcommand{\Violation}{\mathcal{D}}
 \newcommand{\Sys}{\mathcal{S}}
 \newcommand{\System}{\mathcal{S}}
@@ -55,13 +61,14 @@
 \newcommand{\cL}[1]{L_{\comsymb}(#1)}
 \newcommand{\ppL}[1]{L_{1\mathsf{-}1}(#1)}
 \newcommand{\mbL}[1]{L_{\mathsf{mb}}(#1)}
-\newcommand{\mbMSCs}{\mathsf{MSC}_{\mb}}
-\newcommand{\cdMSCs}{\mathsf{MSC}_{\mb}}
+\newcommand{\MSCclassofcom}[1]{\mathsf{MSC}_{#1}}
+\newcommand{\mbMSCs}{\MSCclassofcom{\mb}}
+\newcommand{\cdMSCs}{\MSCclassofcom{\mb}}
 \newcommand{\stwMSCs}[1]{\mathsf{MSC}^{#1\textup{-}\mathsf{stw}}}
 \newcommand{\bTrees}[1]{\mathsf{Trees}_{#1}}
 \newcommand{\Lang}{L}
 \newcommand{\Ch}{\mathbb{C}}
-\newcommand{\Procs}{\mathbb{P}}
+\newcommand{\Procs}{\procSet}
 \newcommand{\Msg}{\mathbb{M}}
 
 
