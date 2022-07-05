@@ -81,3 +81,26 @@ and for $(e,e') \in \lhd$, we let $\mexch(e) = \mexch(e') = (e,e')$.
 	$\Nodes = {\lhd} \cup \Unm{\msc}$ and $\Edges = \{(\mu(e),\type(e)\type(f),\mu(f)) \mid (e,f) \in {\to^+}\}$.
 In particular, a node of $\cgraph{\msc}$ is either a single unmatched send event or a message pair $(e,e') \in {\lhd}$.
 \end{definition}
+
+
+\subsection{Proof of Theorem~\ref{thm:sync}}
+\label{apx:sync}
+\input{appendix/apx-sync.tex}
+
+
+\subsection{Proof of Theorem~\ref{thm:co-weak-sync}}
+\label{apx:thm-co-weak-sync}
+\thmCoWeakSync
+
+\etienne{Develop (for instance adding more precise references, or copy/paste), or drop this section?}
+
+The proof is essentially identical to that given in \cite{BolligFG21} for the $\oneone$ case. 
+We do the same reduction from the Post correspondence problem. 
+The original proof considered a $\oneone$ system $\System$ with four machines (P1, P2, V1, V2), where we have 
+unidirectional communication channels from provers (P1 and P2) to verifiers (V1 and V2). In particular notice 
+that all the possible behaviours of $\System$ are causally ordered, i.e. $\ppL{\System} \subseteq \coMSCs$; 
+according to how we built our system $\System$, it is impossible to have a pair of causally-related send 
+events of P1 and P2\footnote{There is no channel between P1 and P2, and we only have unidirectional communication 
+channels from provers to verifiers; it is impossible to have a causal path between two send events of P1 and P2.}, which implies that causal ordering is 
+already ensured by any possible $\oneone$ behaviour of $\System$. The rest of the proof is identical to the 
+$\oneone$ case.

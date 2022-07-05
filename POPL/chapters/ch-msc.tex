@@ -152,6 +152,23 @@ action and there is no $f \in \Events$ such that $e \lhd f\}$.
 
 \davide{I think it would be a good idea to add another set of MSC examples that contain unmatched messages.}
 
+
+\etienne{I just moved here the notion of concatenation of MSC}
+MSCs form a monoid for the following notion of vertical concatenation.
+Let $\msc_1 = (\Events_1,\procrel_1,\lhd_1,\lambda_1)$ and
+$\msc_2 = (\Events_2,\procrel_2,\lhd_2,\lambda_2)$ be two MSCs.
+The \emph{concatenation} $\msc_1 \cdot \msc_2 = (\Events,\procrel,\lhd,\lambda)$ has $\Events$ as the disjoint 
+union of $\Events_1$ and $\Events_2$,
+${\lhd}  = {\lhd_1} \cup {\lhd_2}$, $\lambda(e)=\lambda_i(e)$ for all $e\in \Events_i$ ($i=1,2$), 
+and ${\procrel} = {\procrel_1} \cup {\procrel_2} \cup R$.
+Here, $R$ contains, for all $p \in \Procs$ such that $(\Events_1)_p$ and
+$(\Events_2)_p$ are non-empty, the pair $(e_1,e_2)$ where $e_1$ is the
+maximal $p$-event in $M_1$ and $e_2$ is the minimal $p$-event in $M_2$.
+Note that $\msc_1 \cdot \msc_2$ is indeed an MSC and that
+concatenation is associative.
+
+
+
 \paragraph{\bf Peer-to-peer}
 In the peer-to-peer ($\pp$) communication model, any two messages sent from one process to another  are always received in the same order as they are sent. A straightforward implementation would be connecting processes pairwise with FIFO channels. %i.e. messages are delivered by channels in the order in which they were sent\footnote{Please note that our definition of Communicating Finite-State Machine is different from the classical one. FIFO channels are replaced by bag channels, which do not ensure any specific order on the delivery of messages.}. This definition of Communicating Finite-State Machines clearly uses the $\oneone$ communication model, since we have FIFO channels between processes that take care of delivering messages in the correct order. The $\oneone$ communication model is referred to as \pp in \cite{DBLP:conf/concur/BolligGFLLS21}.
 For this reason, alternative names for this communication model are FIFO $1\mathsf{-}1$ \cite{DBLP:journals/fac/ChevrouHQ16} or simply FIFO \cite{babaoglu1993consistent, DBLP:journals/dc/Charron-BostMT96, tel2000introduction}.

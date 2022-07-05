@@ -1,26 +1,29 @@
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
-\begin{figure}[ht]
-		\begin{tabular}{|c || c | c | c|  c| c| }
+\begin{figure}[t]
+		\begin{tabular}{| c | c | c|  c| c| }
 			\hline
-			\emph{Bounded} &  & Weakly  & Weakly  & $\exists$k & $\forall$k  \\
-			\emph{STW} & & sync & k-sync & bounded & bounded \\
+			& Weakly  & Weakly  & $\exists$k & $\forall$k  \\
+			& sync & k-sync & bounded & bounded \\
 			\hline \hline
-			$\asy$ & \ding{55} & \xmark & \cmark & \cmark & \cmark \\
+			$\asy$ &  \xmark & \cmark & \cmark & \cmark \\
 			\hline
-			$\oneone$ & \xmark~[1] & \xmark~[1] & \cmark~[1] & \cmark~[1] & \cmark~[1] \\
+			$\oneone$  & \xmark~[1] & \cmark~[1] & \cmark~[1] & \cmark~[1] \\
 			\hline
-			$\co$ & \xmark & \xmark & \cmark & \cmark & \cmark \\
+			$\co$  & \xmark & \cmark & \cmark & \cmark \\
 			\hline
-			$\none$&  \xmark~[1]& \cmark~[1] & \cmark~[1] & \cmark~[1] & \cmark~[1] \\
+			$\none$ & \cmark~[1] & \cmark~[1] & \cmark~[1] & \cmark~[1] \\
 			\hline
-			$\onen$ & \xmark & \cmark & \cmark & \cmark & \cmark \\
+			$\onen$ & \cmark & \cmark & \cmark & \cmark \\
 			\hline
-			$\nn$ & \xmark & \cmark & \cmark & \cmark & \cmark \\
+			$\nn$ & \cmark & \cmark & \cmark & \cmark \\
 			\hline
 		%	$\rsc$ & \cmark & \cmark & \cmark & \cmark & \cmark \\
 		%	\hline
 		\end{tabular}
-		\caption{Table summarising the bounded special treewidth results for each communication model, whole or restricted by a class of synchronizability. The symbol \xmark\;stands for unbounded STW, \cmark\;for bounded STW.  [1] indicates that the result was shown in  \cite{BolligFG21}.}
+		\caption{Table summarising the (un)decidability results synchronisability for each 
+		combination of a communication model and a class $\aMSCclass$ of MSCs. 
+		The symbol \xmark\;stands for unbounded STW, \cmark\;for bounded STW.  
+		[1] indicates that the result was shown by Bollig~\emph{et al}~\cite{BolligFG21}.}
 		\label{fig:stw-bound}
 \end{figure}
