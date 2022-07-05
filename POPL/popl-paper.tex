@@ -64,6 +64,7 @@
 % \addbibresource{my_biblio.bib} % do not put this in preamble or it breakes automatic suggestions for citations in vscode
 
 % % macros
+\usepackage{select_version}
 \usepackage{my_macro}
 \usepackage{laetitia_macro}
 \usepackage{etienne_macros}
@@ -268,7 +269,7 @@
 
 \input{chapters/ch-hierarchy.tex}
 
-\section{An application: special treewidth and bounded model-checking} \label{sec:checking}
+\section{Application: synchronisability and bounded model-checking}\label{sec:checking}
 
 \input{chapters/ch-stw-model-checking.tex}
 
@@ -299,31 +300,38 @@
 \bibliography{bibfile}
 \newpage
 
+\ifappendix
+
 % %% Appendix
 \appendix
 
-\section{Additional material for Section ~\ref{sec:MSO}}
+\section{Additional material for Section~\ref{sec:MSO}}
 \label{apx:MSO}
 \cinzia{TODO: proofs mailbox alternative}
 \cinzia{TODO: proofs 1-n alternative}
 \input{appendix/apx-mso.tex}
 
-\section{Additional material for Section ~\ref{sec:hierarchy}}
+\section{Additional material for Section~\ref{sec:hierarchy}}
 \label{apx:hierarchy}
 \input{appendix/apx-hierarchy.tex}
+
+\section{Additional material for Section~\ref{sec:checking}}
+\label{apx:checking}
+\input{appendix/apx-checking}
 
 \section{Proof of Theorem \ref{thm:sync}}
 \label{apx:sync}
 \input{appendix/apx-sync.tex}
 
 % Text of appendix \ldots
+\fi
 
-
+\ifcomments
 \newpage
 OLD MATERIAL TO REMOVE
 
 
 % \input{chapters/synch-prelim.tex}
 \input{reference.tex}
-
+\fi
 \end{document}
