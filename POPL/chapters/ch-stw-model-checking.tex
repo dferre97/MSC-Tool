@@ -478,7 +478,36 @@ Following the approach taken in \cite{DBLP:conf/fossacs/LohreyM02}, we introduce
 	\item $r$ is the $i$-th receive event (executed by $q$).
 	\item $s$ is the ($i+k$)-th send event (executed by $p$).
 \end{enumerate}
-Note that, for any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed after $s$ cannot be $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization". A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.\davide{An example could be nice.} In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is $\exists k$-bounded if and only if the relation $\le \cup \relb$ is acyclic. Since $\le$ and acyclicity are both MSO-definable, it suffices to find an MSO formula that defines the $\relb$ relation to claim the MSO-definability of $\exists k$-bounded MSCs. Unfortunately, $\relb$ is not MSO-definable because MSO logic cannot be used to "count" for an arbitrary $i$. For this reason, we introduce a similar MSO-definable binary relation $\relbAsy$, and we show that an MSC $\msc$ is $\exists k$-bounded MSC iff $\le \cup \relbAsy$ is acyclic and another condition holds. Let $k \ge 1$ and $\msc$ be a fixed MSC; we have $r \relbAsy s$ if, for some $i \ge 1$ and some channel ($p$,$q$):
+Note that, for any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed after $s$ cannot be $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization". A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.
+
+\noindent
+\begin{minipage}[c]{9cm}
+\begin{example}
+  Consider the MSC $\msc_6$ in Fig~\ref{fig:bounded_lin_ex}. We first try to find a $2$-bounded linearization for $\msc_6$. For $k=2$, we have $?1 \relbk{2} !3$; we cannot find a linearization that respects $\relbk{2}$, since in $\msc_6$ we have that $!3 \happensbefore ?1$. we have A $2$-bounded linearization of $\msc$ must respect $?1 \relb !3$ with $k = 2$. However, there is no linearization of $M$ respecting this constraint. On the other hand, we have to respect $?1\relb !3$ with $k = 3$ to have a $3$-bounded linearization, as is the case in: $!1~!2~!3~!4~?4~!5~?5~?1~?2~?3$. Then, $M$ is $\exists3$-bounded.
+\end{example}  
+\end{minipage}
+\hfill
+\begin{minipage}[c]{4cm}
+\begin{center}
+\begin{tikzpicture}[every node/.style={transform shape}]
+\begin{scope}[scale =.7]
+\newproc{0}{p}{-4.1};
+\newproc{2.2}{q}{-4.1};
+\newproc{4.4}{r}{-4.1};
+
+\newmsgm{2.2}{4.4}{-.2}{-2.5}{1}{0.1}{black};
+\newmsgm{2.2}{4.4}{-.9}{-3.2}{2}{0.1}{black};
+\newmsgm{2.2}{4.4}{-1.6}{-3.9}{3}{0.1}{black};
+\newmsgm{2.2}{0}{-1.9}{-1.9}{4}{0.5}{black};
+\newmsgm{0}{4.4}{-2.1}{-2.1}{5}{0.25, below}{black};
+\end{scope}
+\end{tikzpicture}
+\label{fig:bounded_lin_ex}
+\captionof{figure}{ MSC $M_6$}
+\end{center}
+\end{minipage}
+
+In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is $\exists k$-bounded if and only if the relation $\le \cup \relb$ is acyclic. Since $\le$ and acyclicity are both MSO-definable, it suffices to find an MSO formula that defines the $\relb$ relation to claim the MSO-definability of $\exists k$-bounded MSCs. Unfortunately, $\relb$ is not MSO-definable because MSO logic cannot be used to "count" for an arbitrary $i$. For this reason, we introduce a similar MSO-definable binary relation $\relbAsy$, and we show that an MSC $\msc$ is $\exists k$-bounded MSC iff $\le \cup \relbAsy$ is acyclic and another condition holds. Let $k \ge 1$ and $\msc$ be a fixed MSC; we have $r \relbAsy s$ if, for some $i \ge 1$ and some channel ($p$,$q$):
 \begin{itemize}\itemsep=0.5ex
 	\item There are $k+1$ send events $(s_1, \dots, s_k, s)$, where at least one is matched, such that $s_1 \procrel^+ \dots \procrel^+ s_k \procrel^+ s$.
  	\item $r$ is the first receive event for the matched send events among $s_1, \dots, s_k, s$.
