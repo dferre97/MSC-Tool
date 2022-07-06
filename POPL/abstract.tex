@@ -4,9 +4,11 @@ communication model is determined by the transport layer of the network, and a f
 orders of message delivery (FIFO, causally ordered) have been identified in the early days of 
 distributed computing. For local-scale message-passing applications, 
 e.g., running on a single machine, the communication model may be determined by the actual implementation of 
-message buffers and how FIFO queues are used. Whereas the large-scale communication
-models, like causal ordering, are defined by logical axioms, the local-scale models are often defined by an operational
+message buffers and how FIFO queues are used. While large-scale communication
+models, such as causal ordering, are defined by logical axioms, local-scale models are often defined by an operational
 semantics. In this work, we connect these two approaches, and we present a unified hierarchy of communication
 models encompassing both large-scale and local-scale models based on their non-sequential behaviours.
 As a conundrum, we show that all communication models we consider can be axiomatised in the monadic second order logic,
 and may therefore benefit from several bounded verification techniques based on bounded treewidth.
+\davide{Should we say bounded \textbf{special} treewidth? I know that is equivalent for our purposes, but in the paper we never talk about normal treewidth, it could be confusing.}
+\davide{I don't understand the word "conundrum". I looked it up and it is defined as an "intricate and difficult problem"... does it match what we are trying to say here?}

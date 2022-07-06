@@ -1,10 +1,11 @@
 
 
 % !TEX root = ../popl-paper.tex
-Reasoning about distributed message-passing applications is notably hard. One of the reasons for this
-is that the communication architecture, under which the application is intended to be run, may vary, and must be accurately specified. In particular, an under-approximated communication model may hide safety errors
-like unspecified receptions, whereas an over-approximated model may hide deadlocks. The degree of asynchrony
-of the communication model is therefore an important ingredient of the application.
+Reasoning about distributed message-passing applications is  hard. The degree of asynchrony
+of the communication model is  an important ingredient of the application.
+One of the reasons for this
+is that the communication architecture, under which the application is  to be run, may vary, and must be accurately specified. In particular, an under-approximated communication model may hide safety errors
+like unspecified receptions, whereas an over-approximated model may hide deadlocks. 
 
 In synchronous communication (also known as rendez-vous communication), send and receive events are viewed as
 a single event, i.e., a receive event happens simultaneously with its corresponding send. The idea behind asynchronous communication, instead, is to decouple send and receive events, so that a receive event can happen indefinitely after its corresponding send. Depending on some additional constraints on those events, we can obtain new communication models that sit somewhere between synchronous and fully asynchronous communication.
@@ -16,8 +17,8 @@ message buffering supported by local FIFO queues (for instance "mailboxes"). Suc
 been considered in more recent works (for instance in~\cite{DBLP:journals/tcs/BasuB16}) and have caused
 some confusions, in particular between causal ordering and mailboxes~\cite{DBLP:conf/cav/BouajjaniEJQ18,DBLP:conf/fossacs/GiustoLL20}.
 
-The classification and axiomatisation of large-scale communication models have received an important attention in the late 90s~\cite{DBLP:journals/dc/Charron-BostMT96}. On the other hand, the local-scale communication models
-have only started to receive some attention quite recently by Chavrou~\emph{et al.}~\cite{DBLP:journals/fac/ChevrouHQ16}, focusing on a \emph{sequential} view of the behaviour of a message-passing
+The classification and axiomatisation of large-scale communication models have received a major attention in the late 90s~\cite{DBLP:journals/dc/Charron-BostMT96}, while the local-scale communication models
+have only started to be investigated quite recently by Chavrou~\emph{et al.}~\cite{DBLP:journals/fac/ChevrouHQ16}, focusing on a \emph{sequential} view of the behaviour of a message-passing
 applications (to be detailed below).
 At the same time, several works~\cite{KraglQH18,GleissenthallKB19,DBLP:conf/cav/BouajjaniEJQ18,DBLP:conf/cav/LangeY19} recently addressed the verification of
 asynchronous message-passing applications by reduction to their synchronous semantics (see also~\cite{Lipton75} for a seminal work on these questions). These works strongly rely on the ability to safely approximate an asynchronous communication model by the synchronous one. There is therefore a need for clarifying how the synchronous-asynchronous spectrum of communication models is organised.

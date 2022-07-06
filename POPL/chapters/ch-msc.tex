@@ -10,14 +10,9 @@ In this section, we give both informal descriptions and formal definitions of th
 %The role of the communication model is to impose an order on the receipt of messages, according to its specification. For instance, the delivery of a message could be delayed or even prevented by a communication model $CM$, so as to ensure that messages are received in an order that is valid for $CM$. The 7 communication models that we address all impose different constraints on the order in which messages can be received.
 %
 
-\paragraph{\bf Fully asynchronous}
-In the fully asynchronous communication model (\asy), messages can be received at any time once they have been sent, and send events are non-blocking.
-%, i.e., the sender of a message does not have to wait for it to be delivered to the recipient, in order to resume normal operations.
-This communication model can be modeled as a bag where all messages are stored and retrieved by processes when necessary (as described in \cite{DBLP:journals/fac/ChevrouHQ16} and \cite{DBLP:journals/tcs/BasuB16}).
-It is also referred to as NON-FIFO (cfr.  \cite{DBLP:journals/dc/Charron-BostMT96}).
-An MSC that shows a valid computation for the fully asynchronous communication model will be called a fully asynchronous MSC (or simply MSC). An example of such an MSC can be found in Fig.~\ref{fig:fully_asy_ex}; indeed, even if message $m_1$ is sent before $m_2$, process $q$ does not have to receive $m_1$ first. Below, we give the formal definition of MSC, along with some necessary preliminaries.
-
-\paragraph*{Processes, messages, and actions}
+We will use the following customary conventions:  + denotes the transitive closure, while * the transitive and reflexive closure. Symbol $<$ is the strict version of $\leq$.  The cardinality of a set $A$ is  $\cardinalof{A}$.
+%
+%\paragraph*{Processes, messages, and actions}
 We assume a finite set of \emph{processes} $\Procs=\{p,q,\ldots\}$ and a finite set of messages $\Msg=\{\msg,\ldots\}$.
 Each process may either (asynchronously) send a message to another one, or wait until it receives a message.
 We therefore consider two kinds of actions. A \emph{send action} is of the form $\sact{p}{q}{\msg}$;
@@ -35,6 +30,14 @@ Moreover, $\pAct{p} = \psAct{p} \cup \qrAct{p}$ denotes the set of all actions t
 executed by $p$.
 Finally, $\Act = \bigcup_{p \in \Procs} \pAct{p}$
 is the set of all the actions.
+
+
+\subsection{\bf Fully asynchronous}
+In the fully asynchronous communication model (\asy), messages can be received at any time once they have been sent, and send events are non-blocking.
+%, i.e., the sender of a message does not have to wait for it to be delivered to the recipient, in order to resume normal operations.
+This communication model can be modeled as a bag where all messages are stored and retrieved by processes when necessary (as described in \cite{DBLP:journals/fac/ChevrouHQ16} and \cite{DBLP:journals/tcs/BasuB16}).
+It is also referred to as NON-FIFO (cfr.  \cite{DBLP:journals/dc/Charron-BostMT96}).
+An MSC that shows a valid computation for the fully asynchronous communication model will be called a fully asynchronous MSC (or simply MSC). An example of such an MSC can be found in Fig.~\ref{fig:fully_asy_ex}; indeed, even if message $m_1$ is sent before $m_2$, process $q$ does not have to receive $m_1$ first. Below, we give the formal definition of MSC.
 
 \begin{definition}[MSC]\label{def:msc}
 	An {MSC}  over $\Procs$ and $\Msg$ is a tuple $\msc = (\Events,\procrel,\lhd,\lambda)$, where 
