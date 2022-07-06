@@ -22,6 +22,13 @@ We write $L_{\asy}(\Sys)$ to denote the set of asynchronous behaviours of $\Sys$
 and we write $L_{\comsymb}(\Sys)$ to denote the restriction of $L_{\asy}$ to $\comsymb$ MSCs,
 i.e. $L_{\comsymb}(\Sys)=L_{\asy}(\Sys)\cap\MSCclassofcom{\comsymb}$.
 
+In general, even simple verification problems, such
+as control-state reachability, are undecidable for
+communicating systems~\cite{DBLP:journals/jacm/BrandZ83}, under all communication models (except
+$\rsc$, which we won't consider any more from now on).
+However, they may become decidable if we restrict the behaviors, which motivates the following
+definition of a generic \emph{bounded model-checking} problem for $\{\asy, \oneone, \co, \none, \onen, \nn \}$ :\\
+
 Let $\aMSCclass$ be a class of $\MSCs$. The $\aMSCclass$-bounded model-checking problem
 for the communication model $\comsymb$ is the following: given a system $\Sys$ and a MSO
 specification $\amsoformula$, decide whether
@@ -90,16 +97,16 @@ decide whether $\amsoformula$ holds for all MSCs $\msc\in\stwMSCs{k}$.
 Therefore, a direct consequence of Courcelle's theorem and of our MSO characterisation
 of the communication models is that bounded-model-checking is decidable.
 
-\begin{theorem}\label{thm:bounded-model-checking}
+\begin{restatable}{theorem}{thmBoundedMC}\label{thm:bounded-model-checking}
 Let $\comsymb\in\{\asy, \co, \pp, \mb, \onen, \nn, \rsc\}$ and $k\geq 1$ be fixed.
 Then the following problem is decidable: given a system $\Sys$ and
 a MSO specification $\amsoformula$, decide whether
 $L_{\comsymb}(\Sys)\cap \stwMSCs{k}\subseteq L(\amsoformula)$.
-\end{theorem}
+\end{restatable}
 
 \subsection{The synchronizability problem}
 
-Theorem~\ref{thm:bounded_model_checking} remains true if instead of
+Theorem~\ref{thm:bounded-model-checking} remains true if instead of
 $\stwMSCs{k}$ we bound the model-checking problem with
 a class $\aMSCclass$ of MSCs that is both treewidth bounded and MSO definable.
 The synchronizability problem (SP, for short) consists in deciding whether this bounded model-checking is complete,

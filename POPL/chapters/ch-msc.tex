@@ -4,10 +4,10 @@ In this section, we give both informal descriptions and formal definitions of th
 % Implementations, or realizations, of these communication models are discussed in the following section. For convenience, we will refer to a system implementing a given communication model $\comsymb$ as a $\comsymb$-system.
 % Similarly, an MSC that represents a valid computation for a communication model $\comsymb$ will be called a $\comsymb$-MSC.
 
- %In this section, we will present  7 different asynchronous communication models.
+ %In this section, we will present  seven different asynchronous communication models.
 %We model a distributed system as a set of concurrent Finite-State Machines (FSMs) that exchange messages asynchronously through channels.
 %Each FSM models a single machine/process of the system and transitions are labeled with "send" and "receive" operations, which specify the sender and the receiver of a message. In our work
-%The role of the communication model is to impose an order on the reception of messages, according to its specification. For instance, the delivery of a message could be delayed or even prevented by a communication model $CM$, so as to ensure that messages are received in an order that is valid for $CM$. The 7 communication models that we address all impose different constraints on the order in which messages can be received.
+%The role of the communication model is to impose an order on the reception of messages, according to its specification. For instance, the delivery of a message could be delayed or even prevented by a communication model $CM$, so as to ensure that messages are received in an order that is valid for $CM$. The seven communication models that we address all impose different constraints on the order in which messages can be received.
 %
 
 We will use the following customary conventions:  + denotes the transitive closure, while * the transitive and reflexive closure. Symbol $<$ is the strict version of $\leq$.  The cardinality of a set $A$ is  $\cardinalof{A}$.
