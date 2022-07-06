@@ -83,6 +83,36 @@ In particular, a node of $\cgraph{\msc}$ is either a single unmatched send event
 \end{definition}
 
 
+\subsection{Proof of Theorem~\ref{thm:bounded-model-checking}}
+
+
+\thmBoundedMC
+
+\begin{proof}
+   Let $\comsymb$, $\aMSCclass$, $\Sys$, and $\amsoformula$ 
+   be fixed. We showed in Section~\ref{sec:MSO} 
+   that there is a MSO formula
+   $\msoformulaofcom{\comsymb}$
+   that defines $\MSCclassofcom{\comsymb}$.
+   It is also folklore that there is a MSO formula
+   $\amsoformula_{\Sys}$ such that
+   $L_{\asy}(\Sys)=L(\amsoformula_{\Sys})$.\footnote{The formula
+   simply encodes the existence of a run of $\Sys$ on the MSC
+   using a monadic second order variable $X_l$ for each control
+   state $l$, with the meaning that $X_l$ is the set of events
+   before which the local communicating automaton was in state $l$.}
+   Putting it together, we have
+    \[\begin{array}{rl}
+    &\coL{\System} \cap \stwMSCs{k} \subseteq L(\amsoformula)\\[1ex]
+    \Longleftrightarrow &\asyL{\System} \cap \MSCclassofcom{\comsymb} \cap \stwMSCs{k} \subseteq L(\phi)\\[1ex]
+    \Longleftrightarrow &\L(\amsoformula_{\System}) \cap L(\msoformulaofcom{\comsymb}) \cap \stwMSCs{k} \subseteq L(\phi)\\[1ex]
+    \Longleftrightarrow &\stwMSCs{k} \subseteq L(\phi \vee \neg \msoformulaofcom{\comsymb}\vee\neg\amsoformula_{\System})\,.
+    \end{array}\]
+
+    The latter is decidable by Courcelle's theorem~\cite{Courcelle10}.
+\end{proof}
+
+
 \subsection{Proof of Theorem~\ref{thm:sync}}
 \label{apx:sync}
 \input{appendix/apx-sync.tex}
