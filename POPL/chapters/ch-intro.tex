@@ -3,46 +3,45 @@
 % !TEX root = ../popl-paper.tex
 Reasoning about distributed message-passing applications is  hard. The degree of asynchrony
 of the communication model is  an important ingredient of the application.
-One of the reasons for this
-is that the communication architecture, under which the application is  to be run, may vary, and must be accurately specified. In particular, an under-approximated communication model may hide safety errors
-like unspecified receptions, whereas an over-approximated model may hide deadlocks. 
+One reason
+is that the communication architecture on which the application runs may vary, and must be accurately specified. In particular, an under-approximated communication model may hide safety errors,
+such as unspecified receipts, whereas an over-approximated model may hide deadlocks. 
 
 In synchronous communication (also known as rendez-vous communication), send and receive events are viewed as
-a single event, i.e., a receive event happens simultaneously with its corresponding send. The idea behind asynchronous communication, instead, is to decouple send and receive events, so that a receive event can happen indefinitely after its corresponding send. Depending on some additional constraints on those events, we can obtain new communication models that sit somewhere between synchronous and fully asynchronous communication.
+a single event, i.e., a receive event and the corresponding send event happen simultaneously. The idea behind asynchronous communication, instead, is to decouple send and receive events, so that a receive event can happen indefinitely after the corresponding send event. By introducing some additional constraints on the execution of those events, we can obtain new communication models that sit somewhere between synchronous and fully asynchronous communication.
 In this paper we try to clarify and classify some of these communication models.
 %We consider only point-to-point communication, that is, messages that have exactly one sender and one receiver.
-On  one hand, we consider communication models that were proposed in the early days of large-scale distributed computing for establishing the correctness of some distributed algorithms, like \emph{causal ordering}~\cite{Lamport78} for the correctness of Lamport's distributed mutual exclusion algorithm (among others, see also~\cite{Renesse93}), or the weaker "FIFO" peer-to-peer assumption. On the other hand, we consider communication models that emerge
-naturally when considering local-scale message-passing applications based on predictible
+On  one hand, we consider communication models that were proposed in the early days of large-scale distributed computing to establish the correctness of some distributed algorithms, such as \emph{causal ordering}~\cite{Lamport78} for the correctness of Lamport's distributed mutual exclusion algorithm (among others, see also~\cite{Renesse93}), or the weaker "FIFO" peer-to-peer assumption. On the other hand, we look at communication models that emerge
+naturally when considering local-scale message-passing applications, which are based on predictable
 message buffering supported by local FIFO queues (for instance "mailboxes"). Such communication models have
 been considered in more recent works (for instance in~\cite{DBLP:journals/tcs/BasuB16}) and have caused
-some confusions, in particular between causal ordering and mailboxes~\cite{DBLP:conf/cav/BouajjaniEJQ18,DBLP:conf/fossacs/GiustoLL20}.
+some confusion, specifically regarding the difference between causal ordering and mailboxes~\cite{DBLP:conf/cav/BouajjaniEJQ18,DBLP:conf/fossacs/GiustoLL20}.
 
-The classification and axiomatisation of large-scale communication models have received a major attention in the late 90s~\cite{DBLP:journals/dc/Charron-BostMT96}, while the local-scale communication models
-have only started to be investigated quite recently by Chavrou~\emph{et al.}~\cite{DBLP:journals/fac/ChevrouHQ16}, focusing on a \emph{sequential} view of the behaviour of a message-passing
+The classification and axiomatisation of large-scale communication models received great attention in the late 90s~\cite{DBLP:journals/dc/Charron-BostMT96}, while the local-scale communication models have only started to be investigated quite recently by Chavrou~\emph{et al.}~\cite{DBLP:journals/fac/ChevrouHQ16}, focusing on a \emph{sequential} view of the behaviours of message-passing
 applications (to be detailed below).
 At the same time, several works~\cite{KraglQH18,GleissenthallKB19,DBLP:conf/cav/BouajjaniEJQ18,DBLP:conf/cav/LangeY19} recently addressed the verification of
-asynchronous message-passing applications by reduction to their synchronous semantics (see also~\cite{Lipton75} for a seminal work on these questions). These works strongly rely on the ability to safely approximate an asynchronous communication model by the synchronous one. There is therefore a need for clarifying how the synchronous-asynchronous spectrum of communication models is organised.
+asynchronous message-passing applications by reduction to their synchronous semantics (see also~\cite{Lipton75} for a seminal work on these questions). These results strongly rely on the ability to safely approximate an asynchronous communication model with a synchronous one. There is therefore a need to clarify how the synchronous-asynchronous spectrum of communication models is organised.
 
 In this work, we start from the sequential hierarchy established by Chevrou~\emph{et al.}~\cite{DBLP:journals/fac/ChevrouHQ16}, where a
 communication model is represented by a class of sequential executions; we revisit this hierarchy
-with a non-sequential point of view: we instead define a communication model as a class of
+with a non-sequential point of view: we define a communication model as a class of
 \emph{Message Sequence Charts} (MSCs in the following).
-Our MSCs are a graphical representation of the  computations of distributed systems that can be thought as a simplified
-version of the ITU recommandation~\cite{messagesequencecharts}.
+Our MSCs are a graphical representation of computations of distributed systems, and they are a simplified
+version of the ITU recommendation~\cite{messagesequencecharts}.
 Roughly speaking, a distributed system is composed by a set of
-sequential processes that can exchange messages. Each process exhibits a sequence of \emph{events}, which in our case will be either \emph{send}
+sequential processes that can exchange messages. Each process executes a sequence of \emph{events}, which in our case will be either \emph{send}
 or \emph{receive} events. A send event $s$ and a receive event $r$ are said to be \emph{matching} if the message sent by $s$ is the same  that is
 received by $r$. A distributed computation is the \\
 \noindent
 \begin{minipage}[c]{10.5cm}
  concurrent execution of each process. In an MSC, such as the one in Fig.~\ref{fig:msc_ex}, each
 vertical line is called a \emph{process line} and it represents the order in which events are executed by a single process, with time running from
-top to bottom; arrows are used to represent messages and they connect a send event with its corresponding matching receive.
-Given a message $m_i$, we will use $!i$ and $?i$ to denote the corresponding two matching send and receive events. A single process line defines a
+top to bottom; arrows are used to represent messages and they connect a send event with the corresponding matching receive.
+Given a message $m_i$, we will use $!i$ and $?i$ to denote the corresponding matching send and receive events, respectively. A single process line defines a
 total order over the events executed by that process, i.e., an event $e$ happens before another event $e'$ if $e$ is higher in the process line;
 in Fig.~\ref{fig:msc_ex}, if we look at process $q$ we see that $?1$ happens before $?2$. However, in general MSCs only specify a partial order
 over events. Consider the events $!1$ and $!2$ in Fig.~\ref{fig:msc_ex}, which are executed by two different processes; these two events are \emph{truly
-concurrent},   in the sense
+concurrent}, 
 \end{minipage}
 	\hfill \vspace{0,5mm}
 \begin{minipage}[c]{3cm}
@@ -69,15 +68,16 @@ concurrent},   in the sense
 			\newevent{black}{0}{-1.9}{?3}{left};
 
 		\end{tikzpicture}
-		\captionof{figure}{Red arrows between $!2$ and $?3$ denote the causal path.}
+		\captionof{figure}{Red arrows between $!2$ and $?3$ denote a causal path.}
 		\label{fig:msc_ex}
 	\end{center}
 
 \end{minipage}
 
+\davide{We should fix vertical space before minipage (lines 66/67), I don't know how to do it.}
 %
-\noindent that this MSC does not tell us which one is executed first. Nonetheless, even though events on different processes can be concurrent, this is not always the case. For instance send events must always happen
-before their corresponding matching receive. Graphically, this \emph{happens before} relation between events on different processes is represented
+\noindent in the sense that this MSC does not tell us which one is executed first. Even though events on different processes can be concurrent, this is not always the case. For instance, a send event must always happen
+before the matching receive event. Graphically, this \emph{happens before} relation between events on different processes is represented
 by a path that follows the direction of the arrows and runs from top to bottom. This will be referred to as a \emph{causal path}, because it
 estabilishes a causal relation between events (see the red arrows in  Fig.~\ref{fig:msc_ex}). 
 % Consider events $!1$ and $?2$ of the MSC shown in Fig.~\ref{fig:msc_ex}. Even though they are executed by different processes, $?2$ must happen
@@ -93,37 +93,34 @@ estabilishes a causal relation between events (see the red arrows in  Fig.~\ref{
 
 
 
-As explained before, in this work we view communication models as classes of MSCs.
+As mentioned before, in this work we interpret communication models as classes of MSCs.
 This non-sequential view of the communication models is arguably the "standard one",
-rather than the sequential one adopted by Chevrou~\emph{et al}. It is more relevant for comparing communication models, as some
-of them, like causally ordered communications, intrinsically rely on this non-sequential view and the happens-before relation. The
-large-scale communication models are indeed rather easy to axiomatize in a formal language, for instance in monadic second order logic (MSO) over MSCs. The local-scale
+rather than the sequential point of view adopted by Chevrou~\emph{et al}. It is more relevant for comparing communication models, as some
+of them, such as causally ordered communications, intrinsically rely on this non-sequential view and the happens-before relation. Large-scale communication models are quite easy to axiomatize in a formal language, such as monadic second order logic (MSO) over MSCs. Local-scale
 communication models, on the other hand, are easy to define by means of an operational semantics involving FIFO queues, but their axiomatization
-in MSO is error prone and requires some care. The choice of MSO as a specification language for the axiomatisation of
-these communication models is not incidental: there is a rich line of work on MSO model-checking over MSCs that originated from
-the works of Genest~\emph{et al.}~\cite{genest2004kleene,GKM07}, with recent developments by Bollig~\emph{et al.} in the context
+in MSO is error prone and requires particular attention. The choice of MSO as a specification language for the axiomatisation of
+these communication models is not incidental: there is a wealth of results on MSO model-checking over MSCs that originated from
+the work of Genest~\emph{et al.}~\cite{genest2004kleene,GKM07}, with recent developments by Bollig~\emph{et al.} in the context
 of synchronisability~\cite{DBLP:conf/concur/BolligGFLLS21}.
 
-Our contributions are the following.
-
+Our contributions are the following:
 \begin{itemize}
 	\item We review the peer-to-peer FIFO, causally ordered, mailbox, \onen, \nn, asynchronous, and synchronous communication models
-	and propose some definitions of these models in terms of classes of MSCs. For the communication models whose intuition stems from
+	and propose definitions of these models in terms of classes of MSCs. For the communication models whose intuition stems from
 	an operational semantics, we provide an alternative operational definition, and we show soundness and completeness.
 
-	\item We deduce from these definitions a new non-sequential hierarchy of communication models (see Fig.~\ref{fig:msc_hierarchy_full})
+	\item From these definitions, we deduce a new non-sequential hierarchy of communication models (see Fig.~\ref{fig:msc_hierarchy_full})
 	and establish the strictness of this hierarchy by means of several examples.
-	Surprisingly, the \onen class, that could be thought of the "dual" of the mailbox class, is equivalent to the mailbox class if
-	we only consider MSCs without orphan messages, and is a strict subclass of mailbox if unmatched sends are allowed. This strongly
-	contrasts with Chevrou~\emph{et al.} sequential hierarchy, where\onen and mailbox are incomparable. Comparing
-	the \onen and mailbox classes actually is rather non-trivial in our non-sequential setting and motivates the introduction
+	Surprisingly, the \onen class, that could be thought of as the "dual" of the mailbox class, turn out to be a subclass of mailbox class. This strongly
+	contrasts with Chevrou~\emph{et al.} sequential hierarchy, where \onen and mailbox are incomparable. The comparison between
+	the \onen and mailbox classes is non-trivial in our non-sequential setting, and it motivates the introduction
 	of several technical alternative characterisations of these communication models.
 
-	\item We show that all of these communication models can be axiomatised in MSO. This result is rather subtle for mailbox and \onen communications, and highly non-trivial for \nn communications. For the later, we develop a constructive proof that relies on an
-	algorithm that computes a \nn linearisation of a \nn MSC.
+	\item We show that all of these communication models can be axiomatised in MSO. This result is rather subtle for mailbox and \onen, and highly non-trivial for \nn. For the latter, we develop a constructive proof based on an
+	algorithm that computes a \nn linearisation of an MSC.
 
 	\item Building on the MSO characterization of these communication models, we derive several new decidability results (cfr. Fig. \ref{fig:stw-boundshort}) for bounded
-	model-checking of systems of communicating finite state machines under various bounded assumptions (existential boundedness, synchronisability, weak synchronisability, etc).
+	model-checking of systems of communicating finite state machines under various bounded assumptions (existential boundedness, weak synchronisability, etc).
 \end{itemize}
 
 
@@ -132,8 +129,8 @@ Our contributions are the following.
 	\captionsetup[subfigure]{justification=centering}
 	% \centering
 %	
-	\begin{subfigure}{0.35\textwidth}\centering	
-	\begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
+	\begin{subfigure}{0.3\textwidth}\centering	
+	\begin{tikzpicture}[scale=0.78, every node/.style={transform shape}]
 		\draw  (0,0) rectangle (1.5,.6);
 		\draw (1.5,0.3) node[left]{\rsc};
 		\draw  (0,0) rectangle (2.1,1.2);
@@ -152,7 +149,7 @@ Our contributions are the following.
 	\caption{The hierarchy of MSC classes.\\ ~}
 	\label{fig:msc_hierarchy_full}
 	\end{subfigure} \quad   
-	\begin{subfigure}{0.6\textwidth}\centering
+	\begin{subfigure}{0.65\textwidth}\centering
 	{\small
 		\begin{tabular}{| c | c | c|  c| c| } 
 			\hline
@@ -184,17 +181,17 @@ Our contributions are the following.
 		[1] indicates that the result was shown in \cite{DBLP:conf/concur/BolligGFLLS21}.}
 		\label{fig:stw-boundshort}
 \end{subfigure}
-\caption{Contributions}
+\caption{Main contributions}
 	%\etienne{Maybe move that figure later? end of section 2? section 6?}
 \end{figure}
 
-\paragraph{\bf Outline} The paper is organized as follows. Section~\ref{sec:MSC} surveys the communication models we consider. We recall the formal definition of MSC and introduce formal definitions of the considered communication models.
+\paragraph{\bf Outline} The paper is organized as follows. Section~\ref{sec:MSC} describes the communication models we consider. We also recall the notion of MSC and introduce formal definitions for these models, seen as classes of MSCs.
 In Section~\ref{sec:impl}, we rely on
-an operational semantics to provide an alternative definition of these communication models and prove these sound and complete.
-Then Section~\ref{sec:MSO} characterizes the classes of MSCs via MSO logic.
-In Section~\ref{sec:hierarchy} we step back and compare all of the communication models, concluding with our main result, a strict non-sequential hierarchy of communication models.
+an operational semantics to provide an alternative definition for some of these communication models, which we prove to be sound and complete.
+Section~\ref{sec:MSO} characterizes the classes of MSCs via MSO logic.
+In Section~\ref{sec:hierarchy}, we compare all of the considered communication models and show our main result: a strict non-sequential hierarchy of communication models.
 Finally, Section~\ref{sec:checking} shows some (un)decidability results for various bounded model-checking
-problems based on MSO and the notion of special treewidth.
+problems based on MSO and on the notion of special treewidth.
 
 
 %\hrule
