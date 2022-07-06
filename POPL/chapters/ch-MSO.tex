@@ -1,7 +1,7 @@
 % !TEX root = ../popl-paper.tex
 
 %\davidequestion{Don't we need a citation for MSO?}
-In Section~\ref{sec:MSC} we have introduced seven different communication models and the corresponding classes of MSCs. Here, we show that all of these classes are MSO-definable, i.e. there is a Monadic Second Order Logic formula that defines them. Sometimes it is straightforward, but for some classes of MSCs we have to introduce alternative definitions (equivalent to those given in Section~\ref{sec:MSC}) that are closer to the logic, in order to prove MSO-definability. These alternative definitions will also be heavily used in the following sections for proofs. We first recall the formal definition of MSO logic over MSCs.
+We have introduced seven different communication models and the corresponding classes of MSCs. Here, we show that all of these classes are MSO-definable, i.e. there is a Monadic Second Order Logic formula that defines them. Sometimes it is straightforward, but for some classes of MSCs we have to introduce alternative definitions (equivalent to those given in Section~\ref{sec:MSC}) that are closer to the logic, in order to prove MSO-definability. These alternative definitions will also be heavily used in the following sections for proofs. We first recall the formal definition of MSO logic over MSCs.
 
 \begin{definition}[MSO logic]
 The set of MSO formulas over MSCs (over $\Procs$ and $\Msg$) is given by the grammar
@@ -179,12 +179,9 @@ In order to show the MSO-definability of \nn MSCs we give an alternative definit
 	if ${\nnbowtie}$ is acyclic.
 \end{definition}
 
-To prove that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent, we need some preliminary results and definitions. Please note that missing proofs can be found in Appendix~\ref{apx:MSO}.
-
-\begin{restatable}{proposition}{nnfirstprop}
-	Let $\msc$ be an MSC. Given two matched send events $s_1$ and $s_2$, and their respective receive events $r_1$ and $r_2$, $r_1 \nnbowtie r_2 \implies s_1 \nnbowtie s_2$.
-\end{restatable}
-
+%To prove that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent, we need some preliminary results and definitions. 
+As before full proofs can be found in Appendix~\ref{apx:MSO}. 
+The first side of the equivalence (Definition \ref{def:n_n_alt} $\Rightarrow$ Definition \ref{def:n_n}) follows from the fact that the order of receive events imposes an order on sends and the fact that a \nn linearization is also a \mb and \onen one.
 \begin{restatable}{proposition}{nnsecondprop}
 \label{prop:n_n_cycl}
 	Let $\msc$ be an MSC. If $\nnbowtie$ is cyclic, then $\msc$ is not $\nn$.

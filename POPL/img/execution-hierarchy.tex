@@ -1,4 +1,6 @@
-\begin{tikzpicture}[scale=0.7]
+% !TEX root = ../popl-paper.tex
+
+\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
    % \draw (0,0) ellipse (5cm and 3cm);
     %\draw (0,0) ellipse (5cm and 3cm);
     %\draw (0,0) ellipse (5cm and 3cm);
@@ -6,10 +8,10 @@
 \draw(0,0) ellipse (.7cm and .5cm); 
 \node (r) at (0,0) {$\rsc$}; 
 \draw(0,0) ellipse (1.5cm and 1cm); 
-\node (nn) at (0,.7) {nn}; 
+\node (nn) at (0,.7) {$\mathtt{n-n}$}; 
 
 \draw(.8,0) ellipse (2.8cm and 1.2cm); 
-\node[left] (n1) at (3.55,0) {onen}; 
+\node[left] (n1) at (3.55,0) {$\mathtt{1-n}$}; 
 \draw(-.8,0) ellipse (2.8cm and 1.2cm); 
 \node[right] (1n) at (-3.5,0) {$\none$}; 
 

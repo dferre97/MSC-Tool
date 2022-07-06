@@ -1,3 +1,5 @@
+% !TEX root = ../popl-paper.tex
+
 \subsection{MSO-definable properties}
 
 In this sections we give MSO formulas for some MSO-definable properties that are used throughout the paper.
@@ -31,29 +33,29 @@ $R^+$ is irreflexive.
 
 \paragraph*{\bf Mailbox}
 
-We show here that the two alternative definitions of $\none$ MSC that we gave are equivalent.
+We show here that the two alternative definitions of $\none$-MSC that we gave are equivalent.
 
 \begin{proposition}
-    Definition~\ref{def:mb_msc} and Definition~\ref{def:n_one_alt} of $\none$ MSC are equivalent.
+    Definition~\ref{def:mb_msc} and Definition~\ref{def:n_one_alt} of $\none$-MSC are equivalent.
 \end{proposition}
 \begin{proof}
-    ($\Rightarrow$)  We show that if $\msc$ is a $\none$ MSC, according to Definition~\ref{def:n_one_alt}, then it is also a $\none$ MSC, according to Definition~\ref{def:mb_msc}. By definition of $\mbpartial$, we must have 
+    ($\Rightarrow$)  We show that if $\msc$ is a $\none$-MSC, according to Definition~\ref{def:n_one_alt}, then it is also a $\none$-MSC, according to Definition~\ref{def:mb_msc}. By definition of $\mbpartial$, we must have 
     \begin{enumerate*}[label={(\roman*)}]
         \item $s \mbpartial s'$ for any two matched send events $s$ and $s'$ addressed to the same process, such that $r \procrel^+ r$, where $s \lhd r$ and $s' \lhd r'$, and
         \item $s \mbpartial s'$, if $s$ and $s'$ are a matched and an unmatched send event, respectively.
     \end{enumerate*} 
     If $\mbpartial$ is a partial order, we can find at least one linearization $\linrel$ such that $\mbpartial \;\subseteq\; \linrel$; such a linearization satisfies the conditions of Definition~\ref{def:mb_msc}.\newline
-    ($\Leftarrow$) We show that if $\msc$ is not a $\none$ MSC, according to Definition~\ref{def:n_one_alt}, then it is also not a $\none$ MSC, according to Definition~\ref{def:mb_msc}. Since ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$ is not a partial order, $\mbpartial$ must be cyclic\footnote{$\mbpartial$ is reflexive and transitive by definition, if it were also acyclic it would be a partial order}. If $\mbpartial$ is cyclic, it means that we cannot find a linearization $\linrel$ such that $\mbpartial \;\subseteq\; \linrel$. In other words, we cannot find a linearization where      
+    ($\Leftarrow$) We show that if $\msc$ is not a $\none$-MSC, according to Definition~\ref{def:n_one_alt}, then it is also not a $\none$-MSC, according to Definition~\ref{def:mb_msc}. Since ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$ is not a partial order, $\mbpartial$ must be cyclic\footnote{$\mbpartial$ is reflexive and transitive by definition, if it were also acyclic it would be a partial order}. If $\mbpartial$ is cyclic, it means that we cannot find a linearization $\linrel$ such that $\mbpartial \;\subseteq\; \linrel$. In other words, we cannot find a linearization where      
     \begin{enumerate*}[label={(\roman*)}]
         \item $s \linrel s'$ for any two matched send events $s$ and $s'$ addressed to the same process, such that $r \procrel^+ r$, where $s \lhd r$ and $s' \lhd r'$, and
         \item $s \linrel s'$, if $s$ and $s'$ are a matched and an unmatched send event, respectively.
     \end{enumerate*} 
-    It follows that $\msc$ is not a $\none$ MSC also according to Definition~\ref{def:mb_msc}.
+    It follows that $\msc$ is not a $\none$-MSC also according to Definition~\ref{def:mb_msc}.
 \end{proof}
 
 \paragraph*{\bf $\onen$}
 
-We show here that the two alternative definitions of $\onen$ MSC that we gave are equivalent.
+We show  that the two alternative definitions of $\onen$ MSC that we gave are equivalent.
 
 \begin{proposition}
     Definition~\ref{def:one_n} and Definition~\ref{def:one_n_alt} of $\onen$ MSC are equivalent.
@@ -77,7 +79,9 @@ We show here that the two alternative definitions of $\onen$ MSC that we gave ar
 
 We show here the missing proofs for the equivalence of the two definitions of $\nn$ MSC that we gave.
 
-\nnfirstprop*
+\begin{proposition}
+	Let $\msc$ be an MSC. Given two matched send events $s_1$ and $s_2$, and their respective receive events $r_1$ and $r_2$, $r_1 \nnbowtie r_2 \implies s_1 \nnbowtie s_2$.
+\end{proposition}
 \begin{proof}
     Follows from the definition of $\nnbowtie$. We have $r_1 \nnbowtie r_2$ if either:
     \begin{itemize}%\itemsep=0.5ex
@@ -93,7 +97,7 @@ We show here the missing proofs for the equivalence of the two definitions of $\
 \nnsecondprop*
 \begin{proof}
     According to Definition~\ref{def:n_n}, an MSC is $\nn$ if it has at least one $\nn$ linearization. Note that, because of how it is defined, any $\nn$ linearization is always both a $\none$ and a $\onen$ linearization. It follows that the cyclicity of $\nnrel$ (not $\nnbowtie$) implies that $\msc$ is not $\nn$, because it means that we are not even able to find a linearization that is both $\none$ and $\onen$. Moreover, since in a $\nn$ linearization the order in which messages are sent matches the order in which they are received, and unmatched send events can be executed only after matched send events, a $\nn$ MSC always has to satisfy the constraints imposed by the $\nnbowtie$ relation. If $\nnbowtie$ is cyclic, then for sure there is no $\nn$ linearization for $\msc$.
-    \davide{This proof is not very formal... do you think it is fine?}
+ %   \davide{This proof is not very formal... do you think it is fine?}
 \end{proof}    
 
 \nnalgotermination*
