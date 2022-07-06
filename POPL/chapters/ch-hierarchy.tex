@@ -24,7 +24,7 @@ Fig.~\ref{fig:co_no_none} shows an example of causally ordered MSC that is not $
 
 \begin{figure}[t]
 	\captionsetup[subfigure]{justification=centering}
-\begin{subfigure}[t]{0.2\textwidth}\centering
+\begin{subfigure}[t]{0.3\textwidth}\centering
 	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
 		\newproc{0}{p}{-2.2};
 		\newproc{1}{q}{-2.2};
@@ -40,21 +40,8 @@ Fig.~\ref{fig:co_no_none} shows an example of causally ordered MSC that is not $
 	\caption{$\co$, not $\none$.}
 	\label{fig:co_no_none}
 \end{subfigure}
-\begin{subfigure}[t]{0.25\textwidth}\centering
-	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
-		\newproc{0}{p}{-2.2};
-		\newproc{1}{q}{-2.2};
-		\newproc{2}{r}{-2.2};
-		
-		\newmsgum{0}{1}{-0.8}{1}{0.3}{black};
-		\newmsgm{0}{2}{-1.5}{-1.5}{2}{0.15}{black};
-		
-	\end{tikzpicture}
-	\caption{$\none$, not $\onen$ MSC.}
-	\label{fig:mb_no_onen}
-\end{subfigure}
 % \hfill
-\begin{subfigure}[t]{0.2\textwidth}\centering
+\begin{subfigure}[t]{0.3\textwidth}\centering
 	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
 		\newproc{0}{p}{-2.2};
 		\newproc{1}{q}{-2.2};
@@ -70,7 +57,7 @@ Fig.~\ref{fig:co_no_none} shows an example of causally ordered MSC that is not $
 	\caption{$\onen$ MSC, not $\nn$.}
 	\label{fig:onen_no_nn}
 \end{subfigure}
-\begin{subfigure}[t]{0.2\textwidth}\centering
+\begin{subfigure}[t]{0.3\textwidth}\centering
 	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
 		\newproc{0}{p}{-2.2};
 		\newproc{2}{q}{-2.2};	
@@ -114,7 +101,7 @@ The opposite direction is also true and the proof, which can be found in the App
 Interestingly enough, Proposition~\ref{prop:onen_mb_no_unmatched} and \ref{prop:mb_onen_no_unmatched} show that the classes of $\none$ and $\onen$ MSCs are effectively equivalent if we do not allow unmatched messages. As we will prove, this will change when we add unmatched messages into the mix. However, Proposition~\ref{prop:onen_mb_no_unmatched} still holds.
 
 \begin{proposition} \label{prop:onen_mb_unmatched}
-	Every $\onen$ MSC is a $\none$ MSC, i.e. $\onenMSCs \subseteq \mbMSCs$.
+	Every $\onen$ MSC is a $\none$ MSC.
 \end{proposition}
 \begin{proof}
 Let $\msc$ be an asynchronous MSC. The proof proceeds in the same way as the one of Proposition~\ref{prop:onen_mb_no_unmatched}, but unmatched messages introduce some additional cases. Consider any two adiacent events $s_1$ and $s_2$ in a cycle $\xi$ for $\mbpartial$, where $\xi$ has been written using only $\mbrel$ and $\le$, and we never have two consecutive $\le$. These are some additional cases:
@@ -127,7 +114,7 @@ Let $\msc$ be an asynchronous MSC. The proof proceeds in the same way as the one
 We showed that cases (3) and (4) can never happen, whereas cases (5) and (6) both imply that $\msc$ is not $\onen$. If we combine them with the cases described in Proposition~\ref{prop:onen_mb_no_unmatched} we have the full proof.
 \end{proof}
 
-The MSC in Fig.~\ref{fig:mb_no_onen} shows a simple example of an MSC with unmatched messages that is $\none$ but not $\onen$. This, along with Proposition~\ref{prop:onen_mb_unmatched}, effectively shows that $\onenMSCs \subset \mbMSCs$.
+The MSC in Fig.~\ref{fig:pp_um_ex} shows a simple example of an MSC with unmatched messages that is $\none$ but not $\onen$. This, along with Proposition~\ref{prop:onen_mb_unmatched}, effectively shows that $\onenMSCs \subset \mbMSCs$.
 
 \medskip 
 
