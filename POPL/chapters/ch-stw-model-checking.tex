@@ -141,7 +141,7 @@ the proof of Theorem~\ref{thm:sync} can be found in Appendix~\ref{apx:sync}.
 In the next sections, we investigate which combinations of $\comsymb$ and $\aMSCclass$ fit the hypotheses of this theorem.
 We review the classes of weakly synchronous and weakly k-synchronous inspired
 by~\cite{DBLP:conf/cav/BouajjaniEJQ18},
-and the classes of existentially $k$-bounded and universally $k$-bounded MSCs~\cite{DBLP:conf/dlt/GenestMK04}.
+and the classes of existentially $k$-bounded and universally $k$-bounded MSCs~\cite{genest2004kleene}.
 
 % As shown in \cite{BolligGFLLS21}, if we have a system $\Sys$ and a STW-bounded class $\aMSCclass$, then the model-checking problem\footnote{Given $\Procs$ and $\Msg$, a communicating system $\Sys$, an MSO sentence $\phi$, do we have $\cL{\Sys} \subseteq L(\phi)?$} for $\Sys$ becomes decidable if $L(S) \subseteq \aMSCclass$; this motivates the study of the synchronizability problem.
 
@@ -353,7 +353,7 @@ As for weakly synchronous MSCs, the class of weakly $k$-synchronous MSCs was alr
 \subsection{Existentially bounded MSCs}
 
 We move now to existentially $k$-bounded MSCs, first introduced by Lohrey and Muschol~\cite{DBLP:conf/fossacs/LohreyM02}, that form a relevant class of MSC for extending the
-Buechi-Elgot-Trakhthenbrot theorem from words to MSCs \cite{DBLP:conf/dlt/GenestMK04,GKM07}. 
+Buechi-Elgot-Trakhthenbrot theorem from words to MSCs \cite{genest2004kleene,GKM07}. 
 Existentially bounded MSCs represent the behaviorof systems that can be realized with bounded channels. 
 We stick to the original definition of Lohrey and Muscholl of $k$-bounded MSCs, where $k$
 represents the bound on the number of messages in transit from a given process to another, so that globally
