@@ -187,9 +187,11 @@ The first side of the equivalence (Definition \ref{def:n_n_alt} $\Rightarrow$ De
 	Let $\msc$ be an MSC. If $\nnbowtie$ is cyclic, then $\msc$ is not $\nn$.
 \end{restatable}
 
-Let the \emph{Event Dependency Graph} (EDG) of a $\nn$ MSC $\msc$ be a graph that has events as nodes and an edge between two events $e_1$ and $e_2$ if $e_1 \nnbowtie e_2$. We now present an algorithm that, given the EDG of an $\nn$ MSC $\msc$, computes a $\nn$ linearization of $\msc$. We then show that, if $\nnbowtie$ is acyclic, this algorithm always terminates correctly. This, along with Proposition~\ref{prop:n_n_cycl}, effectively shows that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent.
+Let the \emph{Event Dependency Graph} (EDG) of a $\nn$ MSC $\msc$ be a graph that has events as nodes and an edge between any two events $e_1$ and $e_2$ if $e_1 \nnbowtie e_2$. Algorithm  \ref {algonn}, given the EDG of an $\nn$ MSC $\msc$, computes a $\nn$ linearization of $\msc$. We  show that, if $\nnbowtie$ is acyclic, this algorithm always terminates correctly. This, along with Proposition~\ref{prop:n_n_cycl}, effectively shows that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent.
 
-\paragraph*{Algorithm for finding a $\nn$ linearization}
+\begin{algorithm}[t]
+\caption{Algorithm for finding a $\nn$ linearization}
+\label{algonn}
 The input of this algorithm is the EDG of an MSC $\msc$, and it outputs a valid $\nn$ linearization for $\msc$, if $\msc$ is $\nn$. The algorithm works as follows:
 \begin{enumerate}
 	\item If there is a matched send event $s$ with in-degree 0 in the EDG, add $s$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 2.
@@ -198,30 +200,32 @@ The input of this algorithm is the EDG of an MSC $\msc$, and it outputs a valid 
 		\item Throw an error and terminate.
 		\item If all the events of $\msc$ were added to the linearization, return the linearization and terminate. Otherwise, go back to step 1.
 \end{enumerate} 
+\end{algorithm}
+
+\input{img/nn_algo_edg.tex}
 
 We now need to show that 
 \begin{enumerate*}[label={(\roman*)}]
-	\item if this algorithm terminates correctly (i.e. step 4 is never executed), it returns a $\nn$ linearization, and 
+	\item if Algorithm \ref{algonn} terminates correctly (i.e. step 4 is never executed), it returns a $\nn$ linearization, and 
 	\item if $\nnbowtie$ is acyclic, the algorithm always terminates correctly.
 \end{enumerate*}
 
 \begin{proposition}
-	If the above algorithm returns a linearization for an MSC $\msc$, it is a $\nn$ linearization.
+	Given an MSC $\msc$, if Algorithm \ref{algonn} returns a linearization then  it is a $\nn$ linearization.
 \end{proposition}
 \begin{proof}
-	Step 2 ensures that the order (in the linearization) in which matched messages are sent is the same as the order in which they are received. Moreover, according to step 3, an unmatched send events is added to the linearization only if all the matched send events were already added.
+	Step 2 ensures that the order (in the linearization) in which matched messages are sent is the same as the order in which they are received. Moreover, according to step 3, an unmatched send event is added to the linearization only if all the matched send events were already added.
 \end{proof}
 
-\input{img/nn_algo_edg.tex}
 
-The proof for the next proposition is quite intricate, and it can be found in Appendix~\ref{apx:MSO}.
+Finally  the other side of the equivalence (Definition \ref{def:n_n} $\Rightarrow$ Definition \ref{def:n_n_alt}) directly follows from the next proposition. The proof  proceeds by induction on the number of events added to the linearization and relies on the fact that since $\nnbowtie$ is acyclic then the EDG of the MSC is a DAG.
 
 \begin{restatable}{proposition}{nnalgotermination}
 \label{prop:nn_algo_term}
-	Given an MSC $\msc$, the above algorithm always terminates correctly if $\nnbowtie$ is acyclic.
+	Given an MSC $\msc$, Algorithm \ref{algonn}  terminates correctly if $\nnbowtie$ is acyclic.
 \end{restatable}
 
-Proposition~\ref{prop:n_n_cycl} and Proposition~\ref{prop:nn_algo_term} are sufficient to prove that Definition~\ref{def:n_n_alt} and Definition~\ref{def:n_n} are equivalent.
+%Proposition~\ref{prop:n_n_cycl} and Proposition~\ref{prop:nn_algo_term} are sufficient to prove that Definition~\ref{def:n_n_alt} and Definition~\ref{def:n_n} are equivalent.
 Based on Definition~\ref{def:n_n_alt}, we can finally write an MSO formula for $\nn$ MSCs:
 \[
 	\nnformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \nnbowtie y \wedge y \nnbowtie x)
@@ -263,7 +267,7 @@ Note that $\nnrel$ is MSO-definable, since it is defined as the reflexive transi
 
 \paragraph{\bf Realizable with Synchronous Communication MSCs} 
 
-Following the characterization given in \cite[Theorem 4.4]{DBLP:journals/dc/Charron-BostMT96}, we also give an alternative definition of $\rsc$-MSC (the equivalence with Definition~\ref{def:rsc} is shown in Appendix~\ref{apx:MSO}). We first need to introduce the concept of \emph{crown}.
+Following the characterization given in \cite[Theorem 4.4]{DBLP:journals/dc/Charron-BostMT96}, we  give an alternative definition of $\rsc$-MSC (the equivalence with Definition~\ref{def:rsc} is shown in Appendix~\ref{apx:MSO}). We first  introduce the concept of \emph{crown}.
 
 \begin{definition} [crown]
 	Let $\msc$ be an MSC. A \emph{crown} of size $k$ in $\msc$ is a sequence $\langle(s_i,r_i),\, i \in \{1,\dots,k\}\rangle$ of pairs of corresponding send and receive events such that
@@ -271,10 +275,10 @@ Following the characterization given in \cite[Theorem 4.4]{DBLP:journals/dc/Char
 		s_1 \happensbeforestrict r_2, s_2 \happensbeforestrict r_3, \dots, s_{k-1} \happensbeforestrict r_k, s_k \happensbeforestrict r_1.
 	\]
 \end{definition}
-\davide{Should I specify somewhere that $\happensbeforestrict = (\procrel \cup \lhd)^+$ or is it clear?}
+%\davide{Should I specify somewhere that $\happensbeforestrict = (\procrel \cup \lhd)^+$ or is it clear?}
 
 \begin{definition} [$\rsc$ alternative]\label{def:rsc_alt}
-	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{RSC MSC} if and only if it does not contain any crown.
+	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \rsc-MSC if and only if it does not contain any crown.
 \end{definition}
 
 %Such a linearization will be referred to as a \emph{$\rsc$ linearization}.

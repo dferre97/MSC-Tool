@@ -79,7 +79,7 @@ We show  that the two alternative definitions of $\onen$ MSC that we gave are eq
 
 We show here the missing proofs for the equivalence of the two definitions of $\nn$ MSC that we gave.
 
-\begin{proposition}
+\begin{proposition}\label{prop:nn_first_prop}
 	Let $\msc$ be an MSC. Given two matched send events $s_1$ and $s_2$, and their respective receive events $r_1$ and $r_2$, $r_1 \nnbowtie r_2 \implies s_1 \nnbowtie s_2$.
 \end{proposition}
 \begin{proof}
@@ -102,7 +102,7 @@ We show here the missing proofs for the equivalence of the two definitions of $\
 
 \nnalgotermination*
 \begin{proof}
-We want to prove that, if $\nnbowtie$ is acyclic, step 4 of the algorithm is never executed, i.e. it terminates correctly. Note that the acyclicity of $\nnbowtie$ implies that the EDG of $\msc$ is a DAG. Moreover, at every step of the algorithm we remove nodes and edges from the EDG, so it still remains a DAG. The proof goes by induction on the number of events added to the linearization.\newline
+We want to prove that, if $\nnbowtie$ is acyclic, step 4 of the algorithm is never executed, i.e. it terminates correctly. Note that the acyclicity of $\nnbowtie$ implies that the EDG of $\msc$ is a DAG. Moreover, at every step of the algorithm we remove nodes and edges from the EDG, so it still remains a DAG. The proof proceeds by induction on the number of events added to the linearization.\newline
 Base case: no event has been added to the linearization yet. Since the EDG is a DAG, there must be an event with in-degree 0. In particular, this has to be a send event (a receive event depends on its respective send event, so it cannot have in-degree 0). If it is a matched send event, step 1 is applied. If there are no matched send events, step 2 is applied on an unmatched send. We show that it is impossible to have an unmatched send event of in-degree 0 if there are still matched send events in the EDG, so either step 1 or 2 are applied in the base case. Let $s$ be one of those matched send events and let $u$ be an unmatched send. Because of rule 4 in the definition of $\nnbowtie$, we have that $s \nnbowtie u$, which implies that $u$ cannot have in-degree 0 if $s$ is still in the EDG.\newline
 Inductive step: we want to show that we are never going to execute step 4. In particular, Step 4 is executed when none of the first three steps can be applied. This happens when there are no matched send events with in-degree 0 and one of the following holds:
 \begin{itemize}%\itemsep=0.5ex
