@@ -166,7 +166,7 @@ x \onenrel y =
 In order to show the MSO-definability of \nn MSCs we give an alternative definition and prove that it is equivalent to Definition~\ref{def:n_n}. Unlike mailbox and $\onen$ communication models, the equivalence is not trivial.
 
 \begin{definition} [$\nn$ alternative]\label{def:n_n_alt}
-	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel} \,\cup\, {\onenrel})^\ast$. We define  $\bowtie \subseteq \Events \times \Events$,  such that $e_1 \bowtie e_2$ if one of the following holds:
+	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel} \,\cup\, {\onenrel})^\ast$. We define  $\nnbowtie \subseteq \Events \times \Events$,  such that $e_1 \nnbowtie e_2$ if one of the following holds:
 	\begin{enumerate}%\itemsep=0.5ex
 		\item $e_1 \nnrel e_2$
 		\item $\lambda(e_1) \in \prAct{\plh}$, $\lambda(e_2) \in \prAct{\plh}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events$, $s_1 \nnrel s_2$ and $e_1 \slashed{\nnrel} e_2$.
@@ -174,23 +174,23 @@ In order to show the MSO-definability of \nn MSCs we give an alternative definit
 		\item $e_1 \in \Matched{\msc}$, $e_2 \in \Unm{\msc}$, $e_1 \slashed{\nnrel} e_2$.
 	\end{enumerate}
 
-	%Note that $\mbpartial \subseteq \nnrel$, $\onenpartial \subseteq \nnrel$, and $\nnrel \subseteq\; \bowtie$.
+	%Note that $\mbpartial \subseteq \nnrel$, $\onenpartial \subseteq \nnrel$, and $\nnrel \subseteq\; \nnbowtie$.
 	$\msc $ is a \emph{$\nn$ MSC}
-	if ${\bowtie}$ is acyclic.
+	if ${\nnbowtie}$ is acyclic.
 \end{definition}
 
 To prove that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent, we need some preliminary results and definitions. Please note that missing proofs can be found in Appendix~\ref{apx:MSO}.
 
 \begin{restatable}{proposition}{nnfirstprop}
-	Let $\msc$ be an MSC. Given two matched send events $s_1$ and $s_2$, and their respective receive events $r_1$ and $r_2$, $r_1 \bowtie r_2 \implies s_1 \bowtie s_2$.
+	Let $\msc$ be an MSC. Given two matched send events $s_1$ and $s_2$, and their respective receive events $r_1$ and $r_2$, $r_1 \nnbowtie r_2 \implies s_1 \nnbowtie s_2$.
 \end{restatable}
 
 \begin{restatable}{proposition}{nnsecondprop}
 \label{prop:n_n_cycl}
-	Let $\msc$ be an MSC. If $\bowtie$ is cyclic, then $\msc$ is not $\nn$.
+	Let $\msc$ be an MSC. If $\nnbowtie$ is cyclic, then $\msc$ is not $\nn$.
 \end{restatable}
 
-Let the \emph{Event Dependency Graph} (EDG) of a $\nn$ MSC $\msc$ be a graph that has events as nodes and an edge between two events $e_1$ and $e_2$ if $e_1 \bowtie e_2$. We now present an algorithm that, given the EDG of an $\nn$ MSC $\msc$, computes a $\nn$ linearization of $\msc$. We then show that, if $\bowtie$ is acyclic, this algorithm always terminates correctly. This, along with Proposition~\ref{prop:n_n_cycl}, effectively shows that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent.
+Let the \emph{Event Dependency Graph} (EDG) of a $\nn$ MSC $\msc$ be a graph that has events as nodes and an edge between two events $e_1$ and $e_2$ if $e_1 \nnbowtie e_2$. We now present an algorithm that, given the EDG of an $\nn$ MSC $\msc$, computes a $\nn$ linearization of $\msc$. We then show that, if $\nnbowtie$ is acyclic, this algorithm always terminates correctly. This, along with Proposition~\ref{prop:n_n_cycl}, effectively shows that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent.
 
 \paragraph*{Algorithm for finding a $\nn$ linearization}
 The input of this algorithm is the EDG of an MSC $\msc$, and it outputs a valid $\nn$ linearization for $\msc$, if $\msc$ is $\nn$. The algorithm works as follows:
@@ -205,7 +205,7 @@ The input of this algorithm is the EDG of an MSC $\msc$, and it outputs a valid 
 We now need to show that 
 \begin{enumerate*}[label={(\roman*)}]
 	\item if this algorithm terminates correctly (i.e. step 4 is never executed), it returns a $\nn$ linearization, and 
-	\item if $\bowtie$ is acyclic, the algorithm always terminates correctly.
+	\item if $\nnbowtie$ is acyclic, the algorithm always terminates correctly.
 \end{enumerate*}
 
 \begin{proposition}
@@ -221,17 +221,17 @@ The proof for the next proposition is quite intricate, and it can be found in Ap
 
 \begin{restatable}{proposition}{nnalgotermination}
 \label{prop:nn_algo_term}
-	Given an MSC $\msc$, the above algorithm always terminates correctly if $\bowtie$ is acyclic.
+	Given an MSC $\msc$, the above algorithm always terminates correctly if $\nnbowtie$ is acyclic.
 \end{restatable}
 
 Proposition~\ref{prop:n_n_cycl} and Proposition~\ref{prop:nn_algo_term} are sufficient to prove that Definition~\ref{def:n_n_alt} and Definition~\ref{def:n_n} are equivalent.
 Based on Definition~\ref{def:n_n_alt}, we can finally write an MSO formula for $\nn$ MSCs:
 \[
-	\nnformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \bowtie y \wedge y \bowtie x)
+	\nnformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \nnbowtie y \wedge y \nnbowtie x)
 \]
-where we can define $x \bowtie y$ as
+where we can define $x \nnbowtie y$ as
 \[
-	x \bowtie y =
+	x \nnbowtie y =
 	\begin{array}{rl}
 	& \left(
 		\bigvee_{\substack{a,b \in \psAct{\plh}}}

@@ -531,7 +531,7 @@ Recall that an MSC $\msc$ is $\none$-$\exists k$-bounded if has a linearization 
 \begin{proposition}\label{prop:ek-mso}
 	An MSC $\msc$ is $\none$-$\exists k$-bounded iff the relation $\mbpartial \cup \relb$ is acyclic.\\
 	An MSC $\msc$ is onen-$\exists k$-bounded iff the relation $\onenpartial \cup \relb$ is acyclic.\\
-	An MSC $\msc$ is nn-$\exists k$-bounded iff the relation $\bowtie \cup \relb$ is acyclic.
+	An MSC $\msc$ is nn-$\exists k$-bounded iff the relation $\nnbowtie \cup \relb$ is acyclic.
 \end{proposition}
 
 The MSO-definability of all the variants of $\exists$k-bounded MSCs directly follows from Proposition~\ref{prop:ek-mso}, since all of these relations were shown to be MSO-definable.
@@ -612,7 +612,7 @@ It follows that $\oneone$-$\forall k$-bounded and $\co$-$\forall k$-bounded MSCs
 \begin{proposition}\label{prop:mb_ukb_alt}
 	An MSC $\msc$ is $\none$-$\forall k$-bounded if and only if $\relb \;\subseteq\; \mbpartial$.\\
 	An MSC $\msc$ is onen-$\forall k$-bounded if and only if $\relb \;\subseteq\; \onenpartial$.\\
-	An MSC $\msc$ is nn-$\forall k$-bounded if and only if $\relb \;\subseteq\; \bowtie$.
+	An MSC $\msc$ is nn-$\forall k$-bounded if and only if $\relb \;\subseteq\; \nnbowtie$.
 \end{proposition}
 \begin{proof}
 	We only show it for the $\none$ communication model. The proof for the other communication models works the same way. Consider an MSC $\msc$ and a $k \in \N$.\newline
@@ -624,7 +624,7 @@ Using Proposition~\ref{prop:mb_ukb_alt}, we can now easily write the MSO formula
 \begin{align*}
 	\mbUkformula &= \neg \exists r.\exists s.(r \relb s \wedge \neg(r \mbpartial s)) \\
 	\onenUkformula &= \neg \exists r.\exists s.(r \relb s \wedge \neg(r \onenpartial s)) \\
-	\nnUkformula &= \neg \exists r.\exists s.(r \relb s \wedge \neg(r \bowtie s))
+	\nnUkformula &= \neg \exists r.\exists s.(r \relb s \wedge \neg(r \nnbowtie s))
 \end{align*}
 
 
