@@ -34,10 +34,10 @@ Finally, $\Act = \bigcup_{p \in \Procs} \pAct{p}$
 is the set of all the actions.
 
 
-\paragraph{\bf Fully asynchronous}
+\paragraph{\bf Fully asynchronous communication}
 In the fully asynchronous communication model (\asy), messages can be received at any time once they have been sent, and send events are non-blocking.
 %, i.e., the sender of a message does not have to wait for it to be delivered to the recipient, in order to resume normal operations.
-This communication model can be modeled as a bag where all messages are stored and retrieved by processes when necessary (as described in \cite{DBLP:journals/fac/ChevrouHQ16} and \cite{DBLP:journals/tcs/BasuB16}).
+It can be modeled as a bag where all messages are stored and retrieved by processes when necessary (as described in \cite{DBLP:journals/fac/ChevrouHQ16} and \cite{DBLP:journals/tcs/BasuB16}).
 It is also referred to as NON-FIFO (cfr.  \cite{DBLP:journals/dc/Charron-BostMT96}).
 An MSC that shows a valid computation for the fully asynchronous communication model will be called a fully asynchronous MSC (or simply MSC). An example of such an MSC can be found in Fig.~\ref{fig:fully_asy_ex}; indeed, even if message $m_1$ is sent before $m_2$, process $q$ does not have to receive $m_1$ first. Below, we give the formal definition of MSC.
 
@@ -243,7 +243,7 @@ Fig.~\ref{fig:pp_ex} shows an example of \pp-MSC; the only two messages sent by 
 
 Note that, according to this definition, we cannot have two messages $m_1$ and $m_2$, both sent by  $p$  $q$, such that $m_1$ is unmatched and $m_2$ is matched;  unmatched message $m_1$ prevents the reception of any other message. For this reason, the MSC shown in Fig.~\ref{fig:asy_um_ex} is not $\pp$. On the other hand, the MSC in Fig.~\ref{fig:pp_um_ex} is $\pp$ because the two messages are not sent by and addressed to the same process.
 
-\paragraph{\bf  Causally ordered}
+\paragraph{\bf  Causally ordered communication}
 In the causally ordered (\co) communication model, messages are delivered to a process according to the causality of their emissions. In other words, if there are two messages $m_1$ and $m_2$ with the same recipient, such that $m_1$ is causally sent before $m_2$ (i.e., there exists a causal path from the first send to the second one), then $m_1$ must be received before $m_2$.
 This type of partial order was introduced by Lamport in \cite{Lamport78} with the "happened before" order. Later on, some implementations were proposed in \cite{peterson1989preserving, DBLP:conf/wdag/SchiperES89, kshemkalyani1998necessary}. %and in \cite{coulouris2005distributed}, where the causal order is called FIFO ordering.
 %\davidequestion{I don't understand the last citation about FIFO ordering. I looked into the book and it talks both about FIFO ordering and causal ordering, and FIFO ordering doesn't seem to match Lamport's definition of causal order...}
@@ -316,10 +316,10 @@ Such a linearization will be referred to as a \emph{$\nn$ linearization}. Note t
 As a consequence, a $\nn$ MSC cannot have an unmatched send event $s$ and a matched send event $s'$, such that $s \happensbefore s'$; indeed, $s$ would appear before $s'$ in every linearization, and we would not be able to find a $\nn$ linearization. The MSCs shown in Fig.~\ref{fig:asy_um_ex} and Fig.~\ref{fig:pp_um_ex} are both not $\nn$, since we have unmatched messages that are sent before matched messages.
 
 
-\paragraph{\bf RSC communications}
+\paragraph{\bf Realizable with Synchronous Communication  communications}
 The Realizable with Synchronous Communication ($\rsc$) communication model imposes the existence of a scheduling such that any send event is  immediately followed by its corresponding receive event. It was introduced in \cite{DBLP:journals/dc/Charron-BostMT96} and it is the asynchronous model that comes closest to synchronous communication. % An asynchronous distributed system that implements the $\rsc$ communication model effectively behaves as a synchronous system. 
 %The authors of \cite{kshemkalyani2011distributed} propose a strategy to implement RSC executions from a synchronous system.  
-The MSC shown in Fig.~\ref{fig:rsc_ex} is the only example of $\rsc$ MSC; we can easily find a linearization that respects the constraints of the $\rsc$ communication model, such as $!1\;?1\;!2\;?2\;!3\;?3$. 
+The MSC  in Fig.~\ref{fig:rsc_ex} is the only example of $\rsc$-MSC: for instance linearization $!1\;?1\;!2\;?2\;!3\;?3$ respects the constraints of the $\rsc$ communication model. 
 %Such a linearization will be referred to as an \emph{$\rsc$ linearization}.
 % EL : repeated below.
 %Let $\rscMSCs$ be the set of $\rsc$ MSCs.
