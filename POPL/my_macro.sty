@@ -374,16 +374,26 @@
 \newcommand{\mbUk}{\MSCs_{\mbsymb\text{-}\forall k\text{-}b}}
 \newcommand{\relbAsy}{\hookrightarrow_{k}}
 \newcommand{\relb}{\longmapsto_k}
+
 \newcommand{\extraorderconstraintofcom}[1]{\sqsubset_{#1}}
+\newcommand{\notextraorderconstraintofcom}[1]{{\not\sqsubset}_{#1}}
 \newcommand{\partialorderofcom}[1]{\preceq_{#1}}
 \newcommand{\partialorderstrictofcom}[1]{\prec_{#1}}
+
 \newcommand{\mbrel}{\extraorderconstraintofcom{\ensuremath{\mathtt{mb}}}}
 \newcommand{\mbpartial}{\partialorderofcom{\ensuremath{\mathtt{mb}}}}
 \newcommand{\mbpartialstrict}{\partialorderstrictofcom{\ensuremath{\mathtt{mb}}}}
 
 \newcommand{\onenrel}{\extraorderconstraintofcom{\ensuremath{\mathtt{1n}}}}
 \newcommand{\onenpartial}{\partialorderofcom{\ensuremath{\mathtt{1n}}}}
-\newcommand{\nnrel}{\ltimes}
+
+%\newcommand{\nnrel}{\ltimes}
+\newcommand{\nnrel}{\extraorderconstraintofcom{\mathsf{1n/n1}}}
+\newcommand{\nnrelofmsc}[1]{\nnrel^{(#1)}}
+\newcommand{\notnnrel}{\notextraorderconstraintofcom{\mathsf{1n/n1}}}
+\newcommand{\notnnrelofmsc}[1]{\notextraorderconstraintofcom{\mathsf{1n/n1}}^{(#1)}}
+
+
 \newcommand{\nnbowtie}{\extraorderconstraintofcom{\mathsf{nn}}}
 \newcommand{\nnbowtieofmsc}[1]{\nnbowtie^{(#1)}}
 
