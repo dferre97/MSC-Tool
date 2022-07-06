@@ -692,13 +692,13 @@ Such a linearization will be referred to as a \emph{$\nn$ linearization}. Intuit
 \begin{definition} [$\nn$ alternative]% \label{def:n_n_alt}
 For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel}_\msc = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel} \,\cup\, {\onenrel})^\ast$. We define an additional binary relation $\nnbowtieofmsc\msc \subseteq \Events \times \Events$, such that for two events $e_1$ and $e_2$ we have $e_1 \nnbowtieofmsc\msc e_2$ if one of the following holds:
 \begin{enumerate}\itemsep=0.5ex
-	\item $e_1 \nnrel_\msc e_2$
-	\item $\lambda(e_1) \in \prAct{\plh}$, $\lambda(e_2) \in \prAct{\plh}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events$, $s_1 \nnrel_\msc s_2$ and $e_1 \slashed{\nnrel}_\msc e_2$.
-	\item $\lambda(e_1) \in \psAct{\plh}$, $\lambda(e_2) \in \psAct{\plh}$, $e_1 \lhd r_1$ and $e_2 \lhd r_2$ for some $r_1,r_2 \in \Events$, $r_1 \nnrel_\msc r_2$ and $e_1 \slashed{\nnrel}_\msc e_2$.
-	\item $e_1 \in \Matched{\msc}$, $e_2 \in \Unm{\msc}$, $e_1 \slashed{\nnrel}_\msc e_2$.
+	\item $e_1 \nnrelofmsc{\msc} e_2$
+	\item $\lambda(e_1) \in \prAct{\plh}$, $\lambda(e_2) \in \prAct{\plh}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events$, $s_1 \nnrelofmsc{\msc} s_2$ and $e_1 \notnnrelofmsc\msc e_2$.
+	\item $\lambda(e_1) \in \psAct{\plh}$, $\lambda(e_2) \in \psAct{\plh}$, $e_1 \lhd r_1$ and $e_2 \lhd r_2$ for some $r_1,r_2 \in \Events$, $r_1 \nnrelofmsc{\msc} r_2$ and $e_1 \notnnrelofmsc\msc e_2$.
+	\item $e_1 \in \Matched{\msc}$, $e_2 \in \Unm{\msc}$, $e_1 \notnnrelofmsc\msc e_2$.
 \end{enumerate}
 
-Note that $\mbpartial \subseteq \nnrel_\msc$, $\onenpartial \subseteq \nnrel_\msc$, and $\nnrel_\msc \subseteq\; \nnbowtieofmsc\msc$. We call $\msc \in \asMSCs$ a \emph{$\nn$ MSC}
+Note that $\mbpartial \subseteq \nnrelofmsc{\msc}$, $\onenpartial \subseteq \nnrelofmsc{\msc}$, and $\nnrelofmsc{\msc} \subseteq\; \nnbowtieofmsc\msc$. We call $\msc \in \asMSCs$ a \emph{$\nn$ MSC}
 if ${\nnbowtieofmsc\msc}$ is acyclic.
 \davidequestion{Initially I said "We call $\msc \in \asMSCs$ a \emph{$\nn$ MSC} if ${\nnbowtieofmsc\msc}$ is a partial order", but I don't think it is true, since $\nnbowtieofmsc\msc$ does not have to be transitive.}
 \end{definition}
@@ -711,12 +711,12 @@ It is not trivial to see that Definition~\ref{def:n_n_alt} is equivalent to Defi
 \begin{proof}
 Follows from the definition of $\nnbowtieofmsc\msc$. We have $r_1 \nnbowtieofmsc\msc r_2$ if either:
 \begin{itemize}\itemsep=0.5ex
-	\item $r_1 \nnrel_\msc r_2$. Two cases: either \begin{enumerate*}[label={(\roman*)}]
-		\item $s_1 \nnrel_\msc s_2$, or
-		\item $s_1 \slashed{\nnrel}_\msc s_2$.
+	\item $r_1 \nnrelofmsc{\msc} r_2$. Two cases: either \begin{enumerate*}[label={(\roman*)}]
+		\item $s_1 \nnrelofmsc{\msc} s_2$, or
+		\item $s_1 \notnnrelofmsc\msc s_2$.
 	\end{enumerate*}
 	The first case clearly implies $s_1 \nnbowtieofmsc\msc s_2$, for rule 1 in the definition of $\nnbowtieofmsc\msc$. The second too, because of rule 3.
-	\item  $r_1 \slashed{\nnrel}_\msc r_2$, but $r_1 \nnbowtieofmsc\msc r_2$. This is only possible if rule 2 in the definition of $\nnbowtieofmsc\msc$ was used, which implies $s_1 \nnrel_\msc s_2$ and, for rule 1, $s_1 \nnbowtieofmsc\msc s_2$.
+	\item  $r_1 \notnnrelofmsc\msc r_2$, but $r_1 \nnbowtieofmsc\msc r_2$. This is only possible if rule 2 in the definition of $\nnbowtieofmsc\msc$ was used, which implies $s_1 \nnrelofmsc{\msc} s_2$ and, for rule 1, $s_1 \nnbowtieofmsc\msc s_2$.
 \end{itemize}
 \end{proof}
 
@@ -724,7 +724,7 @@ Follows from the definition of $\nnbowtieofmsc\msc$. We have $r_1 \nnbowtieofmsc
 	Let $\msc$ be an MSC. If $\nnbowtieofmsc\msc$ is cyclic, then $\msc$ is not $\nn$.
 \end{proposition}
 \begin{proof}
-Since a $\nn$ MSC is always both a mailbox and a $\onen$ MSC, it is clear that the cyclicity of $\nnrel_\msc$ implies that $\msc$ is not $\nn$, because it means that we are not even able to find a linearization that is both mailbox and $\onen$. Moreover, since in a $\nn$ linearization the order in which messages are sent matches the order in which they are received, and unmatched send events can be executed only after matched send events, a $\nn$ MSC always has to satisfy the constraints imposed by the $\nnbowtieofmsc\msc$ relation. If $\nnbowtieofmsc\msc$, then for sure there is no $\nn$ linearization for $\msc$.
+Since a $\nn$ MSC is always both a mailbox and a $\onen$ MSC, it is clear that the cyclicity of $\nnrelofmsc{\msc}$ implies that $\msc$ is not $\nn$, because it means that we are not even able to find a linearization that is both mailbox and $\onen$. Moreover, since in a $\nn$ linearization the order in which messages are sent matches the order in which they are received, and unmatched send events can be executed only after matched send events, a $\nn$ MSC always has to satisfy the constraints imposed by the $\nnbowtieofmsc\msc$ relation. If $\nnbowtieofmsc\msc$, then for sure there is no $\nn$ linearization for $\msc$.
 \end{proof}
 
 Let the \emph{Event Dependency Graph} (EDG) of a $\nn$ MSC $\msc$ be a graph that has events as nodes and an edge between two events $e_1$ and $e_2$ if $e_1 \nnbowtieofmsc\msc e_2$. We now present an algorithm that, given the EDG of an $\nn$ MSC $\msc$, computes a $\nn$ linearization of $\msc$. We then show that, if $\nnbowtieofmsc\msc$ is acyclic (i.e. it is a partial order), this algorithm always terminates correctly. This, along with Proposition~\ref{prop:n_n_cycl}, effectively shows that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent.
@@ -932,7 +932,7 @@ In particular, we can define $x \nnbowtieofmsc\msc y$ as
 		(\lambda(x) = a \;\wedge\; \lambda(y) = b)
 		\;\wedge\; \mathit{matched}(x) \;\wedge\; \neg \mathit{matched}(y)
 	\right) \;\vee\\
-	& (x \nnrel_\msc y) \quad \vee \quad \psi_3 \quad \vee \quad \psi_4\\
+	& (x \nnrelofmsc{\msc} y) \quad \vee \quad \psi_3 \quad \vee \quad \psi_4\\
 	\end{array}
 \]
 
@@ -943,7 +943,7 @@ In particular, we can define $x \nnbowtieofmsc\msc y$ as
 		& \bigvee_{\substack{a,b \in \prAct{\plh}}}
 		  (\lambda(x) = a \;\wedge\; \lambda(y) = b)
 		  \;\wedge\; \\
-		& \exists x'.\exists y'.(x' \lhd x \;\wedge\; y' \lhd y) \;\wedge\; (x' \nnrel_\msc y') \;\wedge\; \neg(x \nnrel_\msc y)\\
+		& \exists x'.\exists y'.(x' \lhd x \;\wedge\; y' \lhd y) \;\wedge\; (x' \nnrelofmsc{\msc} y') \;\wedge\; \neg(x \nnrelofmsc{\msc} y)\\
 	\end{array}
 \]
 \[
@@ -952,11 +952,11 @@ In particular, we can define $x \nnbowtieofmsc\msc y$ as
 		& \bigvee_{\substack{a,b \in \psAct{\plh}}}
 		  (\lambda(x) = a \;\wedge\; \lambda(y) = b)
 		  \;\wedge\; \\
-		& \exists x'.\exists y'.(x \lhd x' \;\wedge\; y \lhd y') \;\wedge\; (x' \nnrel_\msc y') \;\wedge\; \neg(x \nnrel_\msc y)\\
+		& \exists x'.\exists y'.(x \lhd x' \;\wedge\; y \lhd y') \;\wedge\; (x' \nnrelofmsc{\msc} y') \;\wedge\; \neg(x \nnrelofmsc{\msc} y)\\
 	\end{array}
 \]
 
-The MSO formula for $x \nnrel_\msc y$ closely follows Definition~\ref{def:n_n_alt}. The set $\nnMSCs$ of $\nn$ MSCs is therefore MSO-definable as $\nnMSCs=L(\nnformula)$.
+The MSO formula for $x \nnrelofmsc{\msc} y$ closely follows Definition~\ref{def:n_n_alt}. The set $\nnMSCs$ of $\nn$ MSCs is therefore MSO-definable as $\nnMSCs=L(\nnformula)$.
 
 \paragraph*{$\rsc$ MSCs}
 

@@ -124,7 +124,10 @@ We generalize their result to other communication models under a general assumpt
 	if $\aMSCclass$ is STW-bounded and MSO-definable,
 	then the $(\comsymb,\aMSCclass)$-synchronisability problem is decidable.
 \end{restatable}
-Appendix~\ref{apx:sync} is entirely devoted to the proof of Theorem~\ref{thm:sync}.
+The proof of Theorem~\ref{thm:sync} resembles the proof of~\cite[Theorem~13]{DBLP:conf/concur/BolligGFLLS21}, and the main technical argument of the existence of a "borderline violation" remains (see~\cite[Lemma~11]{DBLP:conf/concur/BolligGFLLS21}). However, the existence of a borderline violation is more subtle to establish, because the $\MSCclassofcom{\onen}$ and 
+$\MSCclassofcom{\nn}$ are not prefixed-closed (see Fig~\ref{fig:onen-prefix}).
+A way to solve this technical problem is to consider a different notion of prefix. All details of
+the proof of Theorem~\ref{thm:sync} can be found in Appendix~\ref{apx:sync}.
 
 
 In the next sections, we investigate which combinations of $\comsymb$ and $\aMSCclass$ fit the hypotheses of this theorem.
@@ -154,9 +157,9 @@ we will consider in the next sections.
 \subsection{Weakly synchronous MSCs}
 
 We first introduce the class of weakly synchronous MSCs. 
-This is a generalization of synchronous MSCs studied 
+This is a generalization of $k$-synchronous MSCs studied 
 in~\cite{DBLP:conf/cav/BouajjaniEJQ18}. 
-We say an MSC is weakly synchronous if it is breakable into \emph{exchanges}, where an exchange is an MSC that allows one to schedule all 
+We say an MSC is weakly synchronous if it can be chunked into \emph{exchanges}, where an exchange is an MSC that allows one to schedule all 
 sends before all receives. 
 
 \begin{definition}[exchange]\label{def:weak-synchr}

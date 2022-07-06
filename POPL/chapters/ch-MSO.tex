@@ -169,9 +169,9 @@ In order to show the MSO-definability of \nn MSCs we give an alternative definit
 	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel} \,\cup\, {\onenrel})^\ast$. We define  $\nnbowtie \subseteq \Events \times \Events$,  such that $e_1 \nnbowtie e_2$ if one of the following holds:
 	\begin{enumerate}%\itemsep=0.5ex
 		\item $e_1 \nnrel e_2$
-		\item $\lambda(e_1) \in \prAct{\plh}$, $\lambda(e_2) \in \prAct{\plh}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events$, $s_1 \nnrel s_2$ and $e_1 \slashed{\nnrel} e_2$.
-		\item $\lambda(e_1) \in \psAct{\plh}$, $\lambda(e_2) \in \psAct{\plh}$, $e_1 \lhd r_1$ and $e_2 \lhd r_2$ for some $r_1,r_2 \in \Events$, $r_1 \nnrel r_2$ and $e_1 \slashed{\nnrel} e_2$.
-		\item $e_1 \in \Matched{\msc}$, $e_2 \in \Unm{\msc}$, $e_1 \slashed{\nnrel} e_2$.
+		\item $\lambda(e_1) \in \prAct{\plh}$, $\lambda(e_2) \in \prAct{\plh}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events$, $s_1 \nnrel s_2$ and $e_1 \notnnrel e_2$.
+		\item $\lambda(e_1) \in \psAct{\plh}$, $\lambda(e_2) \in \psAct{\plh}$, $e_1 \lhd r_1$ and $e_2 \lhd r_2$ for some $r_1,r_2 \in \Events$, $r_1 \nnrel r_2$ and $e_1 \notnnrel e_2$.
+		\item $e_1 \in \Matched{\msc}$, $e_2 \in \Unm{\msc}$, $e_1 \notnnrel e_2$.
 	\end{enumerate}
 
 	%Note that $\mbpartial \subseteq \nnrel$, $\onenpartial \subseteq \nnrel$, and $\nnrel \subseteq\; \nnbowtie$.
