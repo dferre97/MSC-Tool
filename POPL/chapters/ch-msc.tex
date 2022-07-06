@@ -37,15 +37,32 @@ Finally, $\Act = \bigcup_{p \in \Procs} \pAct{p}$
 is the set of all the actions.
 
 \begin{definition}[MSC]\label{def:msc}
-	An {MSC}  over $\Procs$ and $\Msg$ is a tuple $\msc = (\Events,\procrel,\lhd,\lambda)$, where $\Events$ is a finite (possibly empty) set of \emph{events} and $\lambda: \Events \to \Act$ is a labelling function that associates an action to each event. For $p \in \Procs$, let $\Events_p = \{e \in \Events \mid \lambda(e) \in \pAct{p}\}$ be the set of events that are executed by $p$. We require that $\procrel$ (the \emph{process relation}) is the disjoint union $\bigcup_{p \in \Procs} \procrel_p$ of relations ${\procrel_p} \subseteq \Events_p \times \Events_p$ such that $\procrel_p$ is the direct successor relation of a total order on $\Events_p$.  We require that ${\lhd} \subseteq \Events \times \Events$ (the \emph{message relation}) satisfies the following:
-	\begin{itemize}%\itemsep=0.5ex
-	\item[(1)] for every pair $(e,f) \in {\lhd}$, there is a send action $\sact{p}{q}{\msg} \in \Act$ such that $\lambda(e) = \sact{p}{q}{\msg}$, $\lambda(f) = \ract{p}{q}{\msg}$.
-	\item[(2)] for all $f \in \Events$ such that $\lambda(f)$ is a receive action, there is exactly one $e \in \Events$ such that $e \lhd f$.
-	\end{itemize}
-	Finally, letting ${\happensbefore} = ({\procrel} \cup {\lhd})^\ast$,
-	we require that $\happensbefore$ is a partial order.
+	An {MSC}  over $\Procs$ and $\Msg$ is a tuple $\msc = (\Events,\procrel,\lhd,\lambda)$, where 
+	$\Events$ is a finite (possibly empty) set of \emph{events}, $\lambda: \Events \to \Act$ is a labelling 
+	function that associates an action to each event,
+	and $\procrel,\lhd$ are binary relations on $\Events$ that satisfy the following three conditions.
+	For $p \in \Procs$, let $\Events_p = \{e \in \Events \mid \lambda(e) \in \pAct{p}\}$ be 
+	the set of events that are executed by $p$. 
+	\begin{enumerate}
+		\item The \emph{process relation} $\procrel\subseteq \Events \times \Events$ 
+		relates an event to its immediate successor on
+		the same process:
+		$\procrel=\bigcup_{p \in \Procs} \procrel_p$ for some 
+		relations ${\procrel_p} \subseteq \Events_p \times \Events_p$ such that $\procrel_p$ is 
+		the direct successor relation of a total order on $\Events_p$.  
+		\item The \emph{message relation} ${\lhd} \subseteq \Events \times \Events$ 
+		relates pairs of matching send/receive events: 	
+		\begin{enumerate}%\itemsep=0.5ex
+			\item[(2a)] for every pair $(e,f) \in {\lhd}$, there is a send action $\sact{p}{q}{\msg} \in \Act$ such that $\lambda(e) = \sact{p}{q}{\msg}$, $\lambda(f) = \ract{p}{q}{\msg}$.
+			\item[(2b)] for all $f \in \Events$ such that $\lambda(f)$ is a receive action, there is exactly one $e \in \Events$ such that $e \lhd f$.
+		\end{enumerate}
+		\item The \emph{happens-before} relation\footnote{In the literature, the relation is also referred to as the \emph{causal ordering} relation and 
+		it is the same as the "happened before" relation introduced in \cite{Lamport78}.} ${\happensbefore}$, defined by $({\procrel} \cup {\lhd})^\ast$,
+		is a partial order on $\Events$.
+	\end{enumerate}
 \end{definition}
-We will refer to $\happensbefore$ as the \emph{happens-before} relation\footnote{In the literature, the relation is also referred to as the \emph{causal ordering} relation and it is the same as the "happened before" relation introduced in \cite{Lamport78}.}. If, for two events $e$ and $f$, we have that $e \happensbefore f$, we   say that there is a \emph{causal path} between $e$ and $f$.
+
+ If, for two events $e$ and $f$, we have that $e \happensbefore f$, we   say that there is a \emph{causal path} between $e$ and $f$.
 For an event $e \in \Events$, a set of actions $A \subseteq \Act$, and a relation $\rel \subseteq \Events \times \Events$,
 let $\sametype{e}{A}{\rel} = \cardinalof{\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(f) \in A\}}$.
 \davide{I think that this notation of $\sametype{e}{A}{\rel}$ should be removed here and just introduced in the last chapter (if I recall correctly we only use it for the existentially k-bounded MSCs).}
