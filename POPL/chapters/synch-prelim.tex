@@ -11,7 +11,7 @@
 \end{definition}
 
 If we consider a set $E$ that is ${\onenpartial}$-\emph{downward-closed}, we call $M'$ a \emph{$\onen$ prefix}.
-If the set $E$ is ${\bowtie_\msc}$-\emph{downward-closed}, we call $M'$ a \emph{$\nn$ prefix}. Note that every $\onen$ or $\nn$ prefix is also a prefix, since $\le \subseteq {\onenpartial}$ and $\le \subseteq {\bowtie_\msc}$.
+If the set $E$ is ${\nnbowtieofmsc\msc}$-\emph{downward-closed}, we call $M'$ a \emph{$\nn$ prefix}. Note that every $\onen$ or $\nn$ prefix is also a prefix, since $\le \subseteq {\onenpartial}$ and $\le \subseteq {\nnbowtieofmsc\msc}$.
 
 Note that the empty MSC is a prefix of $\msc$.
 We denote the set of prefixes of $\msc$ by $\Pref{\msc}$, whereas $\Prefonen{\msc}$ and $\Prefnn{\msc}$ are used for the $\onen$ and the $\nn$ variants, respectively.
@@ -41,8 +41,8 @@ where $\lambda'$ is the restriction of $\Events$ to $E$, is called a \emph{$\one
 \smallskip
 
 Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \nnMSCs$ and consider
-$E \subseteq \Events$ such that $E$ is ${\bowtie_\msc}$-\emph{downward-closed}, i.e,
-for all $(e,f) \in {\bowtie_\msc}$ such that $f \in E$, we also have $e \in E$.
+$E \subseteq \Events$ such that $E$ is ${\nnbowtieofmsc\msc}$-\emph{downward-closed}, i.e,
+for all $(e,f) \in {\nnbowtieofmsc\msc}$ such that $f \in E$, we also have $e \in E$.
 Then, the MSC $(E,{\procrel} \cap (E \times E),{\lhd} \cap (E \times E),\lambda')$,
 where $\lambda'$ is the restriction of $\Events$ to $E$, is called a \emph{$\nn$ prefix} of $\msc$. We denote the set of $\nn$ prefixes of $\msc$ by $\Prefnn{\msc}$.
 
@@ -142,7 +142,7 @@ In both cases, $\msc$ would also not be a causally ordered $\MSCs$, since $\Even
 \end{lemma}
 \begin{proof}
 	Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \nnMSCs$ and let $\msc_0 =
-	(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a $\nn$ prefix of $\msc$, where $\Events_0 \subseteq \Events$. Firstly, the $\bowtie_\msc$-downward-closeness of $\Events_0$ guarantees that ${\msc_0}$ is still an MSC. We need to prove that it is a $\nn$ MSC. By contradiction, suppose that $\msc_0$ is not a $\nn$ MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \bowtie_{\msc_0} f \bowtie_{\msc_0} e$. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, ${\nnrel_0} \subseteq {\nnrel}$. Clearly, $\bowtie_{\msc_0} \subseteq\; \bowtie_\msc$, so $e \bowtie_\msc f \bowtie_\msc e$. This implies that $\msc$ is not a $\nn$ MSC, because $\bowtie_\msc$ is cyclic, which is a contradiction. Hence $\msc_0$ is a $\nn$ MSC.
+	(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a $\nn$ prefix of $\msc$, where $\Events_0 \subseteq \Events$. Firstly, the $\nnbowtieofmsc\msc$-downward-closeness of $\Events_0$ guarantees that ${\msc_0}$ is still an MSC. We need to prove that it is a $\nn$ MSC. By contradiction, suppose that $\msc_0$ is not a $\nn$ MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \nnbowtieofmsc{\msc_0} f \nnbowtieofmsc{\msc_0} e$. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, ${\nnrel_0} \subseteq {\nnrel}$. Clearly, $\nnbowtieofmsc{\msc_0} \subseteq\; \nnbowtieofmsc\msc$, so $e \nnbowtieofmsc\msc f \nnbowtieofmsc\msc e$. This implies that $\msc$ is not a $\nn$ MSC, because $\nnbowtieofmsc\msc$ is cyclic, which is a contradiction. Hence $\msc_0$ is a $\nn$ MSC.
 \end{proof}
 
 \noindent Note that every $\nn$ prefix is also a prefix.
@@ -337,7 +337,7 @@ The latter is decidable due to Fact~\ref{p2p}.
 \begin{proof}
 	Let $k$ and $\Class$ be fixed, and let
 	$\msc\in \nnMSCs \setminus \Class$ be fixed. If the empty MSC is not in $\Class$, then we are done, since it is a valid $\nn$ prefix of $\msc$ and it is in $\stwMSCs{(k+2)} \setminus \Class$.
-	Otherwise, let $\msc'\in \Prefnn{\msc} \setminus \Class$ such that, for all $\bowtie_\msc$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\bowtie_\msc$-maximal events. Let $e$ be $\bowtie_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
+	Otherwise, let $\msc'\in \Prefnn{\msc} \setminus \Class$ such that, for all $\nnbowtieofmsc\msc$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\nnbowtieofmsc\msc$-maximal events. Let $e$ be $\nnbowtieofmsc{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
 	The proof proceeds exactly as the proof of Lemma~\ref{lem:pref_stw_k+2}. 
 \end{proof}
 

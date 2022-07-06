@@ -56,8 +56,8 @@ is the set of all the actions.
 			\item[(2a)] for every pair $(e,f) \in {\lhd}$, there are processes two $p,q$ and a message $m$ such that $\lambda(e) = \sact{p}{q}{\msg}$ and $\lambda(f) = \ract{p}{q}{\msg}$.
 			\item[(2b)] for all $f \in \Events$ such that $\lambda(f)$ is a receive action, there is exactly one $e \in \Events$ such that $e \lhd f$.
 		\end{enumerate}
-		\item The \emph{happens-before} relation\footnote{In the literature \etienne{where?}, the relation is also referred to as the \emph{causal ordering} relation and 
-		it is the same as the "happened before" relation introduced in \cite{Lamport78}.} ${\happensbefore}$, defined by $({\procrel} \cup {\lhd})^\ast$,
+		\item The \emph{happens-before} relation\footnote{the relation was introduced in~\cite{Lamport78}, and is also referred to as the \emph{happened before} relation,
+		or sometimes \emph{causal relation} or \emph{causality relation}, e.g. in~\cite{DBLP:journals/dc/Charron-BostMT96,DBLP:conf/cav/BouajjaniEJQ18} .} ${\happensbefore}$, defined by $({\procrel} \cup {\lhd})^\ast$,
 		is a partial order on $\Events$.
 	\end{enumerate}
 \end{definition}
