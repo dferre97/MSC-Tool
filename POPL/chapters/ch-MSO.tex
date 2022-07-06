@@ -1,7 +1,7 @@
 % !TEX root = ../popl-paper.tex
 
 \davidequestion{Don't we need a citation for MSO?}
-In Section~\ref{sec:com_models_overview} we introduced 7 different communication models and the corresponding classes of MSCs. Here, we show that all of these classes are MSO-definable, i.e. there is a Monadic Second Order Logic formula that defines them. Sometimes it is straightforward, but for some classes of MSCs we have to introduce alternative definitions (equivalent to those given in Section~\ref{sec:com_models_overview}) that are closer to the logic, in order to prove MSO-definability. These alternative definitions will also be heavily used in the following sections for proofs. We first recall the formal definition of MSO logic over MSCs.
+In Section~\ref{sec:MSC} we introduced 7 different communication models and the corresponding classes of MSCs. Here, we show that all of these classes are MSO-definable, i.e. there is a Monadic Second Order Logic formula that defines them. Sometimes it is straightforward, but for some classes of MSCs we have to introduce alternative definitions (equivalent to those given in Section~\ref{sec:MSC}) that are closer to the logic, in order to prove MSO-definability. These alternative definitions will also be heavily used in the following sections for proofs. We first recall the formal definition of MSO logic over MSCs.
 
 \begin{definition}[MSO logic]
 The set of MSO formulas over MSCs (over $\Procs$ and $\Msg$) is given by the grammar
@@ -54,7 +54,7 @@ The property $\ppformula$ says that there cannot be two matched send events $s$ 
 
 
 \paragraph{\bf Causally ordered MSCs}
-As with $\pp$-MSCs, the MSO-definability of $\coMSCs$ follows from Definition~\ref{def:co_msc}, given in Section~\ref{sec:com_models_overview}:
+As with $\pp$-MSCs, the MSO-definability of $\coMSCs$ follows from Definition~\ref{def:co_msc}, given in Section~\ref{sec:MSC}:
 \[
 	\coformula = \neg \exists s.\exists s'. \left(
 	\bigvee_{\substack{q \in \Procs}}\;
@@ -90,14 +90,17 @@ For the mailbox communication model, Definition~\ref{def:mb_msc} cannot be easil
 \end{definition}
 The ${\mbrel}$ relation ensures that send events addressed to the same process are executed in an order that is suitable for the $\none$ communication model. If ${\mbpartial}$ is a partial order, it means that it is possible to find a linearization $\linrel$, such that $\linrel \;\subseteq\; \mbpartial$. It is easy to see that such a linearization is exactly what we called a $\none$-linearization in Definition~\ref{def:mb_msc}.
 %Finally notice  that ${\le} \subseteq {\mbpartial}$. Hence entailing that a \mb-MSC is also a \pp-MSC.
-The MSO-definability of $\mbMSCs$ follows from Definition~\ref{def:n_one_alt}; in particular, note that $\mbpartial$ is reflexive and transitive by definition, thus we just have to check acyclicity to see if it is a partial order\footnote{A binary relation is acyclic if its transitive closure is antisymmetric.}:
+The MSO-definability of $\mbMSCs$ follows from Definition~\ref{def:n_one_alt}; in particular, note that 
+$\mbpartial$ is reflexive and transitive by definition, 
+thus we just have to check antisymmetry:
 \[
 	\mbformula = \ppformula \;\wedge\; \neg \exists x.\exists y.(\neg (x = y) \wedge x \mbpartial y \wedge y \mbpartial x)
 \]
 %This formula closely follows Definition~\ref{def:n_one_alt}. The set $\mbMSCs$ of $\none$ MSCs is therefore MSO-definable as $\mbMSCs=L(\mbformula)$.
 
 where $x \mbpartial y$ is obtained as the MSO-definable reflexive transitive closure of
-the union of the MSO-definable relations $\procrel$, $\lhd$, $\mbrel$, and we may define $x \mbrel y$ as:
+the union of the MSO-definable relations $\procrel$, $\lhd$, and $\mbrel$; 
+we may define $x \mbrel y$ as:
 \[
 x \mbrel y =
 \displaystyle

@@ -374,10 +374,15 @@
 \newcommand{\mbUk}{\MSCs_{\mbsymb\text{-}\forall k\text{-}b}}
 \newcommand{\relbAsy}{\hookrightarrow_{k}}
 \newcommand{\relb}{\longmapsto_k}
-\newcommand{\mbrel}{\sqsubset^{\ensuremath{\mathtt{mb}}}}
-\newcommand{\mbpartial}{\preceq^{\ensuremath{\mathtt{mb}}}}
-\newcommand{\onenrel}{\sqsubset^{\ensuremath{\mathtt{1n}}}}
-\newcommand{\onenpartial}{\preceq^{\ensuremath{\mathtt{1n}}}}
+\newcommand{\extraorderconstraintofcom}[1]{\sqsubset^{#1}}
+\newcommand{\partialorderofcom}[1]{\preceq^{#1}}
+\newcommand{\partialorderstrictofcom}[1]{\prec^{#1}}
+\newcommand{\mbrel}{\extraorderconstraintofcom{\ensuremath{\mathtt{mb}}}}
+\newcommand{\mbpartial}{\partialorderofcom{\ensuremath{\mathtt{mb}}}}
+\newcommand{\mbpartialstrict}{\partialorderstrictofcom{\ensuremath{\mathtt{mb}}}}
+
+\newcommand{\onenrel}{\extraorderconstraintofcom{\ensuremath{\mathtt{1n}}}}
+\newcommand{\onenpartial}{\partialorderofcom{\ensuremath{\mathtt{1n}}}}
 \newcommand{\nnrel}{\ltimes}
 
 \newcommand{\asUkformula}{\Phi_{\forall k\text{-}b}}

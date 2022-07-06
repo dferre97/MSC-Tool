@@ -1,6 +1,6 @@
 % \section{(7) Hierarchy of classes of MSCs}
 
-As mentioned in Section~\ref{sec:com_models_overview}, the classes of MSCs for all the 7 communication models that we presented form a clear hierarchy, which is shown in Fig.~\ref{fig:msc_hierarchy_full}. In this section we will provide proofs to support this claim. For the simplest cases, we just give intuitive explanations; please refer to Appendix~\ref{apx:hierarchy} for the formal proofs.
+As mentioned in Section~\ref{sec:MSC}, the classes of MSCs for all the 7 communication models that we presented form a clear hierarchy, which is shown in Fig.~\ref{fig:msc_hierarchy_full}. In this section we will provide proofs to support this claim. For the simplest cases, we just give intuitive explanations; please refer to Appendix~\ref{apx:hierarchy} for the formal proofs.
 
 \medskip
 
@@ -72,13 +72,16 @@ Fig.~\ref{fig:co_no_none} shows an example of causally ordered MSC that is not $
 \caption{Examples of MSCs for various communication models.}\label{fig:exmscs_2}
 \end{figure}
 
-The relation between $\onen$ and $\none$ MSCs is not as straghtforward as those seen so far. For convenience, we will start by only considering MSCs without unmatched messages. 
+The relation between $\onen$ and $\none$ MSCs is not as 
+straightforward as those seen so far. For convenience, we will 
+start by only considering MSCs without unmatched messages. 
 
 \begin{proposition} \label{prop:onen_mb_no_unmatched}
 	Every $\onen$ MSC without unmatched messages is a $\none$ MSC.
 \end{proposition}
 \begin{proof}
-We show that the contrapositive is true, i.e. if an MSC is not mailbox (and it does not have unmatched messages), it is also not $\onen$. Suppose $\msc$ is an asynchronous MSC, but not mailbox. There must be a cycle $\xi$ such that  $e \mbpartial e$, for some event $e$. Recall that ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$ and ${\le} = ({\procrel} \cup {\lhd})^\ast$. We can always explicitely write a cycle $e \mbpartial e$ only using $\mbrel$ and $\le$. For instance, there might be a cycle $e \mbpartial e$ because we have that $e \mbrel f \happensbefore g \mbrel h \mbrel i \happensbefore e$. Consider any two adiacent events $s_1$ and $s_2$ in the cycle $\xi$, where $\xi$ has been written using only $\mbrel$ and $\le$, and we never have two consecutive $\le$\footnote{This is always possible, since $a \happensbefore b \happensbefore c$ is written as $a \happensbefore c$.}. We have two cases:
+We show that the contrapositive is true, i.e. if an MSC is not mailbox (and it does not have unmatched messages), it is also not $\onen$. Suppose $\msc$ is an asynchronous MSC, but not mailbox. There must be a cycle $\xi$ such that  
+$e \mbpartialstrict e$, for some event $e$. Recall that ${\mbpartialstrict} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^+$ and ${\happensbeforestrict} = ({\procrel} \cup {\lhd})^+$. We can always explicitely write a cycle $e \mbpartialstrict e$ only using $\mbrel$ and $\happensbefore$. For instance, there might be a cycle $e \mbpartialstrict e$ because we have that $e \mbrel f \happensbeforestrict g \mbrel h \mbrel i \happensbeforestrict e$. Consider any two adjacent events $s_1$ and $s_2$ in the cycle $\xi$, where $\xi$ has been written using only $\mbrel$ and $\happensbeforestrict$, and we never have two consecutive $\happensbefore$\footnote{This is always possible, since $a \happensbefore b \happensbefore c$ is written as $a \happensbefore c$.}. We have two cases:
 \begin{enumerate}
 	\item $s_1 \mbrel s_2$. We know, by definition of $\mbrel$, that $s_1$ and $s_2$ must be two send events and that $r_1 \procrel^+ r_2$, where $r_1$ and $r_2$ are the receive events that match with $s_1$ and $s_2$, respectively (we are not considering unmatched messages by hypothesis).
 	\item $s_1 \happensbefore s_2$. Since $\msc$ is asynchronous by hyphotesis, $\xi$ has to contain at least one $\mbrel$\footnote{If that was not the case, $\le$ would also be cyclic and $\msc$ would not be an asynchronous MSC.}; recall that we also wrote $\xi$ in such a way that we do not have two consecutive $\le$. It is not difficult to see that $s_1$ and $s_2$ have to be send events, since they belong to $\xi$. We have two cases:
