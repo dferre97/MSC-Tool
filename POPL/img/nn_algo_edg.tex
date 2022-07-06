@@ -1,0 +1,70 @@
+
+\begin{figure} 
+\begin{subfigure}[c]{0.45\textwidth}\centering
+\begin{tikzpicture}[ scale = .7,every node/.style={transform shape}]
+\newproc{0}{p}{-3.3}; 
+\newproc{1.2}{q}{-3.3}; 
+\newproc{2.4}{r}{-3.3}; 
+\newproc{3.6}{s}{-3.3}; 
+\newproc{4.8}{t}{-3.3};
+
+\newmsgm{0}{2.4}{-0.6}{-2.4}{5}{0.1}{black};
+\newmsgm{0}{1.2}{-1}{-1}{1}{0.7}{black};
+\newmsgm{2.4}{1.2}{-1.4}{-1.4}{2}{0.5}{black};
+\newmsgm{2.4}{3.6}{-1.8}{-1.8}{3}{0.5}{black};
+\newmsgm{1.2}{3.6}{-2.8}{-2.8}{4}{0.25}{black};
+\newmsgum{3.6}{4.8}{-1}{6}{0.5}{black}; 
+
+\end{tikzpicture} 
+\end{subfigure} 
+\hfill
+\begin{subfigure}[c]{0.45\textwidth}\centering
+	\begin{tikzpicture}[scale = .6,every node/.style={transform shape}] 
+\begin{scope} 
+\node (r4) at (0,0) {$?4$};
+     \node (s4) at (-1,-1) {$!4$};
+     \node (r3) at (1,-1) {$?3$};
+     \node (r2) at (-1,-2) {$?2$};
+     \node (s3) at (1,-3) {$!3$};
+     \node (s6) at (2,-2) {$!6$};
+     \node (r1) at (-1,-3) {$?1$};
+     \node (s1) at (-1,-4) {$!1$};
+     \node (r5) at (-2,-4) {$?5$};
+     \node (s5) at (-1,-5) {$!5$};
+     \node (s2) at (-2,-6) {$!2$};	
+
+     \draw[->] (s2) -- (r5); 
+     \draw[->] (s5) -- (r5);
+     \draw[->] (s5) -- (s1);
+     \draw[->] (s1) -- (r1); 
+     \draw[->, color = blue] (r5) -- (r1);
+     \draw[->] (r1) -- (r2);
+     \draw[->] (r2) -- (s4);
+     \draw[->] (s4) -- (r4);
+     \draw[->, color = Green, dashed] (s3) -- (s6);
+     \draw[->] (s3) -- (r3);
+     \draw[->] (s6) -- (r3); 
+     \draw[->, color = red] (r3) -- (r4);
+     \draw[->, color = blue ] (r2) -- (r3); 
+ 
+     \draw[->] (s2) to[bend left= 40] (r2);  
+     \draw[->] (s2) to[bend right= 70] (s3);
+     \draw[->, color = Green, dashed] (s2) to[bend right= 70] (s6);
+     \draw[->, color = red] (s1) to[bend left= 60] (s2); 
+     \draw[->, color = Green, dashed] (s1) to[bend right= 40] (s6); 
+     \draw[->, color = Green, dashed] (s4) to[bend right= 30] (s6); 
+\end{scope} 
+     \begin{scope}[shift = {(2.5,-4.5)}]
+ 	     \draw[->] (0,0) -- (.8,0); 
+ 	     \draw[->, color = blue] (0,-.5) -- (.8,-.5); 
+ 	     \draw[->, color = red] (0,-1) -- (.8,-1); 
+ 	     \draw[->, color = Green, dashed] (0,-1.5) -- (.8,-1.5); 
+	\node[right] (1) at (.8,0)  {$= (\procrel / \lhd)$}; 
+	\node[right] (2) at (.8,-.5) {$= (\onenrel)$}; 
+	\node[right] (3) at (.8, -1) {$= (\mbrel)$}; 
+	\node[right] (4) at (.8,-1.5) {$=$ (other EDG edges)};
+     \end{scope} 
+\end{tikzpicture}
+\end{subfigure}
+\end{figure} 
+
