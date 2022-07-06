@@ -53,10 +53,10 @@ is the set of all the actions.
 		\item The \emph{message relation} ${\lhd} \subseteq \Events \times \Events$ 
 		relates pairs of matching send/receive events: 	
 		\begin{enumerate}%\itemsep=0.5ex
-			\item[(2a)] for every pair $(e,f) \in {\lhd}$, there is a send action $\sact{p}{q}{\msg} \in \Act$ such that $\lambda(e) = \sact{p}{q}{\msg}$, $\lambda(f) = \ract{p}{q}{\msg}$.
+			\item[(2a)] for every pair $(e,f) \in {\lhd}$, there are processes two $p,q$ and a message $m$ such that $\lambda(e) = \sact{p}{q}{\msg}$ and $\lambda(f) = \ract{p}{q}{\msg}$.
 			\item[(2b)] for all $f \in \Events$ such that $\lambda(f)$ is a receive action, there is exactly one $e \in \Events$ such that $e \lhd f$.
 		\end{enumerate}
-		\item The \emph{happens-before} relation\footnote{In the literature, the relation is also referred to as the \emph{causal ordering} relation and 
+		\item The \emph{happens-before} relation\footnote{In the literature \etienne{where?}, the relation is also referred to as the \emph{causal ordering} relation and 
 		it is the same as the "happened before" relation introduced in \cite{Lamport78}.} ${\happensbefore}$, defined by $({\procrel} \cup {\lhd})^\ast$,
 		is a partial order on $\Events$.
 	\end{enumerate}
@@ -285,7 +285,10 @@ As a consequence, a $\nn$ MSC cannot have an unmatched send event $s$ and a matc
 \paragraph{\bf Realizable with Synchronous Communication}
 The Realizable with Synchronous Communication ($\rsc$) communication model imposes that a send event is  immediately followed by the corresponding receive event. It was introduced in \cite{DBLP:journals/dc/Charron-BostMT96} and it is the asynchronous model that comes closest to synchronous communication. % An asynchronous distributed system that implements the $\rsc$ communication model effectively behaves as a synchronous system. 
 %The authors of \cite{kshemkalyani2011distributed} propose a strategy to implement RSC executions from a synchronous system.  
-The MSC shown in Fig.~\ref{fig:rsc_ex} is the only example of $\rsc$ MSC; we can easily find a linearization that respects the constraints of the $\rsc$ communication model, such as $!1\;?1\;!2\;?2\;!3\;?3$. Such a linearization will be referred to as an \emph{$\rsc$ linearization}. Let $\rscMSCs$ be the set of $\rsc$ MSCs.
+The MSC shown in Fig.~\ref{fig:rsc_ex} is the only example of $\rsc$ MSC; we can easily find a linearization that respects the constraints of the $\rsc$ communication model, such as $!1\;?1\;!2\;?2\;!3\;?3$. 
+%Such a linearization will be referred to as an \emph{$\rsc$ linearization}.
+% EL : repeated below.
+Let $\rscMSCs$ be the set of $\rsc$ MSCs.
 
 \begin{definition}[$\rsc$-MSC]\label{def:rsc}
 	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is an \emph{\rsc-MSC} if it has no unmatched send events and there is a linearization $\linrel$ where any matched send event is immediately followed by its respective receive event.
