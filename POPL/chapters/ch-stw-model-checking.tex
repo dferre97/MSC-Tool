@@ -13,7 +13,7 @@ communicating finite state machines.
 
 A communicating finite state machine is a finite state automaton labeled with send
 and receive actions; a system $\Sys$ is a finite collection of such machines.
-An MSC $\msc$ is an asynchronous behaviour of $\Sys$ if every process
+An MSC $\msc$ is an asynchronous behaviorof $\Sys$ if every process
 time line of $\msc$ is accepted by its corresponding process automaton
 \ifappendix
 (see Appendix~\ref{app:cfsm} for a formal definition of these notions).
@@ -354,7 +354,7 @@ As for weakly synchronous MSCs, the class of weakly $k$-synchronous MSCs was alr
 
 We move now to existentially $k$-bounded MSCs, first introduced by Lohrey and Muschol~\cite{DBLP:conf/fossacs/LohreyM02}, that form a relevant class of MSC for extending the
 Buechi-Elgot-Trakhthenbrot theorem from words to MSCs \cite{DBLP:conf/dlt/GenestMK04,GKM07}. 
-Existentially bounded MSCs represent the behaviour of systems that can be realized with bounded channels. 
+Existentially bounded MSCs represent the behaviorof systems that can be realized with bounded channels. 
 We stick to the original definition of Lohrey and Muscholl of $k$-bounded MSCs, where $k$
 represents the bound on the number of messages in transit from a given process to another, so that globally
 there may be up to $k\cardinalof{\procSet}^2$ in transit.\footnote{This may look
@@ -529,7 +529,7 @@ r \relbAsy s= \exists s_1 \dots s_{k+1}. \left(
 
 \medskip
 
-It follows that, given $k \in \N$, the set of existentially $k$-bounded MSCs is MSO-definable. Causally ordered and $\oneone$ existentially $k$-bounded MSCs are clearly MSO-definable by definition, since we already showed that $\oneone$ MSCs, causally ordered MSCs, and existentially $k$-bounded MSCs are all MSO-definable. Recall that we introduced the $\relbAsy$ relation because the $\relb$ relation introduced in \cite{DBLP:conf/fossacs/LohreyM02} was not MSO-definable for asynchronous communication. However, when considering $\oneone$ communication\footnote{And also all of the other communication models, because of the hierarchy shown in Section~\ref{sec:hierarchy}}, $\relb$ becomes MSO-definable; the FIFO behaviour ensures that, for any channel $(p,q)$, the $i$-th matched send event of $p$ matches with the $i$-th receive event of $q$. This allows us to define $r \relb s$ as:
+It follows that, given $k \in \N$, the set of existentially $k$-bounded MSCs is MSO-definable. Causally ordered and $\oneone$ existentially $k$-bounded MSCs are clearly MSO-definable by definition, since we already showed that $\oneone$ MSCs, causally ordered MSCs, and existentially $k$-bounded MSCs are all MSO-definable. Recall that we introduced the $\relbAsy$ relation because the $\relb$ relation introduced in \cite{DBLP:conf/fossacs/LohreyM02} was not MSO-definable for asynchronous communication. However, when considering $\oneone$ communication\footnote{And also all of the other communication models, because of the hierarchy shown in Section~\ref{sec:hierarchy}}, $\relb$ becomes MSO-definable; the FIFO behaviorensures that, for any channel $(p,q)$, the $i$-th matched send event of $p$ matches with the $i$-th receive event of $q$. This allows us to define $r \relb s$ as:
 \[
 r \relb s=\exists s_1. \dots \exists s_k.\left(
 allSends\_p\_q(k)
