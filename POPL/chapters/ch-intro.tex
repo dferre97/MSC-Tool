@@ -87,7 +87,7 @@ estabilishes a causal relation between events (see the red arrows in  Fig.~\ref{
 
 
 % Since an MSC defines a partial order over the events of a distributed system, it can always be extended to a total order, which will be referred to as a \emph{linearization}.
-% %Given an MSC, it can have multiple linearizations. For the MSC in Fig.~\ref{fig:msc_ex}, both $!1\;?1\;!2\;?2$ and $!2\;!1\;?1\;?2$ are valid linearizations, i.e. a total order over the events which is compatible with the partial order defined by the MSC.
+% %Given an MSC, it can have multiple linearizations. For the MSC in Fig.~\g:msc_ex}, both $!1\;?1\;!2\;?2$ and $!2\;!1\;?1\;?2$ are valid linearizations, i.e. a total order over the events which is compatible with the partial order defined by the MSC.
 % Intuitively, a linearization represents the order in which events are executed by the distributed system according to \emph{absolute time}, i.e. as they are seen by an external viewer that has a global view of all the processes.
 
 
@@ -103,6 +103,8 @@ these communication models is not incidental: there is a wealth of results on MS
 the work of Genest~\emph{et al.}~\cite{genest2004kleene,GKM07}, with recent developments by Bollig~\emph{et al.} in the context
 of synchronisability~\cite{BolligGFLLS21}.
 
+\etienne{Do we really want to repeat Fig2 at Fig8? By the way Fig2 is not the up to date version of Fig8}
+
 Our contributions are the following:
 \begin{itemize}
 	\item We review the peer-to-peer FIFO, causally ordered, mailbox, \onen, \nn, asynchronous, and synchronous communication models
@@ -111,7 +113,7 @@ Our contributions are the following:
 
 	\item From these definitions, we deduce a new non-sequential hierarchy of communication models (see Fig.~\ref{fig:msc_hierarchy_full})
 	and establish the strictness of this hierarchy by means of several examples.
-	Surprisingly, the \onen class, that could be thought of as the "dual" of the mailbox class, turn out to be a subclass of mailbox class. This strongly
+	Surprisingly, the \onen class, that could be thought of as the "dual" of the mailbox class, is a subclass of mailbox class. This strongly
 	contrasts with Chevrou~\emph{et al.} sequential hierarchy, where \onen and mailbox are incomparable. The comparison between
 	the \onen and mailbox classes is non-trivial in our non-sequential setting, and it motivates the introduction
 	of several technical alternative characterisations of these communication models.
