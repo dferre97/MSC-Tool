@@ -16,8 +16,13 @@ as a set of events.
 We use common abbreviations such as $\wedge$, $\Rightarrow$, $\forall$, etc. The satisfaction relation is defined in the standard way and self-explanatory.
 For instance, the formula $\neg\exists x.(\bigvee_{a \in \sAct} \lambda(x) = a \;\wedge\; \neg \mathit{matched}(x))$,
 with $\mathit{matched}(x) = \exists y.x \lhd y$,
-says that there are no unmatched send events. All MSCs of Fig.~\ref{fig:exmscs} satisfy the formula. Given a sentence $\phi$, i.e., a formula without free variables,
-we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous MSCs, the formula $\asformula = true$ describes the whole set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable (more details are given in Appendix~\ref{apx:MSO}). The logic can then freely use formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \happensbefore y$.
+says that there are no unmatched send events. All MSCs of Fig.~\ref{fig:exmscs} satisfy the formula. Given a sentence $\phi$, i.e., a 
+formula without free variables,
+we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous 
+MSCs, the formula $\asformula = true$ describes the whole set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is 
+worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula with free variables 
+$x$ and $y$, such as $x \procrel y$, is MSO-definable (more details are given in Appendix~\ref{apx:MSO}). 
+The logic can then freely use formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \happensbefore y$.
 
 \paragraph{\bf Peer-to-peer MSCs}
 The MSO formula that defines $\ppMSCs$ (i.e. the set of $\pp$-MSCs) directly follows from Definition~\ref{def:pp_msc}:
