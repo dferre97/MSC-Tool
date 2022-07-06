@@ -1,7 +1,7 @@
 % !TEX root = ../popl-paper.tex
 
-\davidequestion{Don't we need a citation for MSO?}
-In Section~\ref{sec:MSC} we introduced seven different communication models and the corresponding classes of MSCs. Here, we show that all of these classes are MSO-definable, i.e. there is a Monadic Second Order Logic formula that defines them. Sometimes it is straightforward, but for some classes of MSCs we have to introduce alternative definitions (equivalent to those given in Section~\ref{sec:MSC}) that are closer to the logic, in order to prove MSO-definability. These alternative definitions will also be heavily used in the following sections for proofs. We first recall the formal definition of MSO logic over MSCs.
+%\davidequestion{Don't we need a citation for MSO?}
+In Section~\ref{sec:MSC} we have introduced seven different communication models and the corresponding classes of MSCs. Here, we show that all of these classes are MSO-definable, i.e. there is a Monadic Second Order Logic formula that defines them. Sometimes it is straightforward, but for some classes of MSCs we have to introduce alternative definitions (equivalent to those given in Section~\ref{sec:MSC}) that are closer to the logic, in order to prove MSO-definability. These alternative definitions will also be heavily used in the following sections for proofs. We first recall the formal definition of MSO logic over MSCs.
 
 \begin{definition}[MSO logic]
 The set of MSO formulas over MSCs (over $\Procs$ and $\Msg$) is given by the grammar
@@ -16,7 +16,7 @@ as a set of events.
 We use common abbreviations such as $\wedge$, $\Rightarrow$, $\forall$, etc. The satisfaction relation is defined in the standard way and self-explanatory.
 For instance, the formula $\neg\exists x.(\bigvee_{a \in \sAct} \lambda(x) = a \;\wedge\; \neg \mathit{matched}(x))$,
 with $\mathit{matched}(x) = \exists y.x \lhd y$,
-says that there are no unmatched send events. All MSCs of Figure \ref{fig:exmscs} satisfy the formula. Given a sentence $\phi$, i.e., a formula without free variables,
+says that there are no unmatched send events. MSCs (a), (b), (c) and (d) of Fig. \ref{fig:exmscs} satisfy the formula. Given a sentence $\phi$, i.e., a formula without free variables,
 we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous MSCs, the formula $\asformula = true$ describes the whole set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable (more details are given in Appendix~\ref{apx:MSO}). The logic can then freely use formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \happensbefore y$.
 
 \paragraph{\bf Peer-to-peer MSCs}
@@ -46,7 +46,7 @@ where $\psi_1$ and $\psi_2$ are
 
 The property $\ppformula$ says that there cannot be two matched send events $s$ and $s'$, with the same sender and receiver, such that either
 \begin{enumerate*}[label={(\roman*)}]
-	\item $s \procrel^+ s'$ and their receipts happen in the reverse order, or
+	\item $s \procrel^+ s'$ and their receptions happen in the reverse order, or
 	\item $s$ is unmatched and $s'$ is matched.
 \end{enumerate*}
 % In other words, it ensures that channels operate in FIFO mode, where an unmatched messages blocks the receipt of all the subsequent messages on that channel.
