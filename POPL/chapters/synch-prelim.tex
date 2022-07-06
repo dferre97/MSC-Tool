@@ -131,7 +131,7 @@ In both cases, $\msc$ would also not be a causally ordered $\MSCs$, since $\Even
 \end{lemma}
 \begin{proof}
 	Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \onenMSCs$ and let $\msc_0 =
-	(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a $\onen$ prefix of $\msc$, where $\Events_0 \subseteq \Events$. Firstly, the $\onenpartial$-downward-closeness of $\Events_0$ guarantees that ${\msc_0}$ is still an MSC. We need to prove that it is a $\onen$ MSC. By contradiction, suppose that $\msc_0$ is not a $\onen$ MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \onenpartial_{\msc_0} f \onenpartial_{\msc_0} e$, where $\onenpartial_{\msc_0} = (\procrel_0 \cup \lhd_0 \cup \onenrel_{\msc_0})^\ast$. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, ${\onenrel_{\msc_0}} \subseteq {\onenrel}$. Clearly, $\onenpartial_{\msc_0} \subseteq \onenpartial$, so $e \onenpartial f \onenpartial e$. This implies that $\msc$ is not a $\onen$ MSC, because $\onenpartial$ is cyclic, which is a contradiction. Hence $\msc_0$ is a $\onen$ MSC.
+	(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a $\onen$ prefix of $\msc$, where $\Events_0 \subseteq \Events$. Firstly, the $\onenpartial$-downward-closeness of $\Events_0$ guarantees that ${\msc_0}$ is still an MSC. We need to prove that it is a $\onen$ MSC. By contradiction, suppose that $\msc_0$ is not a $\onen$ MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \onenpartial^{(\msc_0)} f \onenpartial^{(\msc_0)} e$, where $\onenpartial^{(\msc_0)} = (\procrel_0 \cup \lhd_0 \cup \onenrel_{\msc_0})^\ast$. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, ${\onenrel_{\msc_0}} \subseteq {\onenrel}$. Clearly, $\onenpartial{(\msc_0)} \subseteq \onenpartial$, so $e \onenpartial f \onenpartial e$. This implies that $\msc$ is not a $\onen$ MSC, because $\onenpartial$ is cyclic, which is a contradiction. Hence $\msc_0$ is a $\onen$ MSC.
 \end{proof}
 
 \noindent Note that every $\onen$ prefix is also a prefix.
@@ -325,7 +325,7 @@ The latter is decidable due to Fact~\ref{p2p}.
 \begin{proof}
 	Let $k$ and $\Class$ be fixed, and let
 	$\msc\in \onenMSCs \setminus \Class$ be fixed. If the empty MSC is not in $\Class$, then we are done, since it is a valid $\onen$ prefix of $\msc$ and it is in $\stwMSCs{(k+2)} \setminus \Class$.
-	Otherwise, let $\msc'\in \Prefonen{\msc} \setminus \Class$ such that, for all $\onenpartial$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\onenpartial$-maximal events. Let $e$ be $\onenpartial_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
+	Otherwise, let $\msc'\in \Prefonen{\msc} \setminus \Class$ such that, for all $\onenpartial$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\onenpartial$-maximal events. Let $e$ be $\onenpartial^{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
 	The proof proceeds exactly as the proof of Lemma~\ref{lem:pref_stw_k+2}. 
 \end{proof}
 

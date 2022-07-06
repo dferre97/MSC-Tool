@@ -154,7 +154,7 @@ a mailbox MSC satisfies \emph{causal delivery}.
 The set of mailbox MSCs $\msc \in \ppMSCs$ is denoted by $\cdMSCs$.
 
 \begin{example}\label{ex:mailbox-msc}
-    MSC $\mscweakuniver$ is a mailbox MSC. Indeed, even though the order $\linrel$ defined in Example~\ref{ex:msc} does not respect all mailbox constraints, particularly the fact that $e_4 \mbrel_{\mscweakuniver} e_1$, there is a total order $ {\mblin} \supseteq {\mbpartial_{\mscweakuniver}}$ such that $
+    MSC $\mscweakuniver$ is a mailbox MSC. Indeed, even though the order $\linrel$ defined in Example~\ref{ex:msc} does not respect all mailbox constraints, particularly the fact that $e_4 \mbrel^{(\mscweakuniver)} e_1$, there is a total order $ {\mblin} \supseteq {\mbpartial^{(\mscweakuniver)}}$ such that $
     e_2 \mblin e_3 \mblin e_3' \mblin e_4 \mblin e_1 \mblin e_2' \mblin e_4'$. We call $\mblin$ a mailbox linearization, which is formally defined below.
 \end{example}
 
@@ -190,9 +190,9 @@ Every prefix of a mailbox MSC is a mailbox MSC.
 Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \mbMSCs$ and $\msc_0 =
 (\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$, i.e.,
 $\Events_0 \subseteq \Events$. By contradiction, suppose that $\msc_0$ is not a
-mailbox MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \mbpartial_{M_0} f \mbpartial_{M_0}
-e$ with ${\mbpartial_{\msc_0}} = ({\rightarrow_0} \cup {\lhd_0} \cup {\mbrel_{\msc_0}})^*$.
-As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, and ${\mbrel_{\msc_0}} \subseteq {\mbrel_{\msc}}$. Finally, ${\mbpartial_{\msc_0}} \subseteq {\mbpartial_{\msc}}$ and $\msc$ is not a mailbox MSC, which is a contradiction.
+mailbox MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \mbpartial^{(M_0)} f \mbpartial{(M_0)}
+e$ with ${\mbpartial^{(\msc_0)}} = ({\rightarrow_0} \cup {\lhd_0} \cup {\mbrel^{(\msc_0)}})^*$.
+As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, and ${\mbrel^{(\msc_0)}} \subseteq {\mbrel^{(\msc)}}$. Finally, ${\mbpartial^{(\msc_0)}} \subseteq {\mbpartial^{(\msc)}}$ and $\msc$ is not a mailbox MSC, which is a contradiction.
 \end{proof}
 
 Let $\msc_1 = (\Events_1,\procrel_1,\lhd_1,\lambda_1)$ and
