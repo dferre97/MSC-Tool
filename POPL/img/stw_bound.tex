@@ -5,7 +5,7 @@
 			& Weakly  & Weakly  & $\exists$k & $\forall$k  \\
 			& sync & k-sync & bounded & bounded \\
 			\hline \hline
-			$\asy$ &  \xmark & \cmark & \cmark & \cmark \\
+			$\asy$ &  unbounded STW & \cmark & \cmark & \cmark \\
 			\hline
 			$\oneone$  & \xmark~[1] & \cmark~[1] & \cmark~[1] & \cmark~[1] \\
 			\hline
@@ -24,8 +24,10 @@
 		combination of a communication model $\comsymb$ and a class $\aMSCclass$ of MSCs is a different 
 		synchronisability problem). 
 		The symbol \xmark\;stands for undecidability and unbounded special treewidth
-		of $\comsymb\cap \aMSCclass$, whereas \cmark\;stands for decidability and bounded STW
-		of $\comsymb\cap \aMSCclass$.  
-		[1] indicates that the result was shown by Bollig~\emph{et al}~\cite{DBLP:conf/concur/BolligGFLLS21}.}
+		of $\MSCclassofcom{\comsymb}\cap \aMSCclass$, whereas \cmark\;stands for decidability and bounded STW
+		of $\MSCclassofcom{\comsymb}\cap \aMSCclass$.  
+		[1] indicates that the result was shown by Bollig~\emph{et al}~\cite{DBLP:conf/concur/BolligGFLLS21}.
+		Unbounded STW stands for unbounded STW
+		of $\MSCclassofcom{\comsymb}\cap \aMSCclass$ (but not necessarily undecidability).}
 		\label{fig:stw-bound}
 \end{figure}
