@@ -101,7 +101,7 @@ communication models, on the other hand, are easy to define by means of an opera
 in MSO is error prone and requires particular attention. The choice of MSO as a specification language for the axiomatisation of
 these communication models is not incidental: there is a wealth of results on MSO model-checking over MSCs that originated from
 the work of Genest~\emph{et al.}~\cite{genest2004kleene,GKM07}, with recent developments by Bollig~\emph{et al.} in the context
-of synchronisability~\cite{DBLP:conf/concur/BolligGFLLS21}.
+of synchronisability~\cite{BolligGFLLS21}.
 
 Our contributions are the following:
 \begin{itemize}
@@ -178,7 +178,7 @@ Our contributions are the following:
 		%The symbol \xmark\;stands for undecidability and unbounded special tree-width
 	%	of $\comsymb\cap \aMSCclass$, whereas \cmark\;stands for decidability and bounded STW
 %		of $\comsymb\cap \aMSCclass$.  
-		[1] indicates that the result was shown in \cite{DBLP:conf/concur/BolligGFLLS21}.}
+		[1] indicates that the result was shown in \cite{BolligGFLLS21}.}
 		\label{fig:stw-boundshort}
 \end{subfigure}
 \caption{Main contributions}
@@ -211,14 +211,14 @@ problems based on MSO and on the notion of special treewidth.
 %
 %\cinzia{\url{https://link.springer.com/content/pdf/10.1007/978-0-387-35271-8.pdf} to mention while talking about realizability page 81-96}
 %
-%Going back to our contribution, the work in \cite{DBLP:journals/fac/ChevrouHQ16} describes the properties that a single linearization must satisfy in order to be realizable by a system that uses a given communication model. On the other hand, we are interested in understanding if a given MSC describes a computation that can be realized by a system that uses some communication model $CM$. In other words, given a MSC we want to know if it has at least one linearization that respects the constraints imposed by $CM$. If that is the case, the MSC represents a behaviour that can be exhibited by a system that uses $CM$ as a communication model. These are two fundamentally dissimilar problems; at the end of this section we provide an example to clarify the difference. In our work, we are going to formally characterize the classes of MSCs which represent valid computations for all of these seven communication models. We also show how these classes form a well-defined hierarchy, which does not correspond entirely to that found in \cite{DBLP:journals/fac/ChevrouHQ16}.
+%Going back to our contribution, the work in \cite{DBLP:journals/fac/ChevrouHQ16} describes the properties that a single linearization must satisfy in order to be realizable by a system that uses a given communication model. On the other hand, we are interested in understanding if a given MSC describes a computation that can be realized by a system that uses some communication model $CM$. In other words, given a MSC we want to know if it has at least one linearization that respects the constraints imposed by $CM$. If that is the case, the MSC represents a behaviorthat can be exhibited by a system that uses $CM$ as a communication model. These are two fundamentally dissimilar problems; at the end of this section we provide an example to clarify the difference. In our work, we are going to formally characterize the classes of MSCs which represent valid computations for all of these seven communication models. We also show how these classes form a well-defined hierarchy, which does not correspond entirely to that found in \cite{DBLP:journals/fac/ChevrouHQ16}.
 
 %\cinzia{talk about realizations here?}
 %
 %\cinzia{say that the two hierarchy differs}
 %\paragraph{Contributions.}\cinzia{to rewrite here}
 %
-%We find of particular interest to study the relation between the classes of MSCs for all of these communication models. For instance, the MSC shown in Fig.~\ref{fig:co_ex} is both asynchronous and $\oneone$, in the sense that we are able to find systems using those communication models that can produce the behaviour described by the MSC. Is it always the case than a $\oneone$ MSC is also an asynchronous MSC? What about the other communication models? In Section~\ref{sec:hierarchy} we prove that the classes of MSCs for all these communication models form a very neat hierarchy, which is graphically shown in Fig.~\ref{fig:msc_hierarchy_full}.
+%We find of particular interest to study the relation between the classes of MSCs for all of these communication models. For instance, the MSC shown in Fig.~\ref{fig:co_ex} is both asynchronous and $\oneone$, in the sense that we are able to find systems using those communication models that can produce the behaviordescribed by the MSC. Is it always the case than a $\oneone$ MSC is also an asynchronous MSC? What about the other communication models? In Section~\ref{sec:hierarchy} we prove that the classes of MSCs for all these communication models form a very neat hierarchy, which is graphically shown in Fig.~\ref{fig:msc_hierarchy_full}.
 
 % \cinzia{redo fig in tikz}
 % \begin{figure}[h]
