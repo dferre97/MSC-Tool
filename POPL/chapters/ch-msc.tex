@@ -269,10 +269,10 @@ A low-level implementation can be obtained thanks to a shared real-time clock~\c
 The MSC shown in Fig.~\ref{fig:pp_ex} is not a mailbox MSC; $m_1$ and $m_3$ have the same recipient, but they are not received in the same order as they are sent. The MSC in Fig.~\ref{fig:co_ex} is mailbox; indeed, we are able to find a linearization that respects the mailbox constraints, such as $!1\;!2\;!3\;?2\;?3\;?1$ (note that $m_2$ is both sent and received before $m_3$). Below the definition of $\none$-MSC.
 
 \begin{definition}[$\none$-MSC]\label{def:mb_msc}
-	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\none$-MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \linrel s'$, we have either:
+	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\none$-MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \linrel s'$
 	\begin{itemize}%\itemsep=0.5ex
-		\item $s,s' \in \Matched{\msc}$. Note that $r \linrel r'$, since we have that $r \procrel^+ r'$.
-		\item $s' \in \Unm{\msc}$.
+		\item either $s,s' \in \Matched{\msc}$. Note that $r \linrel r'$, since we have that $r \procrel^+ r'$,
+		\item or $s' \in \Unm{\msc}$.
 	\end{itemize}
 \end{definition}
 
@@ -291,10 +291,10 @@ A high-level implementation of the $\onen$ communication model could consist in 
 The MSC shown in Fig.~\ref{fig:pp_ex} is not a $\onen$ MSC; $m_1$ and $m_2$ are sent in this order by the same process, but they are received in the opposite order (note that there is a causal path between the reception of $m_2$ and the reception of $m_1$, so $?2$ happens before $?1$ in every linearization of this MSC). Fig.~\ref{fig:co_ex} shows an example of $\onen$ MSC; $m_1$ is sent before $m_2$ by the same process, and we are able to find a linearization where $m_1$ is received before $m_2$, such as $!1\;!2\;!3\;?1\;?2\;?3$. 
 
 \begin{definition}[$\onen$ MSC]\label{def:one_n}
-An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\onen$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{p}{\plh}$, $\lambda(s')=\pqsAct{p}{\plh}$, and $s \procrel^+ s'$ (which implies $s \linrel s'$), we have either:
+An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\onen$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{p}{\plh}$, $\lambda(s')=\pqsAct{p}{\plh}$, and $s \procrel^+ s'$ (which implies $s \linrel s'$)
 \begin{itemize}%\itemsep=0.5ex
-	\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, with  $r$ and $r'$  two receive events such that $s \lhd r$ and $s' \lhd r'$.
-	\item $s' \in \Unm{\msc}$.
+	\item either $s,s' \in \Matched{\msc}$ and $r \linrel r'$, with  $r$ and $r'$  two receive events such that $s \lhd r$ and $s' \lhd r'$,
+	\item or $s' \in \Unm{\msc}$.
 \end{itemize}
 \end{definition}
 
@@ -308,10 +308,10 @@ The $\nn$ coordinates all the senders with all the receivers. A high-level imple
 The MSC shown in Fig.~\ref{fig:pp_ex} is clearly not a $\nn$ MSC; if we consider messages $m_1$ and $m_2$ we have that, in every linearization, $!1 \happensbefore !2$ and $?2 \happensbefore ?1$. This violates the constraints imposed by the $\nn$ communication model. The MSC in Fig.~\ref{fig:co_ex} is $\nn$ because we are able to find a linearization that satisfies the $\nn$ constraint, e.g. $!1\;!2\;!3\;?1\;?2\;?3$.
 
 \begin{definition}[$\nn$ MSC]\label{def:n_n}
-	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\nn$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $s \linrel s'$, we have either:
+	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\nn$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $s \linrel s'$
 	\begin{itemize}%\itemsep=0.5ex
-		\item $s,s' \in \Matched{\msc}$ and $r \linrel r'$, with $r$ and $r'$  two receive events such that $s \lhd r$ and $s' \lhd r'$.
-		\item $s' \in \Unm{\msc}$.
+		\item either $s,s' \in \Matched{\msc}$ and $r \linrel r'$, with $r$ and $r'$  two receive events such that $s \lhd r$ and $s' \lhd r'$,
+		\item or $s' \in \Unm{\msc}$.
 	\end{itemize}
 \end{definition}
 
@@ -319,8 +319,8 @@ Such a linearization will be referred to as a \emph{$\nn$ linearization}. Note t
 As a consequence, a $\nn$ MSC cannot have an unmatched send event $s$ and a matched send event $s'$, such that $s \happensbefore s'$; indeed, $s$ would appear before $s'$ in every linearization, and we would not be able to find a $\nn$ linearization. The MSCs shown in Fig.~\ref{fig:asy_um_ex} and Fig.~\ref{fig:pp_um_ex} are both not $\nn$, since we have unmatched messages that are sent before matched messages.
 
 
-\paragraph{\bf Synchronous communication}
-The Realizable with Synchronous Communication ($\rsc$) communication model imposes the existence of a scheduling such that any send event is  immediately followed by its corresponding receive event. It was introduced in \cite{DBLP:journals/dc/Charron-BostMT96} and it is the asynchronous model that comes closest to synchronous communication. % An asynchronous distributed system that implements the $\rsc$ communication model effectively behaves as a synchronous system. 
+\paragraph{\bf RSC communication}
+The Realizable with Synchronous Communication ($\rsc$) communication model imposes the existence of a scheduling such that any send event is  immediately followed by its corresponding receive event. It was introduced in \cite{DBLP:journals/dc/Charron-BostMT96}, and it is the asynchronous model that comes closest to synchronous communication. % An asynchronous distributed system that implements the $\rsc$ communication model effectively behaves as a synchronous system. 
 %The authors of \cite{kshemkalyani2011distributed} propose a strategy to implement RSC executions from a synchronous system.  
 The MSC  in Fig.~\ref{fig:rsc_ex} is the only example of $\rsc$-MSC: for instance linearization $!1\;?1\;!2\;?2\;!3\;?3$ respects the constraints of the $\rsc$ communication model. 
 %Such a linearization will be referred to as an \emph{$\rsc$ linearization}.
