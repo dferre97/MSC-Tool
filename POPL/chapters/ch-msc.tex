@@ -228,7 +228,7 @@ Note that $\msc_1 \cdot \msc_2$ is indeed an MSC and that
 concatenation is associative.
 
 
-\paragraph{\bf  Peer-to-peer communications}
+\paragraph{\bf  Peer-to-peer communication}
 In the peer-to-peer ($\pp$) communication model, any two messages sent from one process to another  are always received in the same order as they are sent. A straightforward implementation would be connecting processes pairwise with FIFO channels. %i.e. messages are delivered by channels in the order in which they were sent\footnote{Please note that our definition of Communicating Finite-State Machine is different from the classical one. FIFO channels are replaced by bag channels, which do not ensure any specific order on the delivery of messages.}. This definition of Communicating Finite-State Machines clearly uses the $\oneone$ communication model, since we have FIFO channels between processes that take care of delivering messages in the correct order. The $\oneone$ communication model is referred to as \pp in \cite{BolligGFLLS21}.
 For this reason, alternative names for this communication model are FIFO $1\mathsf{-}1$ \cite{DBLP:journals/fac/ChevrouHQ16} or simply FIFO \cite{babaoglu1993consistent, DBLP:journals/dc/Charron-BostMT96, tel2000introduction}.
 MSCs that show valid computations for the \pp communication model will be called \pp-MSCs.
@@ -263,7 +263,7 @@ Fig.~\ref{fig:pp_ex}, shows an example of non-causally ordered MSC; there is a c
 Note that in a \co-MSC we cannot have two send events $s$ and $s'$ addressed to the same process, such that $s$ is unmatched, $s'$ is matched, and $s \happensbefore s'$. 
 %The MSC shown in Fig.~\ref{fig:pp_um_ex} has two send events that are causally related, i.e. $!1 \happensbefore !2$, and the first message $m_1$ is unmatched; however, it is still a $\co$-MSC because the two messages are not addressed to the same process.
 
-\paragraph{\bf Mailbox communications}
+\paragraph{\bf Mailbox communication}
 In the mailbox ($\mb$) communicating model, any two messages sent to a process  must be received in the same order as they are sent (according to absolute time). These two messages might be sent by different processes and the two send events might be concurrent (i.e., there is no causal path between them). In other words, if a process  receives $m_1$ before $m_2$, then $m_1$ must have been sent before $m_2$. Essentially, $\mb$ coordinates all the senders of a single receiver. For this reason the model is also called FIFO $n\mathsf{-}1$ \cite{DBLP:journals/fac/ChevrouHQ16}.   A high-level implementation of the mailbox communication model could consist in a single incoming FIFO channel for each process $p$, in which all processes enqueue their messages to $p$. 
 A low-level implementation can be obtained thanks to a shared real-time clock~\cite{cristian1999timed} or a global agreement on the order of events~\cite{defago2004total, raynal2010communication}.
 The MSC shown in Fig.~\ref{fig:pp_ex} is not a mailbox MSC; $m_1$ and $m_3$ have the same recipient, but they are not received in the same order as they are sent. The MSC in Fig.~\ref{fig:co_ex} is mailbox; indeed, we are able to find a linearization that respects the mailbox constraints, such as $!1\;!2\;!3\;?2\;?3\;?1$ (note that $m_2$ is both sent and received before $m_3$). Below the definition of $\none$-MSC.
@@ -283,7 +283,7 @@ Such a linearization will be referred to as a \emph{$\none$-linearization}. Note
 At this stage, the difference between $\co$-MSCs and $\mb$-MSCs might be unclear. Section~\ref{sec:hierarchy} will clarify how all the classes of MSCs that we introduce are related to each other.
 
 
-\paragraph{\bf  $\onen$ communications}
+\paragraph{\bf  $\onen$ communication}
 The $\onen$ communicating model is the dual of $\none$, it coordinates a sender with all the receivers. Any two messages sent by a process  must be received in the same order (in absolute time) as they are sent. These two messages might be received by different processes and the two receive events might be concurrent.
 % In other words, if a process $p$ sends $m_1$ before $m_2$, then $m_1$ must be received before $m_2$ in absolute time.
 A high-level implementation of the $\onen$ communication model could consist in a single outgoing FIFO channel for each process, which is shared by all the other processes. A send event would then push a message on the outgoing FIFO channel.
@@ -301,7 +301,7 @@ An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\onen$ MSC} if it ha
 Such a linearization will be referred to as a \emph{$\onen$ linearization}. Note that a $\onen$ MSC cannot have two send events $s$ and $s'$, executed by the same process, such that $s$ is unmatched, $s'$ is matched, and $s \procrel^+ s'$; indeed, it would not be possible to find a $\onen$ linearization, according to Definition~\ref{def:one_n}. The MSCs shown in Fig.~\ref{fig:asy_um_ex} and Fig.~\ref{fig:pp_um_ex} are clearly not $\onen$.
 
 
-\paragraph{\bf  $\nn$ communications}
+\paragraph{\bf  $\nn$ communication}
 In the $\nn$ communicating model, messages are globally ordered and delivered according to  their emission order. Any two messages must be received in the same order as they are sent, in absolute time. These two messages might be sent or received by any process and the two send or receive events might be concurrent.
 %In other words, if a message $m_1$ is sent before $m_2$ in absolute time, then $m_1$ must be received before $m_2$ in absolute time.
 The $\nn$ coordinates all the senders with all the receivers. A high-level implementation of the $\nn$ communication model could consist in a single FIFO channel shared by all processes. It is considered also in \cite{DBLP:journals/tcs/BasuB16} where it is called  many-to-many (denoted $^\ast$-$^\ast$). However, as underlined in \cite{DBLP:journals/fac/ChevrouHQ16}, such an implementation would be inefficient and unrealistic.
@@ -319,7 +319,7 @@ Such a linearization will be referred to as a \emph{$\nn$ linearization}. Note t
 As a consequence, a $\nn$ MSC cannot have an unmatched send event $s$ and a matched send event $s'$, such that $s \happensbefore s'$; indeed, $s$ would appear before $s'$ in every linearization, and we would not be able to find a $\nn$ linearization. The MSCs shown in Fig.~\ref{fig:asy_um_ex} and Fig.~\ref{fig:pp_um_ex} are both not $\nn$, since we have unmatched messages that are sent before matched messages.
 
 
-\paragraph{\bf Realizable with Synchronous Communication  communications}
+\paragraph{\bf Synchronous communication}
 The Realizable with Synchronous Communication ($\rsc$) communication model imposes the existence of a scheduling such that any send event is  immediately followed by its corresponding receive event. It was introduced in \cite{DBLP:journals/dc/Charron-BostMT96} and it is the asynchronous model that comes closest to synchronous communication. % An asynchronous distributed system that implements the $\rsc$ communication model effectively behaves as a synchronous system. 
 %The authors of \cite{kshemkalyani2011distributed} propose a strategy to implement RSC executions from a synchronous system.  
 The MSC  in Fig.~\ref{fig:rsc_ex} is the only example of $\rsc$-MSC: for instance linearization $!1\;?1\;!2\;?2\;!3\;?3$ respects the constraints of the $\rsc$ communication model. 
