@@ -369,8 +369,8 @@ As for weakly synchronous MSCs, the class of weakly $k$-synchronous MSCs was alr
 \paragraph{\bf Existentially bounded MSCs}
 
 We move now to existentially $k$-bounded MSCs, first introduced by Lohrey and Muschol~\cite{DBLP:conf/fossacs/LohreyM02}, that form a relevant class of MSC for extending the
-Buechi-Elgot-Trakhthenbrot theorem from words to MSCs \cite{genest2004kleene,GKM07}. 
-Existentially bounded MSCs represent the behaviorof systems that can be realized with bounded channels. 
+B\"uchi-Elgot-Trakhthenbrot theorem from words to MSCs \cite{genest2004kleene,GKM07}. 
+Existentially bounded MSCs represent the behavior of systems that can be realized with bounded channels. 
 We stick to the original definition of Lohrey and Muscholl of $k$-bounded MSCs, where $k$
 represents the bound on the number of messages in transit from a given process to another, so that globally
 there may be up to $k\cardinalof{\procSet}^2$ in transit.\footnote{This may look
@@ -445,7 +445,7 @@ For instance, $\sametype{e}{\pqsAct{p}{q}}{\linrel}$ denotes the number of send 
 \end{wrapfigure}
 
 \begin{definition}[Existentially bounded MSC]\label{def:ek_bounded_msc}
-	Let $\msc = (\Events, \rightarrow, \lhd, \lambda) \in \asMSCs$ and $k \in \mathbb{N}$. We call $\msc$ \emph{existentially $k$-bounded} ($\exists k$-bounded) if it has a $k$-bounded linearization.
+	Let $\msc = (\Events, \rightarrow, \lhd, \lambda) \in \asMSCs$ and $k \in \mathbb{N}$.  $\msc$ is \emph{existentially $k$-bounded} ($\exists k$-bounded) if it has a $k$-bounded linearization.
 \end{definition}
 We now look at the definitions of $\oneone$ $\exists k$-bounded MSCs and causally ordered $\exists k$-bounded, which are quite straightforward.
 
@@ -483,9 +483,9 @@ We show that each of the $\exists k$-bounded classes of MSCs presented so far is
 
 \paragraph*{MSO-definability}
 
-Here we will investigate the MSO-definability of all the variants of $\exists k$-bounded MSCs, starting from the most general class of $\exists k$-bounded MSCs.
+We start by investigating the MSO-definability of all the variants of $\exists k$-bounded MSCs, we begin with the most general class of $\exists k$-bounded MSCs.
 Following the approach taken in \cite{DBLP:conf/fossacs/LohreyM02}, we introduce a binary relation $\relb$ ($\linrel_b$ in their work) associated with a given bound $k$ and an MSC $\msc$. Let $k \ge 1$ and $\msc$ be a fixed MSC: we have $r \relb s$ if, for some $i \ge 1$ and some channel ($p$,$q$)\footnote{Recall that ($p,\,q$) is a channel where messages are sent by $p$ and received by $q$.}:
-\begin{enumerate}\itemsep=0.5ex
+\begin{enumerate}%\itemsep=0.5ex
 	\item $r$ is the $i$-th receive event (executed by $q$).
 	\item $s$ is the ($i+k$)-th send event (executed by $p$).
 \end{enumerate}
@@ -508,14 +508,13 @@ Note that, for any two events $s$ and $r$ such that $r \relb s$, every lineariza
 	\caption{A simple MSC.}
 	\label{fig:bounded_lin_ex}
 \end{wrapfigure}
-
 \begin{example}
   Consider the MSC shown in Fig~\ref{fig:bounded_lin_ex}. We want to find a $2$-bounded linearization for it. For $k=2$, we have $?1 \relbk{2} !3$; if we find a valid linearization that respect the $\relbk{2}$ relation, such a linearization is $2$-bounded, e.g., $!1\;!2\;?1\;!3\;?2\;?3$ (note that $?1$ is executed before $!3$). On the other hand, the linearization $!1\;!2\;!3\;?1\;?2\;?3$ is not 2-bounded, since $?1$ is executed after $!3$.
 \end{example}  
 
 
 In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is $\exists k$-bounded if and only if the relation $\happensbefore \cup \relb$ is acyclic. Since $\happensbefore$ and acyclicity are both MSO-definable, it suffices to find an MSO formula that defines the $\relb$ relation to claim the MSO-definability of $\exists k$-bounded MSCs. Unfortunately, $\relb$ is not MSO-definable because MSO logic cannot be used to "count" for an arbitrary $i$. For this reason, we introduce a similar MSO-definable binary relation $\relbAsy$, and we show that an MSC $\msc$ is $\exists k$-bounded MSC iff $\happensbefore \cup \relbAsy$ is acyclic and another condition holds. Let $k \ge 1$ and $\msc$ be a fixed MSC; we have $r \relbAsy s$ if, for some $i \ge 1$ and some channel ($p$,$q$):
-\begin{itemize}\itemsep=0.5ex
+\begin{itemize}%\itemsep=0.5ex
 	\item There are $k+1$ send events $(s_1, \dots, s_k, s)$, where at least one is matched, such that $s_1 \procrel^+ \dots \procrel^+ s_k \procrel^+ s$.
  	\item $r$ is the first receive event for the matched send events among $s_1, \dots, s_k, s$.
 \end{itemize}
@@ -524,9 +523,9 @@ In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is $\exists k$-bo
 	An MSC $\msc$ is $\exists k$-bounded if and only if $\happensbefore \cup \relbAsy$ is acyclic and, for each channel ($p$,$q$), there are at most $k$ unmatched send events.
 \end{proposition}
 \begin{proof}
-	($\Rightarrow$) Suppose $\msc$ is $\exists k$-bounded, which by definition means there is at least one $k$-bounded linearization $\linrel$. Firstly, notice that every MSC that has more than $k$ unmatched send events in any channel cannot be an $\exists k$-bounded MSC. We already know that $\happensbefore \subseteq \linrel$, and we will show show that also $\relbAsy \subseteq \linrel$. This implies that $\happensbefore \cup \relbAsy$ is acyclic, otherwise we would not be able to find a linearization $\linrel$ that respects both $\happensbefore$ and $\relbAsy$. Suppose, by contradiction, that $\relbAsy \nsubseteq \linrel$, i.e. there are two events $r$ and $s$ such that $r \relbAsy s$ and $s \linrel r$. By definition of $\relbAsy$, there are $k$ send events in a channel ($p$,$q$) that are executed before $s$, and whose respective receive events happens after $r$. If $s$ is executed before $r$ in the linearization, there will be $k+1$ messages in channel (i.e. $\linrel$ is not a $k$-bounded linearization). We reached a contradiction, hence $\relbAsy \subseteq \linrel$ and $\happensbefore \cup \relbAsy$ is acyclic.\newline
+	($\Rightarrow$) Suppose $\msc$ is $\exists k$-bounded, which by definition means there is at least one $k$-bounded linearization $\linrel$. Firstly, notice that every MSC that has more than $k$ unmatched send events in any channel cannot be an $\exists k$-bounded MSC. We already know that $\happensbefore \subseteq \linrel$, and we will show  that also $\relbAsy \subseteq \linrel$. This implies that $\happensbefore \cup \relbAsy$ is acyclic, otherwise we would not be able to find a linearization $\linrel$ that respects both $\happensbefore$ and $\relbAsy$. Suppose, by contradiction, that $\relbAsy \nsubseteq \linrel$, i.e. there are two events $r$ and $s$ such that $r \relbAsy s$ and $s \linrel r$. By definition of $\relbAsy$, there are $k$ send events in a channel ($p$,$q$) that are executed before $s$, and whose respective receive events happens after $r$. If $s$ is executed before $r$ in the linearization, there will be $k+1$ messages in channel (i.e. $\linrel$ is not a $k$-bounded linearization). We reached a contradiction, hence $\relbAsy \subseteq \linrel$ and $\happensbefore \cup \relbAsy$ is acyclic.\newline
 	($\Leftarrow$) Suppose $\happensbefore \cup \relbAsy$ is acyclic and, for each channel ($p$,$q$), there are at most $k$ unmatched send events. If $\happensbefore \cup \relbAsy$ is acyclic, we are able to find at least one linearization $\linrel$ for the partial order $(\happensbefore \cup \relbAsy)^\ast$. We want to show that this linearization is $k$-bounded. By contradiction, suppose $\linrel$ is not $k$-bounded, i.e. we are able to find $k+1$ send events $s_1 \procrel^+ \dots \procrel^+ s_k \procrel^+ s$ on a channel ($p$,$q$), such that $s$ is executed before any of the respective receive events takes place. There are two possible scenarios:
-	\begin{itemize}\itemsep=0.5ex
+	\begin{itemize}
 		\item Suppose all the $k+1$ send events are unmatched. This is impossible, since we supposed that there are at most $k$ unmatched send events for any channel.
 		\item Suppose there is at least one matched send event between the $k+1$ sends. Let the first matched send event be $s_i$ and let $r$ be the receive event that is executed first among the receive events for these $k+1$ sends. By hypothesis, $s \linrel r$. However, according to the definition of $\relbAsy$, we must have $r \relbAsy s$. We reached a contradiction, since we cannot have that $s$ happens before $r$ in a linearization for the partial order $(\happensbefore \cup \relbAsy)^\ast$, if $r \relbAsy s$.
 	\end{itemize}
@@ -538,11 +537,11 @@ In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is $\exists k$-bo
 acyclic(\happensbefore \cup \relbAsy) \;\wedge\;
 \neg \left(
 	\exists s_1 \dots s_{k+1}. s_1 \procrel^+ \dots \procrel^+ s_{k+1} \;\wedge \;
-	allSends\_p\_q(k+1) \;\wedge\; allUnm
+	allSends\_pq(k+1) \wedge allUnm
 \right)
 \]
 \[
-allSends\_p\_q (t) =
+allSends\_pq (t) =
 \bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
 \bigwedge_{s \in {s_1, ..., s_{t}}}\;
 \bigvee_{a \in \pqsAct{p}{q}}
@@ -565,7 +564,7 @@ r \relbAsy s= \exists s_1 \dots s_{k+1}. \left(
 
 \medskip
 
-It follows that, given $k \in \N$, the set of existentially $k$-bounded MSCs is MSO-definable. Causally ordered and $\oneone$ existentially $k$-bounded MSCs are clearly MSO-definable by definition, since we already showed that $\oneone$ MSCs, causally ordered MSCs, and existentially $k$-bounded MSCs are all MSO-definable. Recall that we introduced the $\relbAsy$ relation because the $\relb$ relation introduced in \cite{DBLP:conf/fossacs/LohreyM02} was not MSO-definable for asynchronous communication. However, when considering $\oneone$ communication\footnote{And also all of the other communication models, because of the hierarchy shown in Section~\ref{sec:hierarchy}}, $\relb$ becomes MSO-definable; the FIFO behaviorensures that, for any channel $(p,q)$, the $i$-th matched send event of $p$ matches with the $i$-th receive event of $q$. This allows us to define $r \relb s$ as:
+It follows that, given $k \in \N$, the set of existentially $k$-bounded MSCs is MSO-definable. Causally ordered and $\oneone$ existentially $k$-bounded MSCs are clearly MSO-definable by definition, since we already showed that $\oneone$ MSCs, causally ordered MSCs, and existentially $k$-bounded MSCs are all MSO-definable. Recall that we introduced the $\relbAsy$ relation because the $\relb$ relation introduced in \cite{DBLP:conf/fossacs/LohreyM02} was not MSO-definable for asynchronous communication. However, when considering $\oneone$ communication but also all of the other communication models, because of the hierarchy shown in Section~\ref{sec:hierarchy}, $\relb$ becomes MSO-definable; the FIFO behavior ensures that, for any channel $(p,q)$, the $i$-th matched send event of $p$ matches with the $i$-th receive event of $q$. This allows us to define $r \relb s$ as:
 \[
 r \relb s=\exists s_1. \dots \exists s_k.\left(
 allSends\_p\_q(k)
@@ -574,7 +573,7 @@ allSends\_p\_q(k)
 \;\wedge\; s_1 \lhd r
 \right)
 \]
-Recall that an MSC $\msc$ is $\none$-$\exists k$-bounded if has a linearization that is both $\none$ and $\exists k$-bounded. A linearization $\linrel$ is $\none$ if $\msc$ is $\none$ and $\linrel$ is a linear extension of the partial order $\mbpartial$, i.e. $\mbpartial \;\subseteq\; \linrel$. A linearization $\linrel$ is $\exists k$-bounded if $\relb \;\subseteq\; \linrel$. It follows that a linearization $\relb$ is $\none$-$\exists k$-bounded if $(\mbpartial \cup \relb) \;\subseteq\; \linrel$. Such a linerization exists only if $\mbpartial \cup \relb$ is acyclic\footnote{If $\mbpartial \cup \relb$ is acyclic, its transive closure always exists and it is a partial order, hence we are always able to find a linear extension.}. The characterisation for onen-$\exists k$-bounded MSCs and nn-$\exists k$-bounded is very similar. Below the formal definitions.
+Recall that an MSC $\msc$ is $\none$-$\exists k$-bounded if it has a linearization that is both $\none$ and $\exists k$-bounded. A linearization $\linrel$ is $\none$ if $\msc$ is $\none$ and $\linrel$ is a linear extension of the partial order $\mbpartial$, i.e. $\mbpartial \;\subseteq\; \linrel$. A linearization $\linrel$ is $\exists k$-bounded if $\relb \;\subseteq\; \linrel$. It follows that a linearization $\relb$ is $\none$-$\exists k$-bounded if $(\mbpartial \cup \relb) \;\subseteq\; \linrel$. Such a linerization exists only if $\mbpartial \cup \relb$ is acyclic\footnote{If $\mbpartial \cup \relb$ is acyclic, its transive closure always exists and it is a partial order, hence we are always able to find a linear extension.}. The characterisation for \onen-$\exists k$-bounded MSCs and \nn-$\exists k$-bounded is very similar. Summing up:
 
 \begin{proposition}\label{prop:ek-mso}
 	An MSC $\msc$ is $\none$-$\exists k$-bounded iff the relation $\mbpartial \cup \relb$ is acyclic.\\
@@ -582,13 +581,13 @@ Recall that an MSC $\msc$ is $\none$-$\exists k$-bounded if has a linearization 
 	An MSC $\msc$ is nn-$\exists k$-bounded iff the relation $\nnbowtie \cup \relb$ is acyclic.
 \end{proposition}
 
-The MSO-definability of all the variants of $\exists$k-bounded MSCs directly follows from Proposition~\ref{prop:ek-mso}, since all of these relations were shown to be MSO-definable.
+The MSO-definability of all the variants of $\exists$k-bounded MSCs directly follows from Proposition~\ref{prop:ek-mso}, since all of these relations were shown to be MSO-definable (Section \ref{sec:MSO}).
 
 \paragraph*{Special treewidth}
 
 In \cite[Lemma 5.37]{DBLP:journals/corr/abs-1904-06942} it was shown that the special treewidth of existentially $k$-bounded MSCs is bounded by $k\,|\Procs|^2$, for $k \ge 1$. Actually, STW-boundness was shown for the more general class of Concurrent Behaviours with Matching ($\mathsf{CBM}$), but the result is still valid since $\asMSCs \subset \mathsf{CBM}$. The special treewidth of the other classes of $\exists k$-bounded MSCs is also bounded, since they are clearly subclasses of $\exists k$-bounded MSCs.
 
-\subsection{Universally bounded MSCs}
+\paragraph{\bf Universally bounded MSCs}
 
 An MSC is existentially $k$-bounded if it has a $k$-bounded linearization. We call an MSC universally $k$-bounded MSCs if all of its linearizations are $k$-bounded, hence the name "universally".
 
