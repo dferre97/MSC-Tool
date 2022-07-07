@@ -120,8 +120,8 @@ In this last section we prove a series of statements to conclude that, when we h
     Let $k$ and $\Class$ be fixed, and let
     $\msc\in \MSCs\setminus \Class$ be fixed. If the empty MSC is not in $\Class$, then we are done, since it is a valid prefix of $\msc$ and it is in $\stwMSCs{(k+2)} \setminus \Class$.
     Otherwise, let $\msc'\in \Pref{\msc} \setminus \Class$ such that, for all $\happensbefore$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\happensbefore$-maximal events. Let $e$ be a $\happensbefore$-maximal event of $\msc'$, and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
-    So Eve has a winning strategy with $k+1$ colours for $\msc''$.
-    Let us design a winning strategy with $k+3$ colours for Eve for $\msc'$, which will show the claim.
+    So Eve has a winning strategy with $k+1$ colors for $\msc''$.
+    Let us design a winning strategy with $k+3$ colors for Eve for $\msc'$, which will show the claim.
 
     Observe that the event $e$ occurs at the end of the timeline of a process (say $p$), and it is part of at most two edges:
     \begin{itemize}
@@ -134,7 +134,7 @@ In this last section we prove a series of statements to conclude that, when we h
     in two parts: $\msc''$ on the one side, and the single node graph $\{e\}$ on
     the other side. Then Eve applies its winning strategy for $\msc''$, except
     that initially the two events $e_1,e_2$ are marked (so she may need up to $k+3$
-    colours).
+    colors).
 \end{proof}
 
 We have similar results also for the $\onen$ and $\nn$ communication models.
