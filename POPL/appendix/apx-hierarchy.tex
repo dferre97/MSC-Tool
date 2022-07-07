@@ -1,5 +1,5 @@
 \begin{proposition} \label{prop:co_is_pp}
-	Every $\co$ MSC is a $\oneone$ MSC.
+	Every $\co$-MSC is a $\oneone$-MSC.
 \end{proposition}
 \begin{proof}
 	According to Definition~\ref{def:co_msc}, and MSC is $\co$ if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \le s'$, we have either
@@ -7,7 +7,7 @@
 		\item $s,s' \in \Matched{\msc}$ and $r \procrel^* r'$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$, or
 		\item $s' \in \Unm{\msc}$.
 	\end{enumerate*}
-	The conditions imposed by the Definition~\ref{def:pp_msc} of $\oneone$ are clearly satified by any causally ordered MSC; in particular, note that $s \procrel^+ s'$ implies $s \le s'$.
+	The conditions imposed by the Definition~\ref{def:pp_msc} of $\oneone$ are clearly satified by any \co-MSC; in particular, note that $s \procrel^+ s'$ implies $s \le s'$.
 \end{proof}
 
 \mbonennounmatched*
@@ -20,7 +20,7 @@
 			\item $s_2$ is in the causal path between $r_1$ and $r_2$, i.e. $s_1 \lhd r_1 \le s_2 \lhd r_2$. In particular, note that $s_1 \le s_2$.
 			\item $s_2$ is not in the causal path between $r_1$ and $r_2$, hence there must be a message $m_k$ received by the same process that executes $r_2$, such that $r_1 \le s_k \lhd r_k \procrel^+ r_2$, where $r_k$ is the send event of $m_k$. Since messages $m_k$ and $m_2$ are received by the same process and $r_k \procrel^+ r_2$, we should have $s_k \mbrel s_2$, according to the mailbox semantics. In particular, note the we have $s_1 \le s_k \mbrel s_2$.
 		\end{enumerate}
-		In both case (a) and (b), we conclude that $s_1 \mbpartial s_2$. Recall that ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$.
+		In both case (a) and (b), we conclude that $s_1 \mbpartial s_2$. %Recall that ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$.
 	\end{enumerate}
 	Notice that, for either cases, a relation between two receive events $r_1$ and $r_2$ implies a relation between the respective send events $s_1$ and $s_2$, according to the mailbox semantics. It follows that $\xi$, which is a cycle for the $\onenpartial$ relation, always implies a cycle for the $\mbpartial$ relation.
 	\end{proof}
@@ -33,9 +33,9 @@
 	\end{proof}
 	
 	\begin{proposition} \label{prop:rsc_is_nn}
-		Every $\rsc$ MSC is a $\nn$ MSC.
+		Every $\rsc$-MSC is a $\nn$ MSC.
 	\end{proposition}
 	\begin{proof}
-		Consider Definition~\ref{def:rsc} and Definition~\ref{def:n_n}. Let us pick an $\rsc$ linearization $\linrel$. If every send event is immediately followed by its matching receive event, and we do not have unmatched messages, then $\linrel$ is also a $\nn$ linearization; note that, for any two send events $s$ and $s'$ such that $s \linrel s'$, we also have $r \linrel r'$, where $s \lhd r$ and $s' \lhd r'$. It follows that each $\rsc$ MSC is a $\nn$ MSC.
+		Consider Definition~\ref{def:rsc} and Definition~\ref{def:n_n}. Let us pick an $\rsc$ linearization $\linrel$. If every send event is immediately followed by its matching receive event, and we do not have unmatched messages, then $\linrel$ is also a $\nn$ linearization; note that, for any two send events $s$ and $s'$ such that $s \linrel s'$, we also have $r \linrel r'$, where $s \lhd r$ and $s' \lhd r'$. It follows that each $\rsc$-MSC is a $\nn$ MSC.
 	\end{proof}
 	

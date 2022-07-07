@@ -1,26 +1,50 @@
+% !TEX root = ../popl-paper.tex
+
 % \section{(7) Hierarchy of classes of MSCs}
 
-As mentioned in Section~\ref{sec:MSC}, the classes of MSCs for all the seven communication models that we presented form a clear hierarchy, which is shown in Fig.~\ref{fig:msc_hierarchy_full}. In this section we will provide proofs to support this claim. For the simplest cases, we just give intuitive explanations; please refer to Appendix~\ref{apx:hierarchy} for the formal proofs.
 
-\medskip
+\begin{wrapfigure}{r}{0pt}
+\centering	
+	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+		\draw  (0,0) rectangle (1.2,.5);
+		\draw (1.2,0.25) node[left]{\rsc};
+		\draw  (0,0) rectangle (1.6,1);
+		\draw (1.6,0.75) node[left]{\nn};
+		\draw  (0,0) rectangle (2,1.5);
+		\draw (2,1.25) node[left]{\onen};
+		\draw  (0,0) rectangle (2.4,2);
+		\draw (2.4,1.75) node[left]{\mb};
+		\draw  (0,0) rectangle (2.8,2.5);
+		\draw (2.8,2.25) node[left]{\co};
+		\draw  (0,0) rectangle (3.2,3);
+		\draw (3.2,2.75) node[left]{\pp};
+		\draw  (0,0) rectangle (3.6,3.5);
+		\draw (3.6,3.25) node[left]{\asy};
+	\end{tikzpicture}
+	\caption{MSC classes. }
+	\label{fig:msc_hierarchy_fullsmall}
+	\end{wrapfigure}  
+As already mentioned, the classes of MSCs for all the seven communication models that we presented form a clear hierarchy, which is shown in Fig.~\ref{fig:msc_hierarchy_fullsmall}. In this section we will provide proofs to support this claim. For the simplest cases, we just give intuitive explanations; formal proofs can be find in Appendix~\ref{apx:hierarchy}.
 
-First of all, note that every $\oneone$ MSC is an asynchronous MSC by definition. Moreover, Fig.~\ref{fig:fully_asy_ex} shows an example of MSC that is asynchronous but not $\oneone$, hence we have $\ppMSCs \subset \asMSCs$. 
-In the causally ordered communication model, any two messages addressed to the same process are received in an order that matches the causal order in which they are sent. In particular, it is easy to see that each causally ordered MSC is also a $\oneone$ MSC, since for any two messages sent by a process $p$ to another process $q$, the two send events are causally ordered. The MSC shown in Fig.~\ref{fig:pp_ex} is $\oneone$, but not $\co$, hence we can conclude that $\coMSCs \subset \ppMSCs$.
-We now show that each $\none$ MSC is a causally ordered MSC.
+
+
+First of all, by definition every $\oneone$-MSC is an \asy-MSC.  Fig.~\ref{fig:fully_asy_ex} shows an example of MSC that is asynchronous but not $\oneone$, hence we have $\ppMSCs \subset \asMSCs$. 
+In the causally ordered communication model, any two messages addressed to the same process are received in an order that matches the causal order in which they are sent. In particular, it is easy to see that each \co-MSC is also a $\oneone$-MSC, since for any two messages sent by a process $p$ to another process $q$, the two send events are causally ordered. The MSC shown in Fig.~\ref{fig:pp_ex} is $\oneone$, but not $\co$, hence we can conclude that $\coMSCs \subset \ppMSCs$.
+We now show that each $\none$-MSC is a \co-MSC.
 
 \begin{proposition} \label{prop:mb_is_co}
-	Every $\none$ MSC is a causally ordered MSC.
+	Every $\none$-MSC is a \co-MSC.
 \end{proposition}
 \begin{proof}
-Let $\msc$ be a $\none$ MSC and $\linrel$ a $\none$ linearization of it. Recall that a linearization has to respect the happens-before partial order over $\msc$, i.e. $\happensbefore\,\subseteq\, \linrel$. Consider any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$ and $s \happensbefore s'$. Since $\happensbefore\,\subseteq\, \linrel$, we have that $s \linrel s'$ and, by the definition of $\none$ linearization, either
+Let $\msc$ be a $\none$-MSC and $\linrel$ a $\none$ linearization of it. Recall that a linearization has to respect the happens-before partial order over $\msc$, i.e. $\happensbefore\,\subseteq\, \linrel$. Consider any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$ and $s \happensbefore s'$. Since $\happensbefore\,\subseteq\, \linrel$, we have that $s \linrel s'$ and, by the definition of $\none$ linearization, either
 \begin{enumerate*}[label={(\roman*)}]
 	\item $s' \in \Unm{\msc}$, or 
 	\item $s,s' \in \Matched{\msc}$, $s \lhd r$, $s' \lhd r'$ and $r \linrel r'$. 
 \end{enumerate*}
-The former clearly respects the definition of causally ordered MSC, so let us focus on the latter. Note that $r$ and $r'$ are two receive events executed by the same process, hence $r \linrel r'$ implies $r \procrel^+ r'$. It follows that $\msc$ is a causally ordered MSC.
+The former clearly respects the definition of \co-MSC, so let us focus on the latter. Note that $r$ and $r'$ are two receive events executed by the same process, hence $r \linrel r'$ implies $r \procrel^+ r'$. It follows that $\msc$ is a \co-MSC.
 \end{proof}
 
-Fig.~\ref{fig:co_no_none} shows an example of causally ordered MSC that is not $\none$. It is causally ordered because we cannot even find two messages, addressed to the same process, such that the corresponding send events are causally related; on the contrary, the MSC is not $\none$ because we have $!4 \mbrel !1$ and $!2 \mbrel !3$, which lead to a cyclic dependency, e.g. $!1 \procrel !2 \mbrel !3 \procrel !4 \mbrel !1$. This example and Proposition~\ref{prop:mb_is_co} prove that $\mbMSCs \subset \coMSCs$.
+Fig.~\ref{fig:co_no_none} shows an example of \co-MSC that is not $\none$. It is causally ordered because we cannot  find two messages, addressed to the same process, such that the corresponding send events are causally related; on the contrary, the MSC is not $\none$ because we have $!4 \mbrel !1$ and $!2 \mbrel !3$, which lead to a cyclic dependency, e.g. $!1 \procrel !2 \mbrel !3 \procrel !4 \mbrel !1$. This example and Proposition~\ref{prop:mb_is_co} prove that $\mbMSCs \subset \coMSCs$.
 
 \begin{figure}[t]
 	\captionsetup[subfigure]{justification=centering}
@@ -54,7 +78,7 @@ Fig.~\ref{fig:co_no_none} shows an example of causally ordered MSC that is not $
 		\newmsgm{1}{2}{-1.6}{-1.6}{4}{0.3}{black};
 			
 	\end{tikzpicture}
-	\caption{$\onen$ MSC, not $\nn$.}
+	\caption{$\onen$ , not $\nn$.}
 	\label{fig:onen_no_nn}
 \end{subfigure}
 \begin{subfigure}[t]{0.3\textwidth}\centering
@@ -72,17 +96,18 @@ Fig.~\ref{fig:co_no_none} shows an example of causally ordered MSC that is not $
 \caption{Examples of MSCs for various communication models.}\label{fig:exmscs_2}
 \end{figure}
 
-The relation between $\onen$ and $\none$ MSCs is not as 
-straightforward as those seen so far. For convenience, we will 
+The relation between $\onen$ and $\none$-MSCs is not as 
+straightforward as those seen so far. We 
 start by only considering MSCs without unmatched messages. 
 
 \begin{proposition} \label{prop:onen_mb_no_unmatched}
-	Every $\onen$ MSC without unmatched messages is a $\none$ MSC.
+	Every $\onen$ MSC without unmatched messages is a $\none$-MSC.
 \end{proposition}
 \begin{proof}
 We show that the contrapositive is true, i.e. if an MSC is not mailbox (and it does not have unmatched messages), it is also not $\onen$. Suppose $\msc$ is an asynchronous MSC, but not mailbox. There must be a cycle $\xi$ such that  
-$e \mbpartialstrict e$, for some event $e$. Recall that ${\mbpartialstrict} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^+$ and ${\happensbeforestrict} = ({\procrel} \cup {\lhd})^+$. 
-We can always explicitely write a cycle $e \mbpartialstrict e$ only using $\mbrel$ and $\happensbeforestrict$. For instance, there might be a cycle $e \mbpartialstrict e$ because we have that $e \mbrel f \happensbeforestrict g \mbrel h \mbrel i \happensbeforestrict e$. Consider any two adjacent events $s_1$ and $s_2$ in the cycle $\xi$, where $\xi$ has been written using only $\mbrel$ and $\happensbeforestrict$, and we never have two consecutive $\happensbefore$\footnote{This is always possible, since $a \happensbefore b \happensbefore c$ is written as $a \happensbefore c$.}. We have two cases:
+$e \mbpartialstrict e$, for some event $e$. 
+%Recall that ${\mbpartialstrict} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^+$ and ${\happensbeforestrict} = ({\procrel} \cup {\lhd})^+$. 
+We can always explicitly  write a cycle $e \mbpartialstrict e$ only using $\mbrel$ and $\happensbeforestrict$. For instance, there might be a cycle $e \mbpartialstrict e$ because we have that $e \mbrel f \happensbeforestrict g \mbrel h \mbrel i \happensbeforestrict e$. Consider any two adjacent events $s_1$ and $s_2$ in the cycle $\xi$, where $\xi$ has been written using only $\mbrel$ and $\happensbeforestrict$, and we never have two consecutive $\happensbefore$\footnote{This is always possible, since $a \happensbefore b \happensbefore c$ is written as $a \happensbefore c$.}. We have two cases:
 \begin{enumerate}
 	\item $s_1 \mbrel s_2$. We know, by definition of $\mbrel$, that $s_1$ and $s_2$ must be two send events and that $r_1 \procrel^+ r_2$, where $r_1$ and $r_2$ are the receive events that match with $s_1$ and $s_2$, respectively (we are not considering unmatched messages by hypothesis).
 	\item $s_1 \happensbeforestrict s_2$. Since $\msc$ is asynchronous by hyphotesis, $\xi$ has to contain at least one $\mbrel$\footnote{If that was not the case, $\le$ would also be cyclic and $\msc$ would not be an asynchronous MSC.}; recall that we also wrote $\xi$ in such a way that we do not have two consecutive $\le$. It is not difficult to see that $s_1$ and $s_2$ have to be send events, since they belong to $\xi$. We have two cases:
@@ -90,36 +115,36 @@ We can always explicitely write a cycle $e \mbpartialstrict e$ only using $\mbre
 		\item $r_1$ is in the causal path, i.e. $s_1 \lhd r_1 \happensbefore s_2$. In particular, note that $r_1 \happensbefore r_2$.
 		\item $r_1$ is not in the causal path, hence there must be a message $m_k$ sent by the same process that sent $s_1$, such that $s_1 \procrel^+ s_k \lhd r_k \happensbefore s_2 \lhd r_2$, where $s_k$ and $r_k$ are the send and receive events associated with $m_k$, respectively. Since messages $m_1$ and $m_k$ are sent by the same process and $s_1 \procrel^+ s_k$, we should have $r_1 \onenrel r_k$, according to the $\onen$ semantics. In particular, note that we have $r_1 \onenrel r_k \happensbefore r_2$.
 	\end{enumerate}
-	In both case (a) and (b), we conclude that $r_1 \onenpartial r_2$. Recall that ${\onenpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel})^\ast$.
+	In both case (a) and (b), we conclude that $r_1 \onenpartial r_2$. %Recall that ${\onenpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel})^\ast$.
 \end{enumerate}
 Notice that, for either cases, a relation between two send events $s_1$ and $s_2$ (i.e. $s_1 \mbrel s_2$ or $s_1 \happensbefore s_2$) always implies a relation between the respective receive events $r_1$ and $r_2$, according to the $\onen$ semantics. It follows that $\xi$, which is a cycle for the $\mbpartial$ relation, always implies a cycle for the $\onenpartial$ relation\footnote{If $\onenpartial$ is cyclic, $\msc$ is not a $\onen$ MSC.}, as shown by the following example. Let $\msc$ be a non-mailbox MSC, and suppose we have a cycle $s_1 \mbrel s_2 \mbrel s_3 \happensbefore s_4 \mbrel s_5 \happensbefore s_1$. $s_1 \mbrel s_2$ falls into case (1), so it implies $r_1 \procrel^+ r_2$. The same goes for $s_2 \mbrel r_3$, which implies $r_2 \procrel^+ r_3$. $s_3 \happensbefore s_4$ falls into case (2), and implies that $r_3 \onenpartial r_4$. $s_4 \mbrel s_5$ falls into case (1) and it implies $r_4 \procrel^+ r_5$. $s_5 \happensbefore s_1$ falls into case (2) and implies that $r_5 \onenpartial r_1$. Putting all these implications together, we have that $r_1 \procrel^+ r_2 \procrel^+ r_3 \onenpartial r_4 \procrel^+ r_5 \onenpartial r_1$, which is a cycle for $\onenpartial$. Note that, given any cycle for $\mbpartial$, we are always able to apply this technique to obtain a cycle for $\onenpartial$.
 \end{proof}
 
-The opposite direction is also true and the proof, which can be found in the Appendix~\ref{apx:hierarchy}, uses the same technique to prove that a cycle for $\onenpartial$ always implies a cycle for $\mbpartial$.
+The opposite direction is also true and the proof, which can be found in  Appendix~\ref{apx:hierarchy}, uses the same technique to prove that a cycle for $\onenpartial$ always implies a cycle for $\mbpartial$.
 
 \begin{restatable}{proposition}{mbonennounmatched} 
 \label{prop:mb_onen_no_unmatched}
-	Every $\none$ MSC without unmatched messages is a $\onen$ MSC.
+	Every $\none$-MSC without unmatched messages is a $\onen$-MSC.
 \end{restatable}
 
-Interestingly enough, Proposition~\ref{prop:onen_mb_no_unmatched} and \ref{prop:mb_onen_no_unmatched} show that the classes of $\none$ and $\onen$ MSCs are effectively equivalent if we do not allow unmatched messages. As we will prove, this will change when we add unmatched messages into the mix. However, Proposition~\ref{prop:onen_mb_no_unmatched} still holds.
+Interestingly enough, Proposition~\ref{prop:onen_mb_no_unmatched} and \ref{prop:mb_onen_no_unmatched} show that the classes of $\none$ and $\onen$-MSCs coincide if we do not allow unmatched messages.  This changes when we add unmatched messages into the mix. However, Proposition~\ref{prop:onen_mb_no_unmatched} still holds.
 
 \begin{proposition} \label{prop:onen_mb_unmatched}
-	Every $\onen$ MSC is a $\none$ MSC.
+	Every $\onen$-MSC is a $\none$-MSC.
 \end{proposition}
 \begin{proof}
-Let $\msc$ be an asynchronous MSC. The proof proceeds in the same way as the one of Proposition~\ref{prop:onen_mb_no_unmatched}, but unmatched messages introduce some additional cases. Consider any two adjacent events $s_1$ and $s_2$ in a cycle $\xi$ for $\mbpartialstrict$, where $\xi$ has been written using only $\mbrel$ and $\happensbeforestrict$, and we never have two consecutive $\happensbeforestrict$. These are some additional cases:
+Let $\msc$ be an asynchronous MSC. The proof proceeds as for Proposition~\ref{prop:onen_mb_no_unmatched}, but unmatched messages introduce some additional cases. Consider any two adjacent events $s_1$ and $s_2$ in a cycle $\xi$ for $\mbpartialstrict$, where $\xi$ has been written using only $\mbrel$ and $\happensbeforestrict$, and we never have two consecutive $\happensbeforestrict$. These are some additional cases:
 \begin{enumerate}\setcounter{enumi}{2}
 	\item $u_1 \mbrel s_2$, where $u_1$ is the send event of an unmatched message. This case never happens because of how $\mbrel$ is defined.
 	\item $u_1 \happensbefore u_2$, where $u_1$ and $u_2$ are both send events of unmatched messages. Since both $u_1$ and $u_2$ are part of the cycle $\xi$, there must be an event $s_3$ such that $u_1 \happensbefore u_2 \mbrel s_3$. However, $u_2 \mbrel s_3$ falls into case (3), which can never happen.
 	\item $u_1 \happensbefore s_2$, where $u_1$ is the send event of an unmatched message and $s_2$ is the send event of a matched message. Since we have a causal path between $u_1$ and $s_2$, there has to be a message $m_k$, sent by the same process that sent $m_1$, such that $u_1 \procrel^+ s_k \lhd r_k \happensbefore s_2 \lhd r_2$\footnote{Note that we can have $m_k = m_2$}, where $s_k$ and $r_k$ are the send and receive events associated with $m_k$, respectively. Since messages $m_1$ and $m_k$ are sent by the same process and $m_1$ is unmatched, we should have $s_k \onenrel u_1$, according to the $\onen$ semantics, but $u_1 \procrel^+ s_k$. It follows that if $\xi$ contains $u_1 \happensbefore s_2$, we can immediately conclude that $\msc$ is not a $\onen$ MSC.
 	\item $s_1 \mbrel u_2$,  where $s_1$ is the send event of a matched message and $u_2$ is the send event of an unmatched message. Since both $s_1$ and $u_2$ are part of a cycle, there must be an event $s_3$ such that $s_1 \mbrel u_2 \happensbefore s_3$; we cannot have $u_2 \mbrel s_3$, because of case (3). $u_2 \happensbefore s_3$ falls into case (5), so we can conclude that $\msc$ is not a $\onen$ MSC.
 \end{enumerate}
-We showed that cases (3) and (4) can never happen, whereas cases (5) and (6) both imply that $\msc$ is not $\onen$. If we combine them with the cases described in Proposition~\ref{prop:onen_mb_no_unmatched} we have the full proof.
+We showed that cases (3) and (4) can never happen, whereas  (5) and (6)  imply that $\msc$ is not $\onen$. If we combine them with the cases described in Proposition~\ref{prop:onen_mb_no_unmatched} we have the full proof.
 \end{proof}
 
 The MSC in Fig.~\ref{fig:pp_um_ex} shows a simple example of an MSC with unmatched messages that is $\none$ but not $\onen$. This, along with Proposition~\ref{prop:onen_mb_unmatched}, effectively shows that $\onenMSCs \subset \mbMSCs$.
 
-\medskip 
+ 
 
-In the $\nn$ communication model, any two messages must be received in the same order as they are sent. It is then easy to observe that each $\nn$ MSC is a $\onen$ MSC, because each $\nn$ linearization is also a $\onen$ linearization. Moreover, Fig.~\ref{fig:onen_no_nn} shows an example of MSC that is $\onen$ but not $\nn$, hence we have that $\nnMSCs \subset \onenMSCs$; in particular, note that for messages $m_1$ and $m_4$ we have $!1 \happensbefore !4$ and $?4 \procrel ?1$, so there cannot be a $\nn$ linearization, but it is possible to find a $\onen$ linearization such as $!1\;!2\;?2\;!3\;?3\;!4\;?4\;?1$. In the synchronous communication model, every send event is immediately followed by its corresponding receive event. Synchronous communication is then clearly a special case of $\nn$ communication, and every $\rsc$ MSC is a $\nn$ MSC because a $\rsc$ linearization is always also a $\nn$ linearization. Besides, Fig.~\ref{fig:nn_no_rsc} shows an example of MSC that is $\nn$ but not $\rsc$, therefore $\rscMSCs \subset \nnMSCs$.
+In the $\nn$ communication model, any two messages must be received in the same order as they are sent. It is then easy to observe that each $\nn$ MSC is a $\onen$ MSC, because each $\nn$ linearization is also a $\onen$ linearization. Moreover, Fig.~\ref{fig:onen_no_nn} shows an example of MSC that is $\onen$ but not $\nn$, hence we have that $\nnMSCs \subset \onenMSCs$; in particular, note that for messages $m_1$ and $m_4$ we have $!1 \happensbefore !4$ and $?4 \procrel ?1$, so there cannot be a $\nn$ linearization, but it is possible to find a $\onen$ linearization such as $!1\;!2\;?2\;!3\;?3\;!4\;?4\;?1$. In the \rsc model, every send event is immediately followed by its corresponding receive event. \rsc is then  a special case of $\nn$ communication, and every $\rsc$-MSC is a $\nn$-MSC because a $\rsc$ linearization is always also a $\nn$ linearization. Besides, Fig.~\ref{fig:nn_no_rsc} shows an example of MSC that is $\nn$ but not $\rsc$, therefore $\rscMSCs \subset \nnMSCs$.
