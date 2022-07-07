@@ -28,7 +28,7 @@ as a set of events.
 \end{definition}
 
 We use common abbreviations such as $\wedge$, $\Rightarrow$, $\forall$, etc. 
-For instance, the formula $\neg\exists x.(\bigvee_{a \in \sAct} \lambda(x) = a \;\wedge\; \neg \mathit{matched}(x))$,
+For instance, the formula $$\neg\exists x.(\bigvee_{a \in \sAct} \lambda(x) = a \;\wedge\; \neg \mathit{matched}(x)),$$
 with $\mathit{matched}(x) = \exists y.x \lhd y$,
 says that there are no unmatched send events. MSCs (a), (b), (c) and (d) of Fig. \ref{fig:exmscs} satisfy the formula. Given a sentence $\phi$, i.e., a formula without free variables,
 we let $L(\phi)$ denote the set of asynchronous MSCs that satisfy $\phi$. The formula $\mathsf{true}$ therefore describes the whole set of asynchronous MSCs, i.e. $L(\mathsf{true}) = \asMSCs$. It is folklore that the (reflexive) transitive closure of a binary relation defined by an MSO formula with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable (see also Appendix~\ref{apx:MSO}). We will therefore abusively write formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \happensbefore y$.

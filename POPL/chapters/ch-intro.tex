@@ -4,10 +4,11 @@ Reasoning about distributed message-passing applications is  hard. The degree of
 of the communication model is  an important ingredient of the application.
 One reason
 is that the communication architecture on which the application runs may vary, and must be accurately specified. 
-In particular, an under-approximation of the communication model may hide safety errors,
-such as unspecified receipts, whereas any approximation (under or over) of the communication model may hide deadlocks. 
+Indeed, an approximation of the communication model may hide deadlocks or safety errors,
+such as unspecified receptions.
+%, whereas any approximation (under or over) of the communication model may hide deadlocks. 
 
-In synchronous communication (also known as rendez-vous communication), send and receive events are viewed as
+In synchronous communication (or rendez-vous communication), send and receive events are viewed as
 a single event, i.e., a receive event and the corresponding send event happen simultaneously. The idea behind asynchronous communication, instead, is to decouple send and receive events, so that a receive event can happen indefinitely after the corresponding send event. By introducing some additional constraints on the execution of those events, we can obtain new communication models that sit somewhere between synchronous and fully asynchronous communication.
 In this paper we try to clarify and classify some of these communication models.
 %We consider only point-to-point communication, that is, messages that have exactly one sender and one receiver.
@@ -31,16 +32,7 @@ version of the ITU recommendation~\cite{messagesequencecharts}.
 Roughly speaking, a distributed system is composed by a set of
 sequential processes that can exchange messages. Each process executes a sequence of \emph{events}, which in our case will be either \emph{send}
 or \emph{receive} events. A send event $s$ and a receive event $r$ are said to be \emph{matching} if the message sent at $s$ is the one received at $r$. 
-A distributed computation is the \\
-\noindent
-concurrent execution of each process. In an MSC, such as the one in Fig.~\ref{fig:msc_ex}, each
-vertical line is called a \emph{process line} and it represents the order in which events are executed by a single process, with time running from
-top to bottom; arrows are used to represent messages and they connect a send event with the corresponding matching receive.
-Given a message $m_i$, we will use $!i$ and $?i$ to denote the corresponding matching send and receive events, respectively. A single process line defines a
-total order over the events executed by that process, i.e., an event $e$ happens before another event $e'$ if $e$ is higher in the process line;
-in Fig.~\ref{fig:msc_ex}, if we look at process $q$ we see that $?1$ happens before $?2$. However, in general MSCs only specify a partial order
-over events. Consider the events $!1$ and $!2$ in Fig.~\ref{fig:msc_ex}, which are executed by two different processes; these two events are \emph{truly concurrent}, in the sense that this MSC does not tell us which one is executed first.
-
+A distributed computation is the concurrent execution of each process. 
 \begin{wrapfigure}{r}{0pt}
 	\begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
 		\newproc{0}{p}{-2.5};
@@ -66,8 +58,13 @@ over events. Consider the events $!1$ and $!2$ in Fig.~\ref{fig:msc_ex}, which a
 	\captionof{figure}{Red arrows denote a causal path.}
 	\label{fig:msc_ex}
 \end{wrapfigure}
-
-\noindent Even though events on different processes can be concurrent, this is not always the case. For instance, a send event must always happen
+In an MSC, such as the one in Fig.~\ref{fig:msc_ex}, each
+vertical line is called a \emph{process line} and it represents the order in which events are executed by a single process, with time running from
+top to bottom; arrows are used to represent messages and they connect a send event with the corresponding matching receive.
+Given a message $m_i$, we will use $!i$ and $?i$ to denote the corresponding matching send and receive events, respectively. A single process line defines a
+total order over the events executed by that process, i.e., an event $e$ happens before another event $e'$ if $e$ is higher in the process line;
+in Fig.~\ref{fig:msc_ex}, if we look at process $q$ we see that $?1$ happens before $?2$. However, in general MSCs only specify a partial order
+over events. Consider the events $!1$ and $!2$ in Fig.~\ref{fig:msc_ex}, which are executed by two different processes; these two events are \emph{truly concurrent}, meaning that this MSC does not tell us which one is executed first. Even though events on different processes can be concurrent, this is not always the case. For instance, a send event must always happen
 before the matching receive event. Graphically, this \emph{happens before} relation between events on different processes is represented
 by a path that follows the direction of the arrows and runs from top to bottom. This will be referred to as a \emph{causal path}, because it
 estabilishes a causal relation between events. Fig.~\ref{fig:msc_ex} shows an example of causal path between the events $!2$ and $?3$. 
@@ -89,7 +86,7 @@ This non-sequential view of the communication models is arguably the "standard o
 rather than the sequential point of view adopted by Chevrou~\emph{et al}. It is more relevant for comparing communication models, as some
 of them, such as causally ordered communications, intrinsically rely on this non-sequential view and the happens-before relation. Large-scale communication models are quite easy to axiomatize in a formal language, such as monadic second order logic (MSO) over MSCs. Local-scale
 communication models, on the other hand, are easy to define by means of an operational semantics involving FIFO queues, but their axiomatization
-in MSO is error prone and requires particular attention. The choice of MSO as a specification language for the axiomatisation of
+in MSO is error prone and requires care. The choice of MSO as a specification language for the axiomatisation of
 these communication models is not incidental: there is a wealth of results on MSO model-checking over MSCs that originated from
 the work of Genest~\emph{et al.}~\cite{genest2004kleene,GKM07}, with recent developments by Bollig~\emph{et al.} in the context
 of synchronisability~\cite{BolligGFLLS21}.
