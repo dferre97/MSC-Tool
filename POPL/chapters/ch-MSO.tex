@@ -104,7 +104,7 @@ For the mailbox communication model, Definition~\ref{def:mb_msc} cannot be easil
 	if ${\mbpartial}$ is a partial order.
 \end{definition}
 The ${\mbrel}$ relation expresses that two send events that are not necessarily related by a causal path should be scheduled in a precise order because their matching receptions are in this precise order. If ${\mbpartial}$ is a partial order, it means that it is possible to find a linearization $\linrel$, such that $\linrel \;\subseteq\; \mbpartial$. It is easy to see that such a linearization is exactly what we called a $\none$-linearization in Definition~\ref{def:mb_msc}.
-%Finally notice  that ${\le} \subseteq {\mbpartial}$. Hence entailing that a \mb-MSC is also a \pp-MSC.
+%Finally notice  that ${\happensbefore} \subseteq {\mbpartial}$. Hence entailing that a \mb-MSC is also a \pp-MSC.
 The MSO-definability of $\mbMSCs$ follows from Definition~\ref{def:n_one_alt}; in particular, note that 
 $\mbpartial$ is reflexive and transitive by definition, 
 thus we just have to check acyclicity:
@@ -170,7 +170,7 @@ x \onenrel y =
 \]
 %The MSO formula for $x \onenrel y$ closely follows Definition~\ref{def:one_n_alt}. The set $\onenMSCs$ of $\onen$ MSCs is therefore MSO-definable as $\onenMSCs=L(\onenformula)$.
 
-%Finally it is worth noting that ${\le} \subseteq {\onenpartial}$.
+%Finally it is worth noting that ${\happensbefore} \subseteq {\onenpartial}$.
 %\cinzia{maybe move previous sentence to next section}
 
 \paragraph{\bf \nn MSCs}
@@ -311,24 +311,6 @@ s_1 \neq s_2 \;\wedge\;
 \]
 
 
-% THIS IS WRONG!
-% We show that the opposite direction is also true, which implies that the class of $\nn$ MSCs is equivalent to the class of $onen$ MSCs. The following example gives an intuition of the formal proof, which will be given right after.
-
-% \begin{proposition}
-% 	Every $\onen$ MSC without unmatched messages is an $\nn$ MSC.
-% \end{proposition}
-% \begin{proof}
-% Let $\msc$ be a $\onen$ MSC without unmatched messages, and let $L$ be a $\onen$ linearization. We will show that, by reordering some of the events in $L$, we are always able to obtain a $\nn$ linearization for $\msc$. The algorithm works as follow:
-% \begin{enumerate}
-% 	\item Find a pair $(m_1,m_2)$ of distinct messages such that their send order in $L$ is the inverse of the receive order\footnote{Note that $L$ is already a $\nn$ linearization if such a pair does not exist}. This can only happen if there is not a causal path between $s_1$ and $s_2$, i.e $s_1 \le \ge s_2$, where $s_i$ is the send event of message $m_i$. To see why, suppose w.l.o.g. that $s_1 \le s_2$. As seen in the proof of Proposition~\ref{prop:onen_mb_no_unmatched}, there must be a message $m_k$ sent by the same process that sent $s_1$, such that we have $r_1 \onenrel r_k \le r_2$, and in particular $r_1 \onenpartial r_2$. Therefore, if $s_1 \le s_2$, the receive order has to match the send order in $L$ and it will never be the opposite.
-% 	\item Suppose, w.l.o.g. that $s_2 \linrel s_1$ and $r_1 \linrel r_2$, and we saw that $s_1 \le \ge s_2$. We would like to invert the order of $s_1$ and $s_2$ in the linearization, so that it matches the receive order. If we simply swap $s_2$ and $s_1$ in $L$, the new linearization could be invalid for $\msc$; for instance, there might be some events between $s_2$ and $s_1$ (in the linearization $L$) that need to happen before $s_1$. However, we show that it is still possible to invert the order of $s_1$ and $s_2$ without invalidating the linearization. Suppose that $s_2$ and $s_1$ are the $i$-th and the $j$-th events of $L$, respectively, where $i<j$. The idea is to move $s_2$ right before $s_1$, along with all the events on which $s_1$ depends, that are between $s_2$ and $s_1$ in $L$; we say that $s_1$ depends on an event $e$ if $e \onenpartial s_1$.
-% \end{enumerate}
-% \end{proof}
-
-
-
-
-
 % \davidequestion{The following formula should be wrong... I cannot use $n$ in an MSO formula}
 % \[
 % 	\rscformula =
@@ -337,7 +319,7 @@ s_1 \neq s_2 \;\wedge\;
 % 		& \neg \left(
 % 			\bigvee_{k=1}^n \left(
 % 			\exists s_1 \cdots s_k. \exists r_1 \cdots r_k.
-% 			\bigwedge_{i=1}^k (s_i \lhd r_i \;\wedge\; s_i \le r_{(i+1)\%k})
+% 			\bigwedge_{i=1}^k (s_i \lhd r_i \;\wedge\; s_i \happensbefore r_{(i+1)\%k})
 % 		\right)
 % 		\right)\\
 % 	\end{array}

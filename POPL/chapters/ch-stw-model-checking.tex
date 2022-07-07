@@ -83,7 +83,7 @@ the associated game is $k$-winning for Eve
 The set of MSCs whose special treewidth is at most $k$ is denoted by $\stwMSCs{k}$. It is easy to check that trees have a special treewidth of 1.
 
 \begin{example}
-	Let $\msc$ the MSC of the Fig.~\ref{fig:pp_ex}. In this example, we show that $\msc$ has a special treewidth  $\le 3$, since Eve is able to find a strategy that leads to a 3-winning game.  We use colours to mark events. Eve starts by marking 4 events. The edges whose both endpoints are marked can be removed (dotted edges in the figure) and the graph becomes disconnected. Eve then splits the graph in 2 and Adam has to choose.
+	Let $\msc$ the MSC of the Fig.~\ref{fig:pp_ex}. In this example, we show that $\msc$ has a special treewidth  $\happensbefore 3$, since Eve is able to find a strategy that leads to a 3-winning game.  We use colours to mark events. Eve starts by marking 4 events. The edges whose both endpoints are marked can be removed (dotted edges in the figure) and the graph becomes disconnected. Eve then splits the graph in 2 and Adam has to choose.
 	Suppose the Adam picks the subgraph with the red and yellow events already marked (top branch in the figure). Eve can mark the third event and, by doing so, the game ends.
 	Suppose Adam chooses the subgraph with the blue and green events (bottom branch). Eve marks the two nodes in the bottom, removes 3 edges, and splits the graph in two. Note that one of the two subgraphs already has all events marked, so Adam zpicks the other one (top branch).
 	Eve simply marks the missing event and the game ends. This is a 3-winning game for Eve since, independently of Adam's choices, we have at most 4 marked event at each step.
@@ -173,7 +173,7 @@ sends before all receives.
 Let $\msc = (\Events,\procrel,\lhd,\lambda)$ be an MSC.
 We say that $\msc$ is an \emph{exchange} if
 $\SendEv{\msc}$ is
-a ${\le}$-downward-closed set.
+a ${\happensbefore}$-downward-closed set.
 \end{definition}
 
 \begin{wrapfigure}[11]{r}{0pt}
@@ -482,28 +482,28 @@ Note that, for any two events $s$ and $r$ such that $r \relb s$, every lineariza
 \end{example}  
 
 
-In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is $\exists k$-bounded if and only if the relation $\le \cup \relb$ is acyclic. Since $\le$ and acyclicity are both MSO-definable, it suffices to find an MSO formula that defines the $\relb$ relation to claim the MSO-definability of $\exists k$-bounded MSCs. Unfortunately, $\relb$ is not MSO-definable because MSO logic cannot be used to "count" for an arbitrary $i$. For this reason, we introduce a similar MSO-definable binary relation $\relbAsy$, and we show that an MSC $\msc$ is $\exists k$-bounded MSC iff $\le \cup \relbAsy$ is acyclic and another condition holds. Let $k \ge 1$ and $\msc$ be a fixed MSC; we have $r \relbAsy s$ if, for some $i \ge 1$ and some channel ($p$,$q$):
+In \cite{DBLP:conf/fossacs/LohreyM02} it was shown that an MSC is $\exists k$-bounded if and only if the relation $\happensbefore \cup \relb$ is acyclic. Since $\happensbefore$ and acyclicity are both MSO-definable, it suffices to find an MSO formula that defines the $\relb$ relation to claim the MSO-definability of $\exists k$-bounded MSCs. Unfortunately, $\relb$ is not MSO-definable because MSO logic cannot be used to "count" for an arbitrary $i$. For this reason, we introduce a similar MSO-definable binary relation $\relbAsy$, and we show that an MSC $\msc$ is $\exists k$-bounded MSC iff $\happensbefore \cup \relbAsy$ is acyclic and another condition holds. Let $k \ge 1$ and $\msc$ be a fixed MSC; we have $r \relbAsy s$ if, for some $i \ge 1$ and some channel ($p$,$q$):
 \begin{itemize}\itemsep=0.5ex
 	\item There are $k+1$ send events $(s_1, \dots, s_k, s)$, where at least one is matched, such that $s_1 \procrel^+ \dots \procrel^+ s_k \procrel^+ s$.
  	\item $r$ is the first receive event for the matched send events among $s_1, \dots, s_k, s$.
 \end{itemize}
 
 \begin{proposition}\label{prop:asy_ek_def_alt}
-	An MSC $\msc$ is $\exists k$-bounded if and only if $\le \cup \relbAsy$ is acyclic and, for each channel ($p$,$q$), there are at most $k$ unmatched send events.
+	An MSC $\msc$ is $\exists k$-bounded if and only if $\happensbefore \cup \relbAsy$ is acyclic and, for each channel ($p$,$q$), there are at most $k$ unmatched send events.
 \end{proposition}
 \begin{proof}
-	($\Rightarrow$) Suppose $\msc$ is $\exists k$-bounded, which by definition means there is at least one $k$-bounded linearization $\linrel$. Firstly, notice that every MSC that has more than $k$ unmatched send events in any channel cannot be an $\exists k$-bounded MSC. We already know that $\le \subseteq \linrel$, and we will show show that also $\relbAsy \subseteq \linrel$. This implies that $\le \cup \relbAsy$ is acyclic, otherwise we would not be able to find a linearization $\linrel$ that respects both $\le$ and $\relbAsy$. Suppose, by contradiction, that $\relbAsy \nsubseteq \linrel$, i.e. there are two events $r$ and $s$ such that $r \relbAsy s$ and $s \linrel r$. By definition of $\relbAsy$, there are $k$ send events in a channel ($p$,$q$) that are executed before $s$, and whose respective receive events happens after $r$. If $s$ is executed before $r$ in the linearization, there will be $k+1$ messages in channel (i.e. $\linrel$ is not a $k$-bounded linearization). We reached a contradiction, hence $\relbAsy \subseteq \linrel$ and $\le \cup \relbAsy$ is acyclic.\newline
-	($\Leftarrow$) Suppose $\le \cup \relbAsy$ is acyclic and, for each channel ($p$,$q$), there are at most $k$ unmatched send events. If $\le \cup \relbAsy$ is acyclic, we are able to find at least one linearization $\linrel$ for the partial order $(\le \cup \relbAsy)^\ast$. We want to show that this linearization is $k$-bounded. By contradiction, suppose $\linrel$ is not $k$-bounded, i.e. we are able to find $k+1$ send events $s_1 \procrel^+ \dots \procrel^+ s_k \procrel^+ s$ on a channel ($p$,$q$), such that $s$ is executed before any of the respective receive events takes place. There are two possible scenarios:
+	($\Rightarrow$) Suppose $\msc$ is $\exists k$-bounded, which by definition means there is at least one $k$-bounded linearization $\linrel$. Firstly, notice that every MSC that has more than $k$ unmatched send events in any channel cannot be an $\exists k$-bounded MSC. We already know that $\happensbefore \subseteq \linrel$, and we will show show that also $\relbAsy \subseteq \linrel$. This implies that $\happensbefore \cup \relbAsy$ is acyclic, otherwise we would not be able to find a linearization $\linrel$ that respects both $\happensbefore$ and $\relbAsy$. Suppose, by contradiction, that $\relbAsy \nsubseteq \linrel$, i.e. there are two events $r$ and $s$ such that $r \relbAsy s$ and $s \linrel r$. By definition of $\relbAsy$, there are $k$ send events in a channel ($p$,$q$) that are executed before $s$, and whose respective receive events happens after $r$. If $s$ is executed before $r$ in the linearization, there will be $k+1$ messages in channel (i.e. $\linrel$ is not a $k$-bounded linearization). We reached a contradiction, hence $\relbAsy \subseteq \linrel$ and $\happensbefore \cup \relbAsy$ is acyclic.\newline
+	($\Leftarrow$) Suppose $\happensbefore \cup \relbAsy$ is acyclic and, for each channel ($p$,$q$), there are at most $k$ unmatched send events. If $\happensbefore \cup \relbAsy$ is acyclic, we are able to find at least one linearization $\linrel$ for the partial order $(\happensbefore \cup \relbAsy)^\ast$. We want to show that this linearization is $k$-bounded. By contradiction, suppose $\linrel$ is not $k$-bounded, i.e. we are able to find $k+1$ send events $s_1 \procrel^+ \dots \procrel^+ s_k \procrel^+ s$ on a channel ($p$,$q$), such that $s$ is executed before any of the respective receive events takes place. There are two possible scenarios:
 	\begin{itemize}\itemsep=0.5ex
 		\item Suppose all the $k+1$ send events are unmatched. This is impossible, since we supposed that there are at most $k$ unmatched send events for any channel.
-		\item Suppose there is at least one matched send event between the $k+1$ sends. Let the first matched send event be $s_i$ and let $r$ be the receive event that is executed first among the receive events for these $k+1$ sends. By hypothesis, $s \linrel r$. However, according to the definition of $\relbAsy$, we must have $r \relbAsy s$. We reached a contradiction, since we cannot have that $s$ happens before $r$ in a linearization for the partial order $(\le \cup \relbAsy)^\ast$, if $r \relbAsy s$.
+		\item Suppose there is at least one matched send event between the $k+1$ sends. Let the first matched send event be $s_i$ and let $r$ be the receive event that is executed first among the receive events for these $k+1$ sends. By hypothesis, $s \linrel r$. However, according to the definition of $\relbAsy$, we must have $r \relbAsy s$. We reached a contradiction, since we cannot have that $s$ happens before $r$ in a linearization for the partial order $(\happensbefore \cup \relbAsy)^\ast$, if $r \relbAsy s$.
 	\end{itemize}
 \end{proof}
 
 \noindent According to Proposition~\ref{prop:asy_ek_def_alt}, we can write the MSO formula the defines $\exists k$-bounded MSCs as
 \[
 \Psi_{\exists k}=
-acyclic(\le \cup \relbAsy) \;\wedge\;
+acyclic(\happensbefore \cup \relbAsy) \;\wedge\;
 \neg \left(
 	\exists s_1 \dots s_{k+1}. s_1 \procrel^+ \dots \procrel^+ s_{k+1} \;\wedge \;
 	allSends\_p\_q(k+1) \;\wedge\; allUnm
@@ -519,7 +519,7 @@ allSends\_p\_q (t) =
 \[
 allUnm = \bigwedge_{s \in {s_1, ..., s_{k+1}}}(\neg \mathit{matched}(s))
 \]
-where $acyclic(\le \cup \relbAsy)$ is an MSO formula that checks the acyclicity of $\le \cup \relbAsy$, and the $\relbAsy$ relation can be defined as
+where $acyclic(\happensbefore \cup \relbAsy)$ is an MSO formula that checks the acyclicity of $\happensbefore \cup \relbAsy$, and the $\relbAsy$ relation can be defined as
 \[
 r \relbAsy s= \exists s_1 \dots s_{k+1}. \left(
 \begin{array}{rl}
@@ -613,14 +613,14 @@ As for the existential case, the definitions for the other communication models 
 \paragraph*{MSO-definability}
 
 In this section, we will investigate the MSO-definability of all the variants of universally $k$-bounded MSCs that we discussed.
-In \cite{DBLP:conf/fossacs/LohreyM02}, it is shown that an MSC $\msc$ is universally $k$-bounded if and only if $\relb \;\subseteq\; \le$. In other words, $r \relb s \Rightarrow r \le s$ for any two events $r$ and $s$. This is equivalent to saying that every linearization $\linrel$ of $\msc$ respects the $\relb$ relation, since $\relb \;\subseteq\; \le \;\subseteq\; \linrel$. We already saw that $\relb$ is not MSO-definable when communication is asynchronous, hence we will use the $\relbAsy$ relation to give the following alternative characterization of universally $k$-bounded MSCs.
+In \cite{DBLP:conf/fossacs/LohreyM02}, it is shown that an MSC $\msc$ is universally $k$-bounded if and only if $\relb \;\subseteq\; \happensbefore$. In other words, $r \relb s \Rightarrow r \happensbefore s$ for any two events $r$ and $s$. This is equivalent to saying that every linearization $\linrel$ of $\msc$ respects the $\relb$ relation, since $\relb \;\subseteq\; \happensbefore \;\subseteq\; \linrel$. We already saw that $\relb$ is not MSO-definable when communication is asynchronous, hence we will use the $\relbAsy$ relation to give the following alternative characterization of universally $k$-bounded MSCs.
 
 \begin{proposition}
-	An MSC $\msc$ is $\forall k$-bounded if and only if $\relbAsy \;\subseteq\; \le$ and, for each channel ($p$,$q$), there are at most $k$ unmatched send events.
+	An MSC $\msc$ is $\forall k$-bounded if and only if $\relbAsy \;\subseteq\; \happensbefore$ and, for each channel ($p$,$q$), there are at most $k$ unmatched send events.
 \end{proposition}
 \begin{proof}
-	($\Rightarrow$) Suppose $\msc$ is $\forall k$-bounded, which by definition means that all of its linearization are $k$-bounded. Firstly, notice that every MSC that has more than $k$ unmatched send events in any channel cannot be an $\forall k$-bounded MSC (not even $\exists k$-bounded). By contradiction, suppose that $\relbAsy \;\nsubseteq\; \le$, i.e. there are two events $r$ and $s$ such that $r \relbAsy s$ and $r \nleq s$. If $r \nleq s$, we either have that $s \le r$ or that $s$ and $r$ are incomparable w.r.t. $\le$; note that, in both cases, $\msc$ must have one linearization where $s$ happens before $r$\footnote{If two elements $a$ and $b$ of a set are incomparable w.r.t. a partial order $\le$, it is always possible to find a total order of the elements (that respects $\le$) where $a$ comes before $b$, or viceversa.}. The existence of such a linearization implies that $\msc$ is not $\forall k$-bounded.
-	($\Leftarrow$) Suppose $\relbAsy \;\subseteq\; \le$ and, for each channel ($p$,$q$), there are at most $k$ unmatched send events. By definition, every linearization $\linrel$ of $\msc$ is such that $\le \;\subseteq\; \linrel$; it follows that $\relbAsy \;\subseteq\; \linrel$, which means that every linearization of $\msc$ is $k$-bounded, i.e. $\msc$ is $\forall k$-bounded.
+	($\Rightarrow$) Suppose $\msc$ is $\forall k$-bounded, which by definition means that all of its linearization are $k$-bounded. Firstly, notice that every MSC that has more than $k$ unmatched send events in any channel cannot be an $\forall k$-bounded MSC (not even $\exists k$-bounded). By contradiction, suppose that $\relbAsy \;\nsubseteq\; \happensbefore$, i.e. there are two events $r$ and $s$ such that $r \relbAsy s$ and $r \nleq s$. If $r \nleq s$, we either have that $s \happensbefore r$ or that $s$ and $r$ are incomparable w.r.t. $\happensbefore$; note that, in both cases, $\msc$ must have one linearization where $s$ happens before $r$\footnote{If two elements $a$ and $b$ of a set are incomparable w.r.t. a partial order $\le$, it is always possible to find a total order of the elements (that respects $\le$) where $a$ comes before $b$, or viceversa.}. The existence of such a linearization implies that $\msc$ is not $\forall k$-bounded.
+	($\Leftarrow$) Suppose $\relbAsy \;\subseteq\; \happensbefore$ and, for each channel ($p$,$q$), there are at most $k$ unmatched send events. By definition, every linearization $\linrel$ of $\msc$ is such that $\happensbefore \;\subseteq\; \linrel$; it follows that $\relbAsy \;\subseteq\; \linrel$, which means that every linearization of $\msc$ is $k$-bounded, i.e. $\msc$ is $\forall k$-bounded.
 \end{proof}
 
 It follows that $\oneone$-$\forall k$-bounded and $\co$-$\forall k$-bounded MSCs are MSO-definable by definition, since $\oneone$ MSCs, causally ordered MSCs, and universally $k$-bounded MSCs are all MSO-definable. We already showed that $\relb$ is MSO-definable when considering $\oneone$ communication. The characterization for the other communication models is similar to that given in \cite{DBLP:conf/fossacs/LohreyM02}, but it uses the proper relation for each communication model.

@@ -2,15 +2,15 @@ In order to prove Theorem \ref{thm:sync}, we first need to introduce some concep
 
 \begin{definition}[Prefix]
 	Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and consider
-	$E \subseteq \Events$ such that $E$ is ${\le}$-\emph{downward-closed}, i.e,
-	for all $(e,f) \in {\le}$ such that $f \in E$, we also have $e \in E$.
+	$E \subseteq \Events$ such that $E$ is ${\happensbefore}$-\emph{downward-closed}, i.e,
+	for all $(e,f) \in {\happensbefore}$ such that $f \in E$, we also have $e \in E$.
 	Then, the MSC $M' = (E,{\procrel} \cap (E \times E),{\lhd} \cap (E \times E),\lambda')$,
 	where $\lambda'$ is the restriction of $\Events$ to $E$, is called a \emph{prefix}
 	of $\msc$. 	
 \end{definition}
 
 If we consider a set $E$ that is ${\onenpartial}$-\emph{downward-closed}, we call $M'$ a \emph{$\onen$ prefix}.
-If the set $E$ is ${\nnbowtie}$-\emph{downward-closed}, we call $M'$ a \emph{$\nn$ prefix}. Note that every $\onen$ or $\nn$ prefix is also a prefix, since $\le \subseteq {\onenpartial}$ and $\le \subseteq {\nnbowtie}$.
+If the set $E$ is ${\nnbowtie}$-\emph{downward-closed}, we call $M'$ a \emph{$\nn$ prefix}. Note that every $\onen$ or $\nn$ prefix is also a prefix, since $\happensbefore \subseteq {\onenpartial}$ and $\happensbefore \subseteq {\nnbowtie}$.
 
 Note that the empty MSC is a prefix of $\msc$.
 We denote the set of prefixes of $\msc$ by $\Pref{\msc}$, whereas $\Prefonen{\msc}$ and $\Prefnn{\msc}$ are used for the $\onen$ and the $\nn$ variants, respectively.
@@ -23,7 +23,7 @@ $\Pref{L} = \bigcup_{\msc \in L} \Pref{\msc}$.
 \end{proposition}
 \begin{proof}
     For $\comsymb = \asy$ it is true by definition. For $\comsymb = \{\oneone, \none\}$ it was already shown to be true in \cite{BolligGFLLS21}, so we just consider $\comsymb = \co$. Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \coMSCs$ and let $\msc_0 =
-    (\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a	causally ordered MSC. There must be two distinct $s,s' \in \Events_0$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \le_{\msc_0} s'$ and either
+    (\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a	causally ordered MSC. There must be two distinct $s,s' \in \Events_0$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \happensbefore^{(\msc_0)} s'$ and either
     \begin{enumerate*}[label={(\roman*)}]
         \item $r' \procrel^+ r$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$, or
         \item $s \in \Unm{\msc_0}$ and $s' \in \Matched{\msc_0}$.
@@ -80,7 +80,7 @@ Note that this proposition is not true for the $\onen$ and the $\nn$ communicati
 \end{proposition}
 \begin{proof}
 	Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \nnMSCs$ and let $\msc_0 =
-	(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a $\nn$ prefix of $\msc$, where $\Events_0 \subseteq \Events$. Firstly, the $\nnbowtieofmsc\msc$-downward-closeness of $\Events_0$ guarantees that ${\msc_0}$ is still an MSC. We need to prove that it is a $\nn$ MSC. By contradiction, suppose that $\msc_0$ is not a $\nn$ MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \nnbowtieofmsc{\msc_0} f \nnbowtieofmsc{\msc_0} e$. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, ${\nnrel0} \subseteq {\nnrel}$. Clearly, $\nnbowtieofmsc{\msc_0} \subseteq\; \nnbowtieofmsc\msc$, so $e \nnbowtieofmsc\msc f \nnbowtieofmsc\msc e$. This implies that $\msc$ is not a $\nn$ MSC, because $\nnbowtieofmsc\msc$ is cyclic, which is a contradiction. Hence $\msc_0$ is a $\nn$ MSC.
+	(\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a $\nn$ prefix of $\msc$, where $\Events_0 \subseteq \Events$. Firstly, the $\nnbowtieofmsc\msc$-downward-closeness of $\Events_0$ guarantees that ${\msc_0}$ is still an MSC. We need to prove that it is a $\nn$ MSC. By contradiction, suppose that $\msc_0$ is not a $\nn$ MSC. Then, there are distinct $e,f \in \Events_0$ such that $e \nnbowtieofmsc{\msc_0} f \nnbowtieofmsc{\msc_0} e$. As $\Events_0 \subseteq \Events$, we have that ${\rightarrow_0} \subseteq {\rightarrow}$, ${\lhd_0} \subseteq {\lhd}$, ${\nnrel} \subseteq {\nnrel}$. Clearly, $\nnbowtieofmsc{\msc_0} \subseteq\; \nnbowtieofmsc\msc$, so $e \nnbowtieofmsc\msc f \nnbowtieofmsc\msc e$. This implies that $\msc$ is not a $\nn$ MSC, because $\nnbowtieofmsc\msc$ is cyclic, which is a contradiction. Hence $\msc_0$ is a $\nn$ MSC.
 \end{proof}
 
 The next lemma is about the prefix closure of a communicating system and it follows from Proposition \ref{prop:prefixes}.
@@ -119,7 +119,7 @@ In this last section we prove a series of statements to conclude that, when we h
     Already proved in \cite{BolligGFLLS21}, but we provide more details for a clearer understanding.
     Let $k$ and $\Class$ be fixed, and let
     $\msc\in \MSCs\setminus \Class$ be fixed. If the empty MSC is not in $\Class$, then we are done, since it is a valid prefix of $\msc$ and it is in $\stwMSCs{(k+2)} \setminus \Class$.
-    Otherwise, let $\msc'\in \Pref{\msc} \setminus \Class$ such that, for all $\le$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\le$-maximal events. Let $e$ be $\le_{\msc'}$-maximal and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
+    Otherwise, let $\msc'\in \Pref{\msc} \setminus \Class$ such that, for all $\happensbefore$-maximal events $e$ of $\msc'$, removing $e$ (along with its adjacent edges) gives an MSC in $\Class$. In other words, $\msc'$ is the "shortest" prefix of $\msc$ that is not in $\Class$. We obtain such an MSC by successively removing $\happensbefore$-maximal events. Let $e$ be a $\happensbefore$-maximal event of $\msc'$, and let $\msc''=\msc' \setminus \{e\}$. Since $\msc'$ was taken minimal in terms of number of events,	$\msc''\in \Class$.
     So Eve has a winning strategy with $k+1$ colours for $\msc''$.
     Let us design a winning strategy with $k+3$ colours for Eve for $\msc'$, which will show the claim.
 
