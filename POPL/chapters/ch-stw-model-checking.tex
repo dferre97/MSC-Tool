@@ -94,7 +94,7 @@ Courcelle's theorem implies that the following problems is
 decidable: given a MSO formula $\amsoformula$ and $k\geq 1$,
 decide whether $\amsoformula$ holds for all MSCs $\msc\in\stwMSCs{k}$.
 Therefore, a direct consequence of Courcelle's theorem and of our MSO characterisation
-of the communication models is that bounded-model-checking is decidable.
+of the communication models is that bounded-model-checking is decidable\footnote{cfr. proof in Appendix \ref{proofbmc}}.
 
 \begin{restatable}{theorem}{thmBoundedMC}\label{thm:bounded-model-checking}
 Let $\comsymb\in\{\asy, \co, \pp, \mb, \onen, \nn, \rsc\}$ and $k\geq 1$ be fixed.
@@ -126,24 +126,55 @@ We generalize their result to other communication models under a general assumpt
 \begin{restatable}{theorem}{thmsync}\label{thm:sync}
 %	Fix finite sets $\Procs$ and $\Msg$.
 	For any $\comsymb \in \{\asy, \oneone, \co, \none, \onen, \nn\}$ and
-	for all class $\aMSCclass \subseteq \MSCs$ of MSCs,
+	for all   class of MSCs $\aMSCclass$,
 	if $\aMSCclass$ is STW-bounded and MSO-definable,
 	then the $(\comsymb,\aMSCclass)$-synchronisability problem is decidable.
 \end{restatable}
 The proof of Theorem~\ref{thm:sync} resembles the proof of~\cite[Theorem~11]{BolligGFLLS21-long}, and the main technical argument of the existence of a "borderline violation" remains 
 (see~\cite[Lemma~9]{BolligGFLLS21-long}). However, the existence of a borderline violation is more subtle to establish, because the $\MSCclassofcom{\onen}$ and 
-$\MSCclassofcom{\nn}$ are not prefixed-closed (see Fig~\ref{fig:onen-prefix}).
-A way to solve this technical problem is to consider a different notion of prefix. All details of
+$\MSCclassofcom{\nn}$ are not prefixed-closed (see Fig.~\ref{fig:onen-prefix}).
+A way to solve this technical problem is to consider a more strict notion of prefix. All details of
 the proof of Theorem~\ref{thm:sync} can be found in Appendix~\ref{apx:sync}.
 
+\begin{figure}[t]
+	\captionsetup[subfigure]{justification=centering}
+% \centering
+\begin{subfigure}[t]{0.45\textwidth}\centering
+	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+		\newproc{0}{p}{-1.5};
+		\newproc{1}{q}{-1.5};
+		\newproc{2}{r}{-1.5};
 
-In the next sections, we investigate which combinations of $\comsymb$ and $\aMSCclass$ fit the hypotheses of this theorem.
+		\newmsgm{0}{1}{-0.5}{-0.5}{1}{0.3}{black};
+		\newmsgm{0}{2}{-1.0}{-1.0}{2}{0.7}{black};
+
+	\end{tikzpicture}
+	\caption{A $\nn$ MSC $\msc$.}
+\end{subfigure}
+% \hfill
+\begin{subfigure}[t]{0.45\textwidth}\centering
+	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+		\newproc{0}{p}{-1.5};
+		\newproc{1}{q}{-1.5};
+		\newproc{2}{r}{-1.5};
+
+		\newmsgum{0}{1}{-0.5}{1}{0.3}{black};
+		\newmsgm{0}{2}{-1.0}{-1.0}{2}{0.7}{black};
+
+	\end{tikzpicture}
+	\caption{A prefix of $\msc$.}
+\end{subfigure}
+	\caption{A $\nn$ MSC with a prefix that is neither $\onen$ nor $\nn$.}
+	\label{fig:onen-prefix}
+\end{figure}
+
+In the remainder, we investigate which combinations of $\comsymb$ and $\aMSCclass$ fit the hypotheses of this theorem.
 We review the classes of weakly synchronous and weakly k-synchronous inspired
 by~\cite{DBLP:conf/cav/BouajjaniEJQ18},
 and the classes of existentially $k$-bounded and universally $k$-bounded MSCs~\cite{genest2004kleene}.
-
+%
 % As shown in \cite{BolligGFLLS21}, if we have a system $\Sys$ and a STW-bounded class $\aMSCclass$, then the model-checking problem\footnote{Given $\Procs$ and $\Msg$, a communicating system $\Sys$, an MSO sentence $\phi$, do we have $\cL{\Sys} \subseteq L(\phi)?$} for $\Sys$ becomes decidable if $L(S) \subseteq \aMSCclass$; this motivates the study of the synchronizability problem.
-
+%
 Fig.~\ref{fig:stw-bound} summarizes the decidability results of the
 $(\comsymb,\aMSCclass)$-synchronizability problem for each combination of $\comsymb$ and $\aMSCclass$ 
 we will consider in the next sections.
@@ -161,7 +192,7 @@ we will consider in the next sections.
 % 	Given a system $\System = (Loc_p, \delta_p, \ell^0_p)_{p\in\procSet}$ with $n$ processes, a \emph{configuration} is a tuple $(\vv{\ell},\buffers,\clocks)$, where $\vv{\ell}=(\ell_p)_{p \in \procSet}$ represents the global state of the system, $\buffers=(b_p)_{p \in \procSet}$ is a vector of buffers, with each $b_p \in \Msg^*$ representing the content of the buffer of process $p$, and $\clocks=(v_p)_{p \in \procSet}$ is a vector of Mattern-Fidge logical clocks, where each $v_p = (time_i)_{i \in \procSet}$ represents the content of the logical vector clock of process $p$.
 % \end{definition}
 
-\subsection{Weakly synchronous MSCs}
+\paragraph{\bf Weakly synchronous MSCs}
 
 We first introduce the class of weakly synchronous MSCs. 
 This is a generalization of $k$-synchronous MSCs studied 

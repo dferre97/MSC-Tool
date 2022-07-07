@@ -19,51 +19,21 @@ $\Pref{L} = \bigcup_{\msc \in L} \Pref{\msc}$.
 
 \begin{proposition}
 	\label{prop:prefixes}
-	For $\comsymb \in \{\asy, \oneone, \co, \none\}$, every prefix of a $\comsymb$ MSC is a $\comsymb$ MSC.
+	For $\comsymb \in \{\asy, \oneone, \co, \none\}$, every prefix of a $\comsymb$-MSC is a $\comsymb$-MSC.
 \end{proposition}
 \begin{proof}
     For $\comsymb = \asy$ it is true by definition. For $\comsymb = \{\oneone, \none\}$ it was already shown to be true in \cite{BolligGFLLS21}, so we just consider $\comsymb = \co$. Let $\msc = (\Events, \procrel, \lhd, \lambda) \in \coMSCs$ and let $\msc_0 =
-    (\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a	causally ordered MSC. There must be two distinct $s,s' \in \Events_0$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \happensbefore^{(\msc_0)} s'$ and either
+    (\Events_0, \procrel_0, \lhd_0, \lambda_0)$ be a prefix of $\msc$. By contradiction, suppose that $\msc_0$ is not a \co-MSC. There must be two distinct $s,s' \in \Events_0$ such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, $s \happensbefore^{(\msc_0)} s'$ and either
     \begin{enumerate*}[label={(\roman*)}]
         \item $r' \procrel^+ r$, where $r$ and $r'$ are two receive events such that $s \lhd r$ and $s' \lhd r'$, or
         \item $s \in \Unm{\msc_0}$ and $s' \in \Matched{\msc_0}$.
     \end{enumerate*}
-    In both cases, $\msc$ would also not be a causally ordered $\MSCs$, since $\Events_0 \subseteq \Events$, ${\rightarrow_0} \subseteq {\rightarrow}$, and ${\lhd_0} \subseteq {\lhd}$. This is a contradiction, thus $\msc_0$ has to be causally ordered.
+    In both cases, $\msc$ would also not be a \co-a $\MSCs$, since $\Events_0 \subseteq \Events$, ${\rightarrow_0} \subseteq {\rightarrow}$, and ${\lhd_0} \subseteq {\lhd}$. This is a contradiction, thus $\msc_0$ has to be causally ordered.
 \end{proof}
 
 Note that this proposition is not true for the $\onen$ and the $\nn$ communication models. Fig.\ref{fig:onen-prefix} shows an example of $\nn$ MSC with a prefix that is neither a $\nn$ MSC nor a $\onen$ MSC.
 
-\begin{figure}[t]
-	\captionsetup[subfigure]{justification=centering}
-% \centering
-\begin{subfigure}[t]{0.45\textwidth}\centering
-	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
-		\newproc{0}{p}{-1.5};
-		\newproc{1}{q}{-1.5};
-		\newproc{2}{r}{-1.5};
 
-		\newmsgm{0}{1}{-0.5}{-0.5}{1}{0.3}{black};
-		\newmsgm{0}{2}{-1.0}{-1.0}{2}{0.7}{black};
-
-	\end{tikzpicture}
-	\caption{A $\nn$ MSC $\msc$.}
-\end{subfigure}
-% \hfill
-\begin{subfigure}[t]{0.45\textwidth}\centering
-	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
-		\newproc{0}{p}{-1.5};
-		\newproc{1}{q}{-1.5};
-		\newproc{2}{r}{-1.5};
-
-		\newmsgum{0}{1}{-0.5}{1}{0.3}{black};
-		\newmsgm{0}{2}{-1.0}{-1.0}{2}{0.7}{black};
-
-	\end{tikzpicture}
-	\caption{A prefix of $\msc$.}
-\end{subfigure}
-	\caption{A $\nn$ MSC with a prefix that is neither $\onen$ nor $\nn$.}
-	\label{fig:onen-prefix}
-\end{figure}
 
 \begin{proposition}
 	\label{prop:prefixes-onen}
