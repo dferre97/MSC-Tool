@@ -1,6 +1,5 @@
-
-
 % !TEX root = ../popl-paper.tex
+
 Reasoning about distributed message-passing applications is  hard. The degree of asynchrony
 of the communication model is  an important ingredient of the application.
 One reason
@@ -64,7 +63,7 @@ over events. Consider the events $!1$ and $!2$ in Fig.~\ref{fig:msc_ex}, which a
 		\newevent{black}{0}{-1.9}{?3}{left};
 
 	\end{tikzpicture}
-	\captionof{figure}{Red arrows between $!2$ and $?3$ denote a causal path.}
+	\captionof{figure}{Red arrows denote a causal path.}
 	\label{fig:msc_ex}
 \end{wrapfigure}
 
@@ -150,7 +149,7 @@ Our contributions are the following:
 			& Weakly  & Weakly  & $\exists$k & $\forall$k  \\
 			& sync & k-sync & bounded & bounded \\
 			\hline \hline
-			$\asy$ &  \xmark & \cmark & \cmark & \cmark \\
+			$\asy$ &  unbounded STW & \cmark & \cmark & \cmark \\
 			\hline
 			$\oneone$  & \xmark~[1] & \cmark~[1] & \cmark~[1] & \cmark~[1] \\
 			\hline
