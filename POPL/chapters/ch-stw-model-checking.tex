@@ -318,11 +318,7 @@ such that every $\msc_i$ is a $k$-exchange.
 \begin{example}
 MSC $\mscweakSexist$ in Fig.~\ref{fig:msc_weak_S_exist} is weakly $1$-synchronous, as it can be
 decomposed  into three \kE{1}s (the decomposition is depicted by the
-horizontal dashed lines). We remark that $\mscweakSexist \in
-\mbMSCs$. Note that there is a p2p linearization that respects the decomposition.
-On the other hand, a mailbox linearization needs to reorganize actions from different MSCs: the sending of
-$\msg_3$ needs to be done before the sending of $\msg_1$. Note that $\mscweakuniver$ in
-Fig.~\ref{fig:msc_weak_univer} is also weakly $1$-synchronous.
+horizontal dashed lines).
 \end{example}
 
 As for weakly synchronous MSCs, the class of weakly $k$-synchronous MSCs was already shown to be MSO-definable and STW-bounded in \cite{BolligGFLLS21}, and these results still hold even for our definition of MSC. A direct application of Theorem~\ref{thm:sync} shows that, for weakly $k$-synchronous MSCs, $SP$ is decidable for all communication models.
@@ -463,22 +459,6 @@ Following the approach taken in \cite{DBLP:conf/fossacs/LohreyM02}, we introduce
 \end{enumerate}
 Note that, for any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed after $s$ cannot be $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization". A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.
 
-% \begin{wrapfigure}{r}{0pt}
-% 	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
-% 		every state/.style={text=black, scale =0.7}, semithick,
-% 		font={\fontsize{8pt}{12}\selectfont}, scale = 0.8]
-
-% 		\newproc{0}{p}{-2.2};
-% 		\newproc{2}{q}{-2.2};
-	
-% 		\newmsgm{0}{2}{-.4}{-.4}{1}{0.3}{black};
-% 		\newmsgm{0}{2}{-1.1}{-1.1}{2}{0.3}{black};
-% 		\newmsgm{0}{2}{-1.8}{-1.8}{3}{0.3}{black};
-
-% 	\end{tikzpicture}
-% 	\label{fig:bounded_lin_ex}
-% 	\caption{An MSC.}
-% \end{wrapfigure}
 \begin{wrapfigure}[9]{r}{0pt}
 	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
 		every state/.style={text=black, scale =0.7}, semithick,
@@ -494,7 +474,7 @@ Note that, for any two events $s$ and $r$ such that $r \relb s$, every lineariza
 
 	\end{tikzpicture}
 	\caption{A simple MSC.}
-	\label{fig:msc_exist}
+	\label{fig:bounded_lin_ex}
 \end{wrapfigure}
 
 \begin{example}

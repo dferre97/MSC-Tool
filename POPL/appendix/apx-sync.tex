@@ -85,7 +85,7 @@ Note that this proposition is not true for the $\onen$ and the $\nn$ communicati
 
 The next lemma is about the prefix closure of a communicating system and it follows from Proposition \ref{prop:prefixes}.
 
-\begin{proposition}\label{lem:co-prefix-closed}
+\begin{proposition}\label{lem:prefix-closed}
 	For all $\comsymb \in \{\asy, \ppsymb, \mbsymb, \cosymb\}$, $\cL{\Sys}$ is prefix-closed:
 	$\Pref{\cL{\Sys}} \subseteq \cL{\Sys}$.
 \end{proposition}
@@ -178,6 +178,6 @@ For $\comsymb \in \{$$\asy, $ $\oneone, $ $\co, $ $\none\}$, it follows from Pro
 \thmsync*
 \begin{proof}
     According to Proposition~\ref{prop:continuous}, we have $\cL{\System} \subseteq \Class$ iff
-	$\cL{\System} \cap \stwMSCs{(k+2)} \subseteq \Class$. The latter is decidable according to Theorem~\ref{thm:bounded_model_checking}.
+	$\cL{\System} \cap \stwMSCs{(k+2)} \subseteq \Class$. The latter is decidable according to Theorem~\ref{thm:bounded-model-checking}.
 \end{proof}
 
