@@ -107,7 +107,7 @@ The MSO-definability of $\mbMSCs$ follows from Definition~\ref{def:n_one_alt}; i
 $\mbpartial$ is reflexive and transitive by definition, 
 thus we just have to check acyclicity:
 \[
-	\mbformula = \ppformula \;\wedge\; \neg \exists x.\ x \mbpartialstrict x 
+	\mbformula = \neg \exists x.\ x \mbpartialstrict x 
 \]
 %This formula closely follows Definition~\ref{def:n_one_alt}. The set $\mbMSCs$ of $\none$ MSCs is therefore MSO-definable as $\mbMSCs=L(\mbformula)$.
 
@@ -242,7 +242,7 @@ Finally  the other side of the equivalence (Definition \ref{def:n_n} $\Rightarro
 %Proposition~\ref{prop:n_n_cycl} and Proposition~\ref{prop:nn_algo_term} are sufficient to prove that Definition~\ref{def:n_n_alt} and Definition~\ref{def:n_n} are equivalent.
 Based on Definition~\ref{def:n_n_alt}, we can finally write an MSO formula for $\nn$ MSCs:
 \[
-	\nnformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \nnbowtie y \wedge y \nnbowtie x)
+	\nnformula = \neg \exists x. x \nnbowtie^{+} x 
 \]
 where we can define $x \nnbowtie y$ as
 \[
