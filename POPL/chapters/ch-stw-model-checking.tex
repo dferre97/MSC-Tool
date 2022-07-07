@@ -200,7 +200,7 @@ in~\cite{DBLP:conf/cav/BouajjaniEJQ18}.
 We say an MSC is weakly synchronous if it can be chunked into \emph{exchanges}, where an exchange is an MSC that allows one to schedule all 
 sends before all receives. 
 
-\begin{definition}[exchange]\label{def:weak-synchr}
+\begin{definition}[Exchange]\label{def:weak-synchr}
 Let $\msc = (\Events,\procrel,\lhd,\lambda)$ be an MSC.
 We say that $\msc$ is an \emph{exchange} if
 $\SendEv{\msc}$ is
@@ -250,7 +250,7 @@ If that is the case, we can find a linearization for $\msc$ where all the send e
 receive events. Remember that $\msc_1\cdot\msc_2$ denote the vertical concatenation of MSCs (see 
 Section~\ref{sec:MSC}).
 
-\begin{definition}[weakly synchronous]\label{def:weaksync-new}
+\begin{definition}[Weakly synchronous]\label{def:weaksync-new}
 	We say that $\msc \in \MSCs$ is
 	\emph{weakly synchronous} if it is of the form
 	$\msc = \msc_1 \cdot \msc_2 \cdots \msc_n$
@@ -258,15 +258,15 @@ Section~\ref{sec:MSC}).
 \end{definition}
 
 \begin{example}\label{example:msc_W}
-	Consider the MSC $\mscW$ in Fig.~\ref{fig:msc_W}. It is is weakly synchronous. Indeed, $\amessage_1$, $\amessage_2$, and $\amessage_5$ are independent and can be put alone in an exchange. Repetitions of $\amessage_3$ and $\amessage_4$ are interlaced, but they constitute an exchange, as we can do all sends and then all receptions.
+	Consider the MSC $\mscW$ in Fig.~\ref{fig:msc_W}. It is is weakly synchronous. Indeed, $\amessage_1$, $\amessage_2$, and $\amessage_5$ are independent and can be put alone in an exchange. Repetitions of $\amessage_3$ and $\amessage_4$ are interleaved, but they constitute an exchange, as  all sends can be scheduled before all the receptions.
 \end{example}
 
 In \cite{BolligGFLLS21} it is shown that, for the class of weakly synchronous MSCs, 
 the synchronisability problem is undecidable for $\comsymb = \oneone$, but decidable for $\comsymb = \oneone$.
-Here we investigate the decidability of weak synchronability for other 
+Here we investigate the decidability of weak synchronisability for the other 
 communication models. We first show that weak synchronisability 
 is undecidable for causally ordered communication. 
-
+The proof adapts  the one of~\cite[Theorem~20]{BolligGFLLS21-long} to the $\oneone$ case (cfr. Appendix \ref{apx:thm-co-weak-sync}).
 \begin{restatable}{proposition}{thmCoWeakSync}
 \label{thm:co-weaksync}
 	The following problem is undecidable:
@@ -293,7 +293,7 @@ For $\onen$ and $\nn$, on the other hand, weak synchronisability is decidable.
 	% (see~\cite{BolligGFLLS21}).
 
 	% \etienne{Better cite CONCUR paper to say where to look for the proof (cite[Thm truc]\{paper bidule\}).}
-	We will consider $\comsymb = \onen$; the proof for $\comsymb = \nn$ follows the same steps. We would like to know if every MSC in $\onenL{\System}$ is in the class of weakly synchronous MSCs. Since every MSC in $\onenL{\System}$ is a $\onen$ MSC, we can equivalently restrict the problem to the class of weakly synchronous MSCs that are also $\onen$ MSCs. Let $\aMSCclass$ be the class of $\onen$ weakly synchronous MSCs; we show that $\aMSCclass$ is MSO-definable and STW-bounded, which implies the decidability of $SP$ for Theorem~\ref{thm:sync}. The class of weakly synchronous MSCs was shown to be MSO-definable in \cite{BolligGFLLS21}; to be precise, their characterisation is for $\oneone$ weakly synchronous MSCs (since their definition of MSC is equivalent to our definition of $\oneone$ MSC), but it also works for (asynchronous) weakly synchronous MSCs. We showed in Section~\ref{sec:MSO} that $\onenMSCs$ is MSO-definable; it follows that the class of $\onen$ weakly synchronous MSCs is also MSO-definable (we just take the conjuction of the the two formulas). The class of $\none$ weakly synchronous MSCs was shown to be STW-bounded in \cite{BolligGFLLS21}, and since $\onenMSCs \subset \mbMSCs$, we also have that the class of $\none$ weakly synchronous MSCs has a bounded special treewidth. 
+	We will consider $\comsymb = \onen$; the proof for $\comsymb = \nn$ is similar. We would like to know if every MSC in $\onenL{\System}$ is in the class of weakly synchronous MSCs. Since every MSC in $\onenL{\System}$ is a $\onen$ MSC, we can equivalently restrict the problem to the class of weakly synchronous MSCs that are also $\onen$ MSCs. Let $\aMSCclass$ be the class of $\onen$ weakly synchronous MSCs; we show that $\aMSCclass$ is MSO-definable and STW-bounded, which implies the decidability of $SP$ for Theorem~\ref{thm:sync}. The class of weakly synchronous MSCs was shown to be MSO-definable in \cite{BolligGFLLS21}; to be precise, their characterisation is for $\oneone$ weakly synchronous MSCs (since their definition of MSC is equivalent to our definition of $\oneone$ MSC), but it also works for (asynchronous) weakly synchronous MSCs. We showed in Section~\ref{sec:MSO} that $\onenMSCs$ is MSO-definable; it follows that the class of $\onen$ weakly synchronous MSCs is also MSO-definable (we just take the conjuction of the the two formulas). The class of $\none$ weakly synchronous MSCs was shown to be STW-bounded in \cite{BolligGFLLS21}, and since $\onenMSCs \subset \mbMSCs$, we also have that the class of $\none$ weakly synchronous MSCs has a bounded special treewidth. 
 \end{proof}
 
 \subsection{Weakly \texorpdfstring{$k$}{k}-synchronous MSCs}
