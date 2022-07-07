@@ -85,7 +85,7 @@ The set of MSCs whose special treewidth is at most $k$ is denoted by $\stwMSCs{k
 \begin{example}
 	Let $\msc$ the MSC of the Fig.~\ref{fig:pp_ex}. In this example, we show that $\msc$ has a special treewidth  $\le 3$, since Eve is able to find a strategy that leads to a 3-winning game.  We use colours to mark events. Eve starts by marking 4 events. The edges whose both endpoints are marked can be removed (dotted edges in the figure) and the graph becomes disconnected. Eve then splits the graph in 2 and Adam has to choose.
 	Suppose the Adam picks the subgraph with the red and yellow events already marked (top branch in the figure). Eve can mark the third event and, by doing so, the game ends.
-	Suppose Adam chooses the subgraph with the blue and green events (bottom branch). Eve marks the two nodes in the bottom, removes 3 edges, and splits the graph in two. Note that one of the two subgraphs already has all events marked, so Adam is picks the other one (top branch).
+	Suppose Adam chooses the subgraph with the blue and green events (bottom branch). Eve marks the two nodes in the bottom, removes 3 edges, and splits the graph in two. Note that one of the two subgraphs already has all events marked, so Adam zpicks the other one (top branch).
 	Eve simply marks the missing event and the game ends. This is a 3-winning game for Eve since, independently of Adam's choices, we have at most 4 marked event at each step.
 \end{example}
 \input{img/decomposition_game}
@@ -103,7 +103,7 @@ a MSO specification $\amsoformula$, decide whether
 $L_{\comsymb}(\Sys)\cap \stwMSCs{k}\subseteq L(\amsoformula)$.
 \end{restatable}
 
-\subsection{The synchronizability problem}
+\paragraph{\bf The synchronizability problem}
 
 Theorem~\ref{thm:bounded-model-checking} remains true if instead of
 $\stwMSCs{k}$ we bound the model-checking problem with
