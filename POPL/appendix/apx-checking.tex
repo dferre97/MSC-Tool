@@ -94,13 +94,13 @@ In particular, a node of $\cgraph{\msc}$ is either a single unmatched send event
    that there is a MSO formula
    $\msoformulaofcom{\comsymb}$
    that defines $\MSCclassofcom{\comsymb}$.
-   It is also folklore that there is a MSO formula
+   There is also a MSO formula
    $\amsoformula_{\Sys}$ such that
    $L_{\asy}(\Sys)=L(\amsoformula_{\Sys})$.\footnote{The formula
    simply encodes the existence of a run of $\Sys$ on the MSC
    using a monadic second order variable $X_l$ for each control
    state $l$, with the meaning that $X_l$ is the set of events
-   before which the local communicating automaton was in state $l$.}
+   before which the local communicating automaton was in state $l$. See for instance~\cite[Theorem~3.4]{DBLP:journals/corr/abs-1904-06942} for a detailed proof.}
    Putting it together, we have
     \[\begin{array}{rl}
     &L_{\comsymb}(\System) \cap \stwMSCs{k} \subseteq L(\amsoformula)\\[1ex]
