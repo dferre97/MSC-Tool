@@ -31,55 +31,47 @@ version of the ITU recommendation~\cite{messagesequencecharts}.
 Roughly speaking, a distributed system is composed by a set of
 sequential processes that can exchange messages. Each process executes a sequence of \emph{events}, which in our case will be either \emph{send}
 or \emph{receive} events. A send event $s$ and a receive event $r$ are said to be \emph{matching} if the message sent by $s$ is the same  that is
-received by $r$. A distributed computation is the \\
+received by $r$. 
+A distributed computation is the \\
 \noindent
-\begin{minipage}[c]{10.5cm}
- concurrent execution of each process. In an MSC, such as the one in Fig.~\ref{fig:msc_ex}, each
+concurrent execution of each process. In an MSC, such as the one in Fig.~\ref{fig:msc_ex}, each
 vertical line is called a \emph{process line} and it represents the order in which events are executed by a single process, with time running from
 top to bottom; arrows are used to represent messages and they connect a send event with the corresponding matching receive.
 Given a message $m_i$, we will use $!i$ and $?i$ to denote the corresponding matching send and receive events, respectively. A single process line defines a
 total order over the events executed by that process, i.e., an event $e$ happens before another event $e'$ if $e$ is higher in the process line;
 in Fig.~\ref{fig:msc_ex}, if we look at process $q$ we see that $?1$ happens before $?2$. However, in general MSCs only specify a partial order
-over events. Consider the events $!1$ and $!2$ in Fig.~\ref{fig:msc_ex}, which are executed by two different processes; these two events are \emph{truly
-concurrent}, 
-\end{minipage}
-	\hfill \vspace{0,5mm}
-\begin{minipage}[c]{3cm}
+over events. Consider the events $!1$ and $!2$ in Fig.~\ref{fig:msc_ex}, which are executed by two different processes; these two events are \emph{truly concurrent}, in the sense that this MSC does not tell us which one is executed first.
 
-	\begin{center}
-		\begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
-			\newproc{0}{p}{-2.5};
-			\newproc{1}{q}{-2.5};
-			\newproc{2}{r}{-2.5};
+\begin{wrapfigure}{r}{0pt}
+	\begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
+		\newproc{0}{p}{-2.5};
+		\newproc{1}{q}{-2.5};
+		\newproc{2}{r}{-2.5};
 
-			\newmsgm{0}{1}{-0.5}{-0.5}{1}{0.5}{black};
-			\newmsgm{2}{1}{-1.2}{-1.2}{2}{0.5}{black};
-			\newmsgm{1}{0}{-1.9}{-1.9}{3}{0.5}{black};
+		\newmsgm{0}{1}{-0.5}{-0.5}{1}{0.5}{black};
+		\newmsgm{2}{1}{-1.2}{-1.2}{2}{0.5}{black};
+		\newmsgm{1}{0}{-1.9}{-1.9}{3}{0.5}{black};
 
-			\newflechehorinverse{Purple}{-1.2}{2}{1};
-			\newflechevert{Purple}{1}{-1.3}{-2.0};
-			\newflechehorinverse{Purple}{-1.9}{1}{0};
+		\newflechehorinverse{Purple}{-1.2}{2}{1};
+		\newflechevert{Purple}{1}{-1.3}{-2.0};
+		\newflechehorinverse{Purple}{-1.9}{1}{0};
 
-			\newevent{black}{0}{-0.5}{!1}{left};
-			\newevent{black}{1}{-0.5}{?1}{right};
-			\newevent{black}{2}{-1.2}{!2}{right};
-			\newevent{black}{1}{-1.2}{?2}{left};
-			\newevent{black}{1}{-1.9}{!3}{below right};
-			\newevent{black}{0}{-1.9}{?3}{left};
+		\newevent{black}{0}{-0.5}{!1}{left};
+		\newevent{black}{1}{-0.5}{?1}{right};
+		\newevent{black}{2}{-1.2}{!2}{right};
+		\newevent{black}{1}{-1.2}{?2}{left};
+		\newevent{black}{1}{-1.9}{!3}{below right};
+		\newevent{black}{0}{-1.9}{?3}{left};
 
-		\end{tikzpicture}
-		\captionof{figure}{Red arrows between $!2$ and $?3$ denote a causal path.}
-		\label{fig:msc_ex}
-	\end{center}
+	\end{tikzpicture}
+	\captionof{figure}{Red arrows between $!2$ and $?3$ denote a causal path.}
+	\label{fig:msc_ex}
+\end{wrapfigure}
 
-\end{minipage}
-
-\davide{We should fix vertical space before minipage (lines 66/67), I don't know how to do it.}
-%
-\noindent in the sense that this MSC does not tell us which one is executed first. Even though events on different processes can be concurrent, this is not always the case. For instance, a send event must always happen
+\noindent Even though events on different processes can be concurrent, this is not always the case. For instance, a send event must always happen
 before the matching receive event. Graphically, this \emph{happens before} relation between events on different processes is represented
 by a path that follows the direction of the arrows and runs from top to bottom. This will be referred to as a \emph{causal path}, because it
-estabilishes a causal relation between events (see the red arrows in  Fig.~\ref{fig:msc_ex}). 
+estabilishes a causal relation between events. Fig.~\ref{fig:msc_ex} shows an example of causal path between the events $!2$ and $?3$. 
 % Consider events $!1$ and $?2$ of the MSC shown in Fig.~\ref{fig:msc_ex}. Even though they are executed by different processes, $?2$ must happen
 % before $!1$ because $?2$ must be executed after $!2$, which happens before $?1$, which in turn happens before $!1$.
 % The fact that $!1$ is higher on his own process line compared to $!2$ does not meaning anything with respect to the order in which they are
