@@ -379,6 +379,7 @@
 \newcommand{\extraorderconstraintofcom}[1]{\sqsubset_{#1}}
 \newcommand{\notextraorderconstraintofcom}[1]{{\not\sqsubset}_{#1}}
 \newcommand{\partialorderofcom}[1]{\preceq_{#1}}
+\newcommand{\notpartialorderofcom}[1]{{\not\preceq}_{#1}}
 \newcommand{\partialorderstrictofcom}[1]{\prec_{#1}}
 
 \newcommand{\mbrel}{\extraorderconstraintofcom{\ensuremath{\mathtt{mb}}}}
@@ -389,10 +390,10 @@
 \newcommand{\onenpartial}{\partialorderofcom{\ensuremath{\mathtt{1n}}}}
 
 %\newcommand{\nnrel}{\ltimes}
-\newcommand{\nnrel}{\extraorderconstraintofcom{\mathsf{1n/\mathsf{mb}}}}
+\newcommand{\nnrel}{\partialorderofcom{\mathsf{1n/\mathsf{mb}}}}
 \newcommand{\nnrelofmsc}[1]{\nnrel^{(#1)}}
-\newcommand{\notnnrel}{\notextraorderconstraintofcom{\mathsf{1n/n1}}}
-\newcommand{\notnnrelofmsc}[1]{\notextraorderconstraintofcom{\mathsf{1n/n1}}^{(#1)}}
+\newcommand{\notnnrel}{\notpartialorderofcom{\mathsf{1n/n1}}}
+\newcommand{\notnnrelofmsc}[1]{\notpartialorderofcom{\mathsf{1n/n1}}^{(#1)}}
 
 
 \newcommand{\nnbowtie}{\extraorderconstraintofcom{\mathsf{nn}}}
