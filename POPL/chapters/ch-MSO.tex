@@ -192,7 +192,8 @@ Let the \emph{Event Dependency Graph} (EDG) of a $\nn$ MSC $\msc$ be a graph tha
 \begin{algorithm}[t]
 \caption{Algorithm for finding a $\nn$ linearization}
 \label{algonn}
-The input of this algorithm is the EDG of an MSC $\msc$, and it outputs a valid $\nn$ linearization for $\msc$, if $\msc$ is $\nn$. The algorithm works as follows:
+\raggedright \textbf{Input}: the EDG of an MSC $\msc$. \\
+\raggedright \textbf{Output}: a valid $\nn$ linearization for $\msc$, if $\msc$ is $\nn$.
 \begin{enumerate}
 	\item If there is a matched send event $s$ with in-degree 0 in the EDG, add $s$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 2.
 	\item If there are no matched send events in the EDG and there is an unmatched send event $s$ with in-degree 0 in the EDG, add $s$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 3.
