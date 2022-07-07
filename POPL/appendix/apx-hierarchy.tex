@@ -26,16 +26,16 @@
 	\end{proof}
 
 	\begin{proposition} \label{prop:nn_is_onen}
-		Every $\nn$ MSC is a $\onen$ MSC.
+		Every $\nnsymb$-MSC is a $\onensymb$-MSC.
 	\end{proposition}
 	\begin{proof}
-		Consider Definition~\ref{def:n_n} and Definition~\ref{def:one_n}. They are identical, except for the fact that in the $\nn$ case we consider any two send events, and not just those that are sent by a same process. This is enough to show that each $\nn$ linearization is also a $\onen$ linearization and, therefore, each $\nn$ MSC is a $\onen$ MSC.
+		Consider Definition~\ref{def:n_n} and Definition~\ref{def:one_n}. They are identical, except for the fact that in the $\nn$ case we consider any two send events, and not just those that are sent by a same process. This is enough to show that each $\nnsymb$-linearization is also a $\onensymb$-linearization and, therefore, each $\nnsymb$-MSC is a $\onensymb$-MSC.
 	\end{proof}
 	
 	\begin{proposition} \label{prop:rsc_is_nn}
-		Every $\rsc$-MSC is a $\nn$ MSC.
+		Every $\rsc$-MSC is a $\nnsymb$-MSC.
 	\end{proposition}
 	\begin{proof}
-		Consider Definition~\ref{def:rsc} and Definition~\ref{def:n_n}. Let us pick an $\rsc$ linearization $\linrel$. If every send event is immediately followed by its matching receive event, and we do not have unmatched messages, then $\linrel$ is also a $\nn$ linearization; note that, for any two send events $s$ and $s'$ such that $s \linrel s'$, we also have $r \linrel r'$, where $s \lhd r$ and $s' \lhd r'$. It follows that each $\rsc$-MSC is a $\nn$ MSC.
+		Consider Definition~\ref{def:rsc} and Definition~\ref{def:n_n}. Let us pick an $\rsc$-linearization $\linrel$. If every send event is immediately followed by its matching receive event, and we do not have unmatched messages, then $\linrel$ is also a $\nnsymb$-linearization; note that, for any two send events $s$ and $s'$ such that $s \linrel s'$, we also have $r \linrel r'$, where $s \lhd r$ and $s' \lhd r'$. It follows that each $\rsc$-MSC is a $\nnsymb$-MSC.
 	\end{proof}
 	

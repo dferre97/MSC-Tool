@@ -19,9 +19,9 @@ pair of processes.
 A queuing network $(\setofqueuidentifiers,\queuidofprocs)$ is $\pp$ if
 $\setofqueuidentifiers=\procSet\times\procSet$ and $\queuidofprocs$ is the identity.
 The queuing network $(\setofqueuidentifiers,\queuidofprocs)$ is $\mb$ if
-$\setofqueuidentifiers=\procSet$ and $\queuidofprocs(p,q)=q$; it is called $\onen$ if
+$\setofqueuidentifiers=\procSet$ and $\queuidofprocs(p,q)=q$; it is called $\onensymb$ if
 $\setofqueuidentifiers=\procSet$ and $\queuidofprocs(p,q)=p$. Finally, it is called
-$\nn$ if $\setofqueuidentifiers=\{0\}$ and $\queuidofprocs(p,q)=0$ for all $p,q\in\procSet$.
+$\nnsymb$ if $\setofqueuidentifiers=\{0\}$ and $\queuidofprocs(p,q)=0$ for all $p,q\in\procSet$.
 
 \paragraph{\bf Configurations, executions, and operational semantics}
 A \emph{configuration} of the queuing network $(\setofqueuidentifiers,\queuidofprocs)$ is
@@ -44,14 +44,14 @@ $a$ is an action, and the following holds:
 An \emph{execution} of the queuing network $(\setofqueuidentifiers,\queuidofprocs)$
 is a finite sequence of actions $e=a_1a_2\ldots a_n$ such that
 $\initconf\actionstep{a_1}\actionstep{a_2}\ldots\actionstep{a_n}\aconf$ for some configuration $\aconf$.
-The execution is $\pp$ (resp. $\mb$, $\onen$, $\nn$) if its queuing network is.
+The execution is $\pp$ (resp. $\mb$, $\onensymb$, $\nnsymb$) if its queuing network is.
 
 \begin{example}
 The execution
 $$
 \sact{p}{q}{m_1}\cdot\sact{q}{r}{m_2}\cdot\ract{q}{r}{m_2}\cdot\ract{p}{q}{m_1}
 $$
-is $\pp$, $\mb$, and $\onen$, but it is not $\nn$ (because $m_2$ is received before $m_1$).
+is $\pp$, $\mb$, and $\onensymb$, but it is not $\nnsymb$ (because $m_2$ is received before $m_1$).
 \end{example}
 
 \begin{example}
@@ -59,7 +59,7 @@ is $\pp$, $\mb$, and $\onen$, but it is not $\nn$ (because $m_2$ is received bef
     $$
     \sact{p}{q}{m_1}\cdot\sact{r}{q}{m_2}\cdot\ract{r}{q}{m_2}
     $$
-    is $\pp$ and $\onen$, but it is neither $\mb$ nor $\nn$ (because $m_2$ "overtakes" $m_1$). Note that in the
+    is $\pp$ and $\onensymb$, but it is neither $\mb$ nor $\nnsymb$ (because $m_2$ "overtakes" $m_1$). Note that in the
     final configuration $m_1$ is still in the queue ($m_1$ is "unmatched").
 \end{example}
 
@@ -86,8 +86,8 @@ To conclude this brief discussion on queuing networks and executions, we clarify
 defines a total order on its events, and therefore an execution.
 
 \begin{fact}
-A MSC $\msc$ is $\pp$ (resp. $\mb$, $\onen$, $\nn$) if and only if there exists
-a linearization $\linrel$ of $\msc$ that induces a $\pp$ execution (resp. a $\mb$, $\onen$, $\nn$ execution).
+A MSC $\msc$ is $\pp$ (resp. $\mb$, $\onensymb$, $\nnsymb$) if and only if there exists
+a linearization $\linrel$ of $\msc$ that induces a $\pp$ execution (resp. a $\mb$, $\onensymb$, $\nnsymb$ execution).
 \end{fact}
 
 Note that, moreover, a MSC $\msc$ is $\pp$ if and only if \emph{all} of its linearizations induce $\pp$ executions.

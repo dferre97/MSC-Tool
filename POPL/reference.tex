@@ -331,7 +331,7 @@ $\Pref{\cL{\Sys}} \subseteq \cL{\Sys}$.
 We now recall the notion of a conflict graph associated to an MSC defined in \cite{DBLP:conf/cav/BouajjaniEJQ18}. This graph is used to depict the causal dependencies between message exchanges.  Intuitively, we have a dependency whenever
 two messages have a process in common. For instance, an $\xrightarrow{SS}$
 dependency between message exchanges $v$ and $v'$ expresses the fact that
-$v'$ has been sent after $v$, by the same process. This notion is of interest because it was seen in \cite{DBLP:conf/cav/BouajjaniEJQ18} that the notion of synchronizability in MSCs (which is studied in this paper) can be graphically characterised by the nature of the associated conflict graph.
+$v'$ has been sent after $v$, by the same process. This notion is of interest because it was seen in \cite{DBLP:conf/cav/BouajjaniEJQ18} that the notion of synchronizability in MSCs (which is studied in this paper) can be graphically characterized by the nature of the associated conflict graph.
 It is defined in terms of linearizations
 in \cite{DBLP:conf/fossacs/GiustoLL20}, but we equivalently express it
 directly in terms of MSCs.
@@ -770,7 +770,7 @@ We showed that, if $\nnbowtieofmsc\msc$ is acyclic, the algorithm always termina
 	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{RSC MSC} if it has no unmatched send events and there is a linearization $\linrel$ where any matched send event is immediately followed by its respective receive event.
 \end{definition}
 
-Following the characterisation given in \cite[Theorem 4.4]{DBLP:journals/dc/Charron-BostMT96}, we also give an alternative but equivalent definition of $\rsc$ MSC.
+Following the characterization given in \cite[Theorem 4.4]{DBLP:journals/dc/Charron-BostMT96}, we also give an alternative but equivalent definition of $\rsc$ MSC.
 
 \begin{definition}
 	Let $\msc$ be an MSC. A crown of size $k$ in $\msc$ is a sequence $\langle(s_i,r_i),\, i \in \{1,\dots,k\}\rangle$ of pairs of corresponding send and receive events such that

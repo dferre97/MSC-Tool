@@ -74,9 +74,9 @@ An MSC that shows a valid computation for the fully asynchronous communication m
 %For an event $e \in \Events$, a set of actions $A \subseteq \Act$, and a relation $\rel \subseteq \Events \times \Events$,
 %let $\sametype{e}{A}{\rel} = \cardinalof{\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(f) \in A\}}$.
 %\davide{I think that this notation of $\sametype{e}{A}{\rel}$ should be removed here and just introduced in the last chapter (if I recall correctly we only use it for the existentially k-bounded MSCs).}
-Note that the same message content $m$ may occur repeatedly on a given MSC,
+Note that the same message $m$ may occur repeatedly on a given MSC,
 hence the $\lambda$ labelling function. In most of our 
-examples, we avoid repeating twice a same message content, and we
+examples, we avoid repeating twice a same message, and we
 identify an event and the action occurring at that event.
 Definition~\ref{def:msc} of (fully asynchronous) MSC will serve as a basis on which the other communication models will build on, adding some additional constraints.
 
@@ -160,7 +160,7 @@ action and there is no $f \in \Events$ such that $e \lhd f\}$.
 			\newmsgm{2}{1}{-1.5}{-1.5}{3}{0.3}{black};
 
 		\end{tikzpicture}
-		\caption{\asy, \pp, \co, \mb, $\onen$, $\nn$.}	    
+		\caption{\asy, \pp, \co, \mb, $\onensymb$, $\nnsymb$.}	    
 		\label{fig:co_ex}
 	\end{subfigure}
 \begin{subfigure}[t]{0.3\textwidth}\centering
@@ -255,7 +255,7 @@ Note that, according to this definition, we cannot have two messages $m_1$ and $
 In the causally ordered (\co) communication model, messages are delivered to a process according to the causality of their emissions. In other words, if there are two messages $m_1$ and $m_2$ with the same recipient, such that $m_1$ is causally sent before $m_2$ (i.e., there exists a causal path from the first send to the second one), then $m_1$ must be received before $m_2$.
 This type of partial order was introduced by Lamport in \cite{Lamport78} with the "happened before" order. Later on, some implementations were proposed in \cite{peterson1989preserving, DBLP:conf/wdag/SchiperES89, kshemkalyani1998necessary}. %and in \cite{coulouris2005distributed}, where the causal order is called FIFO ordering.
 %\davidequestion{I don't understand the last citation about FIFO ordering. I looked into the book and it talks both about FIFO ordering and causal ordering, and FIFO ordering doesn't seem to match Lamport's definition of causal order...}
-Fig.~\ref{fig:pp_ex}, shows an example of non-causally ordered MSC; there is a causal path between the sending of $m_1$ and $m_3$, hence $m_1$ should be received before $m_3$, which is not the case here. On the other hand, Fig.~\ref{fig:co_ex} is \co; note that the only two messages with the same recipient are $m_2$ and $m_3$, but there is no causal path between their respective send events. Below the formal definition of causally ordered MSC (\co-MSC).
+Fig.~\ref{fig:pp_ex} shows an example of non-causally ordered MSC; there is a causal path between the sending of $m_1$ and $m_3$, hence $m_1$ should be received before $m_3$, which is not the case here. On the other hand, the MSC in Fig.~\ref{fig:co_ex} is causally ordered; note that the only two messages with the same recipient are $m_2$ and $m_3$, but there is no causal path between their respective send events. Below the formal definition of causally ordered MSC (\co-MSC).
 
 \begin{definition}[\co-MSC]\label{def:co_msc}
 	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is \emph{causally ordered} if, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \happensbefore s'$, we have either:
@@ -271,7 +271,7 @@ Note that in a \co-MSC we cannot have two send events $s$ and $s'$ addressed to 
 \paragraph{\bf Mailbox communication}
 In the mailbox ($\mb$) communicating model, any two messages sent to a process  must be received in the same order as they are sent (according to absolute time). These two messages might be sent by different processes and the two send events might be concurrent (i.e., there is no causal path between them). In other words, if a process  receives $m_1$ before $m_2$, then $m_1$ must have been sent before $m_2$. Essentially, $\mb$ coordinates all the senders of a single receiver. For this reason the model is also called FIFO $n\mathsf{-}1$ \cite{DBLP:journals/fac/ChevrouHQ16}.   A high-level implementation of the mailbox communication model could consist in a single incoming FIFO channel for each process $p$, in which all processes enqueue their messages to $p$. 
 A low-level implementation can be obtained thanks to a shared real-time clock~\cite{cristian1999timed} or a global agreement on the order of events~\cite{defago2004total, raynal2010communication}.
-The MSC shown in Fig.~\ref{fig:pp_ex} is not a mailbox MSC; $m_1$ and $m_3$ have the same recipient, but they are not received in the same order as they are sent. The MSC in Fig.~\ref{fig:co_ex} is mailbox; indeed, we are able to find a linearization that respects the mailbox constraints, such as $!1\;!2\;!3\;?2\;?3\;?1$ (note that $m_2$ is both sent and received before $m_3$). Below the definition of $\none$-MSC.
+The MSC shown in Fig.~\ref{fig:pp_ex} is not a  $\mb$-MSC; $m_1$ and $m_3$ have the same recipient, but they are not received in the same order as they are sent. The MSC in Fig.~\ref{fig:co_ex} is a $\mb$-MSC; indeed, we are able to find a linearization that respects the mailbox constraints, such as $!1\;!2\;!3\;?2\;?3\;?1$ (note that $m_2$ is both sent and received before $m_3$). Below the definition of $\none$-MSC.
 
 \begin{definition}[$\none$-MSC]\label{def:mb_msc}
 	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\none$-MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{\plh}{q}$, $\lambda(s')=\pqsAct{\plh}{q}$, and $s \linrel s'$
@@ -281,7 +281,7 @@ The MSC shown in Fig.~\ref{fig:pp_ex} is not a mailbox MSC; $m_1$ and $m_3$ have
 	\end{itemize}
 \end{definition}
 
-Such a linearization will be referred to as a \emph{$\none$-linearization}. Note that the definition of $\none$-MSC is based on the \emph{existence} of a linearization. The same kind of "existential" definition will be used for the remaining communication models. In practice, to claim that an MSC is $\none$, we just need to find a single valid $\none$-linearization, regardless of all the others. As with $\co$-MSCs, a $\none$-MSC cannot have two ordered send events $s$ and $s'$ addressed to the same process, such that $s$ is unmatched, $s'$ is matched. The message related to $s$ would indeed block the buffer and prevent all subsequent receptions included the receive event matching $s'$. 
+Such a linearization will be referred to as a \emph{$\none$-linearization}. Note that the definition of $\none$-MSC is based on the \emph{existence} of a linearization with some properties. The same kind of "existential" definition will be used for the remaining communication models. In practice, to claim that an MSC is $\none$, we just need to find a single valid $\none$-linearization, regardless of all the others. As with $\co$-MSCs, a $\none$-MSC cannot have two ordered send events $s$ and $s'$ addressed to the same process, such that $s$ is unmatched, $s'$ is matched. The message related to $s$ would indeed block the buffer and prevent all subsequent receptions included the receive event matching $s'$. 
 %
 %
 %and $s \happensbefore s'$; indeed, it would not be possible to find a $\mb$-linearization, since $s \happensbefore s'$ implies $s \linrel s'$ for any linearization, but $s$ is unmatched and $s'$ is matched, which does not fall into either case of Definition~\ref{def:mb_msc}. 
@@ -289,39 +289,39 @@ At this stage, the difference between $\co$-MSCs and $\mb$-MSCs might be unclear
 
 
 \paragraph{\bf  $\onen$ communication}
-The $\onen$ communicating model is the dual of $\none$, it coordinates a sender with all the receivers. Any two messages sent by a process  must be received in the same order (in absolute time) as they are sent. These two messages might be received by different processes and the two receive events might be concurrent.
+The $\onen$ (\onensymb) communicating model is the dual of $\none$, it coordinates a sender with all the receivers. Any two messages sent by a process  must be received in the same order (in absolute time) as they are sent. These two messages might be received by different processes and the two receive events might be concurrent.
 % In other words, if a process $p$ sends $m_1$ before $m_2$, then $m_1$ must be received before $m_2$ in absolute time.
 A high-level implementation of the $\onen$ communication model could consist in a single outgoing FIFO channel for each process, which is shared by all the other processes. A send event would then push a message on the outgoing FIFO channel.
 %As this type of communication is the dual of the $\none$ one, the implementation would require similar tools as above.
-The MSC shown in Fig.~\ref{fig:pp_ex} is not a $\onen$ MSC; $m_1$ and $m_2$ are sent in this order by the same process, but they are received in the opposite order (note that there is a causal path between the reception of $m_2$ and the reception of $m_1$, so $?2$ happens before $?1$ in every linearization of this MSC). Fig.~\ref{fig:co_ex} shows an example of $\onen$ MSC; $m_1$ is sent before $m_2$ by the same process, and we are able to find a linearization where $m_1$ is received before $m_2$, such as $!1\;!2\;!3\;?1\;?2\;?3$. 
+The MSC shown in Fig.~\ref{fig:pp_ex} is not a $\onensymb$-MSC; $m_1$ and $m_2$ are sent in this order by the same process, but they are received in the opposite order (note that there is a causal path between the reception of $m_2$ and the reception of $m_1$, so $?2$ happens before $?1$ in every linearization of this MSC). Fig.~\ref{fig:co_ex} shows an example of $\onensymb$-MSC; $m_1$ is sent before $m_2$ by the same process, and we are able to find a linearization where $m_1$ is received before $m_2$, such as $!1\;!2\;!3\;?1\;?2\;?3$. 
 
-\begin{definition}[$\onen$ MSC]\label{def:one_n}
-An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\onen$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{p}{\plh}$, $\lambda(s')=\pqsAct{p}{\plh}$, and $s \procrel^+ s'$ (which implies $s \linrel s'$)
+\begin{definition}[$\onensymb$-MSC]\label{def:one_n}
+An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\onensymb$-MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{p}{\plh}$, $\lambda(s')=\pqsAct{p}{\plh}$, and $s \procrel^+ s'$ (which implies $s \linrel s'$)
 \begin{itemize}%\itemsep=0.5ex
 	\item either $s,s' \in \Matched{\msc}$ and $r \linrel r'$, with  $r$ and $r'$   receive events such that $s \lhd r$ and $s' \lhd r'$,
 	\item or $s' \in \Unm{\msc}$.
 \end{itemize}
 \end{definition}
 
-Such a linearization will be referred to as a \emph{$\onen$ linearization}. Note that a $\onen$ MSC cannot have two send events $s$ and $s'$, executed by the same process, such that $s$ is unmatched, $s'$ is matched, and $s \procrel^+ s'$; indeed, it would not be possible to find a $\onen$ linearization, according to Definition~\ref{def:one_n}. The MSCs shown in Fig.~\ref{fig:asy_um_ex} and Fig.~\ref{fig:pp_um_ex} are clearly not $\onen$.
+Such a linearization will be referred to as a \emph{$\onensymb$-linearization}. Note that a $\onensymb$-MSC cannot have two send events $s$ and $s'$, executed by the same process, such that $s$ is unmatched, $s'$ is matched, and $s \procrel^+ s'$; indeed, it would not be possible to find a $\onensymb$-linearization, according to Definition~\ref{def:one_n}. The MSCs shown in Fig.~\ref{fig:asy_um_ex} and Fig.~\ref{fig:pp_um_ex} are clearly not $\onensymb$-MSCs.
 
 
 \paragraph{\bf  $\nn$ communication}
-In the $\nn$ communicating model, messages are globally ordered and delivered according to  their emission order. Any two messages must be received in the same order as they are sent, in absolute time. These two messages might be sent or received by any process and the two send or receive events might be concurrent.
+In the $\nn$ (\nnsymb) communicating model, messages are globally ordered and delivered according to  their emission order. Any two messages must be received in the same order as they are sent, in absolute time. These two messages might be sent or received by any process and the two send or receive events might be concurrent.
 %In other words, if a message $m_1$ is sent before $m_2$ in absolute time, then $m_1$ must be received before $m_2$ in absolute time.
 The $\nn$ coordinates all the senders with all the receivers. A high-level implementation of the $\nn$ communication model could consist in a single FIFO channel shared by all processes. It is considered also in \cite{DBLP:journals/tcs/BasuB16} where it is called  many-to-many (denoted $^\ast$-$^\ast$). However, as underlined in \cite{DBLP:journals/fac/ChevrouHQ16}, such an implementation would be inefficient and unrealistic.
-The MSC shown in Fig.~\ref{fig:pp_ex} is clearly not a $\nn$ MSC; if we consider messages $m_1$ and $m_2$ we have that, in every linearization, $!1 \happensbefore !2$ and $?2 \happensbefore ?1$. This violates the constraints imposed by the $\nn$ communication model. The MSC in Fig.~\ref{fig:co_ex} is $\nn$ because we are able to find a linearization that satisfies the $\nn$ constraint, e.g. $!1\;!2\;!3\;?1\;?2\;?3$.
+The MSC shown in Fig.~\ref{fig:pp_ex} is clearly not a $\nnsymb$-MSC; if we consider messages $m_1$ and $m_2$ we have that, in every linearization, $!1 \happensbefore !2$ and $?2 \happensbefore ?1$. This violates the constraints imposed by the $\nn$ communication model. The MSC in Fig.~\ref{fig:co_ex} is a $\nnsymb$-MSC because we are able to find a linearization that satisfies the $\nn$ constraint, e.g. $!1\;!2\;!3\;?1\;?2\;?3$.
 
-\begin{definition}[$\nn$ MSC]\label{def:n_n}
-	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\nn$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $s \linrel s'$
+\begin{definition}[$\nnsymb$-MSC]\label{def:n_n}
+	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\nnsymb$-MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $s \linrel s'$
 	\begin{itemize}%\itemsep=0.5ex
 		\item either $s,s' \in \Matched{\msc}$ and $r \linrel r'$, with $r$ and $r'$   receive events such that $s \lhd r$ and $s' \lhd r'$,
 		\item or $s' \in \Unm{\msc}$.
 	\end{itemize}
 \end{definition}
 
-Such a linearization will be referred to as a \emph{$\nn$ linearization}. Note that, in a $\nn$ linearization, unmatched messages can be sent only after all matched messages have been sent.
-As a consequence, a $\nn$ MSC cannot have an unmatched send event $s$ and a matched send event $s'$, such that $s \happensbefore s'$; indeed, $s$ would appear before $s'$ in every linearization, and we would not be able to find a $\nn$ linearization. The MSCs shown in Fig.~\ref{fig:asy_um_ex} and Fig.~\ref{fig:pp_um_ex} are both not $\nn$, since we have unmatched messages that are sent before matched messages.
+Such a linearization will be referred to as a \emph{$\nnsymb$-linearization}. Note that, in a $\nnsymb$-linearization, unmatched messages can be sent only after all matched messages have been sent.
+As a consequence, a $\nnsymb$-MSC cannot have an unmatched send event $s$ and a matched send event $s'$, such that $s \happensbefore s'$; indeed, $s$ would appear before $s'$ in every linearization, and we would not be able to find a $\nnsymb$-linearization. The MSCs shown in Fig.~\ref{fig:asy_um_ex} and Fig.~\ref{fig:pp_um_ex} are both not $\nn$, since we have unmatched messages that are sent before matched messages.
 
 
 \paragraph{\bf RSC communication}
@@ -336,8 +336,8 @@ The MSC  in Fig.~\ref{fig:rsc_ex} is the only example of $\rsc$-MSC: for instanc
 	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is an \emph{\rsc-MSC} if it has no unmatched send events and there is a linearization $\linrel$ where any matched send event is immediately followed by its respective receive event.
 \end{definition}
 
-Such a linearization will be referred to as an \emph{$\rsc$ linearization}.
+Such a linearization will be referred to as an \emph{$\rsc$-linearization}.
 
 
 \paragraph*{Classes of MSCs} 
-We denote by $\asMSCs$ (resp. $\ppMSCs$, $\coMSCs$, $\mbMSCs$, $\onenMSCs$, $\nnMSCs$, $\rscMSCs$) the sets of all MSCs (resp. $\pp$-MSCs, $\co$-MSCs, $\mb$-MSCs, $\onen$ MSCs, $\nn$ MSCs, $\rsc$ MSCs) over the given sets $\Procs$ and $\Msg$. Note that we do not differentiate between isomorphic MSCs.
+We denote by $\asMSCs$ (resp. $\ppMSCs$, $\coMSCs$, $\mbMSCs$, $\onenMSCs$, $\nnMSCs$, $\rscMSCs$) the sets of all MSCs (resp. $\pp$-MSCs, $\co$-MSCs, $\mb$-MSCs, $\onensymb$-MSCs, $\nnsymb$-MSCs, $\rsc$-MSCs) over the given sets $\Procs$ and $\Msg$. Note that we do not differentiate between isomorphic MSCs.
