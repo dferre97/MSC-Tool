@@ -1,5 +1,6 @@
 % !TEX root = ../popl-paper.tex
 
+\cinzia{Add one sentence}
 In this section, we provide alternative definitions of some of the asynchronous communication models we saw before
 based on an operational semantics and a notion of queuing network. We establish the equivalence
 of the two alternative definitions for each concerned model. We also recall the notion of
@@ -82,9 +83,9 @@ the strictness of this hierarchy.
 To conclude this brief discussion on queuing networks and executions, we clarify in what sense the operational semantics we introduced in this section are sound and complete with respect to the axiomatic definitions of the communication models we gave in Section~\ref{sec:MSC}. Remember that a linearization $\linrel$ of a MSC
 defines a total order on its events, and therefore an execution.
 
-\begin{theorem}
+\begin{fact}
 A MSC $\msc$ is $\pp$ (resp. $\mb$, $\onen$, $\nn$) if and only if there exists
 a linearisation $\linrel$ of $\msc$ that induces a $\pp$ execution (resp. a $\mb$, $\onen$, $\nn$ execution).
-\end{theorem}
+\end{fact}
 
 Note that, moreover, a MSC $\msc$ is $\pp$ if and only if \emph{all} of its linearizations induce $\pp$ executions.
