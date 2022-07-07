@@ -1,23 +1,36 @@
 % !TEX root = ../popl-paper.tex
 
 %\davidequestion{Don't we need a citation for MSO?}
-We have introduced seven different communication models and the corresponding classes of MSCs. Here, we show that all of these classes are MSO-definable, i.e. there is a Monadic Second Order Logic formula that defines them. Sometimes it is straightforward, but for some classes of MSCs we have to introduce alternative definitions (equivalent to those given in Section~\ref{sec:MSC}) that are closer to the logic, in order to prove MSO-definability. These alternative definitions will also be heavily used in the following sections for proofs. We first recall the formal definition of MSO logic over MSCs.
+We have introduced seven different communication models and the corresponding classes of MSCs. Here, we show that all of these classes are MSO-definable, i.e. for every
+communication model $\comsymb$,
+there is a Monadic Second Order Logic formula 
+$\msoformulaofcom{{\comsymb}}$ that captures 
+exactly the class
+$\MSCclassofcom{\comsymb}$ of all
+$\comsymb$-MSCs.
+The communication models whose definitions
+are stated as the existence of a linearisation enjoying some properties are the most difficult
+to express in MSO. 
+Indeed, their definition naturally translates to a
+a second-order quantification over a \emph{binary} relation, but MSO is restricted to second-order quantification over unary predicates. 
+
+We therefore have to introduce alternative definitions (equivalent to those given in Section~\ref{sec:MSC}) that are closer to the logic, in order to prove MSO-definability. These alternative definitions will also be heavily used in the following sections for proofs. We first recall the formal definition of MSO logic over MSCs.
 
 \begin{definition}[MSO logic]
-The set of MSO formulas over MSCs (over $\Procs$ and $\Msg$) is given by the grammar
+The set of MSO formulas over MSCs is given by the grammar
 $
-\phi ::= true \mid x \procrel y \mid x \lhd y \mid \lambda(x) = a \mid x = y \mid x \in X \mid \exists x.\phi \mid \exists X.\phi \mid \phi \vee \phi \mid \neg \phi
+\phi ::= \mathsf{true} \mid x \procrel y \mid x \lhd y \mid \lambda(x) = a \mid x = y \mid x \in X \mid \exists x.\phi \mid \exists X.\phi \mid \phi \vee \phi \mid \neg \phi
 $,
 where $a \in \Act$, $x$ and $y$ are first-order variables (taken from an infinite set of variables), interpreted as
 events of an MSC, and $X$ is a second-order variable, interpreted
 as a set of events.
 \end{definition}
 
-We use common abbreviations such as $\wedge$, $\Rightarrow$, $\forall$, etc. The satisfaction relation is defined in the standard way and self-explanatory.
+We use common abbreviations such as $\wedge$, $\Rightarrow$, $\forall$, etc. 
 For instance, the formula $\neg\exists x.(\bigvee_{a \in \sAct} \lambda(x) = a \;\wedge\; \neg \mathit{matched}(x))$,
 with $\mathit{matched}(x) = \exists y.x \lhd y$,
 says that there are no unmatched send events. MSCs (a), (b), (c) and (d) of Fig. \ref{fig:exmscs} satisfy the formula. Given a sentence $\phi$, i.e., a formula without free variables,
-we let $L(\phi)$ denote the set of MSCs that satisfy $\phi$. Since we have defined the set of MSO formulas over asynchronous MSCs, the formula $\asformula = true$ describes the whole set of asynchronous MSCs, i.e. $L(\asformula) = \asMSCs$. It is worth mentioning that the (reflexive) transitive closure of a binary relation defined by an MSO formula with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable (more details are given in Appendix~\ref{apx:MSO}). The logic can then freely use formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \happensbefore y$.
+we let $L(\phi)$ denote the set of asynchronous MSCs that satisfy $\phi$. The formula $\mathsf{true}$ therefore describes the whole set of asynchronous MSCs, i.e. $L(\mathsf{true}) = \asMSCs$. It is folklore that the (reflexive) transitive closure of a binary relation defined by an MSO formula with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable (see also Appendix~\ref{apx:MSO}). We will therefore abusively write formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \happensbefore y$.
 
 \paragraph{\bf Peer-to-peer MSCs}
 The MSO formula that defines $\ppMSCs$ (i.e. the set of $\pp$-MSCs) directly follows from Definition~\ref{def:pp_msc}:
@@ -75,20 +88,20 @@ where $\psi_1$ and $\psi_2$ have been defined above for the \pp case. The proper
 For the mailbox communication model, Definition~\ref{def:mb_msc} cannot be easily translated into an MSO formula. Thus, we introduce an alternative definition of $\mb$-MSC that is closer to MSO logic; in particular, we define an additional binary relation that represents a constraint under the $\none$ semantics, which ensures that messages received by a process are sent in the same order as they are received. This definition is shown to be equivalent to Definition~\ref{def:mb_msc} in Appendix~\ref{apx:MSO}.
 
 \begin{definition} [$\none$ alternative]\label{def:n_one_alt}
-	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$.	Let ${\mbrel} \subseteq \Events \times \Events$
+	Let an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ be fixed, and let ${\mbrel} \subseteq \Events \times \Events$
 	be defined as $s \mbrel s'$ if there is $q \in \Procs$
 	such that $\lambda(s) \in \qsAct{q}$,
 	$\lambda(s') \in \qsAct{q}$, and either:
 	\begin{itemize}%\itemsep=0.5ex
 		\item $s \in \Matched{\msc}$ and $s' \in \Unm{\msc}$, or
-		\item $s \lhd f_1$ and $s' \lhd f_2$ for some $f_1,f_2 \in \Events_q$ such that $f_1 \procrel^+ f_2$.
+		\item $s \lhd r_1$ and $s' \lhd r_2$ for some $r_1,r_2 \in \Events_q$ such that $r_1 \procrel^+ r_2$.
 	\end{itemize}
 
 	We let ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$.
 	$\msc $ is a \emph{$\none$-MSC}
 	if ${\mbpartial}$ is a partial order.
 \end{definition}
-The ${\mbrel}$ relation ensures that send events addressed to the same process are executed in an order that is suitable for the $\none$ communication model. If ${\mbpartial}$ is a partial order, it means that it is possible to find a linearization $\linrel$, such that $\linrel \;\subseteq\; \mbpartial$. It is easy to see that such a linearization is exactly what we called a $\none$-linearization in Definition~\ref{def:mb_msc}.
+The ${\mbrel}$ relation expresses that two send events that are not necessarily related by a causal path should be scheduled in a precise order because their matching receptions are in this precise order. If ${\mbpartial}$ is a partial order, it means that it is possible to find a linearization $\linrel$, such that $\linrel \;\subseteq\; \mbpartial$. It is easy to see that such a linearization is exactly what we called a $\none$-linearization in Definition~\ref{def:mb_msc}.
 %Finally notice  that ${\le} \subseteq {\mbpartial}$. Hence entailing that a \mb-MSC is also a \pp-MSC.
 The MSO-definability of $\mbMSCs$ follows from Definition~\ref{def:n_one_alt}; in particular, note that 
 $\mbpartial$ is reflexive and transitive by definition, 
