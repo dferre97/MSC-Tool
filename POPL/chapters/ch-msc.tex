@@ -75,6 +75,8 @@ An MSC that shows a valid computation for the fully asynchronous communication m
 Definition~\ref{def:msc} of (fully asynchronous) MSC will serve as a basis on which the other communication models will build on, adding some additional constraints.
 
 According to Condition (2), every receive event must have a matching send event. However, note that, there may be unmatched send events. An unmatched send event represents the scenario in which the recipient is not ready to receive a specific message. This is the case of message $m_1 $ in  Fig. \ref{fig:asy_um_ex}.
+We will always depict unmatched messages with dashed arrows pointing to the time line of the
+destination process (note that the vertical position of the arrow on this timeline does not correspond to any event).
 We let
 $\SendEv{\msc} = \{e \in \Events \mid \lambda(e)$ is a send
 action$\}$,
@@ -230,18 +232,18 @@ In the peer-to-peer ($\pp$) communication model, any two messages sent from one 
 For this reason, alternative names for this communication model are FIFO $1\mathsf{-}1$ \cite{DBLP:journals/fac/ChevrouHQ16} or simply FIFO \cite{babaoglu1993consistent, DBLP:journals/dc/Charron-BostMT96, tel2000introduction}.
 MSCs that show valid computations for the \pp communication model will be called \pp-MSCs.
 The MSC shown in Fig.~\ref{fig:fully_asy_ex} is not a $\pp$-MSC, as $m_1$ cannot be received after $m_2$.
-Fig.~\ref{fig:pp_ex} shows an example of \pp-MSC; the only two messages sent by and to the same process are $m_3$ and $m_4$, which are received in the same order as they are sent. Below the formal definition of $\oneone$-MSC.
+Fig.~\ref{fig:pp_ex} shows an example of \pp-MSC; the only two messages sent by and to the same process are $m_3$ and $m_4$, which are received in the same order as they are sent. %Below the formal definition of $\oneone$-MSC.
 
 \begin{definition}[$\oneone$-MSCs]\label{def:pp_msc}
-	A $\oneone$-MSC is an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ where, for any two send events $s$ and $s'$ such that $\lambda(s)=\pqsAct{p}{q}$, $\lambda(s')=\pqsAct{p}{q}$, and $s \procrel^+ s'$, we have either:
+	A $\oneone$-MSC is an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ where, for any two send events $s$ and $s'$ such that $\lambda(s)=\pqsAct{p}{q}$, $\lambda(s')=\pqsAct{p}{q}$, and $s \procrel^+ s'$, one of the following holds
 	\begin{itemize}%\itemsep=0.5ex
-		\item $s,s' \in \Matched{\msc}$ with $s \lhd r$ and $s' \lhd r'$ and $r \procrel^+ r'$, or %where $r$ and $r'$ are two receive events executed by $q$ such that .
-		\item $s' \in \Unm{\msc}$.
+		\item either $s,s' \in \Matched{\msc}$ with $s \lhd r$ and $s' \lhd r'$ and $r \procrel^+ r'$,  %where $r$ and $r'$ are two receive events executed by $q$ such that .
+		\item or $s' \in \Unm{\msc}$.
 	\end{itemize}
 	
 \end{definition}
 
-Note that, according to this definition, we cannot have two messages $m_1$ and $m_2$, both sent by  $p$  $q$, such that $m_1$ is unmatched and $m_2$ is matched;  unmatched message $m_1$ prevents the reception of any other message. For this reason, the MSC shown in Fig.~\ref{fig:asy_um_ex} is not $\pp$. On the other hand, the MSC in Fig.~\ref{fig:pp_um_ex} is $\pp$ because the two messages are not sent by and addressed to the same process.
+Note that, according to this definition, we cannot have two messages $m_1$ and $m_2$, both sent by  $p$ to $q$ in that order, such that $m_1$ is unmatched and $m_2$ is matched;  unmatched message $m_1$ excludes the reception of any later message. For this reason, the MSC shown in Fig.~\ref{fig:asy_um_ex} is not $\pp$. On the other hand, the MSC in Fig.~\ref{fig:pp_um_ex} is $\pp$ because the two messages are not sent by and addressed to the same process.
 
 \paragraph{\bf  Causally ordered communication}
 In the causally ordered (\co) communication model, messages are delivered to a process according to the causality of their emissions. In other words, if there are two messages $m_1$ and $m_2$ with the same recipient, such that $m_1$ is causally sent before $m_2$ (i.e., there exists a causal path from the first send to the second one), then $m_1$ must be received before $m_2$.
@@ -261,8 +263,8 @@ Note that in a \co-MSC we cannot have two send events $s$ and $s'$ addressed to 
 %The MSC shown in Fig.~\ref{fig:pp_um_ex} has two send events that are causally related, i.e. $!1 \happensbefore !2$, and the first message $m_1$ is unmatched; however, it is still a $\co$-MSC because the two messages are not addressed to the same process.
 
 \paragraph{\bf Mailbox communications}
-In the mailbox ($\mb$) communicating model, any two messages sent to a process  must be received in the same order as they are sent (according to absolute time). These two messages might be sent by different processes and the two send events might be concurrent (i.e., there is no causal path between them). In other words, if a process  receives $m_1$ before $m_2$, then $m_1$ must have been sent before $m_2$. Essentially, $\mb$ coordinates all the senders of a single receiver. For this reason the model is also called FIFO $n\mathsf{-}1$ \cite{DBLP:journals/fac/ChevrouHQ16}.   A high-level implementation of the mailbox communication model could consist in a single incoming FIFO channel for each process, which is shared by all the other processes. A send event would consist in pushing the message on the shared FIFO channel.
-A low-level implementation needs a shared real-time clock \cite{cristian1999timed} or a global agreement on the order of events \cite{defago2004total, raynal2010communication}.
+In the mailbox ($\mb$) communicating model, any two messages sent to a process  must be received in the same order as they are sent (according to absolute time). These two messages might be sent by different processes and the two send events might be concurrent (i.e., there is no causal path between them). In other words, if a process  receives $m_1$ before $m_2$, then $m_1$ must have been sent before $m_2$. Essentially, $\mb$ coordinates all the senders of a single receiver. For this reason the model is also called FIFO $n\mathsf{-}1$ \cite{DBLP:journals/fac/ChevrouHQ16}.   A high-level implementation of the mailbox communication model could consist in a single incoming FIFO channel for each process $p$, in which all processes enqueue their messages to $p$. 
+A low-level implementation can be obtained thanks to a shared real-time clock~\cite{cristian1999timed} or a global agreement on the order of events~\cite{defago2004total, raynal2010communication}.
 The MSC shown in Fig.~\ref{fig:pp_ex} is not a mailbox MSC; $m_1$ and $m_3$ have the same recipient, but they are not received in the same order as they are sent. The MSC in Fig.~\ref{fig:co_ex} is mailbox; indeed, we are able to find a linearization that respects the mailbox constraints, such as $!1\;!2\;!3\;?2\;?3\;?1$ (note that $m_2$ is both sent and received before $m_3$). Below the definition of $\none$-MSC.
 
 \begin{definition}[$\none$-MSC]\label{def:mb_msc}

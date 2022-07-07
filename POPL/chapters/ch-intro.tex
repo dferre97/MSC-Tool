@@ -4,14 +4,15 @@
 Reasoning about distributed message-passing applications is  hard. The degree of asynchrony
 of the communication model is  an important ingredient of the application.
 One reason
-is that the communication architecture on which the application runs may vary, and must be accurately specified. In particular, an under-approximated communication model may hide safety errors,
-such as unspecified receipts, whereas an over-approximated model may hide deadlocks. 
+is that the communication architecture on which the application runs may vary, and must be accurately specified. 
+In particular, an under-approximation of the communication model may hide safety errors,
+such as unspecified receipts, whereas any approximation (under or over) of the communication model may hide deadlocks. 
 
 In synchronous communication (also known as rendez-vous communication), send and receive events are viewed as
 a single event, i.e., a receive event and the corresponding send event happen simultaneously. The idea behind asynchronous communication, instead, is to decouple send and receive events, so that a receive event can happen indefinitely after the corresponding send event. By introducing some additional constraints on the execution of those events, we can obtain new communication models that sit somewhere between synchronous and fully asynchronous communication.
 In this paper we try to clarify and classify some of these communication models.
 %We consider only point-to-point communication, that is, messages that have exactly one sender and one receiver.
-On  one hand, we consider communication models that were proposed in the early days of large-scale distributed computing to establish the correctness of some distributed algorithms, such as \emph{causal ordering}~\cite{Lamport78} for the correctness of Lamport's distributed mutual exclusion algorithm (see also~\cite{Renesse93}), or the weaker "FIFO" peer-to-peer assumption. On the other hand, we look at communication models that emerge
+On  one hand, we consider communication models that were proposed in the early days of large-scale distributed computing to establish the correctness of some distributed algorithms, such as \emph{causal ordering}~\cite{Lamport78} for the correctness of Lamport's distributed mutual exclusion algorithm (see also~\cite{Renesse93} for more examples), or the weaker "FIFO" peer-to-peer assumption. On the other hand, we look at communication models that emerge
 naturally when considering local-scale message-passing applications, which are based on predictable
 message buffering supported by local FIFO queues (for instance "mailboxes"). Such communication models have
 been considered in more recent works (for instance in~\cite{DBLP:journals/tcs/BasuB16}) and have caused
@@ -20,7 +21,7 @@ some confusion, specifically regarding the difference between causal ordering an
 The classification and axiomatisation of large-scale communication models received great attention in the late 90s~\cite{DBLP:journals/dc/Charron-BostMT96}, while the local-scale communication models have only started to be investigated quite recently by Chavrou~\emph{et al.}~\cite{DBLP:journals/fac/ChevrouHQ16}, focusing on a \emph{sequential} view of the behaviours of message-passing
 applications (to be detailed below).
 At the same time, several works~\cite{KraglQH18,GleissenthallKB19,DBLP:conf/cav/BouajjaniEJQ18,DBLP:conf/cav/LangeY19} recently addressed the verification of
-asynchronous message-passing applications by reduction to their synchronous semantics (see also~\cite{Lipton75} for a seminal work on these questions). These results strongly rely on the ability to safely approximate an asynchronous communication model with a synchronous one. There is therefore a need to clarify how the synchronous-asynchronous spectrum of communication models is organised.
+asynchronous message-passing applications by reduction to their synchronous semantics (see also~\cite{Lipton75} for a seminal work on these questions). These results strongly rely on the ability to safely approximate an asynchronous communication model by a synchronous one. There is therefore a need to clarify how the synchronous-asynchronous spectrum of communication models is organised.
 
 In this work, we start from the sequential hierarchy established by Chevrou~\emph{et al.}~\cite{DBLP:journals/fac/ChevrouHQ16}, where a
 communication model is represented by a class of sequential executions; we revisit this hierarchy
@@ -30,8 +31,7 @@ Our MSCs are a graphical representation of computations of distributed systems, 
 version of the ITU recommendation~\cite{messagesequencecharts}.
 Roughly speaking, a distributed system is composed by a set of
 sequential processes that can exchange messages. Each process executes a sequence of \emph{events}, which in our case will be either \emph{send}
-or \emph{receive} events. A send event $s$ and a receive event $r$ are said to be \emph{matching} if the message sent by $s$ is the same  that is
-received by $r$. A distributed computation is the \\
+or \emph{receive} events. A send event $s$ and a receive event $r$ are said to be \emph{matching} if the message sent at $s$ is the one received at $r$. A distributed computation is the \\
 \noindent
 \begin{minipage}[c]{10.5cm}
  concurrent execution of each process. In an MSC, such as the one in Fig.~\ref{fig:msc_ex}, each
