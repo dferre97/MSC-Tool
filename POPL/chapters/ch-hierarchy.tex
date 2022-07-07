@@ -124,13 +124,13 @@ The opposite direction is also true and the proof, which can be found in  Append
 
 \begin{restatable}{proposition}{mbonennounmatched} 
 \label{prop:mb_onen_no_unmatched}
-	Every $\none$-MSC without unmatched messages is a $\onen$-MSC.
+	Every $\none$-MSC without unmatched messages is a $\onen$ MSC.
 \end{restatable}
 
-Interestingly enough, Proposition~\ref{prop:onen_mb_no_unmatched} and \ref{prop:mb_onen_no_unmatched} show that the classes of $\none$ and $\onen$-MSCs coincide if we do not allow unmatched messages.  This changes when we add unmatched messages into the mix. However, Proposition~\ref{prop:onen_mb_no_unmatched} still holds.
+Interestingly enough, Proposition~\ref{prop:onen_mb_no_unmatched} and \ref{prop:mb_onen_no_unmatched} show that the classes of $\none$ and $\onen$ MSCs coincide if we do not allow unmatched messages.  This changes when we add unmatched messages into the mix. However, Proposition~\ref{prop:onen_mb_no_unmatched} still holds.
 
 \begin{proposition} \label{prop:onen_mb_unmatched}
-	Every $\onen$-MSC is a $\none$-MSC.
+	Every $\onen$ MSC is a $\none$-MSC.
 \end{proposition}
 \begin{proof}
 Let $\msc$ be an asynchronous MSC. The proof proceeds as for Proposition~\ref{prop:onen_mb_no_unmatched}, but unmatched messages introduce some additional cases. Consider any two adjacent events $s_1$ and $s_2$ in a cycle $\xi$ for $\mbpartialstrict$, where $\xi$ has been written using only $\mbrel$ and $\happensbeforestrict$, and we never have two consecutive $\happensbeforestrict$. These are some additional cases:
@@ -147,4 +147,4 @@ The MSC in Fig.~\ref{fig:pp_um_ex} shows a simple example of an MSC with unmatch
 
  
 
-In the $\nn$ communication model, any two messages must be received in the same order as they are sent. It is then easy to observe that each $\nn$ MSC is a $\onen$ MSC, because each $\nn$ linearization is also a $\onen$ linearization. Moreover, Fig.~\ref{fig:onen_no_nn} shows an example of MSC that is $\onen$ but not $\nn$, hence we have that $\nnMSCs \subset \onenMSCs$; in particular, note that for messages $m_1$ and $m_4$ we have $!1 \happensbefore !4$ and $?4 \procrel ?1$, so there cannot be a $\nn$ linearization, but it is possible to find a $\onen$ linearization such as $!1\;!2\;?2\;!3\;?3\;!4\;?4\;?1$. In the \rsc model, every send event is immediately followed by its corresponding receive event. \rsc is then  a special case of $\nn$ communication, and every $\rsc$-MSC is a $\nn$-MSC because a $\rsc$ linearization is always also a $\nn$ linearization. Besides, Fig.~\ref{fig:nn_no_rsc} shows an example of MSC that is $\nn$ but not $\rsc$, therefore $\rscMSCs \subset \nnMSCs$.
+In the $\nn$ communication model, any two messages must be received in the same order as they are sent. It is then easy to observe that each $\nn$ MSC is a $\onen$ MSC, because each $\nn$ linearization is also a $\onen$ linearization. Moreover, Fig.~\ref{fig:onen_no_nn} shows an example of MSC that is $\onen$ but not $\nn$, hence we have that $\nnMSCs \subset \onenMSCs$; in particular, note that for messages $m_1$ and $m_4$ we have $!1 \happensbefore !4$ and $?4 \procrel ?1$, so there cannot be a $\nn$ linearization, but it is possible to find a $\onen$ linearization such as $!1\;!2\;?2\;!3\;?3\;!4\;?4\;?1$. In the \rsc model, every send event is immediately followed by its corresponding receive event. \rsc is then  a special case of $\nn$ communication, and every $\rsc$-MSC is a $\nn$ MSC because a $\rsc$ linearization is always also a $\nn$ linearization. Besides, Fig.~\ref{fig:nn_no_rsc} shows an example of MSC that is $\nn$ but not $\rsc$, therefore $\rscMSCs \subset \nnMSCs$.
