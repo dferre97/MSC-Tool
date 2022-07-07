@@ -293,7 +293,7 @@ The MSC shown in Fig.~\ref{fig:pp_ex} is not a $\onen$ MSC; $m_1$ and $m_2$ are 
 \begin{definition}[$\onen$ MSC]\label{def:one_n}
 An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\onen$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $\lambda(s)=\pqsAct{p}{\plh}$, $\lambda(s')=\pqsAct{p}{\plh}$, and $s \procrel^+ s'$ (which implies $s \linrel s'$)
 \begin{itemize}%\itemsep=0.5ex
-	\item either $s,s' \in \Matched{\msc}$ and $r \linrel r'$, with  $r$ and $r'$  two receive events such that $s \lhd r$ and $s' \lhd r'$,
+	\item either $s,s' \in \Matched{\msc}$ and $r \linrel r'$, with  $r$ and $r'$   receive events such that $s \lhd r$ and $s' \lhd r'$,
 	\item or $s' \in \Unm{\msc}$.
 \end{itemize}
 \end{definition}
@@ -310,7 +310,7 @@ The MSC shown in Fig.~\ref{fig:pp_ex} is clearly not a $\nn$ MSC; if we consider
 \begin{definition}[$\nn$ MSC]\label{def:n_n}
 	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \emph{$\nn$ MSC} if it has a linearization $\linrel$ where, for any two send events $s$ and $s'$, such that $s \linrel s'$
 	\begin{itemize}%\itemsep=0.5ex
-		\item either $s,s' \in \Matched{\msc}$ and $r \linrel r'$, with $r$ and $r'$  two receive events such that $s \lhd r$ and $s' \lhd r'$,
+		\item either $s,s' \in \Matched{\msc}$ and $r \linrel r'$, with $r$ and $r'$   receive events such that $s \lhd r$ and $s' \lhd r'$,
 		\item or $s' \in \Unm{\msc}$.
 	\end{itemize}
 \end{definition}
