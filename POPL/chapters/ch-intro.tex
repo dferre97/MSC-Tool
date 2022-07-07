@@ -1,6 +1,5 @@
-
-
 % !TEX root = ../popl-paper.tex
+
 Reasoning about distributed message-passing applications is  hard. The degree of asynchrony
 of the communication model is  an important ingredient of the application.
 One reason
@@ -150,7 +149,7 @@ Our contributions are the following:
 			& Weakly  & Weakly  & $\exists$k & $\forall$k  \\
 			& sync & k-sync & bounded & bounded \\
 			\hline \hline
-			$\asy$ &  \xmark & \cmark & \cmark & \cmark \\
+			$\asy$ &  unbounded STW & \cmark & \cmark & \cmark \\
 			\hline
 			$\oneone$  & \xmark~[1] & \cmark~[1] & \cmark~[1] & \cmark~[1] \\
 			\hline
