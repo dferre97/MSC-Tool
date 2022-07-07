@@ -388,7 +388,7 @@ Intuitively, we say that an MSC is existentially $k$-bounded if it admits a line
 	\]
 \end{definition}
 \noindent where $\sametype{e}{A}{\rel} = |\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(f) \in A\}|$.
-For instance, $\sametype{e}{\pqsAct{p}{q}}{\linrel}$ denotes the number of send events from $p$ to $q$ that occured before $e$ according to $\linrel$\footnote{Note that, since $\linrel$ in reflexive, $e$ itself is counted in $\sametype{e}{\pqsAct{p}{q}}{\linrel}$}.
+For instance, $\sametype{e}{\pqsAct{p}{q}}{\linrel}$ denotes the number of send events from $p$ to $q$ that occured before $e$ according to $\linrel$.Note that, since $\linrel$ in reflexive, $e$ itself is counted in $\sametype{e}{\pqsAct{p}{q}}{\linrel}$.
 
 \begin{wrapfigure}[9]{r}{0pt}
 	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
@@ -573,7 +573,7 @@ allSends\_p\_q(k)
 \;\wedge\; s_1 \lhd r
 \right)
 \]
-Recall that an MSC $\msc$ is $\none$-$\exists k$-bounded if it has a linearization that is both $\none$ and $\exists k$-bounded. A linearization $\linrel$ is $\none$ if $\msc$ is $\none$ and $\linrel$ is a linear extension of the partial order $\mbpartial$, i.e. $\mbpartial \;\subseteq\; \linrel$. A linearization $\linrel$ is $\exists k$-bounded if $\relb \;\subseteq\; \linrel$. It follows that a linearization $\relb$ is $\none$-$\exists k$-bounded if $(\mbpartial \cup \relb) \;\subseteq\; \linrel$. Such a linerization exists only if $\mbpartial \cup \relb$ is acyclic\footnote{If $\mbpartial \cup \relb$ is acyclic, its transive closure always exists and it is a partial order, hence we are always able to find a linear extension.}. The characterisation for \onen-$\exists k$-bounded MSCs and \nn-$\exists k$-bounded is very similar. Summing up:
+Recall that an MSC $\msc$ is $\none$-$\exists k$-bounded if it has a linearization that is both $\none$ and $\exists k$-bounded. A linearization $\linrel$ is $\none$ if $\msc$ is $\none$ and $\linrel$ is a linear extension of the partial order $\mbpartial$, i.e. $\mbpartial \;\subseteq\; \linrel$. A linearization $\linrel$ is $\exists k$-bounded if $\relb \;\subseteq\; \linrel$. It follows that a linearization $\relb$ is $\none$-$\exists k$-bounded if $(\mbpartial \cup \relb) \;\subseteq\; \linrel$. Such a linerization exists only if $\mbpartial \cup \relb$ is acyclic. If $\mbpartial \cup \relb$ is acyclic, its transitive closure always exists and it is a partial order, hence we are always able to find a linear extension. The characterisation for \onen-$\exists k$-bounded MSCs and \nn-$\exists k$-bounded is very similar. Summing up:
 
 \begin{proposition}\label{prop:ek-mso}
 	An MSC $\msc$ is $\none$-$\exists k$-bounded iff the relation $\mbpartial \cup \relb$ is acyclic.\\
