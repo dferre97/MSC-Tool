@@ -97,7 +97,7 @@ For the mailbox communication model, Definition~\ref{def:mb_msc} cannot be easil
 		\item $s \lhd r_1$ and $s' \lhd r_2$ for some $r_1,r_2 \in \Events_q$ such that $r_1 \procrel^+ r_2$.
 	\end{itemize}
 
-	We let ${\mbpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^\ast$.
+	We let ${\mbpartialstrict} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^+$.
 	$\msc $ is a \emph{$\none$-MSC}
 	if ${\mbpartial}$ is a partial order.
 \end{definition}
@@ -105,13 +105,13 @@ The ${\mbrel}$ relation expresses that two send events that are not necessarily 
 %Finally notice  that ${\le} \subseteq {\mbpartial}$. Hence entailing that a \mb-MSC is also a \pp-MSC.
 The MSO-definability of $\mbMSCs$ follows from Definition~\ref{def:n_one_alt}; in particular, note that 
 $\mbpartial$ is reflexive and transitive by definition, 
-thus we just have to check antisymmetry:
+thus we just have to check acyclicity:
 \[
-	\mbformula = \ppformula \;\wedge\; \neg \exists x.\exists y.(\neg (x = y) \wedge x \mbpartial y \wedge y \mbpartial x)
+	\mbformula = \ppformula \;\wedge\; \neg \exists x.\ x \mbpartialstrict x 
 \]
 %This formula closely follows Definition~\ref{def:n_one_alt}. The set $\mbMSCs$ of $\none$ MSCs is therefore MSO-definable as $\mbMSCs=L(\mbformula)$.
 
-where $x \mbpartial y$ is obtained as the MSO-definable reflexive transitive closure of
+where $x \mbpartialstrict y$ is obtained as the MSO-definable transitive closure of
 the union of the MSO-definable relations $\procrel$, $\lhd$, and $\mbrel$; 
 we may define $x \mbrel y$ as:
 \[
@@ -148,11 +148,8 @@ As with the mailbox communication model, we give an alternative definition of $\
 \end{definition}
 
 The ${\onenrel}$ relation ensures that messages sent by a process are sent and received in an order that is suitable for the $\onen$ communication. Since ${\onenpartial}$ is a partial order, it is possible to find a linearization $\linrel$ such that $\linrel \;\subseteq\; \onenpartial$. It is not difficult to see that such a linearization is exactly what we called a $\onen$ linearization in Definition~\ref{def:one_n}.
-The MSO formula that defines $\onenMSCs$ follows from  Definition~\ref{def:one_n_alt}:
-\[
-	\onenformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \onenpartial y \wedge y \onenpartial x)
-\]
-Recall that $\onenpartial$ is the union of the MSO-definable relations $\procrel$, $\lhd$, and $\onenrel$. In particular, we can define $x \onenrel y$ as
+The existence of a MSO formula that defines $\onenMSCs$ follows from Definition~\ref{def:one_n_alt} and the MSO definability
+of $\onenrel$
 \[
 x \onenrel y =
 \begin{array}{rl}
@@ -193,8 +190,11 @@ In order to show the MSO-definability of \nn MSCs we give an alternative definit
 \end{definition}
 
 %To prove that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent, we need some preliminary results and definitions. 
-As before full proofs can be found in Appendix~\ref{apx:MSO}. 
-The first side of the equivalence (Definition \ref{def:n_n_alt} $\Rightarrow$ Definition \ref{def:n_n}) follows from the fact that the order of receive events imposes an order on sends and the fact that a \nn linearization is also a \mb and \onen one.
+As for the other communication models,
+the equivalence of 
+Definitions~\ref{def:n_n} and~\ref{def:n_n_alt}
+can be found in Appendix~\ref{apx:MSO}. 
+The implication Definition \ref{def:n_n_alt} $\Rightarrow$ Definition \ref{def:n_n} follows from the fact that the order of receive events imposes an order on sends and the fact that a \nn linearization is also a \mb and \onen linearization.
 \begin{restatable}{proposition}{nnsecondprop}
 \label{prop:n_n_cycl}
 	Let $\msc$ be an MSC. If $\nnbowtie$ is cyclic, then $\msc$ is not $\nn$.
