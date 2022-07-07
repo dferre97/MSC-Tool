@@ -1,7 +1,5 @@
 % !TEX root = ../popl-paper.tex
 
-\cinzia{@Davide check hb}
-
 %\davidequestion{Don't we need a citation for MSO?}
 We have introduced seven different communication models and the corresponding classes of MSCs. Here, we show that all of these classes are MSO-definable, i.e. for every
 communication model $\comsymb$,
@@ -108,11 +106,10 @@ The ${\mbrel}$ relation expresses that two send events that are not necessarily 
 The MSO-definability of $\mbMSCs$ follows from Definition~\ref{def:n_one_alt}; in particular, note that 
 $\mbpartial$ is reflexive and transitive by definition, 
 thus we just have to check acyclicity:
-\[
+$
 	\mbformula = \neg \exists x.\ x \mbpartialstrict x 
-\]
+$
 %This formula closely follows Definition~\ref{def:n_one_alt}. The set $\mbMSCs$ of $\none$ MSCs is therefore MSO-definable as $\mbMSCs=L(\mbformula)$.
-
 where $x \mbpartialstrict y$ is obtained as the MSO-definable transitive closure of
 the union of the MSO-definable relations $\procrel$, $\lhd$, and $\mbrel$; 
 we may define $x \mbrel y$ as:
@@ -234,18 +231,21 @@ We now need to show that
 \end{proof}
 
 
-Finally  the other side of the equivalence (Definition \ref{def:n_n} $\Rightarrow$ Definition \ref{def:n_n_alt}) directly follows from the next proposition. The proof  proceeds by induction on the number of events added to the linearization and relies on the fact that since $\nnbowtie$ is acyclic then the EDG of the MSC is a DAG.
 
 \begin{restatable}{proposition}{nnalgotermination}
 \label{prop:nn_algo_term}
 	Given an MSC $\msc$, Algorithm \ref{algonn}  terminates correctly if $\nnbowtie$ is acyclic.
 \end{restatable}
 
-%Proposition~\ref{prop:n_n_cycl} and Proposition~\ref{prop:nn_algo_term} are sufficient to prove that Definition~\ref{def:n_n_alt} and Definition~\ref{def:n_n} are equivalent.
-Based on Definition~\ref{def:n_n_alt}, we can finally write an MSO formula for $\nn$ MSCs:
-\[
+The proof  proceeds by induction on the number of events added to the linearization and relies on the fact that since $\nnbowtie$ is acyclic then the EDG of the MSC is a DAG 
+(see Appendix~\ref{app:sec-mso})
+
+
+Finally, we showed the missing implication
+Definition \ref{def:n_n} $\Rightarrow$ Definition \ref{def:n_n_alt}) and completed the proof of the equivalence of these two definitions. Based on Definition~\ref{def:n_n_alt}, we can now write an MSO formula for $\nn$ MSCs:
+$
 	\nnformula = \neg \exists x. x \nnbowtie^{+} x 
-\]
+$
 where we can define $x \nnbowtie y$ as
 \[
 	x \nnbowtie y =
