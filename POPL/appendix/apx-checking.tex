@@ -56,31 +56,31 @@ Intuitively, $L_{\asy}(\Sys)$ is the set of all asynchronous behaviors of $\Sys$
 % traces that can be \emph{generated} by $\Sys$.
 % %We will discuss this issue in more detail later in the paper. \todo{Do we still discuss this in the conference version or can we omit this sentence?}
 
-\subsection{Conflict Graph}\label{app:conflict-graph}
+%\subsection{Conflict Graph}\label{app:conflict-graph}
 
 %\etienne{Copy-paste from a file, not sure how it fits with the rest of the appendix yet.}
 %\davidequestion{The conflict graph is needed only for some proofs on the cuncur paper. I think it makes sense not to include it here and eventually introduce it later in the MSO-treewidth chapter if we really need it.}
 
-We now recall the notion of a conflict graph associated to an MSC defined in \cite{DBLP:conf/cav/BouajjaniEJQ18}. This graph is used to depict the causal dependencies between message exchanges.  Intuitively, we have a dependency whenever
-two messages have a process in common. For instance, an $\xrightarrow{SS}$
-dependency between message exchanges $v$ and $v'$ expresses the fact that
-$v'$ has been sent after $v$, by the same process. This notion is of interest because it was seen in \cite{DBLP:conf/cav/BouajjaniEJQ18} that the notion of synchronizability in MSCs (which is studied in this paper) can be graphically characterized by the nature of the associated conflict graph.
-It is defined in terms of linearizations
-in \cite{DBLP:conf/fossacs/GiustoLL20}, but we equivalently express it
-directly in terms of MSCs.
-
-For an MSC $\msc = (\Events, \rightarrow, \lhd, \lambda)$ and
-$e \in \Events$, we define the type $\type(e) \in \{\stype,\rtype\}$ of $e$ by $\type(e) = \stype$ if $e \in \SendEv{\msc}$
-and $\type(e) = \rtype$ if $e \in \RecEv{\msc}$.
-Moreover, for $e \in \Unm{\msc}$, we let $\mexch(e) = e$,
-and for $(e,e') \in \lhd$, we let $\mexch(e) = \mexch(e') = (e,e')$.
-
-
-\begin{definition}[Conflict graph]
-	The \emph{conflict graph} $\cgraph{\msc}$ of an MSC $\msc = (\Events, \rightarrow, \lhd, \lambda)$ is the labeled graph $(\Nodes, \Edges)$, with $\Edges \subseteq \Nodes \times \{\stype,\rtype\}^2 \times \Nodes$, defined by
-	$\Nodes = {\lhd} \cup \Unm{\msc}$ and $\Edges = \{(\mu(e),\type(e)\type(f),\mu(f)) \mid (e,f) \in {\to^+}\}$.
-In particular, a node of $\cgraph{\msc}$ is either a single unmatched send event or a message pair $(e,e') \in {\lhd}$.
-\end{definition}
+%We now recall the notion of a conflict graph associated to an MSC defined in \cite{DBLP:conf/cav/BouajjaniEJQ18}. This graph is used to depict the causal dependencies between message exchanges.  Intuitively, we have a dependency whenever
+%two messages have a process in common. For instance, an $\xrightarrow{SS}$
+%dependency between message exchanges $v$ and $v'$ expresses the fact that
+%$v'$ has been sent after $v$, by the same process. This notion is of interest because it was seen in \cite{DBLP:conf/cav/BouajjaniEJQ18} that the notion of synchronizability in MSCs (which is studied in this paper) can be graphically characterized by the nature of the associated conflict graph.
+%It is defined in terms of linearizations
+%in \cite{DBLP:conf/fossacs/GiustoLL20}, but we equivalently express it
+%directly in terms of MSCs.
+%
+%For an MSC $\msc = (\Events, \rightarrow, \lhd, \lambda)$ and
+%$e \in \Events$, we define the type $\type(e) \in \{\stype,\rtype\}$ of $e$ by $\type(e) = \stype$ if $e \in \SendEv{\msc}$
+%and $\type(e) = \rtype$ if $e \in \RecEv{\msc}$.
+%Moreover, for $e \in \Unm{\msc}$, we let $\mexch(e) = e$,
+%and for $(e,e') \in \lhd$, we let $\mexch(e) = \mexch(e') = (e,e')$.
+%
+%
+%\begin{definition}[Conflict graph]
+%	The \emph{conflict graph} $\cgraph{\msc}$ of an MSC $\msc = (\Events, \rightarrow, \lhd, \lambda)$ is the labeled graph $(\Nodes, \Edges)$, with $\Edges \subseteq \Nodes \times \{\stype,\rtype\}^2 \times \Nodes$, defined by
+%	$\Nodes = {\lhd} \cup \Unm{\msc}$ and $\Edges = \{(\mu(e),\type(e)\type(f),\mu(f)) \mid (e,f) \in {\to^+}\}$.
+%In particular, a node of $\cgraph{\msc}$ is either a single unmatched send event or a message pair $(e,e') \in {\lhd}$.
+%\end{definition}
 
 
 \subsection{Proof of Theorem~\ref{thm:bounded-model-checking}}\label{proofbmc}
