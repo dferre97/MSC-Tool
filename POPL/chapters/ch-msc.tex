@@ -81,7 +81,7 @@ Definition~\ref{def:msc} of (fully asynchronous) MSC will serve as a basis on wh
 
 According to Condition (2), every receive event must have a matching send event. However, note that, there may be unmatched send events. An unmatched send event represents the scenario in which the recipient is not ready to receive a specific message. This is the case of message $m_1 $ in  Fig. \ref{fig:asy_um_ex}.
 We will always depict unmatched messages with dashed arrows pointing to the time line of the
-destination process (note that the vertical position of the arrow on this timeline does not correspond to any event).
+destination process.
 We let
 $\SendEv{\msc} = \{e \in \Events \mid \lambda(e)$ is a send
 action$\}$,
