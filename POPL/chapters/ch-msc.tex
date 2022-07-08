@@ -76,8 +76,7 @@ An MSC that shows a valid computation for the fully asynchronous communication m
 %\davide{I think that this notation of $\sametype{e}{A}{\rel}$ should be removed here and just introduced in the last chapter (if I recall correctly we only use it for the existentially k-bounded MSCs).}
 Note that the same message $m$ may occur repeatedly on a given MSC,
 hence the $\lambda$ labelling function. In most of our 
-examples, we avoid repeating twice a same message, and we
-identify an event and the action occurring at that event.
+examples, we avoid repeating twice a same message, hence events and actions are univocally identified.
 Definition~\ref{def:msc} of (fully asynchronous) MSC will serve as a basis on which the other communication models will build on, adding some additional constraints.
 
 According to Condition (2), every receive event must have a matching send event. However, note that, there may be unmatched send events. An unmatched send event represents the scenario in which the recipient is not ready to receive a specific message. This is the case of message $m_1 $ in  Fig. \ref{fig:asy_um_ex}.
