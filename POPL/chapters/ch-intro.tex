@@ -18,7 +18,7 @@ message buffering supported by local FIFO queues (for instance "mailboxes"). Suc
 been considered in more recent works (for instance in~\cite{DBLP:journals/tcs/BasuB16}) and have caused
 some confusion, specifically regarding the difference between causal ordering and mailboxes~\cite{DBLP:conf/cav/BouajjaniEJQ18,DBLP:conf/fossacs/GiustoLL20}.
 
-The classification and axiomatisation of large-scale communication models received great attention in the late 90s~\cite{DBLP:journals/dc/Charron-BostMT96}, while the local-scale communication models have only started to be investigated quite recently by Chavrou~\emph{et al.}~\cite{DBLP:journals/fac/ChevrouHQ16}, focusing on a \emph{sequential} view of the behaviors of message-passing
+The classification and axiomatisation of large-scale communication models received great attention in the late 90s~\cite{DBLP:journals/dc/Charron-BostMT96}, while the local-scale communication models have only started to be investigated quite recently by Chevrou~\emph{et al.}~\cite{DBLP:journals/fac/ChevrouHQ16}, focusing on a \emph{sequential} view of the behaviors of message-passing
 applications (to be detailed below).
 At the same time, several works~\cite{KraglQH18,GleissenthallKB19,DBLP:conf/cav/BouajjaniEJQ18,DBLP:conf/cav/LangeY19} recently addressed the verification of
 asynchronous message-passing applications by reduction to their synchronous semantics (see also~\cite{Lipton75} for a seminal work on these questions). These results strongly rely on the ability to safely approximate an asynchronous communication model by a synchronous one. There is therefore a need to clarify how the synchronous-asynchronous spectrum of communication models is organized.
@@ -29,10 +29,10 @@ with a non-sequential point of view: we define a communication model as a class 
 \emph{Message Sequence Charts} (MSCs in the following).
 Our MSCs are a graphical representation of computations of distributed systems, and they are a simplified
 version of the ITU recommendation~\cite{messagesequencecharts}.
-Roughly speaking, a distributed system is composed by a set of
-sequential processes that can exchange messages. Each process executes a sequence of \emph{events}, which in our case will be either \emph{send}
-or \emph{receive} events. A send event $s$ and a receive event $r$ are said to be \emph{matching} if the message sent at $s$ is the one received at $r$. 
-A distributed computation is the concurrent execution of each process. 
+Roughly speaking, a distributed system is composed of processes that can exchange messages. 
+Each process executes a sequence of \emph{send} or \emph{receive} \emph{actions}.
+A send event $s$ and a receive event $r$ are said to be \emph{matching} if the message sent at $s$ is the one received at $r$. 
+%A distributed computation is the parallel execution of all processes. 
 \begin{wrapfigure}{r}{0pt}
 	\begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
 		\newproc{0}{p}{-2.5};
