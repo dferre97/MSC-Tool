@@ -31,8 +31,7 @@ $\psAct{p} = \{\sact{p}{q}{\msg} \mid q \in \Procs
 Moreover, $\pAct{p} = \psAct{p} \cup \qrAct{p}$ denotes the set of all actions that are
 executed by $p$, and $\Act = \bigcup_{p \in \Procs} \pAct{p}$
 is the set of all the actions. When $p$ and $q$
-are clear from the context, we may write $!m_i$,
-or $!i$ (resp. $?m_i$, $?i$) instead of $\sact{p}{q}{m_i}$ (resp. $\ract{p}{q}{m_i}$).
+are clear from the context, we may write $!i$ (resp. $?i$) instead of $\sact{p}{q}{m_i}$ (resp. $\ract{p}{q}{m_i}$).
 %\davide{Should we specify somewhere how the notations $"send(,,)"$ and $!i$ (same for receive) are related? I suppose they could confuse the reader, since we basically use them interchangeably in the paper. Also, the difference between action and event is not very clear IMO.}
 
 
@@ -208,6 +207,14 @@ action and there is no $f \in \Events$ such that $e \lhd f\}$.
 \end{figure}
 
 %\davide{I think it would be a good idea to add another set of MSC examples that contain unmatched messages.}
+
+\begin{example}
+    For a set of processes $\procSet = \{p,q,r\}$ and a set of messages $\paylodSet = \{\msg_1, \msg_2, \msg_3 \}$, Fig.~\ref{fig:msc_ex} shows an MSC 
+    $\msc = (\Events, \procrel, \lhd, \lambda)$
+    %in Fig.~\ref{fig:msc_weak_univer}
+    where, for instance, we have
+  $!1\;\lhd\;?1$, $?1\;\procrel\;?2$, and $!2\;\happensbefore\;?3$. The set of actions is $\Act = \{$$\sact{p}{q}{m_1},$ $\sact{r}{q}{m_2},$  $\sact{q}{p}{m_3},$ $\ract{p}{q}{m_1},$ $\ract{r}{q}{m_2},$ $\ract{q}{p}{m_3}\}$, or, using the lightweight notation, $\Act = \{!1, !2, !3, ?1, ?2, ?3 \}$.
+\end{example}
 
 %\paragraph*{Linearizations.}
 Intuitively, a linearization represents the order in which events are executed by the distributed system according to \emph{absolute time}, i.e., as they are seen by an external viewer that has a global view of all the processes. More formally, let $\msc = (\Events,\procrel,\lhd,\lambda)$ be an MSC.
