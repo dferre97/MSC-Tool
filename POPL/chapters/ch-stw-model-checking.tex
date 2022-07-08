@@ -8,7 +8,7 @@
 
 In this section, we show how the MSO characterization of all the communication
 models we considered induces several decidability results for
-synchronisability and bounded model-checking problems on systems of
+synchronizability and bounded model-checking problems on systems of
 communicating finite state machines.
 
 A communicating finite state machine is a finite state automaton labeled with send
@@ -39,7 +39,7 @@ that they only contain "almost synchronous" MSCs. So the bounded model-checking 
 corresponds to an under-approximation of the standard model-checking problem where the
 system is assumed to be "almost synchronous". The question of the completeness of this under-approximaton, 
 i.e. whether $L_{\comsymb}(\Sys)\subseteq \aMSCclass$, will be 
-referred to as the "synchronisability problem".
+referred to as the "synchronizability problem".
 
 
 Bollig~\emph{et al.}~\cite{BolligGFLLS21} introduced a general framework that allows to derive decidability results 
@@ -115,7 +115,7 @@ $\cL{\Sys} \subseteq \aMSCclass$.
 
 \begin{definition}
 Let a communication model $\comsymb$ and a class $\aMSCclass$ of MSCs be fixed. The
-$(\comsymb,\aMSCclass)$-synchronisability problem is defined as follows: given a
+$(\comsymb,\aMSCclass)$-synchronizability problem is defined as follows: given a
 system $\Sys$, decide whether $L_{\comsymb}(\Sys)\subseteq \aMSCclass$.
 \end{definition}
 
@@ -128,7 +128,7 @@ We generalize their result to other communication models under a general assumpt
 	For any $\comsymb \in \{\asy, \oneone, \co, \none, \onensymb, \nnsymb\}$ and
 	for all   class of MSCs $\aMSCclass$,
 	if $\aMSCclass$ is STW-bounded and MSO-definable,
-	then the $(\comsymb,\aMSCclass)$-synchronisability problem is decidable.
+	then the $(\comsymb,\aMSCclass)$-synchronizability problem is decidable.
 \end{restatable}
 The proof of Theorem~\ref{thm:sync} resembles the proof of~\cite[Theorem~11]{BolligGFLLS21-long}, and the main technical argument of the existence of a "borderline violation" remains 
 (see~\cite[Lemma~9]{BolligGFLLS21-long}). However, the existence of a borderline violation is more subtle to establish, because the $\onenMSCs$ and 
@@ -222,7 +222,7 @@ a ${\happensbefore}$-downward-closed set.
 	  \draw (-1.25,1) -- (-1.25,-3.1);
 
 	  %MESSAGES
-	  \draw[>=latex,->, dashed] (-1.25, 0.5) -- (0, 0.5) node[ above, midway] {$\amessage_1$};
+	  \draw[>=latex,->, dashed] (-1.25, 0.5) -- (-1.25*0.1, 0.5) node[ above, midway] {$\amessage_1$};
 	  \draw[>=latex,->] (0, -.2) -- (-1.25, -.2) node[ above, midway] {$\amessage_2$};
 
 
@@ -262,9 +262,9 @@ Section~\ref{sec:MSC}).
 \end{example}
 
 In \cite{BolligGFLLS21} it is shown that, for the class of weakly synchronous MSCs, 
-the synchronisability problem is undecidable for $\comsymb = \oneone$, but decidable for $\comsymb = \oneone$.
-Here we investigate the decidability of weak synchronisability for the other 
-communication models. We first show that weak synchronisability 
+the synchronizability problem is undecidable for $\comsymb = \oneone$, but decidable for $\comsymb = \oneone$.
+Here we investigate the decidability of weak synchronizability for the other 
+communication models. We first show that weak synchronizability 
 is undecidable for causally ordered communication. 
 The proof is an adaptation of the one given in~\cite[Theorem~20]{BolligGFLLS21-long} for the $\oneone$ case (cfr. Appendix \ref{apx:prop-co-weak-sync}).
 \begin{restatable}{proposition}{propCoWeakSync}
@@ -274,7 +274,7 @@ The proof is an adaptation of the one given in~\cite[Theorem~20]{BolligGFLLS21-l
 	is every MSC in $\coL{\System}$ weakly synchronous?
 \end{restatable}
 
-For $\onensymb$ and $\nn$, on the other hand, weak synchronisability is decidable. 
+For $\onensymb$ and $\nn$, on the other hand, weak synchronizability is decidable. 
 
 \begin{proposition}\label{thm:weak-sync}
 	Let $\comsymb \in \{$$\onensymb, $ $\nnsymb\}$.
@@ -310,7 +310,7 @@ For $\onensymb$ and $\nn$, on the other hand, weak synchronisability is decidabl
 	  \draw (1,-0.25) -- (1,-3.1);
 	  \draw (2, -0.25) -- (2, -3.1) ;
 	  %MESSAGES
-	  \draw[>=latex,->, dashed] (0,-0.75) -- (1, -0.75) node[midway,above]{$\amessage_1$};
+	  \draw[>=latex,->, dashed] (0,-0.75) -- (0.9, -0.75) node[midway,above]{$\amessage_1$};
 
 	  \draw[>=latex,->] (1, -1.75) -- (0, -1.75) node[midway, above] {$\amessage_2$};
 	  %\draw (0.5,-1.7) node{$\cdots$};
@@ -409,7 +409,7 @@ For instance, $\sametype{e}{\pqsAct{p}{q}}{\linrel}$ denotes the number of send 
 
 		\draw[>=latex,->] (0, -0.5) -- (1.25, -1.25) node[pos=0.4, sloped, above] {$\amessage_1$};
 		\draw[>=latex,->] (0, -1.5) -- (1.25, -2.25) node[pos=0.55, sloped, above] {$\amessage_1$};
-		\draw[>=latex,->, dashed] (0, -2.5) -- (1.25, -3.25) node[pos=0.65, sloped, above] {$\amessage_1$};
+		\draw[>=latex,->, dashed] (0, -2.45) -- (1.25*0.9, -3.2) node[pos=0.65, sloped, above] {$\amessage_1$};
 
 		\draw[>=latex,->] (1.25, -0.75) -- (0, -2) node[pos=0.5, sloped, above] {$\amessage_2$};
 		\draw[>=latex,->] (1.25, -1.75) -- (0, -3) node[pos=0.5, sloped, above] {$\amessage_2$};
