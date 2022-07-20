@@ -1,0 +1,241 @@
+
+% !TEX root = popl-paper.tex
+
+\section{Communicating Systems}
+
+We now recall the definition of communicating systems (aka communicating finite-state
+machines or message-passing automata), which consist of finite-state machines $A_p$
+(one for every process $p \in \Procs$) that can communicate through channels from $\Ch$. In our case, we consider the most general definition in which channels behave as bags, which means that no specific order is enforced on the delivery of messages.
+
+\begin{definition}\label{def:cs}
+A \emph{communicating system} over $\Procs$ and $\Msg$ is a tuple
+   $ \Sys = (A_p)_{p\in\procSet}$. For each
+   $p \in \Procs$, $A_p = (Loc_p, \delta_p, \ell^0_p)$ is a finite transition system where
+   $\Loc_p$ is a finite set of local (control) states, $\delta_p
+   \subseteq \Loc_p \times \pAct{p} \times \Loc_p$ is the
+   transition relation, and $\ell^0_p \in Loc_p$ is the initial state.
+\end{definition}
+
+Given $p \in \Procs$ and a transition $t = (\ell,a,\ell') \in \delta_p$, we let
+$\tsource(t) = \ell$, $\ttarget(t) = \ell'$, $\tlabel(t) = a$, and
+$\tmessage(t) = \msg$ if $a \in \msAct{\msg} \cup \mrAct{\msg}$.
+
+\smallskip
+
+There are in general two ways to define the semantics of a communicating system.
+Most often it is defined as a global infinite transition system that keeps track
+of the various local control states and all (unbounded) channel contents.
+As, in this paper, our arguments are based on a graph view of MSCs, we will define
+the language of $\Sys$ directly as a set of MSCs. These two semantic views are essentially
+equivalent, but they have different advantages depending on the context.
+We refer to \cite{CyriacG14} for a thorough discussion.
+
+\davidequestion{MSCs are formally defined in chapter 5... maybe move here in the preliminaries just the asynchronous definition?}
+Let $\msc = (\Events,\procrel,\lhd,\lambda)$ be an MSC.
+A \emph{run} of $\Sys$ on $\msc$ is a mapping
+$\rho: \Events \to \bigcup_{p \in \Procs} \delta_p$
+that assigns to every event $e$ the transition $\rho(e)$
+that is executed at $e$. Thus, we require that
+\begin{enumerate*}[label={(\roman*)}]
+\item for all $e \in \Events$, we have $\tlabel(\rho(e)) = \lambda(e)$,
+\item for all $(e,f) \in {\procrel}$, $\ttarget(\rho(e)) = \tsource(\rho(f))$,
+\item for all $(e,f) \in {\lhd}$, $\tmessage(\rho(e)) = \tmessage(\rho(f))$,
+and
+\item for all $p \in \Procs$ and $e \in \Events_p$ such that there is no $f \in \Events$ with $f \procrel e$, we have $\tsource(\rho(e)) = \ell_p^0$.
+\end{enumerate*}
+
+Letting run $\Sys$ directly on MSCs is actually very convenient.
+This allows us to associate with $\Sys$ its p2p language and mailbox language
+in one go. The \emph{\pp language} of $\Sys$ is $\ppL{\Sys} = \{\msc \in \ppMSCs \mid$ there is a run of $\Sys$ on $\msc\}$.
+The \emph{mailbox language} of $\Sys$ is $\mbL{\Sys} = \{\msc \in \mbMSCs \mid$ there is a run of $\Sys$ on $\msc\}$.
+
+Note that, following \cite{DBLP:conf/cav/BouajjaniEJQ18,DBLP:conf/fossacs/GiustoLL20},
+we do not consider final states or final configurations, as our purpose is to
+reason about all possible
+traces that can be \emph{generated} by $\Sys$.
+%We will discuss this issue in more detail later in the paper. \todo{Do we still discuss this in the conference version or can we omit this sentence?}
+The next lemma is obvious for the p2p semantics and follows from Lemma~\ref{lem:mb-prefix} for
+	the mailbox semantics.
+
+\begin{lemma}\label{lem:prefix-closed}
+For all $\comsymb \in \{\ppsymb, \mbsymb\}$, $\cL{\Sys}$ is prefix-closed:
+$\Pref{\cL{\Sys}} \subseteq \cL{\Sys}$.
+\end{lemma}
+
+\begin{example}
+	Fig.~\ref{fig:system_weak_univer} depicts $\systemweakuniver = (A_p, A_q, A_r)$ such that MSC $\mscweakuniver$ in Fig.~\ref{fig:msc_weak_univer} belongs to $\ppL{\systemweakuniver}$ and to $\mbL{\systemweakuniver}$.
+	There is a unique run $\rho$ of $\systemweakuniver$ on $\mscweakuniver$.
+	We can see that $(e_3',e_4) \in {\rightarrow}$ and $\ttarget(\rho(e_3')) = \tsource(\rho(e_4)) = \ell_r^{1}$, $(e_2, e_2') \in \lhd_{\mscweakuniver}$, and $\tmessage(\rho(e_2)) = \tmessage(\rho(e_2')) = \msg_2$.
+	\end{example}
+	\begin{figure}[t]
+	\begin{center}
+	  \begin{tikzpicture}[>=stealth,node distance=3.2cm,shorten >=1pt,
+		every state/.style={text=black, scale =0.75}, semithick,
+		font={\fontsize{8pt}{12}\selectfont},
+		scale = 0.9
+		]
+	  \begin{scope}[->]
+		  \node[state,initial,initial text={}] (q0)  {$\ell_p^{0}$};
+		  \node[state, right of=q0] (q1)  {$\ell_p^{1}$};
+				\node[state, right of=q1] (q2) {$\ell_p^{2}$};
+	
+			\path (q0) edge node [above] {$\send{p}{q}{\msg_1}$} (q1);
+				\path (q1) edge node [above] {$\rec{q}{p}{\msg_2}$}(q2);
+			\node[thick] at (-1.1,0) {$A_p$};
+	  \end{scope}
+	
+	  \begin{scope}[->, shift={(7.5,0)}]
+		  \node[state,initial,initial text={}] (q0)  {$\ell_q^{0}$};
+				\node[state, right of=q0] (q1)  {$\ell_q^{1}$};
+				\node[state, below of=q1, node distance = 1.5cm] (q2) {$\ell_q^{2}$};
+				\node[state, left of=q2] (q3)  {$\ell_q^{3}$};
+	
+				\path (q0) edge node [above] {$\send{q}{p}{\msg_2}$} (q1);
+				\path (q1) edge node [right] {$\send{q}{r}{\msg_3}$}(q2);
+				\path (q2) edge node [above] {$\rec{r}{q}{\msg_4}$} (q3);
+				\node[thick] at (-1.1,0) {$A_q$};
+	  \end{scope}
+	
+		\begin{scope}[->, shift={(0,-1.25)} ]
+		  \node[state,initial,initial text={}] (q0)  {$\ell_r^{0}$};
+				\node[state, right of=q0] (q1)  {$\ell_r^{1}$};
+				\node[state, right of=q1] (q2) {$\ell_r^{2}$};
+	
+				\path (q0) edge node [above] {$\rec{q}{r}{\msg_3}$} (q1);
+				\path (q1) edge node [above] {$\send{r}{q}{\msg_4}$}(q2);
+				\node[thick] at (-1.1,0) {$A_r$};
+	  \end{scope}
+	\end{tikzpicture}
+	\captionof{figure}{System $\systemweakuniver$}
+	\label{fig:system_weak_univer}
+	\end{center}
+	\end{figure}	
+
+\section{Conflict Graph}
+
+\davidequestion{The conflict graph is needed only for some proofs on the cuncur paper. I think it makes sense not to include it here and eventually introduce it later in the MSO-treewidth chapter if we really need it.}
+
+We now recall the notion of a conflict graph associated to an MSC defined in \cite{DBLP:conf/cav/BouajjaniEJQ18}. This graph is used to depict the causal dependencies between message exchanges.  Intuitively, we have a dependency whenever
+two messages have a process in common. For instance, an $\xrightarrow{SS}$
+dependency between message exchanges $v$ and $v'$ expresses the fact that
+$v'$ has been sent after $v$, by the same process. This notion is of interest because it was seen in \cite{DBLP:conf/cav/BouajjaniEJQ18} that the notion of synchronizability in MSCs (which is studied in this paper) can be graphically characterized by the nature of the associated conflict graph.
+It is defined in terms of linearizations
+in \cite{DBLP:conf/fossacs/GiustoLL20}, but we equivalently express it
+directly in terms of MSCs.
+
+\newcommand{\type}{\tau}
+\newcommand{\stype}{S}
+\newcommand{\rtype}{R}
+\newcommand{\mexch}{\mu}
+\newcommand{\Edges}{\mathit{Edges}}
+\newcommand{\Nodes}{\mathit{Nodes}}
+
+For an MSC $\msc = (\Events, \rightarrow, \lhd, \lambda)$ and
+$e \in \Events$, we define the type $\type(e) \in \{\stype,\rtype\}$ of $e$ by $\type(e) = \stype$ if $e \in \SendEv{\msc}$
+and $\type(e) = \rtype$ if $e \in \RecEv{\msc}$.
+Moreover, for $e \in \Unm{\msc}$, we let $\mexch(e) = e$,
+and for $(e,e') \in \lhd$, we let $\mexch(e) = \mexch(e') = (e,e')$.
+
+
+\begin{definition}[Conflict graph]
+	The \emph{conflict graph} $\cgraph{\msc}$ of an MSC $\msc = (\Events, \rightarrow, \lhd, \lambda)$ is the labeled graph $(\Nodes, \Edges)$, with $\Edges \subseteq \Nodes \times \{\stype,\rtype\}^2 \times \Nodes$, defined by
+	$\Nodes = {\lhd} \cup \Unm{\msc}$ and $\Edges = \{(\mu(e),\type(e)\type(f),\mu(f)) \mid (e,f) \in {\to^+}\}$.
+In particular, a node of $\cgraph{\msc}$ is either a single unmatched send event or a message pair $(e,e') \in {\lhd}$.
+\end{definition}	
+
+\section{Logic and Special treewidth}
+
+\davidequestion{Special treewidth is used only in the final chapter, to me it makes more sense to introduce it there}
+
+\paragraph*{Monadic Second-Order Logic.}
+The set of MSO formulas over MSCs (over $\Procs$ and $\Msg$) is given by the grammar
+$
+\phi ::= x \procrel y \mid x \lhd y \mid \lambda(x) = a \mid x = y \mid x \in X \mid \exists x.\phi \mid \exists X.\phi \mid \phi \vee \phi \mid \neg \phi
+$,
+where $a \in \Act$, $x$ and $y$ are first-order variables, interpreted as
+events of an MSC, and $X$ is a second-order variable, interpreted
+as a set of events. We assume that we have an infinite supply of variables,
+and we use common abbreviations such as $\wedge$, $\forall$, etc.
+The satisfaction relation is defined in the standard way and self-explanatory.
+For example, the formula $\neg\exists x.(\bigvee_{a \in \sAct} \lambda(x) = a \;\wedge\; \neg \mathit{matched}(x))$
+with $\mathit{matched}(x) = \exists y.x \lhd y$
+says that there are no unmatched send events.
+It is not satisfied by  MSC $\mscweakuniver$
+of Fig.~\ref{fig:msc_weak_univer},
+as message $\msg_1$ is not received,
+but by $\mscstrongexist$ from Fig.~\ref{fig:msc_strong_exist}.
+
+Given a sentence $\phi$, i.e., a formula without free variables,
+we let $L(\phi)$ denote the set of (p2p) MSCs that satisfy $\phi$.
+%
+It is worth mentioning that the (reflexive) transitive closure of
+a binary relation defined by an MSO formula with free variables $x$ and $y$,
+such as $x \procrel y$, is MSO-definable so that the logic can freely
+use formulas of the form $x \procrel^+ y$ or $x \le y$ (where $\le$
+is interpreted as $\le$ for the given MSC $\msc$).
+Therefore, the definition of a mailbox MSC can be readily translated into
+the formula $\mbformula = \neg \exists x.\exists y.(\neg (x = y) \wedge x \mbpartial y \wedge y \mbpartial x)$ so that we have $L(\mbformula) = \mbMSCs$.
+Here, $x \mbpartial y$ is obtained as the MSO-definable reflexive transitive closure of
+the union of the MSO-definable relations $\procrel$, $\lhd$, and $\sqsubset$.
+In particular, we may define $x \sqsubset y$ by :
+\[
+x \sqsubset y =
+\displaystyle
+\hspace{-1em}\bigvee_{\substack{q \in \Procs\\a,b \in \qsAct{q}}}\hspace{-1em}
+\lambda(x) = a \;\wedge\; \lambda(y) = b
+\wedge
+\left(
+\begin{array}{rl}
+& \mathit{matched}(x) \wedge \neg \mathit{matched}(y)\\[1ex]
+\vee & \exists x'.\exists y'. (x \lhd x' \;\wedge\; y \lhd y' \;\wedge\; x' \procrel^+ y')
+\end{array}
+\right)
+\]
+
+\paragraph*{Special treewidth.}
+
+\emph{Special treewidth} \cite{Courcelle10},
+is a graph measure that indicates how close
+a graph is to a tree (we may also use classical
+	\emph{treewidth} instead).
+This or similar measures are commonly employed in verification. For instance, treewidth and split-width have been used in \cite{MadhusudanP11} and, respectively, \cite{DBLP:conf/concur/CyriacGK12,AiswaryaGK14} to reason about graph behaviors generated by pushdown and queue systems.
+%Here we apply it to reason about MSCs.
+There are several ways to define the special treewidth of an MSC.
+We adopt the following game-based definition from \cite{DBLP:journals/corr/abs-1904-06942}.
+
+Adam and Eve play a two-player turn based "decomposition game"
+whose positions
+are MSCs with some pebbles placed on some events.
+More precisely, Eve's positions are
+\emph{marked MSC fragments} $(M, U)$, where
+$\msc = (\Events, \procrel, \lhd, \lambda)$
+is an \emph{MSC fragment} (an MSC with possibly some edges from
+$\lhd$ or $\to$ removed)
+ and $U \subseteq \Events$ is the subset of marked events.
+Adam's positions are pairs of marked MSC fragments.
+A move by Eve consists in the following steps:
+\begin{enumerate}
+	\item marking some events of the MSC resulting in $(M, U')$ with $U \subseteq U' \subseteq \Events$,
+	\item removing (process and/or message) edges whose endpoints are marked,
+	\item dividing $(M, U)$ in $(M_1, U_1)$ and $(M_2, U_2)$ such that $M$ is the disjoint (unconnected) union of $M_1$ and $M_2$
+	and marked nodes are inherited.
+\end{enumerate}
+When it is Adam's turn, he simply chooses one of the two marked MSC fragments.
+The initial position is $(\msc,\emptyset)$ where $M$ is the (complete) MSC at hand. A terminal position is any position belonging to Eve such that all events are marked.
+%
+For $k \in \N$, we say that the game is $k$-winning for Eve if she has a (positional) strategy that allows her,
+starting in the initial position and independently of Adam's moves, to reach a terminal position such that, in every single position visited along the play, there are at most $k+1$ marked events.
+
+\newcommand{\CS}[2]{\mathsf{CS}_{(#1,#2)}}
+\newcommand{\MSO}[2]{\mathsf{MSO}_{(#1,#2)}}
+\newcommand{\LCPDL}[2]{\mathsf{LCPDL}_{(#1,#2)}}
+\newcommand{\MSCpm}[2]{\mathsf{MSC}_{(#1,#2)}}
+\newcommand{\mbMSCpm}[2]{\mathsf{MSC}_{(#1,#2)}^{\mathsf{mb}}}
+
+
+\begin{fact}[\cite{DBLP:journals/corr/abs-1904-06942}]
+	The special treewidth of an MSC is the least $k$ such that
+	the associated game is $k$-winning for Eve.
+\end{fact}
+
+The set of MSCs whose special treewidth is at most $k$ is denoted by $\stwMSCs{k}$.

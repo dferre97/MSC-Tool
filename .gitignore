@@ -9,7 +9,7 @@ report/report.*
 sources_concur/concur2021.*
 !sources_concur/concur2021.tex
 
-# only commit popl-paper.tex and popl-paper.pdf and not other popl-paper.* files
+# only commit popl-paper.tex and not other popl-paper.* files
 POPL/popl-paper.*
 POPL/chapters/*
 !POPL/chapters/*.tex
@@ -19,6 +19,14 @@ POPL/acmart-pacmpl-template.*
 !POPL/acmart-pacmpl-template.tex
 
 POPL/backup/
+
+# only commit popl-paper.tex and not other popl-paper.* files
+Thesis/thesis.*
+Thesis/chapters/*
+!Thesis/chapters/*.tex
+!Thesis/thesis.tex
+
+Thesis/backup/
 
 # other stuff
 *.pptx

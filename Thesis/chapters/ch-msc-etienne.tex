@@ -1,0 +1,52 @@
+\etienne{Move here the part of section 5 before 5.1, except the definition of MSO that can stay in section 5.}
+
+\paragraph{\bf Preliminaries}
+For a finite set $S$, $\cardinalof{S}$ denotes the cardinal of $S$; $S^*$ denotes the set of finite words over $S$,
+$w_1\cdot w_2$ denotes the concatenation of two words, $|w|$ denotes the length of $w$, and $\epsilon$ denotes the empty word. We assume some familiarity with non-deterministic
+finite state automata,
+and we write $\languageof{\A}$ for the language accepted
+by the automaton $\A$.
+\etienne{Do we really need to talk about automata at that point?}
+
+% For two sets $S$ and $I$,
+% we write $\vect{b}$ (in bold) for an element of $S^I$,
+% and $b_i$ for the $i$-th component of $\vect{b}$, so that
+% $\vect{b}=(b_i)_{i\in I}$.
+
+\paragraph{\bf Processes, messages, and actions}
+We assume a finite set of \emph{processes} $\Procs=\{p,q,\ldots\}$ and a finite set of messages $\Msg=\{\msg,\ldots\}$.
+Each process may either (asynchronously) send a message to another one, or wait until it receives a message.
+We therefore consider two kinds of actions. A \emph{send action} is of the form $\sact{p}{q}{\msg}$;
+it is executed by process $p$ and sends message $\msg$ to process $q$.
+The corresponding \emph{receive action} executed by $q$ is $\ract{p}{q}{\msg}$.
+%
+We write $\pqsAct{p}{q}$ to denote the set $\{\sact{p}{q}{\msg} \mid \msg \in \Msg\}$, and
+$\pqrAct{p}{q}$ for the set $\{\ract{p}{q}{\msg} \mid \msg \in \Msg\}$.
+Similarly, for $p \in \Procs$, we set
+$\psAct{p} = \{\sact{p}{q}{\msg} \mid q \in \Procs
+% Etienne: shall we forbid processes to send messages to themselves?
+%\setminus \{p\}
+\}$ and $\msg \in \Msg\}$, etc.
+Moreover, $\pAct{p} = \psAct{p} \cup \qrAct{p}$ denotes the set of all actions that are
+executed by $p$.
+Finally, $\Act = \bigcup_{p \in \Procs} \pAct{p}$
+is the set of all the actions.
+
+% A \emph{FIFO automaton} is basically a finite state machine equipped with
+% FIFO queues where transitions are labelled with either queuing or dequeuing actions. More precisely:
+% \begin{definition}[FIFO automaton]
+%   A \emph{FIFO automaton} is a tuple\footnote{
+% Note that FIFO automata do not have accepting states, therefore they are
+% not a special case of non-deterministic finite state automata, and
+% there is not such a thing as \textquote{the language of a FIFO automaton}.
+% }
+%   $\A=(L,\paylodSet,I,\actionSet,\delta,l_0)$
+%   where
+% (1) $L$ is a finite set of \emph{control states},
+% (2) $\paylodSet$ is a finite set of \emph{messages},
+% (3) $I$ is a finite set of \emph{buffer identifiers},
+% (4) $\actionSet\subseteq I\times\{!,?\}\times\paylodSet$ is a finite set of \emph{actions},
+% (5) $\delta\subseteq L\times \actionSet \times L$ is the \emph{transition relation}, and
+% (6) $l_0\in L$ is the \emph{initial control state}.
+% The \emph{size} $|\A|$ of $\A$ is $|L|+|\delta|$.
+% \end{definition}
