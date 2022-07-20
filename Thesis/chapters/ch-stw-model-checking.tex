@@ -138,15 +138,15 @@ the proof of Theorem~\ref{thm:sync} can be found in Appendix~\ref{apx:sync}.
 
 \begin{figure}[t]
 	\captionsetup[subfigure]{justification=centering}
-% \centering
+\centering
 \begin{subfigure}[t]{0.45\textwidth}\centering
 	\begin{tikzpicture}[scale=1, every node/.style={transform shape}]
-		\newproc{0}{p}{-1.5};
-		\newproc{1}{q}{-1.5};
-		\newproc{2}{r}{-1.5};
+		\newproc{0}{p}{-2};
+		\newproc{1}{q}{-2};
+		\newproc{2}{r}{-2};
 
-		\newmsgm{0}{1}{-0.5}{-0.5}{1}{0.3}{black};
-		\newmsgm{0}{2}{-1.0}{-1.0}{2}{0.7}{black};
+		\newmsgm{0}{1}{-0.7}{-0.7}{1}{0.4}{black};
+		\newmsgm{0}{2}{-1.4}{-1.4}{2}{0.2}{black};
 
 	\end{tikzpicture}
 	\caption{A $\nnsymb$-MSC $\msc$.}
@@ -154,17 +154,17 @@ the proof of Theorem~\ref{thm:sync} can be found in Appendix~\ref{apx:sync}.
 % \hfill
 \begin{subfigure}[t]{0.45\textwidth}\centering
 	\begin{tikzpicture}[scale=1, every node/.style={transform shape}]
-		\newproc{0}{p}{-1.5};
-		\newproc{1}{q}{-1.5};
-		\newproc{2}{r}{-1.5};
+		\newproc{0}{p}{-2};
+		\newproc{1}{q}{-2};
+		\newproc{2}{r}{-2};
 
-		\newmsgum{0}{1}{-0.5}{1}{0.3}{black};
-		\newmsgm{0}{2}{-1.0}{-1.0}{2}{0.7}{black};
+		\newmsgum{0}{1}{-0.7}{1}{0.4}{black};
+		\newmsgm{0}{2}{-1.4}{-1.4}{2}{0.2}{black};
 
 	\end{tikzpicture}
 	\caption{A prefix of $\msc$.}
 \end{subfigure}
-	\caption{A $\nnsymb$-MSC with a prefix that is neither a $\onensymb$-MSC nor a $\nnsymb$-MSC.}
+	\caption{A $\nnsymb$-MSC and a prefix that is neither a $\onensymb$-MSC nor a $\nnsymb$-MSC.}
 	\label{fig:onen-prefix}
 \end{figure}
 
@@ -209,10 +209,10 @@ a ${\happensbefore}$-downward-closed set.
 
 \begin{wrapfigure}[11]{r}{0pt}
 	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
-	  every state/.style={text=black, scale =0.6}, semithick,
+	  every state/.style={text=black, scale =1}, semithick,
 		font={\fontsize{8pt}{12}\selectfont}]
 
-	\begin{scope}[shift = {(8,0.75)}, scale = 0.7]
+	\begin{scope}[shift = {(8,0.75)}, scale = 1]
 	  %MACHINES
 	  \draw (0,1.25) node{$q$} ;
 	  \draw (1.6,1.25) node{$r$} ;
@@ -299,8 +299,8 @@ For $\onensymb$ and $\nn$, on the other hand, weak synchronizability is decidabl
 \paragraph{Weakly $k$-synchronous MSCs}
 \begin{wrapfigure}{r}{0pt}
 	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
-		every state/.style={text=black, scale =0.7}, semithick,
-		font={\fontsize{8pt}{12}\selectfont}, scale = 0.8]
+		every state/.style={text=black, scale =1}, semithick,
+		font={\fontsize{8pt}{12}\selectfont}, scale = 1]
 
 	  %MACHINES
 	  \draw (0,0) node{$p$} ;
@@ -392,9 +392,9 @@ For instance, $\sametype{e}{\pqsAct{p}{q}}{\linrel}$ denotes the number of send 
 
 \begin{wrapfigure}[9]{r}{0pt}
 	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
-		every state/.style={text=black, scale =0.7}, semithick,
+		every state/.style={text=black, scale =1}, semithick,
 		  font={\fontsize{8pt}{12}\selectfont}]
-	  \begin{scope}[shift = {(0,0)}, scale = 0.8]
+	  \begin{scope}[shift = {(0,0)}, scale = 1]
 		% \draw (1.25, -4.75) node{\textbf{(a)}};
 		% \draw (4.5, -4.75) node{\textbf(b)};
 
@@ -494,9 +494,9 @@ For any two events $s$ and $r$ such that $r \relb s$, every linearization of $\m
 \begin{wrapfigure}[9]{r}{0.2\textwidth}
 	\centering
 	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
-		every state/.style={text=black, scale =0.7}, semithick,
+		every state/.style={text=black, scale =1}, semithick,
 		  font={\fontsize{8pt}{12}\selectfont}]
-	  \begin{scope}[shift = {(0,0)}, scale = 0.8]
+	  \begin{scope}[shift = {(0,0)}, scale = 1]
 		\newproc{0}{p}{-2.2};
 		\newproc{2}{q}{-2.2};
 	
