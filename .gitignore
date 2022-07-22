@@ -33,3 +33,6 @@ Thesis/backup/
 test/
 presentations/
 *.log
+MSC Tool/my-electron-app/node_modules
+MSC Tool/my-electron-app/out
+# MSC Tool/
