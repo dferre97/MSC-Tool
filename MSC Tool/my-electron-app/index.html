@@ -26,19 +26,22 @@
 							<div class="col">
 								<form>
 									<div class="form-group custom-form-group">
-										<div class="btn-group custom-btn-group d-flex" role="group" aria-label="buttons">
+										<div class="btn-group custom-btn-group d-flex marg-btm-10" role="group" aria-label="buttons">
 											<button type="button" class="btn btn-warning w-100" onclick="reset_data(); draw();">Clear</button>
 											<button type="button" class="btn btn-light w-100" onclick="draw();">Update</button>
 										</div>
-										
-										<div class="form-row marg-btm-10">
-											<div class="col">
-												<label for="_protocols">Processes</label>
-												<input class="form-control custom-form-control" type="number" id="_protocols" value="3">
+
+										<div class="form-group row marg-btm-10">
+											<label for="_protocols" class="col-lg-4 col-form-label">Processes:</label>
+											<div class="col-lg-8">
+		    								  <input class="form-control custom-form-control" type="number" id="_protocols" value="3">
 											</div>
+										  </div>
+
+										<div class="form-row marg-btm-10 d-none">
 											<div class="col">
 												<label for="_H">Levels</label>
-												<input class="form-control custom-form-control" type="number" id="_H" value="10">
+												<input class="form-control custom-form-control" type="number" id="_H" value="15">
 											</div>
 											<div class="col">
 												<label for="_ray">Ray</label>
@@ -49,7 +52,7 @@
 												<input class="form-control custom-form-control" type="number" id="_stroke" value="2">
 											</div>
 										</div>
-										<div class="form-row marg-btm-10">
+										<div class="form-row marg-btm-10 d-none">
 											<div class="col">
 												<label for="_sc">source color</label>
 												<input class="form-control custom-form-control" type="text" id="_sc" value="#fff">
@@ -59,24 +62,25 @@
 												<input class="form-control custom-form-control" type="text" id="_tc" value="#0f0">
 											</div>
 										</div>
-										
+
 										<div class="btn-group custom-btn-group btn-group-toggle d-flex marg-btm-10" data-toggle="buttons">
-											<label onclick="changeEdgeStyle('solid');" class="btn btn-light w-100 active" for="solid" title="Solid">
-												<input type="radio" name="edge_style" id="solid" checked>Solid
-											</label>
-											<label onclick="changeEdgeStyle('dashed');" class="btn btn-light w-100" for="dashed" title="Dashed">
-												<input type="radio" name="edge_style" id="dashed">Dashed
-											</label>
-										</div>
-										
-										<div class="btn-group custom-btn-group btn-group-toggle d-flex marg-btm-10" data-toggle="buttons">
-											<label onclick="changeMode('adding');" class="btn btn-light w-100" for="adding" title="Adding">
-												<input type="radio" name="layout" id="adding" checked>Adding
+											<label onclick="changeMode('adding');" class="btn btn-light w-100 active" for="adding" title="Adding">
+												<input type="radio" name="layout" id="adding" checked>Add
 											</label>
 											<label onclick="changeMode('delete');" class="btn btn-light w-100" for="delete" title="Delete">
-												<input type="radio" name="layout" id="delete">Delete
+												<input type="radio" name="layout" id="delete">Remove
 											</label>
 										</div>
+
+										<div class="btn-group custom-btn-group btn-group-toggle d-flex marg-btm-10" data-toggle="buttons">
+											<label onclick="changeEdgeStyle('solid');" class="btn btn-light w-100 active" for="solid" title="Solid">
+												<input type="radio" name="edge_style" id="solid" checked>Matched
+											</label>
+											<label onclick="changeEdgeStyle('dashed');" class="btn btn-light w-100" for="dashed" title="Dashed">
+												<input type="radio" name="edge_style" id="dashed">Unmatched
+											</label>
+										</div>
+										
 									</div>
 								</form>
 							</div>
@@ -97,7 +101,7 @@
 										<td id="pp"></td>
 									  </tr>
 									  <tr>
-										<th class="pl-3">C.O.</th>
+										<th class="pl-3">co</th>
 										<td id="co"></td>
 									  </tr>
 									  <tr>
