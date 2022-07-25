@@ -8,7 +8,7 @@ cnvs.height = HEIGHT;
 let ctx = cnvs.getContext('2d');
 var STROKE, K, H, R, NODE_COLOR = [], EDGE_STYLE = "solid", MODE = "adding";
 var nodes = [];
-var edges = [];
+var draw_edges = [];
 var counter = 0;
 var dragok = false;
 var startX;
@@ -20,17 +20,11 @@ var offsetY = BB.top;
 // Data structure to store events and related stuff
 let events = [];
 let msg_counter = 0;
-let node_ids = [];
 let dep_graph;
 
 function dependency_graph() {
-	node_ids = [];
-	for (const node of nodes) {
-		node_ids.push(node.id);
-	}
-	console.log("node ids: " + node_ids);
 
-	dep_graph = new DependencyGraph(node_ids, events); // pass highest node id
+	dep_graph = new DependencyGraph(nodes, draw_edges, events); // pass highest node id
 
 	let asy = document.getElementById("asy"); asy.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
 	let pp = document.getElementById("pp"); pp.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
@@ -66,7 +60,7 @@ function init_events() {
 	}
 }
 
-function reset_data() { nodes = []; edges = []; }
+function reset_data() { nodes = []; draw_edges = [];}
 
 function changeMode(x) { MODE = x; }
 function changeEdgeStyle(x) { EDGE_STYLE = x; }
@@ -179,7 +173,9 @@ function updateEvents() {
 	console.log(events);
 
 	for (let i = 0; i < nodes.length; i++) {
-		insert_event(nodes[i].id);
+		if ( !(nodes[i].type == "receive" && nodes[i].unmatched) ) {
+			insert_event(nodes[i].id);
+		}
 		// events[nodes[i].p].push(nodes[i].id)
 	}
 }
@@ -193,11 +189,11 @@ function draw() {
 	for (var i = 0; i < nodes.length; i++) { if (nodes[i] != null) drawLine(ctx, 0, nodes[i].y, cnvs.width, nodes[i].y, "#ddd", STROKE, true); }
 	for (var i = 0; i < nodes.length; i++) { if (nodes[i] != null) drawCircle(ctx, nodes[i].x, nodes[i].y, R, NODE_COLOR[i % 2], STROKE); }
 
-	for (var e in edges) {
-		if (edges[e] != null) {
-			var src = getNode(nodes, edges[e].source);
-			var trg = getNode(nodes, edges[e].target);
-			drawArrow(ctx, src.x, src.y, trg.x, trg.y, "#000", 1, edges[e].dashed);
+	for (var e in draw_edges) {
+		if (draw_edges[e] != null) {
+			var src = getNode(nodes, draw_edges[e].source);
+			var trg = getNode(nodes, draw_edges[e].target);
+			drawArrow(ctx, src.x, src.y, trg.x, trg.y, "#000", 1, draw_edges[e].dashed);
 		}
 	}
 
@@ -288,13 +284,10 @@ function putNode(e, lft, tp, newNode) {
 	var x = (Math.round(posX / (cnvs.width / K) - 0.5) + 0.5) * (cnvs.width / K);
 	var y = (Math.round(posY / (cnvs.height / H) - 0.5) + 0.5) * (cnvs.height / H);
 
-
 	console.log();
-
 
 	// drawLine(ctx, 0, y, cnvs.width, y, "#ddd", 1);
 	// drawCircle(ctx, x, y, 25, "#fff", 3);
-
 
 	if (newNode) {
 		var s_p = Math.abs(Math.round(posX / (cnvs.width / K) - 0.5)); // process number of send
@@ -310,9 +303,15 @@ function putNode(e, lft, tp, newNode) {
 		var yr = y;
 
 		msg_counter++;
-		nodes.push({ "id": counter, "x": x, "y": y, "r": 15, "p": s_p, "m": msg_counter, "isDragging": false });
-		nodes.push({ "id": counter + 1, "x": xr, "y": yr, "r": 15, "p": r_p, "m": msg_counter, "isDragging": false });
-		edges.push({ "source": counter, "target": counter + 1, "dashed": (EDGE_STYLE === "dashed") });
+		if (EDGE_STYLE != "dashed") {  // matched message
+			nodes.push({ "id": counter, "x": x, "y": y, "r": 15, "p": s_p, "m": msg_counter, "isDragging": false, type:"send", "unmatched": false});
+			nodes.push({ "id": counter+1, "x": xr, "y": yr, "r": 15, "p": r_p, "m": msg_counter, "isDragging": false, type:"receive", "unmatched": false });
+		}
+		else {
+			nodes.push({ "id": counter, "x": x, "y": y, "r": 15, "p": s_p, "m": msg_counter, "isDragging": false, type:"send", "unmatched": true });
+			nodes.push({ "id": counter+1, "x": xr, "y": yr, "r": 15, "p": r_p, "m": msg_counter, "isDragging": false, type:"receive", "unmatched": true });
+		}
+		draw_edges.push({ "source": counter, "target": counter + 1, "dashed": (EDGE_STYLE == "dashed") });
 		counter += 2;
 	} else {
 		for (var i = 0; i < nodes.length; i++) {
@@ -340,12 +339,12 @@ function deleteNode(e, lft, tp) {
 			var j = Math.floor(i / 2) * 2, y = j + 1;
 			// delete nodes[y];
 			// delete nodes[j];
-			// delete edges[j / 2];
+			// delete draw_edges[j / 2];
 
 			// my version, no undefined holes
 			nodes.splice(y, 1);
 			nodes.splice(j, 1);
-			edges.splice(j / 2, 1);
+			draw_edges.splice(j / 2, 1);
 
 			break;
 		}

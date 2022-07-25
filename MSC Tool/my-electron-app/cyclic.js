@@ -1,7 +1,9 @@
 // A JavaScript Program to detect cycle in a graph
 
 class DependencyGraph {
+	nodes = [];
 	node_ids = [];
+	edges = [];
 	highest_id;
 	events;
 	adj = [];
@@ -14,9 +16,16 @@ class DependencyGraph {
 	onen_edges = [];
 	nn_edges = [];
 
-	constructor(node_ids, events) {
-		this.node_ids = node_ids;
-		this.highest_id = node_ids[node_ids.length - 1] + 1;
+	constructor(nodes, draw_edges, events) {
+		this.nodes = nodes;
+		for (const node of nodes) {
+			if ( !(node.type == "receive" && node.unmatched) ) {  // unmatched receive should not count as events, only used for drawing
+				this.node_ids.push(node.id);
+			}
+		}
+		console.log("node ids: " + this.node_ids);
+		this.highest_id = this.node_ids[this.node_ids.length - 1] + 1;
+
 		this.events = events;
 
 		// computes process relation
@@ -28,9 +37,11 @@ class DependencyGraph {
 			}
 		}
 
-		// computes matching relation
-		for (const edge of edges) {
-			this.match_edges.push([edge.source, edge.target]);
+		// computes matching relation, "remove" dashed edges
+		for (const edge of draw_edges) {
+			if (!edge.dashed) {
+				this.match_edges.push([edge.source, edge.target]);
+			}
 		}
 
 		// compute adjacency matrix
@@ -69,19 +80,34 @@ class DependencyGraph {
 		for (let i = 0; i < K; i++) {  // for each process
 			for (let j = 0; j < this.events[i].length - 1; j++) {
 				let id = this.events[i][j];
-				if (id % 2 == 0) { // only send events (even ids)
-					let crt_node = getNodeById(id);
+				if (this.nodes[id].type == "send" && !this.nodes[id].unmatched) { // matched send events
 					let crt_node_rec = getNodeById(id + 1);
 					for (let k = j + 1; k < this.events[i].length; k++) {
 						let tmp_id = this.events[i][k];
-						if (tmp_id % 2 == 0) { // only send events (even ids)
-							let tmp_node = getNodeById(tmp_id);
+						if (this.nodes[tmp_id].type == "send" && !this.nodes[tmp_id].unmatched) { // matched send events
 							let tmp_node_rec = getNodeById(tmp_id + 1);
 
 							if (crt_node_rec.p == tmp_node_rec.p &&
 								this.#procBefore(tmp_id + 1, id + 1, tmp_node_rec.p)) { // same source, destination, inverted send/receive order
 								return false;
 							}
+						}
+					}
+				}
+			}
+		}
+
+		// check if, on the same channel, there is an unmatched message followed by a matched message
+		for (let i = 0; i < K; i++) {  // for each process
+			for (let j = 0; j < this.events[i].length - 1; j++) {
+				let id = this.events[i][j];
+				if (this.nodes[id].type == "send" && this.nodes[id].unmatched) { // unmatched send events
+					for (let k = j + 1; k < this.events[i].length; k++) {
+						let tmp_id = this.events[i][k];
+						if (this.nodes[tmp_id].type == "send" && !this.nodes[tmp_id].unmatched &&
+							this.nodes[id].p == this.nodes[tmp_id].p &&
+							this.nodes[id+1].p == this.nodes[tmp_id+1].p) { // matched send events on the same channel
+							return false;
 						}
 					}
 				}
