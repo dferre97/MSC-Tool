@@ -138,33 +138,33 @@ the proof of Theorem~\ref{thm:sync} can be found in Appendix~\ref{apx:sync}.
 
 \begin{figure}[t]
 	\captionsetup[subfigure]{justification=centering}
-% \centering
+\centering
 \begin{subfigure}[t]{0.45\textwidth}\centering
-	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
-		\newproc{0}{p}{-1.5};
-		\newproc{1}{q}{-1.5};
-		\newproc{2}{r}{-1.5};
+	\begin{tikzpicture}[scale=1, every node/.style={transform shape}]
+		\newproc{0}{p}{-2};
+		\newproc{1}{q}{-2};
+		\newproc{2}{r}{-2};
 
-		\newmsgm{0}{1}{-0.5}{-0.5}{1}{0.3}{black};
-		\newmsgm{0}{2}{-1.0}{-1.0}{2}{0.7}{black};
+		\newmsgm{0}{1}{-0.7}{-0.7}{1}{0.4}{black};
+		\newmsgm{0}{2}{-1.4}{-1.4}{2}{0.2}{black};
 
 	\end{tikzpicture}
 	\caption{A $\nnsymb$-MSC $\msc$.}
 \end{subfigure}
 % \hfill
 \begin{subfigure}[t]{0.45\textwidth}\centering
-	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
-		\newproc{0}{p}{-1.5};
-		\newproc{1}{q}{-1.5};
-		\newproc{2}{r}{-1.5};
+	\begin{tikzpicture}[scale=1, every node/.style={transform shape}]
+		\newproc{0}{p}{-2};
+		\newproc{1}{q}{-2};
+		\newproc{2}{r}{-2};
 
-		\newmsgum{0}{1}{-0.5}{1}{0.3}{black};
-		\newmsgm{0}{2}{-1.0}{-1.0}{2}{0.7}{black};
+		\newmsgum{0}{1}{-0.7}{1}{0.4}{black};
+		\newmsgm{0}{2}{-1.4}{-1.4}{2}{0.2}{black};
 
 	\end{tikzpicture}
 	\caption{A prefix of $\msc$.}
 \end{subfigure}
-	\caption{A $\nnsymb$-MSC with a prefix that is neither a $\onensymb$-MSC nor a $\nnsymb$-MSC.}
+	\caption{A $\nnsymb$-MSC and a prefix that is neither a $\onensymb$-MSC nor a $\nnsymb$-MSC.}
 	\label{fig:onen-prefix}
 \end{figure}
 
@@ -193,7 +193,6 @@ we will consider in the next sections.
 % \end{definition}
 
 \paragraph{\bf Weakly synchronous MSCs}
-
 We first introduce the class of weakly synchronous MSCs. 
 This is a generalization of $k$-synchronous MSCs studied 
 in~\cite{DBLP:conf/cav/BouajjaniEJQ18}. 
@@ -207,12 +206,10 @@ $\SendEv{\msc}$ is
 a ${\happensbefore}$-downward-closed set.
 \end{definition}
 
-\begin{wrapfigure}[11]{r}{0pt}
-	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
-	  every state/.style={text=black, scale =0.6}, semithick,
-		font={\fontsize{8pt}{12}\selectfont}]
+\begin{wrapfigure}[12]{r}{0pt}
+	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,semithick]
 
-	\begin{scope}[shift = {(8,0.75)}, scale = 0.7]
+	\begin{scope}[scale = 1]
 	  %MACHINES
 	  \draw (0,1.25) node{$q$} ;
 	  \draw (1.6,1.25) node{$r$} ;
@@ -227,11 +224,11 @@ a ${\happensbefore}$-downward-closed set.
 
 
 	  \draw[>=latex,->] (0, -0.4) -- (1.6, -1.75) node[pos=0.1, sloped, above] {$\amessage_3$};
-	  \draw[>=latex,->] (0, -1.1) -- (1.6, -2.45) node[pos=0.05, sloped, above] {$\amessage_3$}; %{$\amessage_1'$};
+	  \draw[>=latex,->] (0, -1.1) -- (1.6, -2.45) node[pos=0.1, sloped, above] {$\amessage_3$}; %{$\amessage_1'$};
 	  %\draw[>=latex,->, dashed] (0, -2.5) -- (1.25, -3.25) node[pos=0.55, sloped, above] {$\amessage_1''$};
 
 	  \draw[>=latex,->] (1.6, -0.4) -- (0, -1.75) node[pos=0.1, sloped, above] {$\amessage_4$};
-	  \draw[>=latex,->] (1.6, -1.1) -- (0, -2.45) node[pos=0.05, sloped, above] {$\amessage_4$}; %{$\amessage_2'$};
+	  \draw[>=latex,->] (1.6, -1.1) -- (0, -2.45) node[pos=0.1, sloped, above] {$\amessage_4$}; %{$\amessage_2'$};
 	  %\node[rotate = 90, left]at (1.13, -0.65) {$\cdots$};
 	  %\node[rotate = -90, right]at (0.1, -0.65) {$\cdots$};
 
@@ -241,7 +238,7 @@ a ${\happensbefore}$-downward-closed set.
 	\end{scope}
 
 	\end{tikzpicture}
-	\caption{MSC $\mscW$}
+	\caption{$\mscW$}
 	\label{fig:msc_W}
 \end{wrapfigure}
 
@@ -296,12 +293,11 @@ For $\onensymb$ and $\nn$, on the other hand, weak synchronizability is decidabl
 	We will consider $\comsymb = \onensymb$; the proof for $\comsymb = \nnsymb$ is similar. We would like to know if every MSC in $\onenL{\System}$ is in the class of weakly synchronous MSCs. Since every MSC in $\onenL{\System}$ is a $\onensymb$-MSC, we can equivalently restrict the problem to the class of weakly synchronous MSCs that are also $\onensymb$-MSCs. Let $\aMSCclass$ be the class of $\onensymb$ weakly synchronous MSCs; we show that $\aMSCclass$ is MSO-definable and STW-bounded, which implies the decidability of $SP$ for Theorem~\ref{thm:sync}. The class of weakly synchronous MSCs was shown to be MSO-definable in \cite{BolligGFLLS21}; to be precise, their characterization is for $\oneone$ weakly synchronous MSCs (since their definition of MSC is equivalent to our definition of $\pp$-MSC), but it also works for (asynchronous) weakly synchronous MSCs. We showed in Section~\ref{sec:MSO} that $\onenMSCs$ is MSO-definable; it follows that the class of $\onensymb$ weakly synchronous MSCs is also MSO-definable (we just take the conjuction of the the two formulas). The class of $\none$ weakly synchronous MSCs was shown to be STW-bounded in \cite{BolligGFLLS21}, and since $\onenMSCs \subset \mbMSCs$, we also have that the class of $\none$ weakly synchronous MSCs has a bounded special treewidth. 
 \end{proof}
 
-\paragraph{Weakly $k$-synchronous MSCs}
-\begin{wrapfigure}{r}{0pt}
-	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
-		every state/.style={text=black, scale =0.7}, semithick,
-		font={\fontsize{8pt}{12}\selectfont}, scale = 0.8]
+\paragraph{\bf Weakly \texorpdfstring{$k$}{k}-synchronous MSCs}
 
+\begin{wrapfigure}{r}{0pt}
+	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt, semithick]
+	\begin{scope}[scale=1]
 	  %MACHINES
 	  \draw (0,0) node{$p$} ;
 	  \draw (1,0) node{$q$} ;
@@ -320,10 +316,9 @@ For $\onensymb$ and $\nn$, on the other hand, weak synchronizability is decidabl
 	%\end{scope}
 	  \draw[dashed] (-0.5,-1.25) -- (2.5,-1.25) ;
 	  \draw[dashed] (-0.5,-2.25) -- (2.5,-2.25) ;
-
-
+	\end{scope}
 	\end{tikzpicture}
-	\caption{MSC $\mscweakSexist$}
+	\caption{$\mscweakSexist$}
 	\label{fig:msc_weak_S_exist}
 \end{wrapfigure}
 %The undecidability result for some of the communication models motivates the study of other classes. 
@@ -373,28 +368,16 @@ B\"uchi-Elgot-Trakhthenbrot theorem from words to MSCs \cite{genest2004kleene,GK
 Existentially bounded MSCs represent the behavior of systems that can be realized with bounded channels. 
 We stick to the original definition of Lohrey and Muscholl of $k$-bounded MSCs, where $k$
 represents the bound on the number of messages in transit from a given process to another, so that globally
-there may be up to $k\cardinalof{\procSet}^2$ in transit.\footnote{This may look
-surprising in our general context to count messages in transit in that way, but it can be seen that, up to picking
+there may be up to $k\cardinalof{\procSet}^2$ in transit.\footnote{It may look
+surprising in our general context to count messages in transit this way, but it can be shown that, up to picking
 a different value for the bound $k$, it is equivalent to the possibly more
-intuitive definition based on counting all messages in transit whatever their sender and receiver.}
+intuitive definition based on counting all messages in transit, independently of their sender and receiver.}
 Intuitively, we say that an MSC is existentially $k$-bounded if it admits a linearization where, at any moment in time, and for all pair of processes $p,q$, there are no more than $k$ messages in transit from $p$ to $q$. Such a linearization will be referred to as a $k$-\emph{bounded linearization}. We give formal definitions below.
 
-\begin{definition}\label{def:lin_k_bounded}
-	Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and $k \in \N$.
-	A linearization $\linrel$ of $\msc$ is called
-	$k$-\emph{bounded} if, for all $e \in \SendEv{\msc}$, with $\lambda(e) = \sact{p}{q}{\msg}$, we have
-	\[
-	\sametype{e}{\pqsAct{p}{q}}{\linrel} - \sametype{e}{\pqrAct{p}{q}}{\linrel} \le k
-	\]
-\end{definition}
-\noindent where $\sametype{e}{A}{\rel} = |\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(f) \in A\}|$.
-For instance, $\sametype{e}{\pqsAct{p}{q}}{\linrel}$ denotes the number of send events from $p$ to $q$ that occured before $e$ according to $\linrel$. Note that, since $\linrel$ in reflexive, $e$ itself is counted in $\sametype{e}{\pqsAct{p}{q}}{\linrel}$.
-
-\begin{wrapfigure}[9]{r}{0pt}
+\begin{wrapfigure}[11]{r}{0pt}
 	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
-		every state/.style={text=black, scale =0.7}, semithick,
-		  font={\fontsize{8pt}{12}\selectfont}]
-	  \begin{scope}[shift = {(0,0)}, scale = 0.8]
+		semithick]
+	  \begin{scope}[scale = 1]
 		% \draw (1.25, -4.75) node{\textbf{(a)}};
 		% \draw (4.5, -4.75) node{\textbf(b)};
 
@@ -440,9 +423,20 @@ For instance, $\sametype{e}{\pqsAct{p}{q}}{\linrel}$ denotes the number of send 
 			%   % \draw (0.5, -3.25) node{$\cdots$};
 			% \end{scope}
 	\end{tikzpicture}
-	\caption{MSC $\mscexist$}
+	\caption{$\mscexist$}
 	\label{fig:msc_exist}
 \end{wrapfigure}
+
+\begin{definition}\label{def:lin_k_bounded}
+	Let $\msc = (\Events,\procrel,\lhd,\lambda) \in \MSCs$ and $k \in \N$.
+	A linearization $\linrel$ of $\msc$ is called
+	$k$-\emph{bounded} if, for all $e \in \SendEv{\msc}$, with $\lambda(e) = \sact{p}{q}{\msg}$, we have
+	\[
+	\sametype{e}{\pqsAct{p}{q}}{\linrel} - \sametype{e}{\pqrAct{p}{q}}{\linrel} \le k
+	\]
+\end{definition}
+\noindent where $\sametype{e}{A}{\rel} = |\{f \in \Events \mid (f,e) \in \rel$ and $\lambda(f) \in A\}|$.
+For instance, $\sametype{e}{\pqsAct{p}{q}}{\linrel}$ denotes the number of send events from $p$ to $q$ that occured before $e$ according to $\linrel$. Note that, since $\linrel$ in reflexive, $e$ itself is counted in $\sametype{e}{\pqsAct{p}{q}}{\linrel}$.
 
 \begin{definition}[Existentially bounded MSC]\label{def:ek_bounded_msc}
 	Let $\msc = (\Events, \rightarrow, \lhd, \lambda) \in \asMSCs$ and $k \in \mathbb{N}$.  $\msc$ is \emph{existentially $k$-bounded} ($\exists k$-bounded) if it has a $k$-bounded linearization.
@@ -489,26 +483,26 @@ Following the approach taken in \cite{DBLP:conf/fossacs/LohreyM02}, we introduce
 	\item $r$ is the $i$-th receive event (executed by $q$).
 	\item $s$ is the ($i+k$)-th send event (executed by $p$).
 \end{enumerate}
-For any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed after $s$ cannot be $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization". A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.
 
-\begin{wrapfigure}[9]{r}{0.2\textwidth}
+\begin{wrapfigure}[11]{r}{0.2\textwidth}
 	\centering
-	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,
-		every state/.style={text=black, scale =0.7}, semithick,
-		  font={\fontsize{8pt}{12}\selectfont}]
-	  \begin{scope}[shift = {(0,0)}, scale = 0.8]
-		\newproc{0}{p}{-2.2};
-		\newproc{2}{q}{-2.2};
+	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt,semithick]
+	  \begin{scope}[scale = 1]
+		\newproc{0}{p}{-2.8};
+		\newproc{2}{q}{-2.8};
 	
-		\newmsgm{0}{2}{-.4}{-.4}{1}{0.3}{black};
-		\newmsgm{0}{2}{-1.1}{-1.1}{2}{0.3}{black};
-		\newmsgm{0}{2}{-1.8}{-1.8}{3}{0.3}{black};
+		\newmsgm{0}{2}{-.6}{-.6}{1}{0.3}{black};
+		\newmsgm{0}{2}{-1.3}{-1.3}{2}{0.3}{black};
+		\newmsgm{0}{2}{-2.1}{-2.1}{3}{0.3}{black};
 	  \end{scope}
 
 	\end{tikzpicture}
-	\caption{MSC $\msc_4$.}
+	\caption{$\msc_4$.}
 	\label{fig:bounded_lin_ex}
 \end{wrapfigure}
+
+For any two events $s$ and $r$ such that $r \relb s$, every linearization of $\msc$ in which $r$ is executed after $s$ cannot be $k$-bounded. Intuitively, we can read $r \relb s$ as "$r$ has to be executed before $s$ in a $k$-bounded linearization". A linearization $\linrel$ that respects $\relb$ (i.e. $\relb \,\subseteq\, \linrel$) is $k$-bounded.
+
 \begin{example}
   Consider MSC $\msc_4$ in Fig~\ref{fig:bounded_lin_ex}. Suppose we want to look for a $2$-bounded linearization. For $k=2$, we have $?1 \relbk{2} !3$; if we find a valid linearization that respect the $\relbk{2}$ relation, then it is $2$-bounded, e.g., $!1\;!2\;?1\;!3\;?2\;?3$ (note that $?1$ is executed before $!3$). On the other hand, the linearization $!1\;!2\;!3\;?1\;?2\;?3$ is not 2-bounded, since $?1$ is executed after $!3$.
 \end{example}  

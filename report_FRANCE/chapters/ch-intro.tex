@@ -10,7 +10,7 @@ such as unspecified receptions.
 
 In synchronous communication (or rendez-vous communication), send and receive events are viewed as
 a single event, i.e., a receive event and the corresponding send event happen simultaneously. The idea behind asynchronous communication, instead, is to decouple send and receive events, so that a receive event can happen indefinitely after the corresponding send event. By introducing some additional constraints on the execution of those events, we can obtain new communication models that sit somewhere between synchronous and fully asynchronous communication.
-In this paper we try to clarify and classify some of these communication models.
+In this work we try to clarify and classify some of these communication models.
 %We consider only point-to-point communication, that is, messages that have exactly one sender and one receiver.
 On  one hand, we consider communication models that were proposed in the early days of large-scale distributed computing to establish the correctness of some distributed algorithms, such as \emph{causal ordering}~\cite{Lamport78} for the correctness of Lamport's distributed mutual exclusion algorithm (see also~\cite{Renesse93} for more examples), or the weaker "FIFO" peer-to-peer assumption. On the other hand, we look at communication models that emerge
 naturally when considering local-scale message-passing applications, which are based on predictable
@@ -34,7 +34,8 @@ Each process executes a sequence of \emph{send} or \emph{receive} \emph{actions}
 A send event $s$ and a receive event $r$ are said to be \emph{matching} if the message sent at $s$ is the one received at $r$. 
 %A distributed computation is the parallel execution of all processes. 
 \begin{wrapfigure}{r}{0pt}
-	\begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
+	\begin{tikzpicture}[scale=1, every node/.style={transform shape}]
+		
 		\newproc{0}{p}{-2.5};
 		\newproc{1}{q}{-2.5};
 		\newproc{2}{r}{-2.5};
@@ -173,13 +174,13 @@ Our contributions are the following:
 	%\etienne{Maybe move that figure later? end of section 2? section 6?}
 \end{figure}
 
-\paragraph{\bf Outline} The paper is organized as follows. Section~\ref{sec:MSC} describes the communication models we consider. We also recall the notion of MSC and introduce formal definitions for these models, seen as classes of MSCs.
+\paragraph{Outline} The report is organized as follows. Section~\ref{sec:MSC} describes the communication models we consider. We also recall the notion of MSC and introduce formal definitions for these models, seen as classes of MSCs.
 In Section~\ref{sec:impl}, we rely on
 an operational semantics to provide an alternative definition for some of these communication models, which we prove to be sound and complete.
 Section~\ref{sec:MSO} characterizes the classes of MSCs via MSO logic.
 In Section~\ref{sec:hierarchy}, we compare all of the considered communication models and show our main result: a strict non-sequential hierarchy of communication models.
 Finally, Section~\ref{sec:checking} shows some (un)decidability results for various bounded model-checking
-problems based on MSO and on the notion of special treewidth. Related works are discussed all along the paper in correspondance to specific notions.
+problems based on MSO and on the notion of special treewidth. Related works are discussed all along the report in correspondance to specific notions.
 
 
 %\hrule

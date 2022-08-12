@@ -5,7 +5,7 @@
 
 \begin{wrapfigure}{r}{0pt}
 \centering	
-	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+	\begin{tikzpicture}[scale=1, every node/.style={transform shape}]
 		\draw  (0,0) rectangle (1.2,.5);
 		\draw (1.2,0.25) node[left]{\rsc};
 		\draw  (0,0) rectangle (1.6,1);
@@ -47,9 +47,10 @@ The former clearly respects the definition of \co-MSC, so let us focus on the la
 Fig.~\ref{fig:co_no_none} shows an example of \co-MSC that is not $\none$. It is causally ordered because we cannot  find two messages, addressed to the same process, such that the corresponding send events are causally related; on the contrary, the MSC is not $\none$ because we have $!4 \mbrel !1$ and $!2 \mbrel !3$, which lead to a cyclic dependency, e.g. $!1 \procrel !2 \mbrel !3 \procrel !4 \mbrel !1$. This example and Proposition~\ref{prop:mb_is_co} prove that $\mbMSCs \subset \coMSCs$.
 
 \begin{figure}[t]
+	\centering
 	\captionsetup[subfigure]{justification=centering}
 \begin{subfigure}[t]{0.3\textwidth}\centering
-	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+	\begin{tikzpicture}[scale=1, every node/.style={transform shape}]
 		\newproc{0}{p}{-2.2};
 		\newproc{1}{q}{-2.2};
 		\newproc{2}{r}{-2.2};
@@ -66,7 +67,7 @@ Fig.~\ref{fig:co_no_none} shows an example of \co-MSC that is not $\none$. It is
 \end{subfigure}
 % \hfill
 \begin{subfigure}[t]{0.3\textwidth}\centering
-	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+	\begin{tikzpicture}[scale=1, every node/.style={transform shape}]
 		\newproc{0}{p}{-2.2};
 		\newproc{1}{q}{-2.2};
 		\newproc{2}{r}{-2.2};
@@ -82,7 +83,7 @@ Fig.~\ref{fig:co_no_none} shows an example of \co-MSC that is not $\none$. It is
 	\label{fig:onen_no_nn}
 \end{subfigure}
 \begin{subfigure}[t]{0.3\textwidth}\centering
-	\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+	\begin{tikzpicture}[scale=1, every node/.style={transform shape}]
 		\newproc{0}{p}{-2.2};
 		\newproc{2}{q}{-2.2};	
 	
