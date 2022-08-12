@@ -60,7 +60,7 @@ function init_events() {
 	}
 }
 
-function reset_data() { nodes = []; draw_edges = [];}
+function reset_data() { nodes = []; draw_edges = []; counter = 0; msg_counter = 0;}
 
 function changeMode(x) { MODE = x; }
 function changeEdgeStyle(x) { EDGE_STYLE = x; }

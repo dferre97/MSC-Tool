@@ -1,0 +1,138 @@
+\definecolor{Purple}{HTML}{911146}
+\definecolor{Green}{HTML}{11915C}
+\definecolor{GreenS}{HTML}{2B756F}
+\definecolor{Blue}{HTML}{1A0DDD}
+\definecolor{Yellow}{HTML}{FFC300}
+\definecolor{PurpleS}{HTML}{5C1191}
+\definecolor{Grey}{HTML}{D1D9D5}
+\definecolor{White}{HTML}{FFFFFF}
+\definecolor{Orange}{HTML}{D52919}
+
+\definecolor{palettegris}{RGB}{53,32,59}
+\definecolor{paletterouge}{RGB}{145,17,70}
+\definecolor{paletteorange}{RGB}{237,140,43}
+\definecolor{palettevert}{RGB}{126,194,71}
+\definecolor{palettebleu}{RGB}{0,196,204}
+\definecolor{tortue}{RGB}{100,107,25}
+
+% My commands %
+
+\newcommand{\newmsgnoname}[4]{
+%#1 expediteur
+%#2 destinataire
+%#3 niveau
+%#4 color
+\draw[>=latex,->,#4] (#1,#3) -- node [above,sloped] {} (#2,#3);
+}
+
+\newcommand{\newmsgdiagnoname}[5]{
+%#1 expediteur
+%#2 destinataire
+%#3 niveau
+%#4 niveau dest
+%#5 color
+\draw[>=latex,->,#5] (#1,#3) -- node [above,sloped] {} (#2,#4);
+}
+
+\newcommand{\newmsgumnoname}[4]{
+%#1 expediteur
+%#2 destinataire
+%#3 niveau
+%#4 color
+\draw[>=latex,->, dashed, #4] (#1,#3) -- node [above,sloped] {} ({(#2-#1)*0.8+#1}*0.85,#3);
+}
+
+\newcommand{\newevent}[5]{
+%#4 name of the event
+%#5 label positioning
+\tkzDefPoint(#2,#3){#4}
+\tkzLabelPoint[#5](#4){$#4$}
+\node [circle,fill,inner sep=1pt] at (#2,#3) {};
+}
+
+% Laetitia %
+
+\newcommand{\newproc}[3]{
+\draw(#1,0) -- (#1,#3);
+\draw (#1,0.25) node{$#2$} ;
+}
+
+\newcommand{\newmsgml}[6]{
+%#1 expediteur
+%#2 destinataire
+%#3 niveau
+%#4 msg
+%#5 pos
+\draw[>=latex,->,#6] (#1,#3) -- node [above,sloped, pos = #5] {$\msg_{#4}$} (#2,#3);
+}
+
+\newcommand{\newmsgmpi}[7]{
+%#1 expediteur
+%#2 destinataire
+%#3 niveau
+%#4 reel dest
+%#5 msg
+%#6 pos
+%#7 color
+\draw[>=latex,->,#7] (#1,#3) -- node [above,sloped, pos = #6] {$(#4, \msg_{#5})$} (#2,#3);
+}
+
+\newcommand{\newmsgm}[7]{
+%#1 expediteur
+%#2 destinataire
+%#3 niveau d'envoi
+%#4 niveau de reception
+%#5 msg
+%#6 pos
+\draw[>=latex,->,#7] (#1,#3) -- node [above,sloped, pos = #6] {$\msg_{#5}$} (#2,#4);
+}
+
+\newcommand{\newmsgum}[6]{
+%#1 expediteur
+%#2 destinataire
+%#3 niveau
+%#4 msg
+%#5 pos
+\draw[>=latex,->, dashed, #6] (#1,#3) -- node [above,sloped, pos = {(#5/0.85)}] {$\msg_{#4}$} ({(#2-#1)*0.85+#1},#3);
+}
+
+\newcommand{\figurenum}[3]{
+\draw(#1, #2) node[above]{\textbf{(#3)}};
+}
+\newcommand{\newrond}[3]{
+\draw[#1, thick, fill = #1!20] (#2,#3) circle (0.1)
+}
+\newcommand{\newflechevert}[4]{
+\draw[#1, thick, >=latex,->] (#2+0.1, #3 - 0.1) to (#2+0.1,#4 +0.1)
+}
+\newcommand{\newflechehor}[4]{
+\draw[#1, thick, >=latex,->] (#3+0.1,#2-0.1 ) to (#4-0.1,#2-0.1 )
+}
+\newcommand{\newflechehorinverse}[4]{
+\draw[#1, thick, >=latex,->] (#3-0.1,#2-0.1 ) to (#4+0.1,#2-0.1 )
+}
+
+
+\newcommand{\newlambdaS}[2]{\draw(#2,0.6) node{$\{ #1 \}$}}
+\newcommand{\newlambdaSempty}[1]{\draw(#1,0.6) node{$\emptyset$}}
+
+\newcommand{\newlambdaR}[2]{\draw(#2,-0.6) node{$\{ #1 \}$}}
+\newcommand{\newlambdaRempty}[1]{\draw(#1,-0.6) node{$\emptyset$}}
+\newcommand{\newlambdaSname}{\draw(-1,0.6) node{$\lambdaS$}}
+\newcommand{\newlambdaRname}{\draw(-1,-0.6) node{$\lambdaR$}}
+
+\newcommand{\newkechange}[3]{
+\draw[dashed](#1-0.2,#3) -- (#2+0.2,#3);
+}
+
+\newcommand{\newkechangedraw}[5]{
+%1 gauche
+%2 haut
+%3 bas
+%4 nom
+\draw (#1 - .4, #2) -- (#1 - .4, #3) ;
+\draw (#1 - .4, #2) -- (#1 - .2, #2);
+\draw (#1 -.4, #3) -- (#1 - .2, #3);
+\draw (#1 -.7, #5) node{$#4$} ;
+
+}

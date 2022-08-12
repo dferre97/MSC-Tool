@@ -1,0 +1,328 @@
+% !TEX root = ../popl-paper.tex
+
+%\davidequestion{Don't we need a citation for MSO?}
+We have introduced seven different communication models and the corresponding classes of MSCs. Here, we show that all of these classes are MSO-definable, i.e. for every
+communication model $\comsymb$,
+there is a Monadic Second Order Logic formula 
+$\msoformulaofcom{{\comsymb}}$ that captures 
+exactly the class
+$\MSCclassofcom{\comsymb}$ of all
+$\comsymb$-MSCs.
+The communication models whose definitions
+are stated as the existence of a linearization enjoying some properties are the most difficult
+to express in MSO. 
+Indeed, their definition suggests
+a second-order quantification over a \emph{binary} relation, but MSO is restricted to second-order quantification over 
+\emph{unary} predicates. 
+
+We therefore have to introduce alternative definitions (equivalent to those given in Section~\ref{sec:MSC}) that are closer to the logic, in order to prove MSO-definability. These alternative definitions will also be heavily used in the following sections for proofs. We first recall the formal definition of MSO logic over MSCs.
+
+\begin{definition}[MSO logic]
+The set of MSO formulas over MSCs is given by the grammar
+$
+\phi ::= \mathsf{true} \mid x \procrel y \mid x \lhd y \mid \lambda(x) = a \mid x = y \mid x \in X \mid \exists x.\phi \mid \exists X.\phi \mid \phi \vee \phi \mid \neg \phi
+$,
+where $a \in \Act$, $x$ and $y$ are first-order variables (taken from an infinite set of variables), interpreted as
+events of an MSC, and $X$ is a second-order variable, interpreted
+as a set of events.
+\end{definition}
+
+We use common abbreviations such as $\wedge$, $\Rightarrow$, $\forall$, etc. 
+For instance, the formula $$\neg\exists x.(\bigvee_{a \in \sAct} \lambda(x) = a \;\wedge\; \neg \mathit{matched}(x)),$$
+with $\mathit{matched}(x) = \exists y.x \lhd y$,
+says that there are no unmatched send events. MSCs (a), (b), (c) and (d) of Fig. \ref{fig:exmscs} satisfy the formula. Given a sentence $\phi$, i.e., a formula without free variables,
+we let $L(\phi)$ denote the set of asynchronous MSCs that satisfy $\phi$. The formula $\mathsf{true}$ therefore describes the whole set of asynchronous MSCs, i.e. $L(\mathsf{true}) = \asMSCs$. It is folklore that the (reflexive) transitive closure of a binary relation defined by an MSO formula with free variables $x$ and $y$, such as $x \procrel y$, is MSO-definable (see also Appendix~\ref{apx:MSO}). We will therefore abusively write formulas of the form $x \procrel^+ y$, $x \procrel^* y$ or $x \happensbefore y$.
+
+\paragraph{\bf Peer-to-peer MSCs}
+The MSO formula that defines $\ppMSCs$ (i.e. the set of $\pp$-MSCs) directly follows from Definition~\ref{def:pp_msc}:
+\[
+	\ppformula = \neg \exists s.\exists s'. \left(
+	\bigvee_{\substack{p \in \Procs, q \in \Procs}}\;
+	\bigvee_{\substack{a,b \in \pqsAct{p}{q}}}\hspace{-1em}
+	(\lambda(s) = a \;\wedge\; \lambda(s') = b) \;\wedge\; s \procrel^+ s' \;\wedge\;
+	(\psi_1 \vee \psi_2 )
+	\right)
+\]
+where $\psi_1$ and $\psi_2$ are:
+\[
+	\psi_1 = \exists r.\exists r'.\left(
+	\begin{array}{ll}
+		s \lhd r & \wedge\\
+		s' \lhd r' & \wedge\\
+		r' \procrel^+ r &
+	\end{array}
+	\right) \quad \quad
+	\psi_2 = (\neg \mathit{matched}(s) \wedge \mathit{matched}(s'))
+	\]
+	\[
+	matched(x) = \exists y. x \lhd y
+\]
+
+The property $\ppformula$ says that there cannot be two matched send events $s$ and $s'$, with the same sender and receiver, such that either
+\begin{enumerate*}[label={(\roman*)}]
+	\item $s \procrel^+ s'$ and their receptions happen in the reverse order, or
+	\item $s$ is unmatched and $s'$ is matched.
+\end{enumerate*}
+% In other words, it ensures that channels operate in FIFO mode, where an unmatched messages blocks the receipt of all the subsequent messages on that channel.
+%The set $\ppMSCs$ is therefore MSO-definable as $\ppMSCs=L(\ppformula)$.
+
+
+\paragraph{\bf Causally ordered MSCs}
+As with $\pp$-MSCs, the MSO-definability of $\coMSCs$ follows from Definition~\ref{def:co_msc}, given in Section~\ref{sec:MSC}:
+\[
+	\coformula = \neg \exists s.\exists s'. \left(
+	\bigvee_{\substack{q \in \Procs}}\;
+	\bigvee_{\substack{a,b \in \pqsAct{\plh}{q}}}\hspace{-1em}
+	(\lambda(s) = a \;\wedge\; \lambda(s') = b) \;\wedge\; s \happensbefore s' \;\wedge\;
+	(\psi_1 \vee \psi_2 )
+	\right)
+\]
+where $\psi_1$ and $\psi_2$ have been defined above for the \pp case. The property $\coformula$ says that there cannot be two send events $s$ and $s'$, with the same recipient, such that $s \happensbefore s'$ and either
+\begin{enumerate*}[label={(\roman*)}]
+	\item their corresponding receive events $r$ and $r'$ happen in the opposite order, i.e. $r' \procrel^+ r$, or
+	\item $s$ is unmatched and $s'$ is matched.
+\end{enumerate*}
+%The set $\coMSCs$ of causally ordered MSCs is therefore MSO-definable as $\coMSCs=L(\coformula)$.
+
+
+\paragraph{\bf Mailbox MSCs}
+For the mailbox communication model, Definition~\ref{def:mb_msc} cannot be easily translated into an MSO formula. Thus, we introduce an alternative definition of $\mb$-MSC that is closer to MSO logic; in particular, we define an additional binary relation that represents a constraint under the $\none$ semantics, which ensures that messages received by a process are sent in the same order as they are received. This definition is shown to be equivalent to Definition~\ref{def:mb_msc} in Appendix~\ref{apx:MSO}.
+
+\begin{definition} [$\none$ alternative]\label{def:n_one_alt}
+	Let an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ be fixed, and let ${\mbrel} \subseteq \Events \times \Events$
+	be defined as $s \mbrel s'$ if there is $q \in \Procs$
+	such that $\lambda(s) \in \qsAct{q}$,
+	$\lambda(s') \in \qsAct{q}$, and either:
+	\begin{itemize}%\itemsep=0.5ex
+		\item $s \in \Matched{\msc}$ and $s' \in \Unm{\msc}$, or
+		\item $s \lhd r_1$ and $s' \lhd r_2$ for some $r_1,r_2 \in \Events_q$ such that $r_1 \procrel^+ r_2$.
+	\end{itemize}
+
+	We let ${\mbpartialstrict} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel})^+$.
+	$\msc $ is a \emph{$\none$-MSC}
+	if ${\mbpartial}$ is a partial order.
+\end{definition}
+The ${\mbrel}$ relation expresses that two send events that are not necessarily related by a causal path should be scheduled in a precise order because their matching receptions are in this precise order. If ${\mbpartial}$ is a partial order, it means that it is possible to find a linearization $\linrel$, such that $\linrel \;\subseteq\; \mbpartial$. It is easy to see that such a linearization is exactly what we called a $\none$-linearization in Definition~\ref{def:mb_msc}.
+%Finally notice  that ${\happensbefore} \subseteq {\mbpartial}$. Hence entailing that a \mb-MSC is also a \pp-MSC.
+The MSO-definability of $\mbMSCs$ follows from Definition~\ref{def:n_one_alt}; in particular, note that 
+$\mbpartial$ is reflexive and transitive by definition, 
+thus we just have to check acyclicity:
+$
+	\mbformula = \neg \exists x.\ x \mbpartialstrict x 
+$
+%This formula closely follows Definition~\ref{def:n_one_alt}. The set $\mbMSCs$ of $\none$ MSCs is therefore MSO-definable as $\mbMSCs=L(\mbformula)$.
+where $x \mbpartialstrict y$ is obtained as the MSO-definable transitive closure of
+the union of the MSO-definable relations $\procrel$, $\lhd$, and $\mbrel$,  
+where $x \mbrel y$ may be defined as:
+\[
+x \mbrel y =
+\displaystyle
+\hspace{-1em}\bigvee_{\substack{q \in \Procs\\a,b \in \qsAct{q}}}\hspace{-1em}
+(\lambda(x) = a \;\wedge\; \lambda(y) = b)
+\wedge
+\left(
+\begin{array}{rl}
+& \mathit{matched}(x) \wedge \neg \mathit{matched}(y)\\[1ex]
+\vee & \exists x'.\exists y'. (x \lhd x' \;\wedge\; y \lhd y' \;\wedge\; x' \procrel^+ y')
+\end{array}
+\right).
+\]
+
+
+
+\paragraph{\bf \onen MSCs}
+
+As with the mailbox communication model, we give an alternative definition of $\onensymb$-MSC; the equivalence with Definition~\ref{def:one_n} is shown in Appendix~\ref{apx:MSO}.
+
+\begin{definition} [$\onensymb$ alternative]\label{def:one_n_alt}
+	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\onenrel} \subseteq \Events \times \Events$ be defined as $e_1 \onenrel e_2$ if there are two events $e_1$ and $e_2$, and $p \in \Procs$ such that either:
+	\begin{itemize}%\itemsep=0.5ex
+		\item $\lambda(e_1) \in \psAct{p}$, $\lambda(e_2) \in \psAct{p}$, $e_1 \in \Matched{\msc}$, and $e_2 \in \Unm{\msc}$, or
+		\item $\lambda(e_1) \in \prAct{p}$, $\lambda(e_2) \in \prAct{p}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events_p$, and $s_1 \procrel^+ s_2$.
+	\end{itemize}
+
+	We let ${\onenpartial} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\onenrel})^\ast$.
+		%\begin{definition}\label{def:mailbox-msc}
+	$\msc$ is a \emph{$\onensymb$-MSC}
+	if ${\onenpartial}$ is a partial order.
+\end{definition}
+
+The ${\onenrel}$ relation ensures that messages sent by a process are sent and received in an order that is suitable for the $\onensymb$ communication. Since ${\onenpartial}$ is a partial order, it is possible to find a linearization $\linrel$ such that $\linrel \;\subseteq\; \onenpartial$. It is not difficult to see that such a linearization is exactly what we called a $\onensymb$-linearization in Definition~\ref{def:one_n}.
+The existence of a MSO formula that defines $\onenMSCs$ follows from Definition~\ref{def:one_n_alt} and the MSO definability
+of $\onenrel$:
+\[
+x \onenrel y =
+\begin{array}{rl}
+& \left(
+	\bigvee_{\substack{p \in \Procs\\a,b \in \psAct{p}}}\hspace{-1em}
+	(\lambda(x) = a \;\wedge\; \lambda(y) = b)
+	\;\wedge\; \mathit{matched}(x) \;\wedge\; \neg \mathit{matched}(y)
+\right) \;\vee\\
+& \left(
+	\bigvee_{\substack{p \in \Procs\\a,b \in \prAct{p}}}\hspace{-1em}
+	(\lambda(x) = a \;\wedge\; \lambda(y) = b)
+	\;\wedge\;
+	\exists x'.\exists y'. (x' \lhd x \;\wedge\; y' \lhd y \;\wedge\; x' \procrel^+ y')
+\right)\\
+\end{array}
+\]
+%The MSO formula for $x \onenrel y$ closely follows Definition~\ref{def:one_n_alt}. The set $\onenMSCs$ of $\onensymb$-MSCs is therefore MSO-definable as $\onenMSCs=L(\onenformula)$.
+
+%Finally it is worth noting that ${\happensbefore} \subseteq {\onenpartial}$.
+%\cinzia{maybe move previous sentence to next section}
+
+\paragraph{\bf \nn MSCs}
+
+In order to show the MSO-definability of $\nnsymb$-MSCs we give an alternative definition and prove that it is equivalent to Definition~\ref{def:n_n}. Unlike mailbox and $\onen$ communication models, the equivalence is not trivial.
+
+\begin{definition} [$\nnsymb$ alternative]\label{def:n_n_alt}
+	For an MSC $\msc = (\Events,\procrel,\lhd,\lambda)$, let ${\nnrel} = ({\procrel} \,\cup\, {\lhd} \,\cup\, {\mbrel} \,\cup\, {\onenrel})^\ast$. We define  $\nnbowtie \subseteq \Events \times \Events$,  such that $e_1 \nnbowtie e_2$ if one of the following holds:
+	\begin{enumerate}%\itemsep=0.5ex
+		\item $e_1 \nnrel e_2$
+		\item $\lambda(e_1) \in \prAct{\plh}$, $\lambda(e_2) \in \prAct{\plh}$, $s_1 \lhd e_1$ and $s_2 \lhd e_2$ for some $s_1,s_2 \in \Events$, $s_1 \nnrel s_2$ and $e_1 \notnnrel e_2$.
+		\item $\lambda(e_1) \in \psAct{\plh}$, $\lambda(e_2) \in \psAct{\plh}$, $e_1 \lhd r_1$ and $e_2 \lhd r_2$ for some $r_1,r_2 \in \Events$, $r_1 \nnrel r_2$ and $e_1 \notnnrel e_2$.
+		\item $e_1 \in \Matched{\msc}$, $e_2 \in \Unm{\msc}$, $e_1 \notnnrel e_2$.
+	\end{enumerate}
+
+	%Note that $\mbpartial \subseteq \nnrel$, $\onenpartial \subseteq \nnrel$, and $\nnrel \subseteq\; \nnbowtie$.
+	$\msc $ is a \emph{$\nnsymb$-MSC}
+	if ${\nnbowtie}$ is acyclic.
+\end{definition}
+
+%To prove that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent, we need some preliminary results and definitions. 
+As for the other communication models,
+the equivalence of 
+Definitions~\ref{def:n_n} and~\ref{def:n_n_alt}
+can be found in Appendix~\ref{apx:MSO}. 
+The implication Definition \ref{def:n_n_alt} $\Rightarrow$ Definition \ref{def:n_n} follows from the fact that the order of receive events imposes an order on sends and the fact that a $\nnsymb$-linearization is also a \mb and $\onensymb$-linearization.
+\begin{restatable}{proposition}{nnsecondprop}
+\label{prop:n_n_cycl}
+	Let $\msc$ be an MSC. If $\nnbowtie$ is cyclic, then $\msc$ is not a $\nnsymb$-MSC.
+\end{restatable}
+
+Let the \emph{Event Dependency Graph} (EDG) of a $\nnsymb$-MSC $\msc$ be a graph that has events as nodes and an edge between any two events $e_1$ and $e_2$ if $e_1 \nnbowtie e_2$. Algorithm  \ref {algonn}, given the EDG of an $\nnsymb$-MSC $\msc$, computes a $\nnsymb$-linearization of $\msc$. We  show that, if $\nnbowtie$ is acyclic, this algorithm always terminates correctly. This, along with Proposition~\ref{prop:n_n_cycl}, effectively shows that Definition~\ref{def:n_n} and Definition~\ref{def:n_n_alt} are equivalent.
+
+\begin{algorithm}[t]
+\caption{Algorithm for finding a $\nnsymb$-linearization}
+\label{algonn}
+\raggedright \textbf{Input}: the EDG of an MSC $\msc$. \\
+\raggedright \textbf{Output}: a valid $\nnsymb$-linearization for $\msc$, if $\msc$ is a $\nnsymb$-MSC.
+\begin{enumerate}
+	\item If there is a matched send event $s$ with in-degree 0 in the EDG, add $s$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 2.
+	\item If there are no matched send events in the EDG and there is an unmatched send event $s$ with in-degree 0 in the EDG, add $s$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 3.
+		\item If there is a receive event $r$ with in-degree 0 in the EDG, such that $r$ is the receive event of the first message whose sent event was already added to the linearization, add $r$ to the linearization and remove it from the EDG, along with its outgoing edges, then jump to step 5. Otherwise, proceed to step 4.
+		\item Throw an error and terminate.
+		\item If all the events of $\msc$ were added to the linearization, return the linearization and terminate. Otherwise, go back to step 1.
+\end{enumerate} 
+\end{algorithm}
+
+\input{img/nn_algo_edg.tex}
+
+We now need to show that 
+\begin{enumerate*}[label={(\roman*)}]
+	\item if Algorithm \ref{algonn} terminates correctly (i.e. step 4 is never executed), it returns a $\nnsymb$-linearization, and 
+	\item if $\nnbowtie$ is acyclic, the algorithm always terminates correctly.
+\end{enumerate*}
+
+\begin{proposition}
+	Given an MSC $\msc$, if Algorithm \ref{algonn} returns a linearization then  it is a $\nnsymb$-linearization.
+\end{proposition}
+\begin{proof}
+	Step 2 ensures that the order (in the linearization) in which matched messages are sent is the same as the order in which they are received. Moreover, according to step 3, an unmatched send event is added to the linearization only if all the matched send events were already added.
+\end{proof}
+
+
+
+\begin{restatable}{proposition}{nnalgotermination}
+\label{prop:nn_algo_term}
+	Given an MSC $\msc$, Algorithm \ref{algonn}  terminates correctly if $\nnbowtie$ is acyclic.
+\end{restatable}
+
+The proof  proceeds by induction on the number of events added to the linearization and relies on the fact that since $\nnbowtie$ is acyclic then the EDG of the MSC is a DAG 
+(see Appendix~\ref{app:sec-mso})
+
+
+Finally, we showed the missing implication
+Definition~\ref{def:n_n} $\Rightarrow$ Definition~\ref{def:n_n_alt} and completed the proof of the equivalence of these two definitions. Based on Definition~\ref{def:n_n_alt}, we can now write the MSO formula for $\nnsymb$-MSCs as 
+$
+	\nnformula = \neg \exists x. x \nnbowtie^{+} x 
+$, 
+where we can define $x \nnbowtie y$ as:
+\[
+	x \nnbowtie y =
+	\begin{array}{rl}
+	& \left(
+		\bigvee_{\substack{a,b \in \psAct{\plh}}}
+		(\lambda(x) = a \;\wedge\; \lambda(y) = b)
+		\;\wedge\; \mathit{matched}(x) \;\wedge\; \neg \mathit{matched}(y)
+	\right) \;\vee\\
+	& (x \nnrel y) \quad \vee \quad \psi_3 \quad \vee \quad \psi_4\\
+	\end{array}
+\]
+
+\noindent and $\psi_3$, $\psi_4$ can be specified as:
+\[
+	\psi_3 =
+	\begin{array}{rl}
+		& \bigvee_{\substack{a,b \in \prAct{\plh}}}
+		  (\lambda(x) = a \;\wedge\; \lambda(y) = b)
+		  \;\wedge\; \\
+		& \exists x'.\exists y'.(x' \lhd x \;\wedge\; y' \lhd y) \;\wedge\; (x' \nnrel y') \;\wedge\; \neg(x \nnrel y)\\
+	\end{array}
+\]
+\[
+	\psi_4 =
+	\begin{array}{rl}
+		& \bigvee_{\substack{a,b \in \psAct{\plh}}}
+		  (\lambda(x) = a \;\wedge\; \lambda(y) = b)
+		  \;\wedge\; \\
+		& \exists x'.\exists y'.(x \lhd x' \;\wedge\; y \lhd y') \;\wedge\; (x' \nnrel y') \;\wedge\; \neg(x \nnrel y)\\
+	\end{array}
+\]
+
+Formulas $\psi_3$ and $\psi_4$ encode conditions (2) and (3) in Definition~\ref{def:n_n_alt}, respectively. Note that $\nnrel$ is MSO-definable, since it is defined as the reflexive transitive closure of the MSO-definable relations $\procrel$, $\lhd$, $\mbrel$, and $\onenrel$.
+
+\paragraph{\bf Realizable with Synchronous Communication MSCs} 
+
+Following the characterization given in \cite[Theorem 4.4]{DBLP:journals/dc/Charron-BostMT96}, we  provide an alternative definition of $\rsc$-MSC that is closer to MSO logic (the equivalence with Definition~\ref{def:rsc} is shown in Appendix~\ref{apx:MSO}). We first  introduce the concept of \emph{crown}.
+
+\begin{definition} [Crown]
+	Let $\msc$ be an MSC. A \emph{crown} of size $k$ in $\msc$ is a sequence $\langle(s_i,r_i),\, i \in \{1,\dots,k\}\rangle$ of pairs of corresponding send and receive events such that
+	\[
+		s_1 \happensbeforestrict r_2, s_2 \happensbeforestrict r_3, \dots, s_{k-1} \happensbeforestrict r_k, s_k \happensbeforestrict r_1.
+	\]
+\end{definition}
+%\davide{Should I specify somewhere that $\happensbeforestrict = (\procrel \cup \lhd)^+$ or is it clear?}
+
+\begin{definition} [$\rsc$ alternative]\label{def:rsc_alt}
+	An MSC $\msc = (\Events,\procrel,\lhd,\lambda)$ is a \rsc-MSC if and only if it does not contain any crown.
+\end{definition}
+
+%Such a linearization will be referred to as a \emph{$\rsc$ linearization}.
+
+The following MSO formula derives directly from previous  definition:
+\[\Phi_{\rsc} = \neg \exists s_1.\exists s_2. s_1 \varpropto s_2 \;\wedge\; s_2 \varpropto^\ast s_1
+\]
+\noindent where $\varpropto$ is defined as
+\[
+s_1 \varpropto s_2 =
+\bigvee_{\substack{e \in \sAct}}(\lambda(s_1) = e) \;\wedge\;
+s_1 \neq s_2 \;\wedge\;
+\exists r_2. (s_1 \happensbeforestrict r_2 \;\wedge\; s_2 \lhd r_2)
+\]
+
+
+% \davidequestion{The following formula should be wrong... I cannot use $n$ in an MSO formula}
+% \[
+% 	\rscformula =
+% 	\begin{array}{rl}
+% 		& \forall x.\left(\bigvee_{a \in \psAct{\plh}} \lambda(x) = a \;\implies\; \mathit{matched}(x)\right) \;\wedge\; \\
+% 		& \neg \left(
+% 			\bigvee_{k=1}^n \left(
+% 			\exists s_1 \cdots s_k. \exists r_1 \cdots r_k.
+% 			\bigwedge_{i=1}^k (s_i \lhd r_i \;\wedge\; s_i \happensbefore r_{(i+1)\%k})
+% 		\right)
+% 		\right)\\
+% 	\end{array}
+% \]
+% where $n$ is the total number of messages. The formula checks that there are no unmatched send events and that in the conflict graph there is no cycle, of any length, whose edges are all SR.

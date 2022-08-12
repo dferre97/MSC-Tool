@@ -1,0 +1,342 @@
+%% For double-blind review submission, w/o CCS and ACM Reference (max submission space)
+\documentclass[acmsmall,review,anonymous,screen]{acmart}\settopmatter{printfolios=true,printccs=false,printacmref=true}
+%% For double-blind review submission, w/ CCS and ACM Reference
+%\documentclass[acmsmall,review,anonymous]{acmart}\settopmatter{printfolios=true}
+%% For single-blind review submission, w/o CCS and ACM Reference (max submission space)
+%\documentclass[acmsmall,review]{acmart}\settopmatter{printfolios=true,printccs=false,printacmref=false}
+%% For single-blind review submission, w/ CCS and ACM Reference
+%\documentclass[acmsmall,review]{acmart}\settopmatter{printfolios=true}
+%% For final camera-ready submission, w/ required CCS and ACM Reference
+%\documentclass[acmsmall]{acmart}\settopmatter{}
+
+
+%% Journal information
+%% Supplied to authors by publisher for camera-ready submission;
+%% use defaults for review submission.
+\acmJournal{PACMPL}
+\acmVolume{1}
+\acmNumber{POPL} % CONF = POPL or ICFP or OOPSLA
+\acmArticle{1}
+\acmYear{2023}
+\acmMonth{1}
+\acmDOI{} % \acmDOI{10.1145/nnnnnnn.nnnnnnn}
+\startPage{1}
+
+%% Copyright information
+%% Supplied to authors (based on authors' rights management selection;
+%% see authors.acm.org) by publisher for camera-ready submission;
+%% use 'none' for review submission.
+\setcopyright{none}
+%\setcopyright{acmcopyright}
+%\setcopyright{acmlicensed}
+%\setcopyright{rightsretained}
+%\copyrightyear{2018}           %% If different from \acmYear
+
+%% Bibliography style
+\bibliographystyle{ACM-Reference-Format}
+%% Citation style
+%% Note: author/year citations are required for papers published as an
+%% issue of PACMPL.
+\citestyle{acmauthoryear}   %% For author/year citations
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Note: Authors migrating a paper from PACMPL format to traditional
+%% SIGPLAN proceedings format must update the '\documentclass' and
+%% topmatter commands above; see 'acmart-sigplanproc-template.tex'.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%% Some recommended packages.
+\usepackage{booktabs}   %% For formal tables:
+                        %% http://ctan.org/pkg/booktabs
+\usepackage{subcaption} %% For complex figures with subfigures/subcaptions
+                        %% http://ctan.org/pkg/subcaption
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+
+%% MY STUFF
+\usepackage{preamble}
+\usepackage{pifont}
+
+% \addbibresource{my_biblio.bib} % do not put this in preamble or it breakes automatic suggestions for citations in vscode
+
+% % macros
+\usepackage{select_version}
+\usepackage{my_macro}
+\usepackage{laetitia_macro}
+\usepackage{etienne_macros}
+
+\begin{document}
+
+%% Title information
+\title{A non-sequential hierarchy of message-passing models}
+        %% [Short Title] is optional;
+                                        %% when present, will be used in
+                                        %% header instead of Full Title.
+%\titlenote{with title note}             %% \titlenote is optional;
+                                        %% can be repeated if necessary;
+                                        %% contents suppressed with 'anonymous'
+%\subtitle{Subtitles}                     %% \subtitle is optional
+%\subtitlenote{with subtitle note}       %% \subtitlenote is optional;
+                                        %% can be repeated if necessary;
+                                        %% contents suppressed with 'anonymous'
+
+
+%% Author information
+%% Contents and number of authors suppressed with 'anonymous'.
+%% Each author should be introduced by \author, followed by
+%% \authornote (optional), \orcid (optional), \affiliation, and
+%% \email.
+%% An author may have multiple affiliations and/or emails; repeat the
+%% appropriate command.
+%% Many elements are not rendered, but should be provided for metadata
+%% extraction tools.
+
+%% Author with single affiliation.
+\author{Cinzia Di Giusto}
+%\authornote{with author1 note}          %% \authornote is optional;
+                                        %% can be repeated if necessary
+\orcid{nnnn-nnnn-nnnn-nnnn}             %% \orcid is optional
+\affiliation{
+%  \position{Position1}
+%  \department{Department1}              %% \department is recommended
+  \institution{Institution1}            %% \institution is required
+  \streetaddress{Street1 Address1}
+  \city{City1}
+  \state{State1}
+  \postcode{Post-Code1}
+  \country{Country1}                    %% \country is recommended
+}
+\email{first1.last1@inst1.edu}          %% \email is recommended
+
+%% Author with two affiliations and emails.
+\author{Davide Ferré}
+%\authornote{with author2 note}          %% \authornote is optional;
+                                        %% can be repeated if necessary
+\orcid{nnnn-nnnn-nnnn-nnnn}             %% \orcid is optional
+\affiliation{
+  \position{Position2a}
+  \department{Department2a}             %% \department is recommended
+  \institution{Institution2a}           %% \institution is required
+  \streetaddress{Street2a Address2a}
+  \city{City2a}
+  \state{State2a}
+  \postcode{Post-Code2a}
+  \country{Country2a}                   %% \country is recommended
+}
+\email{first2.last2@inst2a.com}         %% \email is recommended
+       %% \email is recommended
+
+%% Author with two affiliations and emails.
+\author{Laetitia Laversa}
+%\authornote{with author2 note}          %% \authornote is optional;
+                                        %% can be repeated if necessary
+\orcid{nnnn-nnnn-nnnn-nnnn}             %% \orcid is optional
+\affiliation{
+  \position{Position2a}
+  \department{Department2a}             %% \department is recommended
+  \institution{Institution2a}           %% \institution is required
+  \streetaddress{Street2a Address2a}
+  \city{City2a}
+  \state{State2a}
+  \postcode{Post-Code2a}
+  \country{Country2a}                   %% \country is recommended
+}
+\email{first2.last2@inst2a.com}         %% \email is recommended
+       %% \email is recommended
+
+
+\author{Etienne Lozes}
+%\authornote{with author2 note}          %% \authornote is optional;
+                                        %% can be repeated if necessary
+\orcid{nnnn-nnnn-nnnn-nnnn}             %% \orcid is optional
+\affiliation{
+  \position{Position2a}
+  \department{Department2a}             %% \department is recommended
+  \institution{Institution2a}           %% \institution is required
+  \streetaddress{Street2a Address2a}
+  \city{City2a}
+  \state{State2a}
+  \postcode{Post-Code2a}
+  \country{Country2a}                   %% \country is recommended
+}
+\email{first2.last2@inst2a.com}
+
+
+
+%% Abstract
+%% Note: \begin{abstract}...\end{abstract} environment must come
+%% before \maketitle command
+\begin{abstract}
+\input{abstract.tex}
+\end{abstract}
+
+
+%% 2012 ACM Computing Classification System (CSS) concepts
+%% Generate at 'http://dl.acm.org/ccs/ccs.cfm'.
+\begin{CCSXML}
+<ccs2012>
+   <concept>
+       <concept_id>10003752.10003790.10011192</concept_id>
+       <concept_desc>Theory of computation~Verification by model checking</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10003752.10003790.10003793</concept_id>
+       <concept_desc>Theory of computation~Modal and temporal logics</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10003752.10003753.10003761.10003763</concept_id>
+       <concept_desc>Theory of computation~Distributed computing models</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+ </ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Theory of computation~Verification by model checking}
+\ccsdesc[500]{Theory of computation~Modal and temporal logics}
+\ccsdesc[500]{Theory of computation~Distributed computing models}
+%% End of generated code
+
+
+%% Keywords
+%% comma separated list
+\keywords{Asynchronous Communication, Message-passing, Monadic Second order Logic, Bounded Model Checking, Bounded Treewidth}  %% \keywords are mandatory in final camera-ready submission
+
+
+%% \maketitle
+%% Note: \maketitle command must come after title commands, author
+%% commands, abstract environment, Computing Classification System
+%% environment and commands, and keywords command.
+\maketitle
+
+\section{Introduction}
+% \begin{itemize}
+%   \item Interleaving based semantics VS partial order/graph based semantics
+%   \item Synchronous and asynchronous communication
+%   \item The problem of synchronizability
+% \end{itemize}
+
+\input{chapters/ch-intro.tex}
+
+% \section{Asynchronous communication models overview}
+% \label{sec:com_models_overview}
+% %\begin{itemize}
+% %  \item Overview of asynchronous variants
+% %  \item High-level description of each variant along with references to implementations (if existing)
+% %  \item (Definitions based on linearization, intuitive)
+% %  \item (Language of a system with a given communication model as a set of MSCs)
+% %  \item Hint of hierarchy result
+% %\end{itemize}
+
+% \input{chapters/ch-3.tex}
+
+
+% % \section{Preliminaries}\label{sec:prelim}
+% % \begin{itemize}
+% %   \item Communicating systems (communicating finite-state automata with bag channels)
+% %   \item MSCs and (conflict graph)
+% %   \item Causal path
+% %   \item Monadic Second-Order logic on MSCs
+% %   \item (Language of a system as a set of MSCs)
+% %   \item (Model checking and synchronizability)
+% % \end{itemize}
+
+% % \input{chapters/ch-2.tex}
+
+\section{Asynchronous communication models as classes of MSCs}\label{sec:MSC}
+
+\input{chapters/ch-msc.tex}
+
+\section{Asynchronous communication models as classes of executions}\label{sec:impl}
+
+\input{chapters/ch-executions.tex}
+
+\section{MSO definability}\label{sec:MSO}
+%\begin{itemize}
+%  \item Definition of MSC class for each communication model (alternative definitions)
+%  \item MSO-definability of each class
+%\end{itemize}
+
+\input{chapters/ch-MSO.tex}
+
+
+%
+%\section{Equivalence of the two definitions}
+%\begin{itemize}
+%  \item TODO...
+%\end{itemize}
+
+\section{Hierarchy of classes of MSCs} \label{sec:hierarchy}
+
+\input{chapters/ch-hierarchy.tex}
+
+\section{Application: synchronizability and bounded model-checking}\label{sec:checking}
+
+\input{chapters/ch-stw-model-checking.tex}
+
+\section{Conclusion}\label{sec:conc}
+
+\input{chapters/ch-conclusion.tex}
+
+%% Acknowledgments
+%\begin{acks}                            %% acks environment is optional
+                                        %% contents suppressed with 'anonymous'
+  %% Commands \grantsponsor{<sponsorID>}{<name>}{<url>} and
+  %% \grantnum[<url>]{<sponsorID>}{<number>} should be used to
+  %% acknowledge financial support and will be used by metadata
+  %% extraction tools.
+%  This material is based upon work supported by the
+%  \grantsponsor{GS100000001}{National Science
+%    Foundation}{http://dx.doi.org/10.13039/100000001} under Grant
+%  No.~\grantnum{GS100000001}{nnnnnnn} and Grant
+%  No.~\grantnum{GS100000001}{mmmmmmm}.  Any opinions, findings, and
+%  conclusions or recommendations expressed in this material are those
+%  of the author and do not necessarily reflect the views of the
+%  National Science Foundation.
+%\end{acks}
+
+
+
+\newpage
+
+% Bibliography
+\bibliography{bibfile}
+\newpage
+
+\ifappendix
+
+% %% Appendix
+\appendix
+
+\section{Additional material for Section~\ref{sec:MSO}}
+\label{apx:MSO}
+%\cinzia{TODO: proofs mailbox alternative}
+%\cinzia{TODO: proofs 1-n alternative}
+\input{appendix/apx-mso.tex}
+
+\section{Additional material for Section~\ref{sec:hierarchy}}
+\label{apx:hierarchy}
+\input{appendix/apx-hierarchy.tex}
+
+\section{Additional material for Section~\ref{sec:checking}}
+\label{apx:checking}
+\input{appendix/apx-checking}
+
+
+% Text of appendix \ldots
+\fi
+
+\ifcomments
+%\newpage
+%OLD MATERIAL TO REMOVE
+
+
+% \input{chapters/synch-prelim.tex}
+% \input{reference.tex}
+\fi
+\end{document}

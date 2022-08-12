@@ -80,11 +80,11 @@ class DependencyGraph {
 		for (let i = 0; i < K; i++) {  // for each process
 			for (let j = 0; j < this.events[i].length - 1; j++) {
 				let id = this.events[i][j];
-				if (this.nodes[id].type == "send" && !this.nodes[id].unmatched) { // matched send events
+				if (getNodeById(id).type == "send" && !getNodeById(id).unmatched) { // matched send events
 					let crt_node_rec = getNodeById(id + 1);
 					for (let k = j + 1; k < this.events[i].length; k++) {
 						let tmp_id = this.events[i][k];
-						if (this.nodes[tmp_id].type == "send" && !this.nodes[tmp_id].unmatched) { // matched send events
+						if (getNodeById(tmp_id).type == "send" && !getNodeById(tmp_id).unmatched) { // matched send events
 							let tmp_node_rec = getNodeById(tmp_id + 1);
 
 							if (crt_node_rec.p == tmp_node_rec.p &&
@@ -101,12 +101,12 @@ class DependencyGraph {
 		for (let i = 0; i < K; i++) {  // for each process
 			for (let j = 0; j < this.events[i].length - 1; j++) {
 				let id = this.events[i][j];
-				if (this.nodes[id].type == "send" && this.nodes[id].unmatched) { // unmatched send events
+				if (getNodeById(id).type == "send" && getNodeById(id).unmatched) { // unmatched send events
 					for (let k = j + 1; k < this.events[i].length; k++) {
 						let tmp_id = this.events[i][k];
-						if (this.nodes[tmp_id].type == "send" && !this.nodes[tmp_id].unmatched &&
-							this.nodes[id].p == this.nodes[tmp_id].p &&
-							this.nodes[id+1].p == this.nodes[tmp_id+1].p) { // matched send events on the same channel
+						if (getNodeById(tmp_id).type == "send" && !getNodeById(tmp_id).unmatched &&
+							getNodeById(id).p == getNodeById(tmp_id).p &&
+							getNodeById(id+1).p == getNodeById(tmp_id+1).p) { // matched send events on the same channel
 							return false;
 						}
 					}
@@ -138,17 +138,29 @@ class DependencyGraph {
 		for (let i = 0; i < K; i++) {  // for each process
 			for (let j = 0; j < this.events[i].length - 1; j++) {
 				let id = this.events[i][j];
-				if (id % 2 !== 0) { // only receive events (odd ids)
+				if (getNodeById(id).type == "receive") { // only receive events (odd ids)
 					for (let k = j + 1; k < this.events[i].length; k++) {
 						let tmp_id = this.events[i][k];
-						if (tmp_id % 2 !== 0) { // only receive events (odd ids)
-							let tmp_node_send = getNodeById(tmp_id - 1);
-
-							if (this.#happensBefore(tmp_id - 1, id - 1, tmp_node_send.p)) { // same destination, inverted send/receive order
+						if (getNodeById(tmp_id).type == "receive") { // only receive events (odd ids)
+							
+							if (this.#happensBefore(tmp_id - 1, id - 1)) { // same destination, inverted send/receive order
 								return false;
 							}
 						}
 					}
+				}
+			}
+		}
+
+		// check if there are two send events m1 and m2, destined to the same process, 
+		// such that m1 happens before m2, and m1 is unmatched and m2 is matched
+		for (const id of this.node_ids) {
+			for (const tmp_id of this.node_ids) {
+				if (getNodeById(id).type == "send" && getNodeById(tmp_id).type == "send" && 
+				getNodeById(id+1).p == getNodeById(tmp_id+1).p &&
+				getNodeById(id).unmatched && !getNodeById(tmp_id).unmatched &&
+				this.#happensBefore(id, tmp_id)) {
+					return false;
 				}
 			}
 		}
@@ -162,15 +174,27 @@ class DependencyGraph {
 		for (let i = 0; i < K; i++) {  // for each process
 			for (let j = 0; j < this.events[i].length - 1; j++) {
 				let id = this.events[i][j];
-				if (id % 2 !== 0) { // only receive events (odd ids)
+				if (getNodeById(id).type == "receive") { // only receive events (odd ids)
 					for (let k = j + 1; k < this.events[i].length; k++) {
 						let tmp_id = this.events[i][k];
-						if (tmp_id % 2 !== 0) { // only receive events (odd ids)
+						if (getNodeById(tmp_id).type == "receive") { // only receive events (odd ids)
 							
 							// add mb relation
 							this.mb_edges.push([id - 1, tmp_id - 1])
 						}
 					}
+				}
+			}
+		}
+
+		// Check if there are two send events m1 and m2, destined to the same process, suh that m1 is unmatched and m2 is matched
+		for (const id of this.node_ids) {
+			for (const tmp_id of this.node_ids) {
+				if (getNodeById(id).type == "send" && getNodeById(tmp_id).type == "send" && 
+				getNodeById(id+1).p == getNodeById(tmp_id+1).p &&
+				getNodeById(id).unmatched && !getNodeById(tmp_id).unmatched) {
+					// add mb relation
+					this.mb_edges.push([id, tmp_id])
 				}
 			}
 		}
@@ -189,12 +213,18 @@ class DependencyGraph {
 		for (let i = 0; i < K; i++) {  // for each process
 			for (let j = 0; j < this.events[i].length - 1; j++) {
 				let id = this.events[i][j];
-				if (id % 2 == 0) { // only send events (even ids)
+				if (getNodeById(id).type == "send") { // only send events (even ids)
 					for (let k = j + 1; k < this.events[i].length; k++) {
 						let tmp_id = this.events[i][k];
-						if (tmp_id % 2 == 0) { // only send events (even ids)
-							// add onen relation
-							this.onen_edges.push([id + 1, tmp_id + 1])
+						if (getNodeById(tmp_id).type == "send") { // only send events (even ids)
+							if (getNodeById(id).unmatched && !getNodeById(tmp_id).unmatched) {
+								// add onen relation
+								this.onen_edges.push([tmp_id,id])
+							}
+							else {
+								// add onen relation
+								this.onen_edges.push([id + 1, tmp_id + 1])
+							}
 						}
 					}
 				}
@@ -353,12 +383,12 @@ class DependencyGraph {
 		let receives = [];
 
 		for (const ev of lin) {
-			if(ev % 2 == 0)	sends.push(ev);	
+			if(getNodeById(ev).type == "send")	sends.push(ev);	
 			else receives.push(ev);	
 		}
 
-		for (const i in sends) {
-			if (sends[i] !== receives[i]-1) {
+		for (const i in receives) {
+			if (receives[i] !== sends[i]+1) {
 				return false;
 			}
 		}
