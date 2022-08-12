@@ -36,7 +36,7 @@
 \newcommand{\universityname}[1]{\gdef\@universityname{#1}}
 \def\@universitylogo{logo-uca.png}
 \newcommand{\universitylogo}[1]{\gdef\@universitylogo{#1}}
-\def\@formation{Master Informatique}
+\def\@formation{Master 2 Informatique}
 \newcommand{\formation}[1]{\gdef\@formation{#1}}
 \def\@formationlogo{logo_haut.png}
 \newcommand{\formationlogo}[1]{\gdef\@formationlogo{#1}}

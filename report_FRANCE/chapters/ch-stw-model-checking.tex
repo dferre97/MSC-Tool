@@ -295,32 +295,6 @@ For $\onensymb$ and $\nn$, on the other hand, weak synchronizability is decidabl
 
 \paragraph{\bf Weakly \texorpdfstring{$k$}{k}-synchronous MSCs}
 
-\begin{wrapfigure}{r}{0pt}
-	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt, semithick]
-	\begin{scope}[scale=1]
-	  %MACHINES
-	  \draw (0,0) node{$p$} ;
-	  \draw (1,0) node{$q$} ;
-	  \draw (2,0) node{$r$} ;
-	  \draw (0,-0.25) -- (0,-3.1) ;
-	  \draw (1,-0.25) -- (1,-3.1);
-	  \draw (2, -0.25) -- (2, -3.1) ;
-	  %MESSAGES
-	  \draw[>=latex,->, dashed] (0,-0.75) -- (0.9, -0.75) node[midway,above]{$\amessage_1$};
-
-	  \draw[>=latex,->] (1, -1.75) -- (0, -1.75) node[midway, above] {$\amessage_2$};
-	  %\draw (0.5,-1.7) node{$\cdots$};
-	  %\draw[>=latex,->] (1, -2.25) -- (0, -2.25) node[midway, above] {$\amessage_2$};
-
-	  \draw[>=latex,->] (2,-2.75) -- (1,-2.75) node[midway, above] {$\amessage_3$};
-	%\end{scope}
-	  \draw[dashed] (-0.5,-1.25) -- (2.5,-1.25) ;
-	  \draw[dashed] (-0.5,-2.25) -- (2.5,-2.25) ;
-	\end{scope}
-	\end{tikzpicture}
-	\caption{$\mscweakSexist$}
-	\label{fig:msc_weak_S_exist}
-\end{wrapfigure}
 %The undecidability result for some of the communication models motivates the study of other classes. 
 We consider now weakly $k$-synchronous MSCs (\cite{BolligGFLLS21}), which are the weakly synchronous MSCs such that the number of messages sent per exchange is at most $k$.
 
@@ -347,6 +321,33 @@ MSC $\mscweakSexist$ in Fig.~\ref{fig:msc_weak_S_exist} is weakly $1$-synchronou
 decomposed  into three \kE{1}s (the decomposition is depicted by the
 horizontal dashed lines).
 \end{example}
+
+\begin{wrapfigure}[10]{r}{0pt}
+	\begin{tikzpicture}[>=stealth,node distance=3.4cm,shorten >=1pt, semithick]
+	\begin{scope}[scale=1]
+	  %MACHINES
+	  \draw (0,0) node{$p$} ;
+	  \draw (1,0) node{$q$} ;
+	  \draw (2,0) node{$r$} ;
+	  \draw (0,-0.25) -- (0,-3.1) ;
+	  \draw (1,-0.25) -- (1,-3.1);
+	  \draw (2, -0.25) -- (2, -3.1) ;
+	  %MESSAGES
+	  \draw[>=latex,->, dashed] (0,-0.75) -- (0.9, -0.75) node[midway,above]{$\amessage_1$};
+
+	  \draw[>=latex,->] (1, -1.75) -- (0, -1.75) node[midway, above] {$\amessage_2$};
+	  %\draw (0.5,-1.7) node{$\cdots$};
+	  %\draw[>=latex,->] (1, -2.25) -- (0, -2.25) node[midway, above] {$\amessage_2$};
+
+	  \draw[>=latex,->] (2,-2.75) -- (1,-2.75) node[midway, above] {$\amessage_3$};
+	%\end{scope}
+	  \draw[dashed] (-0.5,-1.25) -- (2.5,-1.25) ;
+	  \draw[dashed] (-0.5,-2.25) -- (2.5,-2.25) ;
+	\end{scope}
+	\end{tikzpicture}
+	\caption{$\mscweakSexist$}
+	\label{fig:msc_weak_S_exist}
+\end{wrapfigure}
 
 As for weakly synchronous MSCs, the class of weakly $k$-synchronous MSCs was already shown to be MSO-definable and STW-bounded in \cite{BolligGFLLS21}, and these results still hold even for our definition of MSC. A direct application of Theorem~\ref{thm:sync} shows that, for weakly $k$-synchronous MSCs, $SP$ is decidable for all communication models.
 
