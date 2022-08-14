@@ -85,7 +85,7 @@ function print_cycle(cycle) {
 			return "?" + msg;
 		}
 	});
-	
+
 	return complete_cycle.join("->");
 }
 
@@ -228,7 +228,10 @@ function draw() {
 	for (var i = 0; i < K; i++) { drawLine(ctx, (i + 0.5) * (cnvs.width / K), 0, (i + 0.5) * (cnvs.width / K), cnvs.height, "#000", STROKE, false); }
 
 	for (var i = 0; i < nodes.length; i++) { if (nodes[i] != null) drawLine(ctx, 0, nodes[i].y, cnvs.width, nodes[i].y, "#ddd", STROKE, true); }
-	for (var i = 0; i < nodes.length; i++) { if (nodes[i] != null) drawCircle(ctx, nodes[i].x, nodes[i].y, R, NODE_COLOR[i % 2], STROKE); }
+	for (var i = 0; i < nodes.length; i++) {
+		if (nodes[i] != null && !(nodes[i].unmatched && nodes[i].type === "receive")) 
+			drawCircle(ctx, nodes[i].x, nodes[i].y, R, NODE_COLOR[i % 2], STROKE);
+	}
 
 	for (var e in draw_edges) {
 		if (draw_edges[e] != null) {
@@ -349,12 +352,12 @@ function putNode(e, lft, tp, newNode) {
 
 		msg_counter++;
 		if (EDGE_STYLE != "dashed") {  // matched message
-			nodes.push({ "id": counter, "x": x, "y": y, "r": 15, "p": s_p, "m": msg_counter, "isDragging": false, type:"send", "unmatched": false});
-			nodes.push({ "id": counter+1, "x": xr, "y": yr, "r": 15, "p": r_p, "m": msg_counter, "isDragging": false, type:"receive", "unmatched": false });
+			nodes.push({ "id": counter, "x": x, "y": y, "r": 15, "p": s_p, "m": msg_counter, "isDragging": false, "type": "send", "unmatched": false});
+			nodes.push({ "id": counter+1, "x": xr, "y": yr, "r": 15, "p": r_p, "m": msg_counter, "isDragging": false, "type": "receive", "unmatched": false });
 		}
 		else {
-			nodes.push({ "id": counter, "x": x, "y": y, "r": 15, "p": s_p, "m": msg_counter, "isDragging": false, type:"send", "unmatched": true });
-			nodes.push({ "id": counter+1, "x": xr, "y": yr, "r": 15, "p": r_p, "m": msg_counter, "isDragging": false, type:"receive", "unmatched": true });
+			nodes.push({ "id": counter, "x": x, "y": y, "r": 15, "p": s_p, "m": msg_counter, "isDragging": false, "type": "send", "unmatched": true });
+			nodes.push({ "id": counter+1, "x": xr, "y": yr, "r": 15, "p": r_p, "m": msg_counter, "isDragging": false, "type": "receive", "unmatched": true });
 		}
 		draw_edges.push({ "source": counter, "target": counter + 1, "dashed": (EDGE_STYLE == "dashed") });
 		counter += 2;
