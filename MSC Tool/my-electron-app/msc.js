@@ -63,19 +63,23 @@ function dependency_graph() {
 		onen.innerHTML += `&nbsp&nbsp<i class="fas fa-info-circle" data-html="true" data-toggle="tooltip" title="${cycle_msg}"></i>`
 		return;
 	}
-	// nn and rsc
-	dep_graph.analyze_linearizations();
-
-	// let is_nn = dep_graph.isnn();
-	// nn.innerHTML = is_nn ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; if (!is_nn) return;
+	
+	let [nn_isCyclic, nn_cycle] = dep_graph.isnn();
+	nn.innerHTML = !nn_isCyclic ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; 
+	if (nn_isCyclic) {
+		let cycle_msg = "Cycle detected: <br/> " + print_cycle(nn_cycle);
+		nn.innerHTML += `&nbsp&nbsp<i class="fas fa-info-circle" data-html="true" data-toggle="tooltip" title="${cycle_msg}"></i>`
+		return;
+	}
 	// let is_rsc = isrsc();
 	// rsc.innerHTML = is_rsc ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; if (!is_rsc) return;
-
+	
+	// (nn and) rsc
+	dep_graph.analyze_linearizations();
 }
 
 function print_cycle(cycle) {
 	let complete_cycle = [...cycle];
-	complete_cycle.push(cycle[0]);
 	complete_cycle = complete_cycle.map((id) => {
 		let msg = getNodeById(id).m;
 		if(id % 2 == 0) {  // send

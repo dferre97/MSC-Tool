@@ -189,12 +189,12 @@ class DependencyGraph {
 			}
 		}
 
-		// Check if there are two send events m1 and m2, destined to the same process, suh that m1 is unmatched and m2 is matched
+		// Check if there are two send events m1 and m2, destined to the same process, suh that m1 is matched and m2 is unmatched
 		for (const id of this.node_ids) {
 			for (const tmp_id of this.node_ids) {
 				if (getNodeById(id).type == "send" && getNodeById(tmp_id).type == "send" && 
 				getNodeById(id+1).p == getNodeById(tmp_id+1).p &&
-				getNodeById(id).unmatched && !getNodeById(tmp_id).unmatched) {
+				!getNodeById(id).unmatched && getNodeById(tmp_id).unmatched) {
 					// add mb relation
 					this.mb_edges.push([id, tmp_id])
 				}
@@ -224,7 +224,7 @@ class DependencyGraph {
 								// add onen relation
 								this.onen_edges.push([tmp_id,id])
 							}
-							else {
+							else if (!getNodeById(id).unmatched && !getNodeById(tmp_id).unmatched){
 								// add onen relation
 								this.onen_edges.push([id + 1, tmp_id + 1])
 							}
@@ -260,29 +260,40 @@ class DependencyGraph {
 			}
 		}
 
-		// compute nn rel
+		// compute nn rel additional constraints
 		for(const id1 of this.node_ids) {
 			for (const id2 of this.node_ids) {
-				// case 2 nn relation
-				if (id1 % 2 !== 0 && id1 % 2 !== 0 &&
-					!nn_adj_tc[id1].includes(id2) &&
-					nn_adj_tc[id1-1].includes(id2-1)) { 
-					
-					this.nn_edges.push([id1, id2])
-				}
-				// case 3 nn relation
-				if (id1 % 2 == 0 && id1 % 2 == 0 &&
-					!nn_adj_tc[id1].includes(id2) &&
-					nn_adj_tc[id1+1].includes(id2+1)) { 
-					
-					this.nn_edges.push([id1, id2])
+				if (id1 !== id2) {
+					// case 2 nn relation
+					if (id1 % 2 !== 0 && id2 % 2 !== 0 &&
+						!nn_adj_tc[id1].includes(id2) &&
+						nn_adj_tc[id1-1].includes(id2-1)) { 
+						
+						this.nn_edges.push([id1, id2])
+					}
+					// case 3 nn relation
+					else if (id1 % 2 === 0 && id2 % 2 === 0 &&
+						!getNodeById(id1).unmatched && !getNodeById(id2).unmatched &&
+						!nn_adj_tc[id1].includes(id2) &&
+						nn_adj_tc[id1+1].includes(id2+1)) { 
+						
+						this.nn_edges.push([id1, id2])
+					}
+					// case 4 nn relation
+					else if (id1 % 2 === 0 && id2 % 2 === 0 &&
+						!getNodeById(id1).unmatched && getNodeById(id2).unmatched &&
+						!nn_adj_tc[id1].includes(id2)) {
+
+						this.nn_edges.push([id1, id2])
+					}
 				}
 			}
 		}
 
 		this.#computeAdjacencyMatrix(this.nn_edges, nn_adj);
-		
-		return !DependencyGraph.isCyclic(nn_adj, this.highest_id);
+
+		const [isCyclic, cycle] = DependencyGraph.isCyclic(nn_adj, this.highest_id);
+		return [isCyclic, cycle];
 	}
 	static isCyclic(adjacency_m, highest_id) {
 		// Mark all the vertices as not visited and
@@ -299,9 +310,13 @@ class DependencyGraph {
 		// detect cycle in different DFS trees
 		for (let i = 0; i < highest_id; i++)
 			if (adjacency_m[i] !== null) {
-				const [isCyclic, cycle] = DependencyGraph.isCyclicUtil(i, visited, recStack, adjacency_m);
-				if (isCyclic)
+				let [isCyclic, cycle] = DependencyGraph.isCyclicUtil(i, visited, recStack, adjacency_m);
+				if (isCyclic) {
+					let cycle_start = cycle[cycle.length - 1]
+					let start_idx = cycle.indexOf(cycle_start);  // find first occurrence of i in path
+					cycle = cycle.slice(start_idx);
 					return [true, cycle];
+				}
 			}
 
 		return [false, null];
@@ -309,8 +324,10 @@ class DependencyGraph {
 	static isCyclicUtil(i, visited, recStack, adjacency_m, crtPath=[]) {
 		// Mark the current node as visited and
 		// part of recursion stack
-		if (recStack[i])
+		if (recStack[i]) {
+			crtPath.push(i);
 			return [true, crtPath];
+		}
 
 		if (visited[i])
 			return [false, null];
@@ -374,11 +391,11 @@ class DependencyGraph {
 		if (crt_lin.length == this.node_ids.length) {
 			console.log(crt_lin);
 
-			if (this.#is_nn_lin(crt_lin)) {
-				console.log("found a nn-linearization !!!");
-				let nn = document.getElementById("nn");
-				nn.innerHTML = "<span style='color: LimeGreen;'><b>YES</b></span>";
-			}
+			// if (this.#is_nn_lin(crt_lin)) {
+			// 	console.log("found a nn-linearization !!!");
+			// 	let nn = document.getElementById("nn");
+			// 	nn.innerHTML = "<span style='color: LimeGreen;'><b>YES</b></span>";
+			// }
 			if (this.#is_rsc_lin(crt_lin)) {
 				console.log("found a rsc-linearization !!!");
 				let rsc = document.getElementById("rsc");
