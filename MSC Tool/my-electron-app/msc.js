@@ -22,6 +22,10 @@ let events = [];
 let msg_counter = 0;
 let dep_graph;
 
+function helper_dependency_graph() {
+	dependency_graph();
+	$('[data-toggle="tooltip"]').tooltip();
+}
 function dependency_graph() {
 
 	dep_graph = new DependencyGraph(nodes, draw_edges, events); // pass highest node id
@@ -34,16 +38,31 @@ function dependency_graph() {
 	let nn = document.getElementById("nn"); nn.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
 	let rsc = document.getElementById("rsc"); rsc.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
 
-	let is_MSC = dep_graph.isMSC();
-	asy.innerHTML = is_MSC ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; if (!is_MSC) return;
+	let [asy_isCyclic, asy_cycle] = dep_graph.isMSC();
+	asy.innerHTML = !asy_isCyclic ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; 
+	if (asy_isCyclic) {
+		let cycle_msg = "Cycle detected: <br/>" + print_cycle(asy_cycle);
+		asy.innerHTML += `&nbsp&nbsp<i class="fas fa-info-circle" data-html="true" data-toggle="tooltip" title="${cycle_msg}"></i>`
+		return;
+	} 
 	let is_pp = dep_graph.ispp();
 	pp.innerHTML = is_pp ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; if (!is_pp) return;
 	let is_co = dep_graph.isco();
 	co.innerHTML = is_co ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; if (!is_co) return;
-	let is_mb = dep_graph.ismb();
-	mb.innerHTML = is_mb ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; if (!is_mb) return;
-	let is_onen = dep_graph.isonen();
-	onen.innerHTML = is_onen ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; if (!is_onen) return;
+	let [mb_isCyclic, mb_cycle] = dep_graph.ismb();
+	mb.innerHTML = !mb_isCyclic ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; 
+	if (mb_isCyclic) {
+		let cycle_msg = "Cycle detected: <br/> " + print_cycle(mb_cycle);
+		mb.innerHTML += `&nbsp&nbsp<i class="fas fa-info-circle" data-html="true" data-toggle="tooltip" title="${cycle_msg}"></i>`
+		return;	
+	} 
+	let [onen_isCyclic, onen_cycle] = dep_graph.isonen();
+	onen.innerHTML = !onen_isCyclic ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; 
+	if (onen_isCyclic) {
+		let cycle_msg = "Cycle detected: <br/> " + print_cycle(onen_cycle);
+		onen.innerHTML += `&nbsp&nbsp<i class="fas fa-info-circle" data-html="true" data-toggle="tooltip" title="${cycle_msg}"></i>`
+		return;
+	}
 	// nn and rsc
 	dep_graph.analyze_linearizations();
 
@@ -52,6 +71,22 @@ function dependency_graph() {
 	// let is_rsc = isrsc();
 	// rsc.innerHTML = is_rsc ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; if (!is_rsc) return;
 
+}
+
+function print_cycle(cycle) {
+	let complete_cycle = [...cycle];
+	complete_cycle.push(cycle[0]);
+	complete_cycle = complete_cycle.map((id) => {
+		let msg = getNodeById(id).m;
+		if(id % 2 == 0) {  // send
+			return "!" + msg;
+		}
+		else {  // receive
+			return "?" + msg;
+		}
+	});
+	
+	return complete_cycle.join("->");
 }
 
 function init_events() {
@@ -129,6 +164,12 @@ function drawArrow(c, xs, ys, xn, yn, col, strk, dash_flag) {
 	c.stroke();
 }
 
+function drawLabel(c, x, y, msg) {
+	c.font = "1em Arial";
+	ctx.fillStyle = "#000";
+	c.fillText(msg,x,y);
+}
+
 function getNodeById(id) {
 	for (let i = 0; i < nodes.length; i++) {
 		if (nodes[i].id == id) {
@@ -194,6 +235,10 @@ function draw() {
 			var src = getNode(nodes, draw_edges[e].source);
 			var trg = getNode(nodes, draw_edges[e].target);
 			drawArrow(ctx, src.x, src.y, trg.x, trg.y, "#000", 1, draw_edges[e].dashed);
+			// drawLabel(ctx, Math.floor((src.x+trg.x)/2), Math.floor((src.y+trg.y)/2), "m"+src.m);
+			var label_x = src.x+20;
+			var label_y = src.y <= trg.y ? (src.y-10) : (src.y+20);
+			drawLabel(ctx, label_x, label_y, "m"+src.m);
 		}
 	}
 

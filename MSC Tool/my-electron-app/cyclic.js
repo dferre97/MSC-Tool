@@ -67,7 +67,9 @@ class DependencyGraph {
 	}
 
 	isMSC() {
-		return !DependencyGraph.isCyclic(this.adj, this.highest_id);
+		const [isCyclic, cycle] = DependencyGraph.isCyclic(this.adj, this.highest_id);
+		
+		return [isCyclic, cycle];
 	}
 	#procBefore(id1, id2, p) { // id1 and id2 must be on the same process p, returns true if id1 happens before id2
 		if (this.events[p].indexOf(id1) < this.events[p].indexOf(id2))
@@ -204,7 +206,8 @@ class DependencyGraph {
 			this.addEdge(edge[0], edge[1], mb_adj)
 		}
 		
-		return !DependencyGraph.isCyclic(mb_adj, this.highest_id);
+		const [isCyclic, cycle] = DependencyGraph.isCyclic(mb_adj, this.highest_id);
+		return [isCyclic, cycle];
 	}
 	isonen() {
 		this.onen_edges = [];
@@ -236,7 +239,8 @@ class DependencyGraph {
 			this.addEdge(edge[0], edge[1], onen_adj)
 		}
 		
-		return !DependencyGraph.isCyclic(onen_adj, this.highest_id);
+		const [isCyclic, cycle] = DependencyGraph.isCyclic(onen_adj, this.highest_id);
+		return [isCyclic, cycle];
 	}
 	isnn() {
 		let nn_adj = JSON.parse(JSON.stringify(this.adj));
@@ -295,33 +299,38 @@ class DependencyGraph {
 		// detect cycle in different DFS trees
 		for (let i = 0; i < highest_id; i++)
 			if (adjacency_m[i] !== null) {
-				if (DependencyGraph.isCyclicUtil(i, visited, recStack, adjacency_m))
-					return true;
+				const [isCyclic, cycle] = DependencyGraph.isCyclicUtil(i, visited, recStack, adjacency_m);
+				if (isCyclic)
+					return [true, cycle];
 			}
 
-		return false;
+		return [false, null];
 	}
-	static isCyclicUtil(i, visited, recStack, adjacency_m) {
+	static isCyclicUtil(i, visited, recStack, adjacency_m, crtPath=[]) {
 		// Mark the current node as visited and
 		// part of recursion stack
 		if (recStack[i])
-			return true;
+			return [true, crtPath];
 
 		if (visited[i])
-			return false;
+			return [false, null];
 
 		visited[i] = true;
-
 		recStack[i] = true;
+		crtPath.push(i);
+
 		let children = adjacency_m[i];
 
-		for (let c = 0; c < children.length; c++)
-			if (DependencyGraph.isCyclicUtil(children[c], visited, recStack, adjacency_m))
-				return true;
+		for (let c = 0; c < children.length; c++) {
+			const [isCyclic, cycle] = DependencyGraph.isCyclicUtil(children[c], visited, recStack, adjacency_m, crtPath)
+			if (isCyclic)
+				return [true, crtPath];
+		}
 
 		recStack[i] = false;
+		crtPath.pop(i);
 
-		return false;
+		return [false, null];
 	}
 
 	// other approach based on computing all linearizations and checking their properties
