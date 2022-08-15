@@ -22,10 +22,6 @@ let events = [];
 let msg_counter = 0;
 let dep_graph;
 
-function helper_dependency_graph() {
-	dependency_graph();
-	$('[data-toggle="tooltip"]').tooltip();
-}
 function dependency_graph() {
 
 	dep_graph = new DependencyGraph(nodes, draw_edges, events); // pass highest node id
@@ -38,56 +34,87 @@ function dependency_graph() {
 	let nn = document.getElementById("nn"); nn.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
 	let rsc = document.getElementById("rsc"); rsc.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
 
-	let [asy_isCyclic, asy_cycle] = dep_graph.isMSC();
-	asy.innerHTML = !asy_isCyclic ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; 
-	if (asy_isCyclic) {
-		let cycle_msg = "Cycle detected: <br/>" + print_cycle(asy_cycle);
-		asy.innerHTML += `&nbsp&nbsp<i class="fas fa-info-circle" data-html="true" data-toggle="tooltip" title="${cycle_msg}"></i>`
-		return;
-	} 
-	let is_pp = dep_graph.ispp();
-	pp.innerHTML = is_pp ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; if (!is_pp) return;
-	let is_co = dep_graph.isco();
-	co.innerHTML = is_co ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; if (!is_co) return;
-	let [mb_isCyclic, mb_cycle] = dep_graph.ismb();
-	mb.innerHTML = !mb_isCyclic ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; 
-	if (mb_isCyclic) {
-		let cycle_msg = "Cycle detected: <br/> " + print_cycle(mb_cycle);
-		mb.innerHTML += `&nbsp&nbsp<i class="fas fa-info-circle" data-html="true" data-toggle="tooltip" title="${cycle_msg}"></i>`
-		return;	
-	} 
-	let [onen_isCyclic, onen_cycle] = dep_graph.isonen();
-	onen.innerHTML = !onen_isCyclic ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; 
-	if (onen_isCyclic) {
-		let cycle_msg = "Cycle detected: <br/> " + print_cycle(onen_cycle);
-		onen.innerHTML += `&nbsp&nbsp<i class="fas fa-info-circle" data-html="true" data-toggle="tooltip" title="${cycle_msg}"></i>`
-		return;
+	const com_name = ["asy", "pp", "co", "mb", "onen", "nn"];
+	const com_box = [asy, pp, co, mb, onen, nn];
+	const is_com = [dep_graph.isMSC, dep_graph.ispp, dep_graph.isco, dep_graph.ismb, dep_graph.isonen, dep_graph.isnn];
+
+	for (let i = 0; i < com_name.length; i++) {
+		let [is_valid, problem] = is_com[i].call(dep_graph);  // !IMPORTANT to pass the context to call(),  
+															   // otherwise 'this' will refer to is_com and not to dep_graph
+		com_box[i].innerHTML = is_valid ? 
+			"<span style='color: LimeGreen;'><b>YES</b></span>" : 
+			"<span style='color: RED;'><b>NO</b></span>"; 
+		if (!is_valid) {
+			const problem_msg = parse_problem(com_name[i], problem);
+			com_box[i].innerHTML += `&nbsp&nbsp<i class="fas fa-info-circle" data-html="true" data-toggle="tooltip" title="${problem_msg}"></i>`;
+			break;
+		} 
 	}
-	
-	let [nn_isCyclic, nn_cycle] = dep_graph.isnn();
-	nn.innerHTML = !nn_isCyclic ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; 
-	if (nn_isCyclic) {
-		let cycle_msg = "Cycle detected: <br/> " + print_cycle(nn_cycle);
-		nn.innerHTML += `&nbsp&nbsp<i class="fas fa-info-circle" data-html="true" data-toggle="tooltip" title="${cycle_msg}"></i>`
-		return;
-	}
-	// let is_rsc = isrsc();
-	// rsc.innerHTML = is_rsc ? "<span style='color: LimeGreen;'><b>YES</b></span>" : "<span style='color: RED;'><b>NO</b></span>"; if (!is_rsc) return;
-	
+
 	// (nn and) rsc
 	dep_graph.analyze_linearizations();
+	$('[data-toggle="tooltip"]').tooltip();  // enable tooltips
 }
 
+function parse_events(events) {
+	let parsed_events = events.map((id) => {
+		let msg = getNodeById(id).m;
+		if(id % 2 == 0) // send
+			return "!" + msg;
+		else  // receive
+			return "?" + msg;
+	});
+
+	return parsed_events;
+}
+
+function parse_problem(com_name, problem) {
+	let problem_msg = ""; 
+	switch(com_name) {
+		case "asy":
+			problem_msg = parse_cycle(problem);
+			break;
+		case "pp":
+			problem_msg = "pp problem_msg";
+			break;
+		case "co":
+			problem_msg = "co problem_msg";
+			break;
+		case "mb":
+			problem_msg = parse_cycle(problem);
+			break;
+		case "onen":
+			problem_msg = parse_cycle(problem);
+			break;
+		case "nn":
+			problem_msg = parse_cycle(problem);
+			break;
+		case "rsc":
+			problem_msg = "No rsc linearization found";
+			break;
+	}
+
+	function parse_cycle(problem) {
+		let cycle = problem;
+		let complete_cycle = [...cycle];
+		complete_cycle = parse_events(complete_cycle);
+	
+		let cycle_msg = "Cycle detected:<br/>" + 
+			complete_cycle.join("->");
+
+		return cycle_msg;
+	}
+
+	return problem_msg;
+}
 function print_cycle(cycle) {
 	let complete_cycle = [...cycle];
 	complete_cycle = complete_cycle.map((id) => {
 		let msg = getNodeById(id).m;
-		if(id % 2 == 0) {  // send
+		if(id % 2 == 0) // send
 			return "!" + msg;
-		}
-		else {  // receive
+		else  // receive
 			return "?" + msg;
-		}
 	});
 
 	return complete_cycle.join("->");
@@ -231,9 +258,13 @@ function draw() {
 
 	for (var i = 0; i < K; i++) { drawLine(ctx, (i + 0.5) * (cnvs.width / K), 0, (i + 0.5) * (cnvs.width / K), cnvs.height, "#000", STROKE, false); }
 
-	for (var i = 0; i < nodes.length; i++) { if (nodes[i] != null) drawLine(ctx, 0, nodes[i].y, cnvs.width, nodes[i].y, "#ddd", STROKE, true); }
+	for (var i = 0; i < nodes.length; i++) { 
+		if (nodes[i] != null) {
+			drawLine(ctx, 0, nodes[i].y, cnvs.width, nodes[i].y, "#ddd", STROKE, true); 
+		}
+	}
 	for (var i = 0; i < nodes.length; i++) {
-		if (nodes[i] != null && !(nodes[i].unmatched && nodes[i].type === "receive")) 
+		if (nodes[i] != null) 
 			drawCircle(ctx, nodes[i].x, nodes[i].y, R, NODE_COLOR[i % 2], STROKE);
 	}
 
@@ -241,7 +272,18 @@ function draw() {
 		if (draw_edges[e] != null) {
 			var src = getNode(nodes, draw_edges[e].source);
 			var trg = getNode(nodes, draw_edges[e].target);
-			drawArrow(ctx, src.x, src.y, trg.x, trg.y, "#000", 1, draw_edges[e].dashed);
+			if (src.unmatched && src.type === "send") {  // unmatched message
+				// compute sin cos tg
+				let cos = Math.abs(trg.x-src.x) / Math.sqrt((trg.x-src.x)**2 + (trg.y-src.y)**2);
+				let sin = Math.sqrt(1-cos**2);
+				let tg = sin/cos;
+				let offsetX, offsetY;
+				offsetX = (trg.x-src.x) > 0 ? -(R*1.5) : (R*1.5);
+				offsetY = (trg.y-src.y) > 0 ? -(R*1.5*tg) : (R*1.5*tg);
+				drawArrow(ctx, src.x, src.y, trg.x+offsetX, trg.y+offsetY, "#000", 1, draw_edges[e].dashed);
+			}
+			else 
+				drawArrow(ctx, src.x, src.y, trg.x, trg.y, "#000", 1, draw_edges[e].dashed);
 			// drawLabel(ctx, Math.floor((src.x+trg.x)/2), Math.floor((src.y+trg.y)/2), "m"+src.m);
 			var label_x = src.x+20;
 			var label_y = src.y <= trg.y ? (src.y-10) : (src.y+20);

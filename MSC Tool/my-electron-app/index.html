@@ -12,6 +12,7 @@
 			#status { position: absolute; background-color: rgba(0,0,0,0.7); color: white; }
 			#cnvs { overflow: hidden; }
 			.marg-btm-10 { margin-bottom: 10px; }
+			.tooltip{ font-size: 1.2em; }
 		</style>
 	</head>
 	<body class="h-100">
@@ -35,7 +36,7 @@
 										<div class="form-group row marg-btm-10">
 											<label for="_protocols" class="col-lg-4 col-form-label">Processes:</label>
 											<div class="col-lg-8">
-		    								  <input class="form-control custom-form-control" type="number" id="_protocols" value="3">
+		    								  <input class="form-control custom-form-control" type="number" id="_protocols" value="4">
 											</div>
 										  </div>
 
@@ -127,7 +128,7 @@
 						</div>
 						<div class="row">
 							<div class="col">
-								<button type="button" class="btn btn-primary btn-block" onclick="helper_dependency_graph();">Analyze MSC</button>
+								<button type="button" class="btn btn-primary btn-block" onclick="dependency_graph();">Analyze MSC</button>
 							</div>
 						</div>
 					</div>

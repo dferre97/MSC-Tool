@@ -69,7 +69,7 @@ class DependencyGraph {
 	isMSC() {
 		const [isCyclic, cycle] = DependencyGraph.isCyclic(this.adj, this.highest_id);
 		
-		return [isCyclic, cycle];
+		return [!isCyclic, cycle];
 	}
 	#procBefore(id1, id2, p) { // id1 and id2 must be on the same process p, returns true if id1 happens before id2
 		if (this.events[p].indexOf(id1) < this.events[p].indexOf(id2))
@@ -91,7 +91,7 @@ class DependencyGraph {
 
 							if (crt_node_rec.p == tmp_node_rec.p &&
 								this.#procBefore(tmp_id + 1, id + 1, tmp_node_rec.p)) { // same source, destination, inverted send/receive order
-								return false;
+								return [false, ""];
 							}
 						}
 					}
@@ -109,14 +109,14 @@ class DependencyGraph {
 						if (getNodeById(tmp_id).type == "send" && !getNodeById(tmp_id).unmatched &&
 							getNodeById(id).p == getNodeById(tmp_id).p &&
 							getNodeById(id+1).p == getNodeById(tmp_id+1).p) { // matched send events on the same channel
-							return false;
+							return [false, ""];
 						}
 					}
 				}
 			}
 		}
 
-		return true;
+		return [true, ""];
 	}
 	#computeHappensBefore() {
 		this.hb_adj_tc = JSON.parse(JSON.stringify(this.adj));
@@ -146,7 +146,7 @@ class DependencyGraph {
 						if (getNodeById(tmp_id).type == "receive") { // only receive events (odd ids)
 							
 							if (this.#happensBefore(tmp_id - 1, id - 1)) { // same destination, inverted send/receive order
-								return false;
+								return [false, ""];
 							}
 						}
 					}
@@ -162,12 +162,12 @@ class DependencyGraph {
 				getNodeById(id+1).p == getNodeById(tmp_id+1).p &&
 				getNodeById(id).unmatched && !getNodeById(tmp_id).unmatched &&
 				this.#happensBefore(id, tmp_id)) {
-					return false;
+					return [false, ""];
 				}
 			}
 		}
 
-		return true;
+		return [true, ""];
 	}
 	ismb() {
 		this.mb_edges = [];
@@ -207,7 +207,7 @@ class DependencyGraph {
 		}
 		
 		const [isCyclic, cycle] = DependencyGraph.isCyclic(mb_adj, this.highest_id);
-		return [isCyclic, cycle];
+		return [!isCyclic, cycle];
 	}
 	isonen() {
 		this.onen_edges = [];
@@ -240,7 +240,7 @@ class DependencyGraph {
 		}
 		
 		const [isCyclic, cycle] = DependencyGraph.isCyclic(onen_adj, this.highest_id);
-		return [isCyclic, cycle];
+		return [!isCyclic, cycle];
 	}
 	isnn() {
 		let nn_adj = JSON.parse(JSON.stringify(this.adj));
@@ -293,7 +293,7 @@ class DependencyGraph {
 		this.#computeAdjacencyMatrix(this.nn_edges, nn_adj);
 
 		const [isCyclic, cycle] = DependencyGraph.isCyclic(nn_adj, this.highest_id);
-		return [isCyclic, cycle];
+		return [!isCyclic, cycle];
 	}
 	static isCyclic(adjacency_m, highest_id) {
 		// Mark all the vertices as not visited and
