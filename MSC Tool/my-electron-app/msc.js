@@ -61,10 +61,12 @@ function parse_problem(com_name, problem) {
 			problem_msg = parse_cycle(problem);
 			break;
 		case "pp":
-			problem_msg = "pp problem_msg";
+			problem_msg = "Problematic messages:<br/>"
+			problem_msg += problem.join(",");
 			break;
 		case "co":
-			problem_msg = "co problem_msg";
+			problem_msg = "Problematic messages:<br/>"
+			problem_msg += problem.join(",");
 			break;
 		case "mb":
 			problem_msg = parse_cycle(problem);

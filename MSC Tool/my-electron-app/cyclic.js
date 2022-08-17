@@ -93,7 +93,7 @@ class DependencyGraph {
 
 							if (crt_node_rec.p == tmp_node_rec.p &&
 								this.#procBefore(tmp_id + 1, id + 1, tmp_node_rec.p)) { // same source, destination, inverted send/receive order
-								return [false, ""];
+								return [false, [this.#getMsg(id), this.#getMsg(tmp_id)]];
 							}
 						}
 					}
@@ -111,7 +111,7 @@ class DependencyGraph {
 						if (getNodeById(tmp_id).type == "send" && !getNodeById(tmp_id).unmatched &&
 							getNodeById(id).p == getNodeById(tmp_id).p &&
 							getNodeById(id+1).p == getNodeById(tmp_id+1).p) { // matched send events on the same channel
-							return [false, ""];
+							return [false, [this.#getMsg(id), this.#getMsg(tmp_id)]];
 						}
 					}
 				}
@@ -148,7 +148,7 @@ class DependencyGraph {
 						if (getNodeById(tmp_id).type == "receive") { // only receive events (odd ids)
 							
 							if (this.#happensBefore(tmp_id - 1, id - 1)) { // same destination, inverted send/receive order
-								return [false, ""];
+								return [false, [this.#getMsg(id), this.#getMsg(tmp_id)]];
 							}
 						}
 					}
@@ -164,7 +164,7 @@ class DependencyGraph {
 				getNodeById(id+1).p == getNodeById(tmp_id+1).p &&
 				getNodeById(id).unmatched && !getNodeById(tmp_id).unmatched &&
 				this.#happensBefore(id, tmp_id)) {
-					return [false, ""];
+					return [false, [this.#getMsg(id), this.#getMsg(tmp_id)]];
 				}
 			}
 		}
@@ -348,6 +348,9 @@ class DependencyGraph {
 	}
 	#getReceiveEvent(msg) {
 		return msg*2 - 1;
+	}
+	#getMsg(event_id) {
+		return Math.floor((event_id + 2) / 2);
 	}
 
 	static isCyclic(adjacency_m, highest_id) {
