@@ -34,9 +34,9 @@ function dependency_graph() {
 	let nn = document.getElementById("nn"); nn.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
 	let rsc = document.getElementById("rsc"); rsc.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
 
-	const com_name = ["asy", "pp", "co", "mb", "onen", "nn"];
-	const com_box = [asy, pp, co, mb, onen, nn];
-	const is_com = [dep_graph.isMSC, dep_graph.ispp, dep_graph.isco, dep_graph.ismb, dep_graph.isonen, dep_graph.isnn];
+	const com_name = ["asy", "pp", "co", "mb", "onen", "nn", "rsc"];
+	const com_box = [asy, pp, co, mb, onen, nn, rsc];
+	const is_com = [dep_graph.isMSC, dep_graph.ispp, dep_graph.isco, dep_graph.ismb, dep_graph.isonen, dep_graph.isnn, dep_graph.isrsc];
 
 	for (let i = 0; i < com_name.length; i++) {
 		let [is_valid, problem] = is_com[i].call(dep_graph);  // !IMPORTANT to pass the context to call(),  
@@ -50,22 +50,8 @@ function dependency_graph() {
 			break;
 		} 
 	}
-
-	// (nn and) rsc
-	dep_graph.analyze_linearizations();
+	
 	$('[data-toggle="tooltip"]').tooltip();  // enable tooltips
-}
-
-function parse_events(events) {
-	let parsed_events = events.map((id) => {
-		let msg = getNodeById(id).m;
-		if(id % 2 == 0) // send
-			return "!" + msg;
-		else  // receive
-			return "?" + msg;
-	});
-
-	return parsed_events;
 }
 
 function parse_problem(com_name, problem) {
@@ -90,7 +76,12 @@ function parse_problem(com_name, problem) {
 			problem_msg = parse_cycle(problem);
 			break;
 		case "rsc":
-			problem_msg = "No rsc linearization found";
+			if(Array.isArray(problem)) {
+				problem_msg = "Crown detected with messages:<br/>"
+				problem_msg += problem.join(", ");
+			} else {
+				problem_msg = problem;
+			}
 			break;
 	}
 
@@ -104,9 +95,21 @@ function parse_problem(com_name, problem) {
 
 		return cycle_msg;
 	}
+	function parse_events(events) {
+		let parsed_events = events.map((id) => {
+			let msg = getNodeById(id).m;
+			if(id % 2 == 0) // send
+				return "!" + msg;
+			else  // receive
+				return "?" + msg;
+		});
+	
+		return parsed_events;
+	}
 
 	return problem_msg;
 }
+
 function print_cycle(cycle) {
 	let complete_cycle = [...cycle];
 	complete_cycle = complete_cycle.map((id) => {
@@ -245,7 +248,7 @@ function updateEvents() {
 	console.log(events);
 
 	for (let i = 0; i < nodes.length; i++) {
-		if ( !(nodes[i].type == "receive" && nodes[i].unmatched) ) {
+		if ( !(nodes[i].type === "receive" && nodes[i].unmatched) ) {
 			insert_event(nodes[i].id);
 		}
 		// events[nodes[i].p].push(nodes[i].id)

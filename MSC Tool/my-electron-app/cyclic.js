@@ -3,6 +3,7 @@
 class DependencyGraph {
 	nodes = [];
 	node_ids = [];
+	msgs = [];
 	edges = [];
 	highest_id;
 	events;
@@ -18,6 +19,8 @@ class DependencyGraph {
 
 	constructor(nodes, draw_edges, events) {
 		this.nodes = nodes;
+		this.msgs = nodes.filter(node => (node.type === "send")).map(node => node.m);
+
 		for (const node of nodes) {
 			if ( !(node.type == "receive" && node.unmatched) ) {  // unmatched receive should not count as events, only used for drawing
 				this.node_ids.push(node.id);
@@ -295,6 +298,57 @@ class DependencyGraph {
 		const [isCyclic, cycle] = DependencyGraph.isCyclic(nn_adj, this.highest_id);
 		return [!isCyclic, cycle];
 	}
+	isrsc() {
+		// check for unmatched messages
+		if (nodes.some(node => node.unmatched))
+			return [false, "There are unmatched messages"];
+
+		for (let first_msg of this.msgs) {
+			for (let k = 2; k <= this.msgs.length; k++) { // crown dimension is at max the n. of msgs
+				let crown = []
+				if (this.findCrowns(k, first_msg, crown)) {
+					let first_msg = crown[0];
+					let last_msg = crown[crown.length-1];
+					if (this.hb_adj_tc[this.#getSendEvent(last_msg)].includes(this.#getReceiveEvent(first_msg))) // complete the crown
+						return [false, crown];
+				}
+			}
+		}
+		return [true, null];
+	}
+	findCrowns(k, first_msg = 0, msg_chain = []) {
+		msg_chain.push(first_msg); 
+
+		// base condition, crown found
+		if (k === 1) { 
+			console.log("Crown found: " + msg_chain.toString());
+			return true;
+		}
+		else {
+			for (let msg of this.msgs) {
+				if (!(msg_chain.includes(msg))) { // don't want repeated counters
+					// check relation with previous msg in the msg_chain
+					let last_m_send_id = this.#getSendEvent(msg_chain[msg_chain.length - 1]);
+					let crt_m_rec_id = this.#getReceiveEvent(msg);
+					if (this.hb_adj_tc[last_m_send_id].includes(crt_m_rec_id)) {  // SR relation
+						if (this.findCrowns(k - 1, msg, msg_chain))
+							return true;
+					}
+				}
+			}
+		}
+		msg_chain.pop();
+
+		return false;
+	}
+
+	#getSendEvent(msg) {
+		return msg*2 - 2;
+	}
+	#getReceiveEvent(msg) {
+		return msg*2 - 1;
+	}
+
 	static isCyclic(adjacency_m, highest_id) {
 		// Mark all the vertices as not visited and
 		// not part of recursion stack
