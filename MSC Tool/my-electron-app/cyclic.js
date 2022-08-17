@@ -12,7 +12,6 @@ class DependencyGraph {
 	match_edges = [];
 	hb_edges = [];
 	hb_adj_tc = [];
-
 	mb_edges = [];
 	onen_edges = [];
 	nn_edges = [];
@@ -306,23 +305,25 @@ class DependencyGraph {
 		for (let first_msg of this.msgs) {
 			for (let k = 2; k <= this.msgs.length; k++) { // crown dimension is at max the n. of msgs
 				let crown = []
-				if (this.findCrowns(k, first_msg, crown)) {
-					let first_msg = crown[0];
-					let last_msg = crown[crown.length-1];
-					if (this.hb_adj_tc[this.#getSendEvent(last_msg)].includes(this.#getReceiveEvent(first_msg))) // complete the crown
-						return [false, crown];
+				if (this.findCrown(k, first_msg, crown)) {
+					return [false, crown];
 				}
 			}
 		}
 		return [true, null];
 	}
-	findCrowns(k, first_msg = 0, msg_chain = []) {
-		msg_chain.push(first_msg); 
+	findCrown(k, start_msg = 0, msg_chain = []) {
+		msg_chain.push(start_msg); 
 
 		// base condition, crown found
-		if (k === 1) { 
-			console.log("Crown found: " + msg_chain.toString());
-			return true;
+		if (k === 1) {
+			let first_msg = msg_chain[0];
+			let last_msg = start_msg;
+			if (this.hb_adj_tc[this.#getSendEvent(last_msg)].includes(this.#getReceiveEvent(first_msg))) { // complete the crown
+				msg_chain.push(first_msg); 
+				console.log("Crown found: " + msg_chain.toString());
+				return true;
+			}
 		}
 		else {
 			for (let msg of this.msgs) {
@@ -331,7 +332,7 @@ class DependencyGraph {
 					let last_m_send_id = this.#getSendEvent(msg_chain[msg_chain.length - 1]);
 					let crt_m_rec_id = this.#getReceiveEvent(msg);
 					if (this.hb_adj_tc[last_m_send_id].includes(crt_m_rec_id)) {  // SR relation
-						if (this.findCrowns(k - 1, msg, msg_chain))
+						if (this.findCrown(k - 1, msg, msg_chain))
 							return true;
 					}
 				}
