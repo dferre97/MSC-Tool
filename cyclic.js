@@ -320,7 +320,7 @@ class DependencyGraph {
 			let first_msg = msg_chain[0];
 			let last_msg = start_msg;
 			if (this.hb_adj_tc[this.#getSendEvent(last_msg)].includes(this.#getReceiveEvent(first_msg))) { // complete the crown
-				msg_chain.push(first_msg); 
+				// msg_chain.push(first_msg); 
 				console.log("Crown found: " + msg_chain.toString());
 				return true;
 			}
