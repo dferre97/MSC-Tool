@@ -157,9 +157,9 @@ function drawCircle(c, x, y, r, col, strk) {
 	c.arc(x, y, r, 0, 2 * Math.PI);
 	c.closePath();
 	c.fillStyle = col;
+	c.fill();
 	c.strokeStyle = "#000";
 	c.lineWidth = strk;
-	c.fill();
 	c.stroke();
 }
 
@@ -269,8 +269,14 @@ function draw() {
 		}
 	}
 	for (var i = 0; i < nodes.length; i++) {
-		if (nodes[i] != null) 
-			drawCircle(ctx, nodes[i].x, nodes[i].y, R, NODE_COLOR[i % 2], STROKE);
+		if (nodes[i] != null) {
+			if (nodes[i].type === "send") 
+				drawCircle(ctx, nodes[i].x, nodes[i].y, R, NODE_COLOR[0], STROKE);
+			else if (nodes[i].unmatched)
+				drawCircle(ctx, nodes[i].x, nodes[i].y, R, "#c4c4c4", 1);
+			else
+				drawCircle(ctx, nodes[i].x, nodes[i].y, R, NODE_COLOR[1], STROKE);
+		}
 	}
 
 	for (var e in draw_edges) {
