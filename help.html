@@ -12,6 +12,8 @@
 
     <title>MSC Tool instructions</title>
     <style>
+
+
         #toolpic {
             border-radius: 5px;
             cursor: pointer;
@@ -124,26 +126,26 @@
 </head>
 
 <body>
-    <div class="container mt-5">
+    <div class="container mt-4">
         <div class="row mb-2">
             <div class="col">
                 <h2>Drawing an MSC</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-6">
                 <p>Use the <strong>Processes</strong> control to specify the desired number of processes, then click the <strong>Update</strong> button to change the drawing accordingly. Now you can:</p>
                 <ul>
                     <li>
                         <span class="text-info"><strong>Add a message</strong></span>: first, make sure the <strong>Add</strong> option is selected (gray background). Next, you can either choose to add a matched or an unmatched message using the <strong>Matched</strong>/<strong>Unmatched</strong> selector. To draw the message, <em>right click</em> in the drawing on the sender process; you can now freely move around both the send and the receive events by dragging the two respective circles<sup>1</sup>.
                     </li>
                     <li>
-                        <span class="text-info"><strong>Remove a message</strong></span>: first, make sure the <strong>Remove</strong> option is selected (gray background). Now, just <em>right click</em> on either the send or the receive event of the message you want to remove. If you want to remove all the messages on the drawing, just click the <strong>Clear</strong> button.
+                        <span class="text-info"><strong>Remove a message</strong></span>: first, make sure the <strong>Remove</strong> option is selected (gray background). Now, just <em>right click</em> on either the send or the receive event of the message you want to remove. If you want to remove all the messages on the drawing, just click the <span class="px-2 pb-1 rounded bg-warning">Clear</span> button.
                     </li>
                 </ul>
                 <p><sup>1</sup> <span class="text-muted">For every matched message, a white circle will denote the send event, and a green circle is used for the receive event. For unmatched messages, a gray circle is used on the receiving end (recall that formally an unmatched message does not have a receive event).</span></p>      
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6 ml-auto pl-3 pt-3">
                 <figure class="figure">
                     <img id="toolpic" src="img/tool_7_rounded.png" class="figure-img img-fluid">
                     <figcaption class="figure-caption text-center">The main interface of the tool. Click the image to enlarge it.</figcaption>
@@ -157,7 +159,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <p>Given an MSC, the tool is able to analyze it and see to which classes of communication models it belongs. To do so, simply draw the desired MSC and then click the <strong>Analyze MSC</strong> button. The results will be shown in the "Communication models" table on the right. If the MSC does not belong to some classes, the tool will also provide a hint of why that is, which is accessible by hovering the mouse over the info icon (<i class="fas fa-info-circle"></i>).</p>
+                <p>Given an MSC, the tool is able to analyze it and see to which classes of communication models it belongs. To do so, simply draw the desired MSC and then click the <span class="px-2 pb-1 rounded" style="background-color: #62f578;">Analyze MSC</span> button. The results will be shown in the "Communication models" table on the right. If the MSC does not belong to some classes, the tool will also provide a hint of why that is, which is accessible by hovering the mouse over the info icon (<i class="fas fa-info-circle"></i>).</p>
             </div>
         </div>
     </div>
