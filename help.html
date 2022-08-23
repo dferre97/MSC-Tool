@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <title>MSC Tool instructions</title>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row mb-2">
+            <div class="col">
+                <h2>Drawing an MSC</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7">
+                <p>Use the <strong>Processes</strong> control to specify the desired number of processes, then click the <strong>Update</strong> button to change the drawing accordingly. Now you can:</p>
+                <ul>
+                    <li>
+                        <span class="text-info"><strong>Add a message</strong></span>: first, make sure the <strong>Add</strong> option is selected (gray background). Next, you can either choose to add a matched or an unmatched message using the <strong>Matched</strong>/<strong>Unmatched</strong> selector. To draw the message, <em>right click</em> in the drawing on the sender process; you can now freely move around both the send and the receive events by dragging the two respective circles<sup>1</sup>.
+                    </li>
+                    <li>
+                        <span class="text-info"><strong>Remove a message</strong></span>: first, make sure the <strong>Remove</strong> option is selected (gray background). Now, just <em>right click</em> on either the send or the receive event of the message you want to remove. If you want to remove all the messages on the drawing, just click the <strong>Clear</strong> button.
+                    </li>
+                </ul>
+                <p><sup>1</sup> <span class="text-muted">For every matched message, a white circle will denote the send event, and a green circle is used for the receive event. For unmatched messages, a gray circle is used on the receiving end (recall that formally an unmatched message does not have a receive event).</span></p>      
+            </div>
+            <div class="col-md-5">
+                <figure class="figure">
+                    <img src="img/tool_5_rounded.jpg" class="figure-img img-fluid">
+                    <figcaption class="figure-caption text-center">The main interface of the tool.</figcaption>
+                </figure>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <h2>Analyzing an MSC</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Given an MSC, the tool is able to analyze it and see to which classes of communication models it belongs. To do so, simply draw the desired MSC and then click the <strong>Analyze MSC</strong> button. The results will be shown in the "Communication models" table on the right. If the MSC does not belong to some classes, the tool will also provide a hint of why that is, which is accessible by hovering the mouse over the info icon (<i class="fas fa-info-circle"></i>).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+<footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</footer>
+
+</html>

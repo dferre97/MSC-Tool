@@ -25,7 +25,7 @@
 					<canvas id='cnvs'></canvas>
 				</div>
 				<div class="col-md-3 form-col">
-					<div class="container-fluid p-3">
+					<div class="container-fluid p-3 h-100 d-flex flex-column">
 						<div class="row">
 							<div class="col">
 								<form>
@@ -129,8 +129,11 @@
 						</div>
 						<div class="row">
 							<div class="col">
-								<button type="button" class="btn btn-warning btn-block mb-3" onclick="dependency_graph();">Analyze MSC</button>
+								<button type="button" class="btn btn-block mb-3" style="background-color: #62f578;" onclick="dependency_graph();">Analyze MSC</button>
 							</div>
+						</div>
+						<div class="d-flex flex-row mt-auto justify-content-end">
+							<a href="./help.html" target=”_blank” class="btn btn-outline-light">Quick start &nbsp<i class="fas fa-book"></i></a>
 						</div>
 						<!-- <div class="row">
 							<div class="col">

@@ -260,6 +260,7 @@ function updateEvents() {
 function draw() {
 	console.log("draw() called");
 	init();
+	console.log("K: " + K);
 
 	for (var i = 0; i < K; i++) { drawLine(ctx, (i + 0.5) * (cnvs.width / K), 0, (i + 0.5) * (cnvs.width / K), cnvs.height, "#000", STROKE, false); }
 
