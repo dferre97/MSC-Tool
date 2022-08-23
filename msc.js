@@ -22,17 +22,26 @@ let events = [];
 let msg_counter = 0;
 let dep_graph;
 
+// Communication models table
+let asy = document.getElementById("asy");
+let pp = document.getElementById("pp");
+let co = document.getElementById("co");
+let mb = document.getElementById("mb");
+let onen = document.getElementById("onen");
+let nn = document.getElementById("nn");
+let rsc = document.getElementById("rsc");
+
 function dependency_graph() {
 
 	dep_graph = new DependencyGraph(nodes, draw_edges, events); // pass highest node id
 
-	let asy = document.getElementById("asy"); asy.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
-	let pp = document.getElementById("pp"); pp.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
-	let co = document.getElementById("co"); co.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
-	let mb = document.getElementById("mb"); mb.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
-	let onen = document.getElementById("onen"); onen.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
-	let nn = document.getElementById("nn"); nn.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
-	let rsc = document.getElementById("rsc"); rsc.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
+	asy.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
+	pp.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
+	co.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
+	mb.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
+	onen.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
+	nn.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
+	rsc.innerHTML = "<span style='color: RED;'><b>NO</b></span>";
 
 	const com_name = ["asy", "pp", "co", "mb", "onen", "nn", "rsc"];
 	const com_box = [asy, pp, co, mb, onen, nn, rsc];
@@ -125,13 +134,23 @@ function print_cycle(cycle) {
 	return complete_cycle.join("->");
 }
 
+function clear_table() {
+	asy.innerHTML = "";
+	pp.innerHTML = "";
+	co.innerHTML = "";
+	mb.innerHTML = "";
+	onen.innerHTML = "";
+	nn.innerHTML = "";
+	rsc.innerHTML = "";
+}
+
 function init_events() {
 	for (let i = 0; i < K; i++) { // each row i will be an array of events for the process i
 		events[i] = [];
 	}
 }
 
-function reset_data() { nodes = []; draw_edges = []; counter = 0; msg_counter = 0;}
+function reset_data() { nodes = []; draw_edges = []; counter = 0; msg_counter = 0; clear_table(); }
 
 function changeMode(x) { MODE = x; }
 function changeEdgeStyle(x) { EDGE_STYLE = x; }
